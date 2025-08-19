@@ -1,0 +1,318 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Algebra II}
+\author{Luke Phillips}
+\date{August 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Rings, subrings and fields}
+
+\textit{Informal definition}:
+A ring is set of mathematical objects where we can add,
+subtract and multiply two elements while remaining in the set.
+
+\subsection{Definition of a ring}
+\textbf{Binary operations},
+these are operations which take two elements as arguments.
+
+A binary operation on a set $R$ is a mapping of the Cartesian product of two elements of $R$,
+$R \times R$ to $R$.
+For addition this would be
+\[
++(x, y) : R \times R \to R\qquad(\text{with $x, y \in R$}).
+\]
+
+A ring $R$ has a binary operation $+$ which makes it into an abelian group.
+
+$R$ is an abelian group with respect to $+$ means that:
+\begin{enumerate}[label = \roman*)]
+    \item $R$ contains an additive identity element.
+
+    \item Associativity.
+
+    \item For every $x \in R$ there exists a $y \in R$ such that $x + y = y + x = 0$.
+    Such that $y$ is unique and generally denoted $-x$.
+
+    \item To make the group abelian we need for $x + y = y + x$ for all $x, y \in R$.
+\end{enumerate}
+
+\begin{definition}[Ring]
+    A ring $R$ is a set together with two binary operations
+    (usually written $+, \cdot$)
+    called "addition" and "multiplication",
+    such that $+$ makes $R$ into an abelian group,
+    and such that the following conditions hold:
+    
+    \begin{enumerate}[label = \roman*)]
+        \item \phantom{}[(multiplicative) Identity]
+        There exists an element $1 \in R$ such that $1 \cdot x = x \cdot 1 = x$,
+        for all $x \in R$.
+
+        \item \phantom{}[Associativity]
+        For any $x, y, z \in R$ we have $x(yz) = (xy)z$.
+
+        \item \phantom{}[Distributivity]
+        For any $x, y, z \in R$ we have $x(y + z) = xy + xz$ and $(y + z)x = yx + zx$.
+    \end{enumerate}
+\end{definition}
+
+If the ring is commutative distributivity is equivalent in both cases.
+
+\subsection{The integers modulo \texorpdfstring{$n$}{}}
+A
+(binary)
+relation $\sim$,
+on a set $S$ is said to be an equivalence relation,
+if and only if it is reflexive,
+symmetric and transitive.
+That is,
+for all $a, b$ and $c$ in the set $S$ we have:
+\begin{enumerate}[label = \roman*)]
+    \item 
+    $a \sim a$
+    (reflexivity).
+
+    \item
+    $a \sim b \iff b \sim a$
+    (symmetry).
+
+    \item
+    If $a \sim b$ and $b \sim c$ then $a \sim c$
+    (transitivity).
+\end{enumerate}
+
+The equivalence class of $a$ under the given relation $\sim$,
+denoted by $[a]$
+(or $\bar{a}$)
+is defined as
+\[
+[a] = \{a \in S\,:\, x \sim a\}.
+\]
+For two $a, b \in S$ with $a \sim b$ we have $[a] = [b]$.
+When we write $[a]$ we call $a$ the representative of the class $[a]$.
+
+Given a set $S$ with an equivalence relation $\sim$ as above we may construct another set
+\[
+S / \sim \coloneqq \{[a]\, :\, a \in S\}
+\]
+That is,
+the set of equivalence classes on the set $S$ with respect to the given equivalence relation $\sim$.
+
+
+\textbf{The integers modulo} $n$.
+
+Let $n \in \N$ be a natural number.
+Consider the set of integer numbers $\Z$ and define the following relation:
+two integers $a, b$ are equivalent $a \sim b$ if $n \mid (a - b)$.
+The most common notation for this is $a \equiv b \mod n$.
+
+For an integer $a$ we denote $\bar{a}$ the equivalence class of $a$,
+that is
+\[
+\bar{a} = \{x \in \Z\,:\, n\text{ divides } x - a\} = \{x \in \Z\,:\, x \equiv a\mod n\}
+\]
+since when we divide an integer by $n$ we will always get a remainder among the numbers
+\[
+0, 1, \dotsc, n - 1.
+\]
+That is,
+every integer belongs to one of the following equivalence classes:
+\[
+\{\bar{0}, \bar{1}, \dotsc, \overline{n - 1}\},
+\]
+we will denote this set
+(of equivalence classes)
+by $\Z / n$.
+The elements of $\Z / n$ are called residue classes.
+
+\begin{definition}[Subring]
+    A subring $S$ of a ring $R$ is a set $S \subseteq R$ such that
+    \begin{enumerate}[label = \roman*)]
+        \item $0 \in S, 1 \in S$,
+
+        \item $a, b \in S \implies a + b \in S$,
+        
+        \item $a, b \in S \implies ab \in S$,
+        
+        \item $a \in S \implies -a \in S$,
+    \end{enumerate}
+\end{definition}
+This can be summed up as "A subring contains $0$ and $1$ and is closed under addition,
+subtraction and multiplication".
+
+\begin{definition}[Field]
+    A ring $R$ is called a field if
+    
+    \begin{enumerate}[label = \roman*)]
+        \item $R$ is commutative,
+
+        \item $1 \neq 0$ in $R$
+        (i.e. $R$ has at least two elements),
+
+
+        \item For any $a \in R$ such that $a \neq 0$,
+        there exists a $b \in R$ such that $ab = 1$
+        ($b$ is called the inverse of $a$).
+    \end{enumerate}
+\end{definition}
+
+\newpage
+
+\section{Integral domains,
+units,
+polynomial rings}
+
+\begin{definition}
+    A ring $R$ which is commutative,
+    has at least two elements
+    ($0 \neq 1$),
+    and does not have any zero divisors apart from $0$,
+    is called an integral domain.
+\end{definition}
+\textit{Note:
+A non zero divisor is a number $b$ such that $ab = 0$ where $b \neq 0$.}
+
+\subsection{Examples and non-examples of integral domains}
+\begin{proposition}
+    If $R$ is an integral domain,
+    then the ring of polynomials $R[x] = \{a_0 + a_1x + \dotsi + a_nx ^ n\mid a_i \in R\}$ is also an integral domain.
+
+    \begin{proof}
+        We can clearly see that $R[x]$ is commutative and that $0 \neq 1$
+        (as this holds in $R$).
+
+        We need to now show that there are no non-zero divisors in $R[x]$ apart from $0$.
+        Assume not,
+        then for non-zero polynomials $f(x), g(x) \in R[x]$,
+        $f(x)g(x) = 0$.
+        Then we get
+        \begin{align*}
+            f(x) &= a_0 + \dotsc + a_nx ^ n,\quad a_n \neq 0, \\
+            g(x) &= b_0 + \dotsc + b_nx ^ m,\quad b_m \neq 0
+        \end{align*}
+        if we expand $f(x)g(x)$ then the term of the highest degree will be $a_nb_mx ^ {n + m}$.
+        Since $f(x)g(x) = 0$ $a_nb_mx ^ {n + m} = 0$ which implies $a_nb_m = 0$ and since $a_n, b_m \in R$ which is an integral domain, $a_n = 0$ or $b_m = 0$.
+        Contradiction!
+    \end{proof}
+\end{proposition}
+
+\subsection{The group of units in a ring}
+Let $R$ be a ring.
+$a \in R$ is called a unit if there exists a $b \in R$ such that $ab = ba = 1$
+($b$ is the inverse of $a$ and $b = a ^ {-1}$).
+
+The inverse is unique as,
+if $b_1, b_2 \in R$ such that $ab_1 = b_1a = 1 = ab_2 = b_2a$ then
+\[
+b_1 = b_11 = b_1(ab_2) = (b_1a)b_2 = 1b_2 = b_2.
+\]
+
+The set of all units of $R$ is denoted $R ^ {\times}$
+(or $R ^ *$).
+
+$R ^ {\times}$ is always a group,
+under the multiplication from the ring $R$:
+\[
+a, b \in R ^ {\times} \implies ab \in R ^ {\times}
+\]
+if $c, d \in R$ are elements such that $ac = 1$ and $bd = 1$,
+then $(ab)(dc) = abcd = ad = 1 = (dc)(ab)$,
+so $ab$ is a unit.
+We have an identity element $1$ in the group,
+multiplication is associative
+(as it is in the ring $R$)
+and every element in $R ^ {\times}$ has an inverse by definition.
+Thus $R ^ {\times}$ is a group.
+
+
+\begin{proposition}\label{prep:algII:prop:eleunitiffgcd}
+    An element $\bar{a} \in \Z / n$  is a unit if and only if $\gcd(a, n) = 1$.
+
+    \begin{proof}
+        Let $d = \gcd(a, n)$.
+        Then $d \mid a$ and $d \mid n$.
+
+        Suppose $\bar{a}$ is a unit and let $\bar{a} = \bar{b} ^ {-1}$,
+        then $\bar{a}\bar{b} = \bar{1}$ which is equivalent to $ab \equiv 1\mod{n}$.
+        Thus $ab = 1 + kn$,
+        for some $k \in \Z$.
+        Since $d \mid (ab)$ and $d \mid kn$ we must have $d \mid 1$.
+        Hence $d = 1$.
+        
+        Conversely,
+        assume that $d = 1$.
+        The Euclidean algorithm shows that there exist $x, y \in \Z$ such that 
+        \[
+        xa + ny = d = 1.
+        \]
+        Therefore $xa \equiv \mod{n}$,
+        which means that $\bar{x}\bar{a} = \bar{1}$ in $\Z / n$.
+        Hence $\bar{a}$ is a unit.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}\label{prep:algII:cor:zpfieldifprime}
+    $\Z / p$ is a field if and only if $p$ is a prime.
+
+    \begin{proof}
+        By \autoref{prep:algII:prop:eleunitiffgcd},
+        if $p$ is a prime,
+        then every element $\bar{1}, \dotsc, \overline{p - 1}$ is a unit,
+        so $\Z / p$ is a field.
+
+        Going forwards,
+        if $\Z / p$ is a field,
+        every non-zero $\bar{a} \in \Z / p$ is a unit,
+        so by \autoref{prep:algII:prop:eleunitiffgcd},
+        $\gcd(a, o) = 1$ for all $a$ such that $1 \leq a \leq p - 1$.
+        This means that $p$ has no divisors between $1$ and $p - 1$ other than $1$,
+        so $p$ is prime.
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}
+    The ring $\Z / n$ is an integral domain if and only if $n$ is a prime.
+
+    \begin{proof}
+        If $n$ is a prime,
+        which \autoref{prep:algII:cor:zpfieldifprime} shows that this means that $\Z / n$ is a field and any field is an integral domain.
+
+        Assume $n$ is not prime,
+        then $n = ab$,
+        $a, b \in \Z$,
+        where $2 \leq a, b \leq n - 1$.
+        Then
+        \[
+        \bar{a}\bar{b} = \bar{n} = \bar{0} \in \Z / n,
+        \]
+        so $\bar{a}$ and $\bar{b}$ are zero divisors in $\Z / n$,
+        and so the ring is not an integral domain.
+    \end{proof}
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

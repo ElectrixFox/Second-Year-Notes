@@ -1,0 +1,198 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\title{Statistical Inference II}
+\author{Luke Phillips}
+\date{August 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+\subsection{Statistical Inference}
+
+\begin{definition}[The general statistical problem]
+    We observe the data values $X_1, \dotsc, X_n$ from a distribution $F$.
+    We then want to estimate
+    (or learn)
+    $F$ itself,
+    or some characteristics of $F$
+    (e.g. its mean).
+\end{definition}
+
+\subsubsection{Models and parameters}
+A \textbf{statistical model}
+(also known as a family of distributions)
+is a set of distributions
+(or densities)
+$\mathcal{M}$.
+
+A \textbf{parametric model} is any model $\mathcal{M}$ that can be parameterised by a finite number of parameters.
+
+In general,
+a parametric model for the data would take the form:
+\[
+\mathcal{M} = \{f(x; \theta)\,:\,\theta \in \Omega\}
+\]
+where $\theta$ is an unknown parameter
+(or vector of parameters)
+that can take values in the parameter space $\Omega$.
+If $\theta$ is a vector,
+we are only interested in one component of $\theta$,
+we call the remaining parameters nuisance parameters.
+
+A nonparametric model is a set $\mathcal{M}$ that cannot be parameterised by a finite number of parameters.
+
+\subsubsection{Fundamental Inference Problems}
+
+\textbf{Point Estimation}:
+
+Point estimation refers to providing a single "best guess" for some quantity of interest.
+This is often a parameter $\theta$ in a parametric model,
+but can also be the entire distribution $F$,
+a prediction for a future value $Y$,
+or any combination or function of the above.
+
+\textbf{Uncertainty Estimation}:
+
+We need to understand the accuracy of the estimates we make,
+we can do this by estimating attributes of our potential error
+(such as means and variances),
+or producing intervals of plausible values consistent with our estimate.
+
+\textbf{Hypothesis Tests}:
+
+In hypothesis testing,
+we start with some default theory about the model - the null hypothesis,
+and we ask if the data provides sufficient evidence to reject the theory.
+
+\newpage
+
+\section{Distribution Theory}
+
+\subsection{Multivariate probability}
+
+\begin{definition}[Random vector]
+    If $X_1, \dotsc, X_p$ is a collection of real-valued random variables,
+    then
+    \[
+    \mathbf{X} = \begin{bmatrix}
+        X_1 \\ \vdots \\ X_p
+    \end{bmatrix} = (X_1, \dotsc, X_p) ^ T,
+    \]
+    is a $p$-dimensional random vector in $\R ^ p$,
+    and $\mathbf{x} = (x_1, \dotsc, x_p) ^ T$ is a particular realisation of $\mathbf{X}$.
+\end{definition}
+
+\begin{definition}[PDF of a random vector]
+    The pdf of a random vector $\mathbf{X} = (X_1, \dotsc, X_p) ^ T$ is the joint probability density function $f(x_1, \dotsc, x_p)$ from $\R ^ p$ to $\R_{0}^{+} = [0, \infty)$ such that:
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item $f(\mathbf{x}) \geq 0$ for all $\mbf{x} \in \R ^ p$
+
+        \item $\displaystyle\int_{\R ^ p}f(\mbf{x})\,\mbf{dx} = \int_{-\infty}^{\infty} \dotsi\int_{-\infty}^{\infty}f(x_1, \dotsc, x_p)\,\mbf{d}x_1, \dotsc, \mbf{d}x_p = 1$
+
+        \item For any subset $\mathcal{A}$ of $\R ^ p\,:\,\P[\mbf{X} \in \mathcal{A}] = \int_{\mathcal{A}}f(\mbf{x})\,\mbf{dx}$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[CDF of a random vector]
+    Similarly,
+    the joint cdf is defined as
+    \[
+    F(\mbf{x}) = F(x_1', \dotsc, x_p') = \P[X_1 \leq x_1', \dotsc, X_p \leq x_p'] = \int_{-\infty}^{x_1'}\dotsi\int_{-\infty}^{x_p'}f(x_1, \dotsc, x_p)\,\mbf{d}x_p, \dotsc, \mbf{d}x_1,
+    \]
+    and we can recover the pdf by
+    (partial)
+    differentiation
+    \[
+    f(\mbf{x}) = \frac{\partial ^ p}{\partial x_1\dotsi\partial x_p}F(\mbf{x}).
+    \]
+\end{definition}
+
+\subsubsection{Key operations and relations}
+
+\begin{definition}[Marginal pdf]
+    A subcollection $(X_1, \dotsc, X_q)$ of $(X_1, \dotsc, X_p)$,
+    where $q < p$,
+    has a marginal pdf defined as
+    \[
+    f(x_1, \dotsc, x_q) = \int_{-\infty}^{\infty}\dotsi\int_{-\infty}^{\infty}f(x_1, \dotsc, x_p)\,\mbf{d}x_{q + 1}\dotsc\mbf{d}x_p.
+    \]
+\end{definition}
+
+\begin{definition}[Conditional pdf]
+    If we know the values $X_{q + 1} = x_{q + 1}, \dotsc, X_p = x_p$,
+    but not the values of $X_1, \dotsc, X_q$,
+    then the $X_1, \dotsc, X_q$ are still random variables and have a conditional pdf:
+    \[
+    f(x_1, \dotsc, x_q\mid x_{q + 1}, \dotsc, x_p) = \frac{f(x_1, \dotsc, x_q, x_{q + 1}, \dotsc, x_p)}{f(x_{q + 1}, \dotsc, x_p)}.
+    \]
+\end{definition}
+
+\begin{definition}[Independence]
+    A collection of random variables $(X_1, \dotsc, X_p)$ is said to be
+    (mutually)
+    independent if and only if their joint pdf factorises as
+    \[
+    f(x_1, x_2, \dotsc, x_p) = f_1(x_1)f_2(x_2)\dotsc f_p(x_p),
+    \]
+    for all $(x_1, x_2, \dotsc, x_p) \in \R ^ p$.
+    We sometimes write this as $X_1 \independent X_2 \dotsi \independent X_p$,
+    where $\independent$ means 'independent of'.
+
+    An equivalent statement,
+    is that the conditional densities are equal to the marginal densities:
+    \[
+    f(x_i\mid x_1, \dotsc, x_{i - 1}, x_{i + 1}, \dotsc, x_p) = f(x_i),
+    \]
+    for all $i = 1, \dotsc, p$.
+\end{definition}
+
+\begin{definition}[Random sample,
+IID]
+    The random variables $X_1, \dotsc, X_p$ are called independent and identically distributed
+    (iid)
+    random variables with pdf or pmf $f(x)$ if they are all independent of each other,
+    and the marginal pdf or pmf of each $X_i$ is the same function $f(x)$.
+    This means that the joint pdf simplifies to
+    \[
+    f(x_1, x_2, \dotsc, x_p) = f(x_1)f(x_2)\dotsc f(x_p) = \prod_{i = 1}^{p}f(x_i).
+    \]
+    Alternatively,
+    $X_1, \dotsc, X_p$ are called a random sample of size $n$ from the distribution
+    (or population)
+    $f(x)$.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
