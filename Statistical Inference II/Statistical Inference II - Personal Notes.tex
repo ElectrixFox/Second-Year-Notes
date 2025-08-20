@@ -176,15 +176,261 @@ IID]
     $f(x)$.
 \end{definition}
 
+\subsection{Multivariate expectation and variance}
 
+\begin{definition}[Expectation of a functional]
+    Let $g(\mbf{X})\,:\, \R ^ p \to \R$ be a function of the random vector $\mbf{X}$.
+    Then $g(\mbf{X})$ is a random variable and its expectation is
+    \[
+    \E\left(g(\mbf{X})\right) = \int_{-\infty}^{\infty}\dotsi\int_{-\infty}^{\infty}g(x_1, \dotsc, x_p)f(x_1, \dotsc, x_p)\,\mbf{d}x_1\dotsc\mbf{d}x_p = \int_{\R ^ p}g(\mbf{x})f(\mbf{x})\,\mbf{dx}.
+    \]
+\end{definition}
 
+\begin{definition}[Mean vector]
+    The expectation $\E(\mbf{X})$ of a random vector $\mbf{X} = (X_1, \dotsc, X_p)$ is defined as:
+    \[
+    \E(\mbf{X}) = \int\mbf{x}f(\mbf{x})\,\mbf{dx} = \begin{bmatrix}
+        \int_{-\infty}^{\infty}x_1f(\mbf{x})\,\mbf{dx} \\
+        \vdots \\
+        \int_{-\infty}^{\infty}x_pf(\mbf{x})\,\mbf{dx}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \E(\mbf{X}_1) \\
+        \vdots \\
+        \E(\mbf{X}_p)
+    \end{bmatrix}
+    = \mbf{\mu},
+    \]
+    which is simply the $p$-dimensional vector whose components are the expectations of the individual components of $\mbf{X}$ and is known as the mean vector,
+    $\mbf{\mu}$,
+    of $\mbf{X}$.
+\end{definition}
 
+\begin{definition}[Variance matrix]
+    The variance matrix of the random vector $\mbf{X}$ is defined to be the $p \times p$ matrix such that,
+    for $i, j = 1, \dotsc p$,
+    the $(i, j)$ element of the matrix is $\Cov(X_i, X_j)$:
+    \[
+    \Var(\mbf{X}) = \E\left((\mbf{X} - \mbf{\mu})(\mbf{X} - \mbf{\mu}) ^ T\right) = \E(\mbf{X}\mbf{X} ^ T) - \mbf{\mu}\mbf{\mu} ^ T = \begin{bmatrix}
+        \sum_{11} & \dotsi & \sum_{1p} \\
+        \vdots & \ddots & \vdots \\
+        \sum_{p1} & \dotsi & \sum_{pp}
+    \end{bmatrix} = \mbf{\Sigma}
+    \]
+    where the components of the matrix comprise the individual variances and covariances of the random variables
+    \begin{align*}
+        \Sigma_{jj} &= \E(X_j ^ 2) - \E(X_j) ^ 2 = \Var(X_j) = \sigma_j ^ 2 \\
+        \Sigma_{ij} &= \E(X_iX_j) - \E(X_i)\E(X_j) = \Cov(X_i, X_j) = \Cov(X_j, X_i) = \sigma_{ji}.
+    \end{align*}
+\end{definition}
 
+\subsubsection{Properties of expectation and variance}
+For shorthand let $\mbf{X} \sim [\mbf{\mu}, \mbf{\Sigma}]$ denote the random vector $\mbf{X}$ which has $\E(\mbf{X}) = \mbf{\mu}$ and variance $\Var(\mbf{X}) = \mbf{\Sigma}$.
 
+\begin{proposition}
+    Let $\mbf{X}$ be a random $p$-vector $\mbf{X} \sim [\mbf{\mu}, \mbf{\Sigma}]$.
+    Then for constant $p \times p$ matrices $\mbf{A}, \mbf{C}$ and constant $p$-vectors $\mbf{b}, \mbf{d}$:
 
+    \begin{enumerate}[label = (\roman*)]
+        \item $\E(\mbf{A}\mbf{X} + \mbf{b}) = \mbf{A}\E(\mbf{X}) + \mbf{b}$,
+        
+        \item $\Var(\mbf{A}\mbf{X} + \mbf{b}) = \mbf{A}\Var(\mbf{X})\mbf{A} ^ T$,
+        
+        \item $\Cov(\mbf{A}\mbf{X} + \mbf{b}, \mbf{C}\mbf{X} + \mbf{d}) = \mbf{A}\Var(\mbf{X})\mbf{C} ^ T$.
+    \end{enumerate}
 
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \begin{align*}
+                \E(\mbf{A}\mbf{X} + \mbf{b}) &= \int(\mbf{Ax} + \mbf{b})f(\mbf{x})\,\mbf{dx} + \mbf{b} = \int\mbf{Ax}f(\mbf{x}) + \mbf{b}f(\mbf{x})\,\mbf{dx} = \int\mbf{Ax}f(\mbf{x})\,\mbf{dx} + \int\mbf{b}f(\mbf{x})\,\mbf{dx} \\
+                &= \mbf{A}\int\mbf{x}f(\mbf{x})\,\mbf{dx} + \mbf{b} \\
+                &= \mbf{A}\E(\mbf{X}) + \mbf{b}.
+            \end{align*}
 
+            \item
+            Define $\mbf{Y} = \mbf{AX} + \mbf{b}$,
+            then by (i) $\mbf{\mu}_Y = \mbf{A}\mbf{\mu} + \mbf{b}$.
 
+            \begin{align*}
+                \Var(\mbf{AX} + \mbf{b}) &= \E\left((\mbf{Y} - \mbf{\mu}_Y)(\mbf{Y} - \mbf{\mu}_Y) ^ T\right) = \E\left((\mbf{AX} + \mbf{b} - \mbf{A\mu} - \mbf{b})(\mbf{AX} + \mbf{b} - \mbf{A\mu} - \mbf{b}) ^ T\right) \\
+                &= \E\left(\mbf{A}(\mbf{X} - \mbf{\mu})(\mbf{A}(\mbf{X} - \mbf{\mu})) ^ T\right)
+                \intertext{Now,
+                note that $(\mbf{AB}) ^ T = \mbf{B} ^ T\mbf{A} ^ T$ so:}
+                &= \E\left(\mbf{A}(\mbf{X} - \mbf{\mu})(\mbf{X} - \mbf{\mu}) ^ T\mbf{A} ^ T\right)
+                \intertext{Then by property (i) we can pull out the constant $\mbf{A}$ on either side to get:}
+                &= \mbf{A}\E\left((\mbf{X} - \mbf{\mu})(\mbf{X} - \mbf{\mu}) ^ T\right)\mbf{A} ^ T \\
+                &= \mbf{A}\Var(\mbf{X})\mbf{A} ^ T.
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    The variance matrix $\mbf{\Sigma}$ is symmetric and positive semi-definite.
+\end{proposition}
+
+\subsection{A change of variables}
+
+\subsubsection{Univariate Transforms}
+To look at the distribution and density of $Y$ we can use the following methods:
+\begin{enumerate}[label = (\Alph*)]
+    \item The cumulative distribution function method:
+    find and differentiate the cdf of the transformed random variable to recover the pdf.
+
+    \item The change of variables theorem:
+    a general result that is easier to apply when the transformation function $y(\cdot)$ obeys certain properties.
+\end{enumerate}
+
+\textbf{The cumulative distribution function method}
+
+This method has two simple steps and works for all general problems where we can find $\P(Y \leq y)$:
+\begin{enumerate}[label = \arabic*.]
+    \item Find $F_Y(y) = \P(Y \leq y)$ by direct probability calculations using $f_X(x)$ and $y(\cdot)$.
+
+    \item Differentiate $F_Y(y)$ with respect to $y$:
+    $f_Y(y) = \frac{d}{dy}F_Y(y)$.
+\end{enumerate}
+
+\textbf{The $\chi ^ 2$ distribution}
+\begin{example}
+    If $Z \sim \mathcal{N}(0, 1)$,
+    then $Y = Z ^ 2$ is said to have a chi-squared distribution with one degree of freedom,
+    $Y \sim \chi_1 ^ 2$.
+    Find the pdf of $Y = Z ^ 2$.
+
+    \begin{solution}
+        We start by finding the cdf of $Y$:
+        \begin{align*}
+            F_Y(y) &= \P(Y \leq y) = \P(Z ^ 2< y) \\
+            &= \P(-\sqrt{y} \leq Z \leq \sqrt{y}) \\
+            &= \Phi(\sqrt{y}) - \Phi(-\sqrt{y}),
+        \end{align*}
+        where $\Phi(\cdot)$ is the cdf of the standard normal distribution.
+        Note $Z$ can be any real number,
+        the transformation $Y = Z ^ 2$ is not one-to-one.
+        Thus the probability in the second line is more complicated than the single equality that we might naively expect.
+        We then find the pdf by differentiation:
+        \begin{align*}
+            f_Y(y) &= \frac{\mbf{d}}{\mbf{d}y}F_Y(y) \\
+            &= \frac{1}{2}y ^ {-\frac{1}{2}}\phi(\sqrt{y}) + \frac{1}{2}y ^ {-\frac{1}{2}\phi(-\sqrt{y})} \\
+            &= y ^ {-\frac{1}{2}\phi(\sqrt{y})} \\
+            &= \frac{y ^ {-\frac{1}{2}}}{\sqrt{2\pi}}e ^ {-\frac{1}{2}y},
+        \end{align*}
+        where $\phi(\cdot)$ is the pdf of the standard normal distribution and we have used the facts that $\phi(z) = \frac{\mbf{d}}{\mbf{d}z}\Phi(z)$,
+        and $\phi(z)$ is symmetric about $z = 0$.
+        Thus $f_Y(y)$ is the pdf of the $\chi_1 ^ 2$ distribution.
+    \end{solution}
+\end{example}
+
+\textbf{Properties:}
+
+\begin{enumerate}[label = \arabic*.]
+    \item If $U \sim \chi_1 ^ 2$ then $\E(U) = 1$ and $\Var(U) = 2$.
+    
+    \item If $U_1, \dotsc, U_k$ are all iid $\chi_1 ^ 2$ and $V = \sum_{i = 1}^{k}U_i$,
+    then $V \sim \chi_k ^ 2$.
+
+    \item If $V \sim \chi_k ^ 2$ then $\E(V) = k$ and $\Var(V) = 2k$.
+\end{enumerate}
+
+\textbf{Univariate transformation theorem}
+
+If the function $y(X)$ is monotonic,
+invertible and differentiable over the support,
+$\chi$,
+of $X$,
+then we can find a general method to determine the pdf of any such transformation of $X$.
+
+\begin{theorem}[Distribution of a univariate transformation]
+    Let $X$ be a continuous random variable with probability density function $f_X(x)$ with support $\chi = [a, b]$.
+    Let $Y = y(X)$ where $y(\cdot)$ is a monotonic,
+    invertible and differentiable function over $\chi$ with inverse $X = x(Y) = y ^ {-1}(Y)$.
+    Then $Y$ has a probability density function $f_Y(y)$ given by
+    \[
+    f_Y(y) = f_X(x(y))\left|\frac{\mbf{d}x(y)}{\mbf{d}y}\right|,
+    \]
+    for $y$ in $\mathcal{Y} = [y(a), y(b)]$.
+
+    \begin{proof}
+        Using the cdf method to prove this.
+        If $Y = y(X)$,
+        then the cdf of $Y$ is:
+        \[
+        F_Y(y) = \P(Y \leq y) = \P(y(X) \leq y).
+        \]
+        We are given that $y(\cdot)$ is monotonic,
+        which leads to two cases:
+        $y(\cdot)$ is monotonically increasing,
+        $y(\cdot)$ is monotonically decreasing.
+
+        Assume $y(\cdot)$ is increasing,
+        then
+        \[
+        \P(y(X) \leq y) = \P(X \leq y ^ {-1}(y)) = F_X(x(y)),
+        \]
+        by the definition of the cdf of $X$.
+        Now,
+        get the pdf by differentiating
+        \[
+        f_Y(y) = \frac{d}{dy}F_y(y) = \frac{d}{dy}F_X(x(y)) = f_X(x(y))\frac{dx(y)}{dy},
+        \]
+        by the chain rule.
+
+        For $y(\cdot)$ decreasing,
+        we find
+        \[
+        F_Y(y) = \P(X \geq x(y)) = 1 - F_X(x(y))
+        \]
+        giving the pdf as
+        \[
+        f_Y(y) = -f_X(x(y))\frac{dx(y)}{dy},
+        \]
+        since $x(y)$ is a decreasing function we get $\frac{d}{dy}x(y) < 0$,
+        which cancels the minus sign.
+        So we can combine the two equations to get the result
+        \[
+        f_Y(y) = f_X(x(y))\left|\frac{\mbf{d}x(y)}{\mbf{d}y}\right|.
+        \]
+    \end{proof}
+\end{theorem}
+
+\subsubsection{Multivariate Transforms}
+
+\begin{theorem}[Distribution of a multivariate transformation]
+    Suppose we have a random $p$-vector $\mbf{X} = (X_1, \dotsc, X_p) ^ T$ with joint continuous pdf $f_{\mbf{X}}(x_1, \dotsc, x_p)$.
+    Suppose we create a transformed random variable $\mbf{Y} = (Y_1, \dotsc, Y_p) ^ T$ where each $Y_i$ is a transformation of the $\mbf{X}\,:\, Y_1 = y_1(\mbf{X}), \dotsc, Y_p = y_p(\mbf{X})$.
+    So,
+    $\mbf{Y} = y(\mbf{X})$,
+    where we assume that $y(\cdot)$ is an invertible differentiable transformation with inverse
+    \[
+    \mbf{X} = y ^ {-1}(\mbf{Y}) = x(\mbf{Y}) = (x_1(\mbf{Y}), \dotsc, x_p(\mbf{Y})).
+    \]
+    Let the support of the pdf of $X$ be $\chi \subseteq \R ^ p$ then as $X$ varies over $\chi$,
+    $Y$ will vary over some set $\mathcal{Y}$ thus $\mathcal{Y}$ is the image of $\chi$.
+    Finally,
+    let us assume that all of the partial derivatives $\frac{\partial x_i}{\partial y_j}$ exist for all $i, j$ and $y \in \mathcal{Y}$.
+
+    Given $\mbf{X}, \mbf{Y}, y(\mbf{X}), x(\mbf{Y})$ as above,
+    then the joint density for $\mbf{Y}$ is given by:
+    \[
+    f_{\mbf{Y}}(\mbf{y}) = \begin{cases}
+        f_{\mbf{X}}(x(\mbf{y}))|\det(\mbf{J})|, & y \in \mathcal{Y} \\
+        0, & \text{otherwise}
+    \end{cases}
+    \]
+    where $\mbf{J}$ is the Jacobian matrix of the transformation:
+    \[
+    \mbf{J} = \begin{bmatrix}
+        \frac{\partial x_1}{\partial y_1} & \dotsi & \frac{\partial x_1}{\partial y_p} \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial x_p}{\partial y_1} & \dotsi & \frac{\partial x_p}{\partial y_p}
+    \end{bmatrix}
+    = \left[\frac{\partial x_i}{\partial y_j}\right]_{ij} = \left[\frac{\partial\mbf{x}}{\partial\mbf{y}}\right].
+    \]
+    
+\end{theorem}
 
 
 

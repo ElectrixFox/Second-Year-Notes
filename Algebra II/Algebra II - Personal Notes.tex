@@ -300,6 +300,126 @@ Thus $R ^ {\times}$ is a group.
     \end{proof}
 \end{proposition}
 
+\subsection{Polynomials over a field and the division algorithm}
+From now on,
+$F$ will be a field
+(e.g. $\Q, \R$ or $\Z / p$ for $p$ prime).
+
+For $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in F[x]$,
+we define its degree as
+\[
+\deg{f} \coloneqq \begin{cases}
+    \max\{i\mid a_i \neq 0\} &\text{if } f(x) \neq 0 \\
+    -\infty &\text{if } f(x) = 0.
+\end{cases}
+\]
+Then we have the following properties for all $f(x), g(x) \in F[x]$:
+\begin{itemize}
+    \item $\deg(fg) = \deg{f} + \deg{g}$,
+    \item $\deg(f + g) \leq \max\{\deg{f}, \deg{g}\}$.
+    Note that if $\deg{f} \neq \deg{g}$ then equality.
+\end{itemize}
+
+
+\textbf{The division algorithm in} $\Z$
+
+\begin{proposition}[Division algorithm]
+    Let $f(x), g(x) \in F[x]$ with $g(x) \neq 0$.
+    Then there exist unique polynomials $q(x), r(x) \in F[x]$ with $\deg{r} < \deg{g}$ such that
+    \[
+    f(x) = q(x)g(x) + r(x).
+    \]
+
+    \begin{proof}
+        (Existence)
+        If $\deg{g} > \deg{f}$,
+        take $q(x) = 0$ and $r(x) = f(x)$.
+        If $\deg{g} \leq \deg{f}$,
+        let
+        \begin{align*}
+            f(x) &= a_0 + \dotsc + a_nx ^ n,\quad a_n \neq 0, \\
+            g(x) &= b_0 + \dotsc + b_mx ^ m,\quad b_m \neq 0.
+        \end{align*}
+        Let $d = m - n \geq 0$.
+        Using induction on $d$:
+        $m = n$ as $0 = m - n \geq 0$.
+        Set $q(x) = a_n / b_m$ and
+        \[
+        r(x) \coloneqq f(x) - q(x)g(x).
+        \]
+        Note that $\deg{r} < n = \deg{g}$,
+        then we have the required $q(x), r(x)$.
+
+        Assume the existence of $q(x), r(x)$ for all $d < k$,
+        for some $k \geq 0$.
+        Now consider $d = k$,
+        so that $n = m + k$.
+        Let
+        \[
+        f_1(x) \coloneqq f(x) - \frac{a_n}{b_m}x ^ {n - m}g(x).
+        \]
+        Note $\deg{f_1} < \deg{f}$,
+        so by induction,
+        there exists polynomials $q_1(x), r(x)$ such that $\deg{r} < \deg{g}$ and
+        \[
+        f_1(x) = q_1(x)g(x) + r(x).
+        \]
+        Thus
+        \[
+        f(x) = f_1(x) + \frac{a_n}{b_m}x ^ {n - m}g(x) = (q_1(x) + \frac{a_n}{b_m}x ^ {n - m})g(x) + r(x)
+        \]
+        so the result is true for $d = k$,
+        and hence for all $d \geq 0$ by induction.
+
+        (Uniqueness)
+        Suppose $f(x) = q(x)g(x) + r(x) = Q(x)g(x) + R(x)$,
+        with $\deg{r} < \deg{g}$ and $\deg{R} < \deg{g}$.
+        This implies $\deg(R - r) < \deg{g}$.
+        Rearranging,
+        we have
+        \begin{equation}\label{prep:algII:eq:eq1}\tag{*}
+            R(x) - r(x) = (q(x) - Q(x))g(x),
+        \end{equation}
+        so by the first basic property,
+        we get
+        \[
+        \deg(R - r) = \deg(q - Q) + \deg{g}.
+        \]
+        Since $\deg(R - r) < \deg{g}$,
+        we must have $\deg(q - Q) < 0$.
+        This can only happen if $q(x) = Q(x)$.
+        Then by \eqref{prep:algII:eq:eq1} we finally get
+        \[
+        R(x) = r(x).
+        \]
+    \end{proof}
+\end{proposition}
+
+\newpage
+
+\section{Divisibility and greatest common divisor in a ring}
+For this section let $R$ be a commutative ring.
+
+\subsection{The notions of divisibility and of greatest common divisor}
+\begin{definition}
+    Let $a, b \in R$.
+    We say that $a$ divides $b$ in $R$
+    ($a \mid b$)
+    if there exists an $r \in R$ such that $b = ra$.
+\end{definition}
+
+\begin{definition}
+    Let $R$ be as above and $a, b \in R$.
+    An element $d \in R$ is called a greatest common divisor,
+    $\gcd(a, b)$,
+    of $a$ and $b$ if
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item $d \mid a$ and $d \mid b$.
+        \item If $e \in R$ such that $e \mid a$ and $e \mid b$,
+        then $e \mid d$.
+    \end{enumerate}
+\end{definition}
 
 
 
