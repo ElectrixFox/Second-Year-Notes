@@ -408,7 +408,7 @@ For this section let $R$ be a commutative ring.
     if there exists an $r \in R$ such that $b = ra$.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\label{prep:algII:def:gcd}
     Let $R$ be as above and $a, b \in R$.
     An element $d \in R$ is called a greatest common divisor,
     $\gcd(a, b)$,
@@ -422,6 +422,120 @@ For this section let $R$ be a commutative ring.
 \end{definition}
 
 
+\subsection{The Euclidean algorithm}
+
+\begin{lemma}
+    Let $R$ be an integral domain.
+    Let $a, b \in R$ and assume that $d \coloneqq \gcd(a, b)$ exists.
+    The $ud$ is also a $\gcd(a, b)$,
+    for any unit $u \in R ^ {\times}$.
+    Moreover,
+    for any two $\gcd$s $d$,
+    $d''$ of $a$ and $b$,
+    there exists a unit $u \in R ^ {\times}$ such that $d = ud'$
+    (i.e.,
+    the $\gcd$ is unique up to units).
+
+    \begin{proof}
+        First,
+        we show that $ud$ is a $\gcd$ of $a$ and $b$.
+        Since $d \mid a$,
+        there is an $m \in R$ such that $dm = a$.
+        Thus
+        \[
+        du(u ^ {-1}m) = a,
+        \]
+        so $du$ divides $a$.
+        Similarly $ud \mid b$.
+        Now,
+        if $e \in R$ is such that $e \mid a$ and $e \mid b$,
+        then we know $e \mid d$,
+        that is,
+        there is a $k \in R$ such that $ek = d$.
+        But then $eku = du$,
+        so $e \mid du$.
+        Thus $du$ is a $\gcd$,
+        by \autoref{prep:algII:def:gcd}.
+        Next,
+        assume that $d$ and $d'$ are two $\gcd$s.
+        Then,
+        by definition both divide $a$ and $b$ and both must divide each other.
+        This means that
+        \[
+        d = d'u,\quad d' = dv,
+        \]
+        for some $u, v \in R$.
+        Thus $d = duv$.
+        If $d = 0$ then also $d' = 0$,
+        so we may take $u = 1$.
+        If $d \neq 0$,
+        then
+        (since $R$ is an integral domain),
+        we can cancel $d$ and obtain $uv = 1$.
+        Hence $u$ and $v$ are units,
+        so we are done.
+    \end{proof}
+\end{lemma}
+
+A polynomial in $F[x]$ is called monic if its leading coefficient is $1$.
+
+\begin{theorem}
+    Let $R$ be either $\Z$ or $F[x]$,
+    and let $a, b \in R$.
+    Then
+    \begin{enumerate}[label = \roman*)]
+        \item A $\gcd(a, b)$ exists.
+
+        \item If $a$,
+        and $b$ are not both zero,
+        we can compute a $\gcd(a, b)$ by the Euclidean algorithm.
+
+        \item If $d$ is a $\gcd(a, b)$,
+        then there exist $x, y \in R$ such that $ax + by = d$.
+    \end{enumerate}
+
+    \begin{proof}
+        For $R = F[x]$.
+
+        Set $r_{-1}(x) \coloneqq a \in F[x]$ and $r_0(x) \coloneqq b \in F[x]$.
+        We start with the pair $(r_{-1}(x), r_0(x))$ for which we obtain a decomposition $r_{-1}(x) = q_1r_0(x) + r_1(x)$ with $q_1(x)$ and $r_1(x) \in F[x]$ where we have that $\deg(r_1(x)) < \deg(r_0(x))$.
+        Then we are done if $r_1(x)$ is the zero polynomial,
+        as then $r_0(x)$ already divides $r_{-1}(x)$,
+        and otherwise we indicate this process for the pair $(r_0(x), r_1(x))$.
+        In equation form we get
+        \begin{align*}
+            r_{-1}(x) &= q_1(x)r_0(x) + r_1(x),\quad 0 \leq \deg(r_1(x)) < \deg(r_0(x)), \\
+            r_{0}(x) &= q_2(x)r_1(x) + r_2(x),\quad 0 \leq \deg(r_2(x)) < \deg(r_1(x)), \\
+            &\vdots \\
+            r_{i - 2}(x) &= q_i(x)r_{i - 1}(x) + r_i(x),\quad 0 \leq \deg(r_i(x)) < \deg(r_{i - 1}(x)), \\
+            &\vdots \\
+            r_{n - 2}(x) &= q_n(x)r_{n - 1}(x) + r_n(x),\quad 0 \leq \deg(r_n(x)) < \deg(r_{n - 1}(x)), \\
+            r_{n - 1}(x) &= q_{n + 1}(x)r_{n}(x) + 0.
+        \end{align*}
+        Note the process must stop after finitely many steps,
+        as the degree is a non-negative integer,
+        so if $\deg(r_0(x)) = n \geq 0$,
+        there are at most $n + 1$ steps before the remainder becomes $0$.
+
+        Now the 'last non-zero' remainder $r_n(x)$ is a common divisor of both $r_{-1}(x)$ and $r_0(x)$:
+        by noticing that $r_n(x) \mid r_{n - 1}(x)$ and hence it divides $r_{n - 1}(x)$,
+        the LHS divides the RHS and going up we get $d(x)$ the common divisor of both $r_{-1}(x)$ and $r_0(x)$ must also divide $r_(x)$:
+        this becomes apparent by going down the ladder,
+        we get that $d(x)$ also divides $r_1(x), r_2(x), \dotsc, r_n(x)$.
+        For the last statement we work as in the examples.
+        Namely we start from the equation $r_n(x) = r_{n - 2}(x) - q_n(x)r_{n - 1}(x)$.
+        The equation before gives $r_{n - 1}(x) = r_{n - 3}(x) - q_{n - 1}(x)r_{n - 2}(x)$.
+        Using this,
+        we substitute $r_{n - 1}$ into the equation.
+        Collect terms and get
+        \[
+        r_n(x) = h(x)r_{n - 2}(x) + g(x)r_{n - 3}(x)
+        \]
+        for some $h(x), g(x) \in F[x]$.
+        Now replace $r_{n - 2}(x)$ if we are going up the ladde rwe end up with $r_{-1}(x)$ and $r_0(x)$.
+        We can write $r_n(x) = A(x)r_{-1}(x) + B(x)r_0(x)$ for some $A(x), B(x) \in F[x]$.
+    \end{proof}
+\end{theorem}
 
 
 

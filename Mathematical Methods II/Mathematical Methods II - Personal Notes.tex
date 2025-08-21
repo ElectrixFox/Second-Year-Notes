@@ -1,0 +1,190 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Mathematical Methods II}
+\author{Luke Phillips}
+\date{August 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Line integrals}
+
+\subsection{Curves}
+A curve $C$ is a $1$d subset of $\R ^ n$,
+for $n > 1$.
+
+It is usually convenient to use parameterisation to describe a curve, $x(t)$,
+which maps a real interval $[t_0, t_1]$ into $\R ^ n$.
+This is a vector valued function
+\[
+\mbf{x}(t) = x_1(t)\mbf{e}_1 + x_2(t)\mbf{e}_2 + \ldots + x_n(t)\mbf{e}_n,
+\]
+where $\{\mbf{e}_1, \mbf{e}_2, \dotsc, \mbf{e}_n\}$ denote the Cartesian unit vectors.
+When $n = 2$ or $n = 3$,
+we will usually write $x_1 \equiv x$,
+$x_2 \equiv y$ and $x_3 \equiv z$.
+
+Think of $\mbf{x}(t)$ as the trajectory of a particle,
+with the parameter $t$ being time.
+\begin{example}
+    Find a parameterisation $\mbf{x}(t)$ representing the circle,
+    $x ^ 2 + y ^ 2 = a ^ 2$ in $\R ^ 2$.
+
+    \begin{solution}
+        We can change to polar coordinates $(r, \theta)$ with $x = r\cos{\theta}$ and $y = r\sin{\theta}$.
+
+        Then
+        \[
+        x ^ 2 + y ^ 2 = a ^ 2 \implies r ^ 2(\sin ^ 2\theta + \cos ^ 2\theta) = a ^ 2 \implies r = a,
+        \]
+        so we can set $t = \theta$ and obtain the parameterisation
+        \[
+        \mbf{x}(t) = a\cos{t}\mbf{e}_1 + a\sin{t}\mbf{e}_2,\quad t \in [0, 2\pi].
+        \]
+    \end{solution}
+\end{example}
+
+If $\mbf{x}(t_1) = \mbf{x}(t_0)$ then the curve is closed.
+
+If a curve does not cross itself it is called simple.
+
+A parameterisation $\mbf{x}(t)$ is differentiable if it has a well-defined tangent vector,
+\[
+\frac{d\mbf{x}}{dt} = \lim_{dt \to 0}\frac{\mbf{x}(t + dt) - \mbf{x}(t)}{dt},
+\]
+
+If $\mbf{x}(t)$ and $\mbf{x}(\tau)$ are two different parametrisations of the same curve,
+then the chain rule gives
+\[
+\frac{d\mbf{x}}{dt} = \frac{d\mbf{x}}{d\tau}\frac{d\tau}{dt}.
+\]
+
+A parameterisation is \textbf{regular} if $\frac{d\mbf{x}}{dt} \neq 0$ everywhere,
+and a curve is regular if it has at least one regular parameterisation.
+
+If the derivative $\frac{d\mbf{x}}{dt}$ vanishes then these singular points,
+where the direction of the curve is not defined are known as cusps.
+
+\subsection{Line integrals of scalar fields}
+$\R ^ n$ is a map $f\,:\,\R ^ n \to \R$.
+In other words,
+it assigns a real number to every point in $\R ^ n$.
+
+\begin{definition}[Line integral]
+    The line integral of a scalar field $f(x)$ along a curve $C$ with parameterisation $\mbf{x}(t)$,
+    for $t \in [t_0, t_1]$,
+    is defined as
+    \[
+    \int_{C}f\,d\ell = \int_{t_0}^{t_1}f(x(t))\left|\frac{d\mbf{x}}{dt}\right|\,dt.
+    \]
+\end{definition}
+
+\begin{proposition}
+    The line integral of a scalar field is independent of the choice of parameterisation.
+
+    \begin{proof}
+        Suppose we have two parameterisations of the same curve:
+        $\mbf{x}(t)$ for $t \in [t_0, t_1]$,
+        and $\mbf{x}(\tau)$ for $\tau \in [\tau_0, \tau_1]$.
+        By the chain rule,
+        the tangent vectors are related by
+        \[
+        \frac{d\mbf{x}}{dt} = \frac{d\tau}{dt}\frac{d\mbf{x}}{d\tau} \implies \left|\frac{d\mbf{x}}{dt}\right| = \left|\frac{d\tau}{dt}\right|\left|\frac{d\mbf{x}}{d\tau}\right|.
+        \]
+        There are now two cases:
+
+        $\mbf{x}(\tau_0) = \mbf{x}(t_0)$.
+        meaning both parameterisations trace the curve in the same direction.
+        Then
+        \[
+        \frac{d\tau}{dt} > 0 \implies \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{d\tau}\right|\frac{d\tau}{dt}\,dt = \int_{\tau_0}^{\tau_1}f(\mbf{x}(\tau))\left|\frac{d\mbf{x}}{d\tau}\right|\,d\tau.
+        \]
+        $\mbf{x}(\tau_0) = \mbf{x}(t_1)$,
+        meaning they trace the curve in opposite directions.
+        Now
+        \[
+        \frac{d\tau}{dt} < 0 \implies \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{d\tau}\right|\left(-\frac{d\tau}{dt}\right)\,dt = \int_{\tau_0}^{\tau_1}f(\mbf{x}(\tau))\left|\frac{d\mbf{x}}{d\tau}\right|\,d\tau.
+        \]
+        Both cases recover the original formula.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}[Arclength]
+    For the special case $f(\mbf{x}) = 1$,
+    the line integral is called the arclength of the curve,
+    \[
+    L = \int_{C}\,d\ell = \int_{t_0}^{t_1}\left|\frac{d\mbf{x}}{dt}\right|\,dt.
+    \]
+\end{definition}
+
+\begin{definition}[Rectifiable]
+    A curve which has finite length is called rectifiable.
+\end{definition}
+
+\subsection{Line integrals of vector fields}
+
+\begin{definition}[Vector field]
+    A vector field is a function $\mbf{f}\,:\,\R ^ n \to \R ^ n$ that assigns a vector to each point in $\R ^ n$.
+    For $n = 2$,
+    we can visualise $\mbf{f}$ as an arrow at each point in the plane.
+\end{definition}
+
+\begin{definition}
+    The unit tangent vector of a parameterisation is
+    \[
+    \hat{\mbf{t}} = \frac{\frac{d\mbf{x}}{dt}}{\left|\frac{d\mbf{x}}{dt}\right|}.
+    \]
+\end{definition}
+
+\begin{definition}[Oriented curve]
+    An oriented curve is a curve together with a specified
+    (consistent)
+    choice of $\hat{\mbf{t}}$.
+    We indicate this by adding an arrow to the curve.
+\end{definition}
+
+The line integral of a vector field $\mbf{f}(\mbf{x})$ along an oriented curve $C$ with parameterisation $\mbf{x}(t)$,
+for $t \in [t_0, t_1]$,
+is defined as the scalar line integral of the tangential component:
+\[
+\int_{C}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell = \int_{t_0}^{t_1}\mbf{f}(\mbf{x}(t))\cdot\hat{\mbf{t}}\left|\frac{d\mbf{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}\mbf{f}(\mbf{x}(t))\cdot\frac{d\mbf{x}}{dt}\,dt.
+\]
+
+\begin{definition}[Circulation]
+    If the curve $C$ is closed,
+    this is often emphasised by the notation
+    \[
+    \int_{C}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell = \oint_{C}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell,
+    \]
+    and the line integral is called the circulation of $\mbf{f}$ around $C$.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

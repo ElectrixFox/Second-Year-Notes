@@ -429,11 +429,30 @@ then we can find a general method to determine the pdf of any such transformatio
     \end{bmatrix}
     = \left[\frac{\partial x_i}{\partial y_j}\right]_{ij} = \left[\frac{\partial\mbf{x}}{\partial\mbf{y}}\right].
     \]
-    
 \end{theorem}
 
+\subsection{The multivariate normal distribution}
+\begin{definition}[Multivariate standard normal distribution]
+    The random vector $Z = (Z_1, \dotsc, Z_p) ^ T \in \R ^ p$ is multivariate standard normal
+    (MVN),
+    written $\mbf{Z} \sim \mathcal{N}_p(\mbf{0}, \mbf{I}_p)$,
+    if it has pdf:
+    \[
+    f(\mbf{z}) = \frac{1}{(2\pi) ^ {\frac{p}{2}}}\exp\left\{-\frac{1}{2}\mbf{z} ^ T\mbf{z}\right\}.
+    \]
+\end{definition}
 
-
+\begin{proposition}[The multivariate normal
+(MVN)
+distribution]
+    The random $p$-vector $\mbf{X}$ has a multivariate normal
+    (MVN)
+    distribution with mean $\mbf{\mu}$ and variance $\mbf{\Sigma}$,
+    written $\mbf{X} \sim \mathcal{N}_p(\mbf{\mu}, \mbf{\sigma})$ if and only if it has pdf:
+    \[
+    f(\mbf{x}) = \frac{1}{(2\pi) ^ {\frac{p}{2}}(\det(\mbf{\Sigma)) ^ {\frac{1}{2}}}}\exp\left\{-\frac{1}{2}(\mbf{x} - \mbf{\mu}) ^ T\mbf{\Sigma} ^ {-1}(\mbf{x} - \mbf{\mu})\right\}.
+    \]
+\end{proposition}
 
 
 
