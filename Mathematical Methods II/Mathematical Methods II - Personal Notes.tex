@@ -167,19 +167,177 @@ is defined as the scalar line integral of the tangential component:
     and the line integral is called the circulation of $\mbf{f}$ around $C$.
 \end{definition}
 
+\subsection{Curvilinear coordinates}
+For solving problems in $\R ^ 3$ with particular symmetries,
+it is useful to use non-Cartesian coordinates.
+
+In a curvilinear coordinate system $(u, v, w)$,
+the coordinate lines,
+where two of the coordinates are constant and one varies,
+may be curved.
+the lines may be parameterised by the corresponding coordinate,
+so are given by $x(u, v, w)$ with two of the coordinates fixed.
+
+The corresponding tangent vectors are $\frac{\partial \mbf{x}}{\partial u}, \frac{\partial \mbf{x}}{\partial v}, \frac{\partial \mbf{x}}{\partial w}$.
+
+The coordinate system is orthogonal if the tangent vectors are mutually orthogonal.
+We can define an orthonormal basis $\{\mbf{e}_u, \mbf{e}_v, \mbf{e}_w\}$ by normalising
+\[
+\mbf{e}_u = \frac{1}{h_u}\frac{\partial \mbf{x}}{\partial u},\quad\mbf{e}_v = \frac{1}{h_v}\frac{\partial \mbf{x}}{\partial v},\quad\mbf{e}_w = \frac{1}{h_w}\frac{\partial \mbf{x}}{\partial w},
+\]
+where
+\[
+h_u = \left|\frac{\partial \mbf{x}}{\partial u}\right|,\quad h_v = \left|\frac{\partial \mbf{x}}{\partial u}\right|,\quad h_w = \left|\frac{\partial \mbf{x}}{\partial w}\right|
+\]
+are called the scale factors.
+
+There are two non-Cartesian systems commonly used.
+
+\textbf{Cylindrical coordinates}
+
+useful for problems with axial symmetry:
+\[
+\mbf{x}(r, \theta, z) = r\cos(\theta)\mbf{e}_1 + r\sin(\theta)\mbf{e}_2 + z\mbf{e}_3,\quad r > 0,\quad \theta \in [0, 2\pi],\quad z \in \R,
+\]
+giving scale factors $h_r = 1, h_{\theta} = r, h_z = 1$.
+
+\textbf{Spherical coordinates}
+
+useful for problems with spherical symmetry:
+\[
+\mbf{x}(r, \theta, \phi) = r\sin(\theta)\cos(\phi)\mbf{e}_1 + r\sin(\theta)\sin(\phi)\mbf{e}_2 + r\cos(\theta)\mbf{e}_3,\quad r > 0,\quad \theta \in [0, \pi], \quad \phi \in [0, 2\pi],
+\]
+giving scale factors $h_r = 1, h_{\theta} = r, h_{\phi} = r\sin{\theta}$.
 
 
 
+\textbf{Right-handed coordinate system}
+
+A coordinate system is right handed if $\mbf{e}_u \times \mbf{e}_v$ points in the positive $\mbf{e}_w$ direction.
+Equivalently,
+if
+\[
+\frac{\partial \mbf{x}}{\partial w} \cdot \left(\frac{\partial \mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}\right) > 0.
+\]
+
+\newpage
+
+\section{Surface and volume integrals}
+
+\subsection{Surfaces}.
+
+A $2$D surface embedded in $\R ^ 3$ can be defined parametrically as a map $\mbf{x}(u, v)$ from $\R ^ 2 \to \R ^ 3$,
+for $u \in [u_0, u_1]$ and $v \in [v_0, v_1]$.
+
+For each value $v$,
+the position $\mbf{x}(u, v)$ describes a curve on the surface with tangent vector $\frac{\partial \mbf{x}}{\partial u}$.
+
+If $(u, v)$ is a well-defined parameterisation,
+then their tangent vectors cannot be collinear.
+
+\begin{definition}[Unit normal and oriented surface]
+    For a parameterisation $(u, v)$ well-defined,
+    we define the unit normal to the surface as
+    \[
+    \hat{\mbf{n}} = \frac{\frac{\partial\mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}}{\left|\frac{\partial\mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}\right|}.
+    \]
+
+    A surface together with specified
+    (consistent)
+    choice of $\hat{\mbf{n}}$ is called an oriented surface.
+\end{definition}
+
+\begin{definition}[Smooth surface]
+    A surface is smooth if $\hat{mbf{n}}$ varies continuously over a surface.
+\end{definition}
+
+\begin{definition}[Piecewise smooth surface]
+    A piecewise smooth surface is one that can be divided into finitely many smooth portions.
+\end{definition}
+
+\begin{definition}[Open surface]
+    A surface is open if it is bounded by a curve.
+\end{definition}
+
+\begin{definition}[Closed surface]
+    A surface is closed if it has no boundary.
+\end{definition}
+
+\begin{definition}[Boundary]
+    The boundary of an open surface $S$ is a curve,
+    often written $\partial S$.
+\end{definition}
+
+A simple type of surface is an explicit surface given by the height of a two-dimensional function,
+$z = h(x, y)$.
+
+\subsection{Surface integrals of scalar fields}
+
+If $f(\mbf{x}) = f(x, y, z)$ is a scalar field and $S$ is a surface with parameterisation $\mbf{x}(u, v)$ then we define the surface integral of $f$ over $S$ to be
+\[
+\int_{S}f\,dS = \int_{U}f(\mbf{x}(u, v))\left|\frac{\partial\mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}\right|\,dudv,
+\]
+where $U$ is the preimage of $S$ in the $(u, v)$ plane.
+
+Note that the area element $\left|\frac{\partial\mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}\right|\,dudv$ is the area on the surface in $\R ^ 3$ corresponding to an infinitesimal rectangle with sides $(du, dv)$ in the $(u, v)$ plane.
 
 
+\begin{proposition}
+    If $(u, v)$ are
+    (two of a set of)
+    orthogonal curvilinear coordinates,
+    then
+    \[
+    \left|\frac{\partial\mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}\right| = h_uh_v.
+    \]
 
+    \begin{proof}
+        Recall that $\frac{\partial\mbf{x}}{\partial u} = h_u\mbf{e}_u$ and $\frac{\partial\mbf{x}}{\partial v} = h_v\mbf{e}_v$.
+        Since $h_u, h_v \geq 0$,
+        we have that
+        \[
+        \left|\frac{\partial\mbf{x}}{\partial u} \times \frac{\partial \mbf{x}}{\partial v}\right| = h_uh_v|\mbf{e}_u \times \mbf{e}_v| = h_uh_v|\pm\mbf{e}_w| = h_uh_v.
+        \]
+    \end{proof}
+\end{proposition}
 
+\begin{proposition}
+    The surface integral of a scalar field is independent of the choice of parameterisation.
 
+    \begin{proof}
+        Suppose $\mbf{x}(x, v)$ and $\mbf{x}(\mu, \nu)$ are two regular parametrisations of the same surface.
+        By the chain rule,
+        \[
+        \frac{\partial \mbf{x}}{\partial \mu} = \frac{\partial\mbf{x}}{\partial \mu}\frac{\partial \mu}{\partial u} + \frac{\partial\mbf{x}}{\partial \nu}\frac{\partial \nu}{\partial u}, \qquad \frac{\partial\mbf{x}}{\partial v} = \frac{\partial \mbf{x}}{\partial \mu}\frac{\partial\mu}{\partial v} + \frac{\partial \mbf{x}}{\partial \nu}\frac{\partial \nu}{\partial v}.
+        \]
+        So
+        \begin{align*}
+            \frac{\partial\mbf{x}}{\partial u} \times \pd[\mbf{x}]{v} &= \left(\frac{\partial\mbf{x}}{\partial \mu}\frac{\partial \mu}{\partial u} + \frac{\partial\mbf{x}}{\partial \nu}\frac{\partial \nu}{\partial u}\right) \times \left(\frac{\partial \mbf{x}}{\partial \mu}\frac{\partial\mu}{\partial v} + \frac{\partial \mbf{x}}{\partial \nu}\frac{\partial \nu}{\partial v}\right) \\
+            &= \left(\frac{\partial\mbf{x}}{\partial \mu}\frac{\partial \mu}{\partial u} + \frac{\partial\mbf{x}}{\partial \nu}\frac{\partial \nu}{\partial u}\right) + \left(\frac{\partial \mbf{x}}{\partial \nu}\frac{\partial\nu}{\partial u} \times \frac{\partial \mbf{x}}{\partial \mu}\frac{\partial \mu}{\partial v}\right) \\
+            &= \left(\pd[\mu]{u}\pd[\nu]{v} - \pd[\mu]{v}\pd[\nu]{u}\right)\pd[\mbf{x}]{\mu} \times \frac{\partial \mbf{x}}{\partial \nu}.
+        \end{align*}
+        The means
+        \[
+        \left|\frac{\partial \mbf{x}}{\partial u} \times \pd[\mbf{x}]{v}\right| = |J|\left|\pd[\mbf{x}]{\mu} \times \pd[\mbf{x}]{\nu}\right|,
+        \]
+        where $J = \pd[\mu]{u}\pd[\nu]{v} - \pd[\mu]{v}\pd[\nu]{u}$ is the Jacobian for the change of variables from $(\mu, \nu)$ to $(u, v)$.
+    \end{proof}
+\end{proposition}
 
+\subsection{Surface integrals of vector fields}
+If $\mbf{f}\,:\,\R ^ 3 \to \R ^ 3$ is a vector field and $S$ is an oriented surface with unit normal $\hat{\mbf{n}}$,
+we define the surface integral
+(or flux)
+of $\mbf{f}$ through $S$ as
+\[
+\int_{S}\mbf{f}\cdot\hat{\mbf{n}}\,dS.
+\]
 
-
-
-
+If the surface $S$ is closed,
+this is often emphasised by writing
+\[
+\int_{S}\mbf{f} \cdot \hat{\mbf{n}}\,dS = \oint_{S}\mbf{f}\cdot\hat{\mbf{n}}\,dS.
+\]
 
 
 
