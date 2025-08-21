@@ -454,7 +454,50 @@ distribution]
     \]
 \end{proposition}
 
+\subsubsection{Distribution of a linear transformation}
+\begin{theorem}[Linear transformation of the MVN]
+    Suppose $\mbf{X} \sim \mathcal{N}_p(\mbf{\mu}, \mbf{\Sigma})$ and let $\mbf{Y} = \mbf{BX} + \mbf{c}$ where $\mbf{B} \in \R ^ {1 \times p}$ and $\mbf{c} \in \R ^ q$,
+    then
+    \[
+    \mbf{Y} \sim \mathcal{N}_q(\mbf{B\mu} + \mbf{c}, \mbf{B\Sigma B} ^ T)
+    \]
+    
+    \begin{proof}
+        From our definition of the MVN,
+        we know that we can write the MVN random vector $\mbf{X}$ as $\mbf{X} = \mbf{AZ} + \mbf{\mu}$ where $\mbf{A}$ is $p \times r$ and $\mbf{\mu} \in \R ^ p$,
+        so
+        \begin{align*}
+            \mbf{Y} &= \mbf{BX} + \mbf{c} = \mbf{B}(\mbf{AZ} + \mbf{\mu}) + \mbf{c} \\
+            &= \underset{(r \times q)}{(\mbf{BA})}\mbf{Z} + \underset{(q \times 1)}{(\mbf{B\mu} + \mbf{c})}
+        \end{align*}
+        so,
+        by the definition of MVN,
+        since $\mbf{Z}$ is a standard MVN then $\mbf{Y}$ must also be MVN with mean $(\mbf{B\mu} + \mbf{c})$ and variance $(\mbf{BA})(\mbf{BA}) ^ T = \mbf{BAA} ^ T\mbf{B} ^ T = \mbf{B\Sigma B} ^ T$,
+        i.e.
+        \[
+        \mbf{Y} \sim \mathcal{N}_q(\mbf{B\mu} + \mbf{c}, \mbf{B\Sigma B} ^ T).
+        \]
+    \end{proof}
+\end{theorem}
 
+\subsubsection{Shape of the density function}
+\begin{proposition}
+    If $\mbf{Z} = (Z_1, \dotsc, Z_p) ^ T \sim \mathcal{N}_p(\mbf{0}, \mbf{I}_p)$,
+    then $\mbf{Z} ^ T\mbf{Z} \sim \chi_p ^ 2$.
+
+    \begin{proof}
+        By the previous theorem each $Z_i \sim \mathcal{N}(0, 1)$.
+        Furthermore,
+        since $\Cov(Z_i, Z_j) = 0$ for $i \neq j$,
+        each of the components of $\mbf{Z}$ must be independent.
+
+        Second,
+        we can write $\mbf{Z} ^ T\mbf{Z} = \sum_{i = 1}^{p}Z_i ^ 2 = \sum_{i = 1}^{p}U_{i}$,
+        where each $U_i$ is $\chi_1 ^ 2$ and the $U_i$ are also independent of each other.
+        Then by the properties of the chi-squared distribution,
+        $\sum_{i = 1}^{p}U_i \sim \chi_p ^ 2$ as required.
+    \end{proof}
+\end{proposition}
 
 
 
