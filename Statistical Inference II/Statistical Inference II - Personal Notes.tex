@@ -1,9 +1,6 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage{preamble}
 
-\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
-\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
-
 \title{Statistical Inference II}
 \author{Luke Phillips}
 \date{August 2025}
@@ -499,7 +496,152 @@ distribution]
     \end{proof}
 \end{proposition}
 
+\newpage
 
+\section{Multivariate Statistics and Estimation}
+
+\subsection{Multivariate Statistics}
+
+\begin{definition}[Data matrix]
+    The measurement of the $j$th variable on the $i$th individual is denotes $x_{ij}$,
+    and is stored as the $(i, j)$the element of the $n \times p$ data matrix
+    \[
+    \mbf{X} = \begin{bmatrix}
+        x_{11} & x_{12} & \dotsi & x_{1p} \\
+        x_{21} & x_{22} & \dotsi & x_{2p} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        x_{n1} & x_{n2} & \dotsi & x_{1p}
+    \end{bmatrix}
+    \]
+\end{definition}
+The $i$th row of $\mbf{X}$ corresponds to the observation vector of all $p$ variables for the individual $i$.
+Observation vectors are column vectors,
+we write
+\[
+\mbf{x}_i = [x_{i1}, x_{i2}, \dotsc, x_{ip}] ^ T = \begin{bmatrix}
+    x_{i1} \\
+    x_{i2} \\
+    \vdots \\
+    x_{ip}
+\end{bmatrix}.
+\]
+The $j$th column of $\mbf{X}$ corresponds to all the observations of variable $j$ across the $n$ individuals:
+\[
+\mbf{x} ^ {(j)} = \begin{bmatrix}
+    x_{1j} \\
+    x_{2j} \\
+    \vdots \\
+    x_{nj}
+\end{bmatrix}.
+\]
+
+We now want to be able to summarise the data about the observations,
+we can use the sample mean vector and the sample variance matrix
+(details in the following)
+to give us some information about the observations.
+
+\begin{definition}[Sample mean vector]
+    The sample mean vector of the data matrix $\mbf{X}$ is the $p$-vector given by the sample mean of the observation vectors:
+    \[
+    \bar{\mbf{x}} = \frac{1}{n}\sum_{i = 1}^{n}\mbf{x}_i,
+    \]
+    which can be expressed as $\bar{\mbf{x}} = \frac{1}{n}\mbf{X} ^ T\mbf{1}_n$,
+    where $\mbf{1}_n$ is the $n$-vector of ones.
+\end{definition}
+
+\begin{definition}[Sample variance matrix]
+    The sample variance matrix of the data matrix $\mbf{X}$ is a $p \times p$ matrix defined by:
+    \begin{align*}
+        \mbf{S}_{X} &= \frac{1}{n - 1}\sum_{i = 1}^{n}(\mbf{x}_i - \bar{\mbf{x}})(\mbf{x}_i - \bar{\mbf{x}}) ^ T \\
+        &= \frac{1}{n - 1}\left(\sum_{i = 1}^{n}\mbf{x}_i\mbf{x}_i ^ T - n\bar{\mbf{x}}\bar{\mbf{x}} ^ T\right) \\
+        &= \frac{1}{n - 1}\left(\mbf{X} ^ T\mbf{X} - n\bar{\mbf{x}}\bar{\mbf{x}} ^ T\right)
+    \end{align*}
+    which has the sample covariance between $(X_j, X_j)$ for element $(j, k)$,
+    $j, k = 1, \dotsc, p$:
+    \[
+    s_{jk} = \frac{1}{n - 1}\sum_{i = 1}^{n}(x_{ij} - \bar{x}_j)(x_{ik} - \bar{x}_k).
+    \]
+\end{definition}
+
+\subsection{Point Estimation}
+
+Estimation is where we want to use a statistic $S$ computed from a sample $\mbf{X}$ to say something about a parameter $\theta$ of the population or model.
+
+\begin{definition}[Estimate and estimator]
+    An estimator of a population or model parameter $\theta$ is a function of the random sample,
+    \[
+    \hat{\Theta} = \hat{\Theta}(X_1, \dotsc, X_n),
+    \]
+    which takes values in the parameter space $\Omega$.
+
+    Once the sample is observed,
+    we evaluate its value as the estimate,
+    \[
+    \hat{\theta} = \hat{\Theta}(x_1, \dotsc, x_n).
+    \]
+    A point estimator is an estimator which returns a single value as our estimate for $\theta$,
+    i.e. a single point in $\Omega$.
+\end{definition}
+
+\subsubsection{Evaluating an estimator}
+
+We use the following to assess the quality of the estimate we make:
+\begin{enumerate}[label = (\roman*)]
+    \item Expectation $\E(\hat{\Theta})$ -
+    informative for the location of the estimate,
+    tells us what value the possible estimates are centred around if we consider all the possible different samples we might make.
+
+    \item Variance $\Var(\hat{\Theta})$ -
+    informative about the spread of the estimates,
+    tells us how consistent or variable the estimates are across the different possible samples.
+
+    \item Sampling distribution $f(\hat{\Theta})$ -
+    describes the entire probabilistic behaviour of the estimates.
+\end{enumerate}
+
+When we take the expectation over all of the possible random samples $\mbf{X}$ we might observe.
+This leads to the following definition of bias
+\begin{definition}[Bias and Unbiased]
+    The bias of an estimator is
+    \[
+    \mathrm{bias}(\hat{\Theta}, \theta) = \E(\hat{\Theta} - \theta) = \E(\hat{\Theta}) - \theta,
+    \]
+    where we take expectations with respect to the random sample $\mbf{X}$.
+
+    An estimator is unbiased if $\mathrm{bias}(\hat{\Theta}, \theta) = 0$,
+    i.e. if
+    \[
+    \E(\hat{\Theta}) = \theta.
+    \]
+\end{definition}
+
+Bias tells us whether our estimator is on average near the parameter we are trying to estimate,
+but we also would want to assess and quantify the variability of the possible estimates we could obtain from our random samples.
+
+So,
+an unbiased estimate with a high variance would be most likely less useful than a biased one with a small variance.
+\begin{definition}[Standard error]
+    The standard error of an estimator $\hat{\Theta}$ is the standard deviation of $\hat{\Theta}$:
+    \[
+    \mathrm{SE}(\hat{\Theta}) = \mathrm{sd}(\hat{\Theta}) = \sqrt{\Var(\hat{\Theta})}.
+    \]
+\end{definition}
+
+Another measure of the quality of an estimator is the mean-square error:
+\begin{definition}[Mean-square error
+    (MSE)]
+    The mean-square error
+    (MSE)
+    of an estimator $\hat{\Theta}$ for the parameter $\theta$ is
+    \[
+    \mathrm{MSE}(\hat{\Theta}, \theta) = \E((\hat{\Theta} - \theta) ^ 2) = \Var(\hat{\Theta}) + \mathrm{bias}(\hat{\Theta}, \theta) ^ 2.
+    \]
+\end{definition}
+
+Where the standard error measures the average distance of the estimator from its mean $\E(\hat{\Theta})$.
+the mean-square error measures the average squared distance from the parameter value $\theta$ itself.
+When $\E(\hat{\Theta}) = \theta$ our estimator is unbiased,
+then these two measures of error are just a function of each other.
 
 
 

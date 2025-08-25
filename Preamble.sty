@@ -1,6 +1,8 @@
 \ProvidesPackage{preamble}
 
 % General setup
+
+% Packages
 \usepackage{amsmath, amsfonts, amssymb, amsthm}
 \usepackage[pdfencoding=unicode, psdextra]{hyperref}
 \usepackage{mathtools}
@@ -13,6 +15,7 @@
 \usepackage{float}
 \pgfplotsset{compat=1.18}
 
+% Notation
 \DeclareMathOperator{\sech}{sech}
 \DeclareMathOperator{\csch}{csch}
 \newcommand{\N}{\mathbb{N}}
@@ -21,47 +24,46 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 
-% Analysis I - setup
-\newcommand{\infsum}[1][k = 1]{\sum_{#1}^{\infty}}
-\newcommand{\infsumo}{\infsum[k = 0]}
+% Shortcuts
+\newcommand{\mbf}[1]{\mathbf{#1}}
 
-% Calculus I - setup
+% Configuration
+\setcounter{MaxMatrixCols}{20}
+
+
+% Algebra II - setup
+
+% Mathematical Methods II - setup
 \DeclareMathOperator{\Dom}{Dom}
 \DeclareMathOperator{\Ran}{Ran}
 
 \newcommand{\liminfty}[1][n]{\lim_{#1 \rightarrow \infty}}
 \newcommand{\pd}[2][]{\frac{\partial #1}{\partial #2}}
 
-% Linear Algebra I - setup
-\setcounter{MaxMatrixCols}{20}
-\newcommand{\mbf}[1]{\mathbf{#1}}
-\DeclareMathOperator{\Adj}{Adj}
-\DeclareMathOperator{\im}{im}
+% Statistical Inference II - setup
 
-\newenvironment{amatrix}[1]
-    {
-    \left(\begin{array}{@{}*{#1}{c}|c@{}}
-        }{
-    \end{array}\right)
-    }
-    
-% Probability I - setup
-
-% operators
+% Operators
 \DeclareMathOperator{\Bin}{Bin}
 \DeclareMathOperator{\Geo}{Geo}
 \DeclareMathOperator{\Exp}{Exp}
 \DeclareMathOperator{\Po}{Po}
 
-% shortcuts
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+% Shortcuts
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\mathbb{V}\mathrm{ar}}
 \newcommand{\Cov}{\mathbb{C}\mathrm{ov}}
-\newcommand{\ind}[1][A]{\mathbbm{1}_{#1}}
-\newcommand{\mmid}{\,\middle|\,}
-\newcommand{\cP}[2]{\P\left(#1 \mmid #2\right)}
+    
+% Probability I - setup
 
+% Complex Analysis II - setup
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Log}{Log}
+
+% Thmtools setup
 \declaretheoremstyle[
     notefont = \normalfont\itshape,
     bodyfont = \normalfont\itshape,
@@ -97,4 +99,4 @@
     \end{proof}
     }
 
-% for some reason adding a new environment demands I have a new line after it otherwise it breaks.
+% For some reason adding a new environment demands I have a new line after it otherwise it breaks.

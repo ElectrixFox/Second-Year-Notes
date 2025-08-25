@@ -1,0 +1,550 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble} % Required for inserting images
+
+\title{Complex Analysis Notes}
+\author{Luke Phillips}
+\date{May 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{The Complex Plane and Riemann Sphere}
+
+\subsection{Complex numbers}
+We write a complex number $z$ in the form $z = x + iy$,
+with $x, y \in \R$ and $i = \sqrt{-1} \in \C$.
+In general for $z = x + iy$ we call $\bar{z} \coloneqq x - iy$ the \textit{complex conjugate of} $z$.
+
+
+We can visualise the complex numbers as
+\[
+\R ^ 2 \times \R ^ 2 \rightarrow \R ^ 2 : ((x_1, y_1), (x_2, y_2)) \mapsto (x_1x_2 - y_1y_2, x_1y_2 + x_2y_1).
+\]
+This is a copy of $\R ^ 2$ with a way of multiplying vectors.
+We define the \textit{modulus} of a complex number $z$by $|z| \coloneqq \sqrt{x ^ 2 + y ^ 2}$.
+
+\begin{lemma}[Important Properties of Complex numbers]\phantom{}
+    \begin{enumerate}[label = \arabic*.]
+        \item $z_1z_2 = 0 \iff z_1 = 0\text{ or } z_2 = 0$.
+
+        \item $|z| = \sqrt{z\bar{z}}$.
+
+        \item $\mathrm{Re}(z) = \frac{z + \bar{z}}{2}$ and $\mathrm{Im}(z) = \frac{z - \bar{z}}{2i}$.
+
+        \item $z ^ {-1} = \frac{\bar{z}}{|z| ^ 2}$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = \arabic*.]
+            \item
+            The forward direction "$\implies$" is obvious since if $z_1 = 0$ or $z_2 = 0$ then clearly $z_1z_2 = 0$.
+
+            For "$\impliedby$" let $z_1 = x + iy$ and $z_2 = a + ib$ then
+            \[
+            z_1z_2 = 0 \iff (x + iy)(a + ib) = 0 \iff (ax - by) + (bx + ay)i = 0
+            \]
+            so $ax - by = 0$ and $bx + ay = 0$ then we get $ax = by$ and $bx = -ay$,
+            dividing these equations leads to
+            \[
+            \frac{x}{y} = -\frac{x}{y} \implies x ^ 2 = -y ^ 2
+            \]
+            which means that $x = 0, y = 0$,
+            or
+            \[
+            \frac{b}{a} = -\frac{a}{b} \implies b ^ 2 = -a ^ 2
+            \]
+            meaning $a = 0, b = 0$.
+            Thus,
+            $z_1 = 0$ or $z_2 = 0$.
+
+            \item
+            Let $z = x + iy$
+            \begin{align*}
+                |z| &= \sqrt{x ^ 2 + y ^ 2} \\
+                &= \sqrt{(x + iy)(x - iy)} \\
+                &= \sqrt{z\bar{z}}.
+            \end{align*}
+
+
+            \item
+            Let $z = x + iy$
+            \begin{align*}
+                \frac{z + \bar{z}}{2} &= \frac{x + iy + x - iy}{2} \\
+                &= \frac{2x}{2} \\
+                &= x = \mathrm{Re}(z).
+            \end{align*}
+            \begin{align*}
+                \frac{z - \bar{z}}{2i} &= \frac{x + iy - x + iy}{2i} \\
+                &= \frac{2iy}{2i} \\
+                &= y = \mathrm{Im}(z).
+            \end{align*}
+
+            \item
+            By the definition of $z ^ {-1}$,
+            $z ^ {-1}z = 1$ so
+            \begin{align*}
+                z ^ {-1} &= \frac{1}{z} \\
+                &= \frac{\bar{z}}{z\bar{z}} \\
+                &= \frac{\bar{z}}{\sqrt{z\bar{z}} ^ 2} \\
+                &= \frac{\bar{z}}{|z| ^ 2}.
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+We can also write complex numbers in polar coordinate form.
+Using a change of variables we get $r = |z|$ and $\theta$ the anticlockwise angle measured from the real axis.
+We call $\theta$ the \textit{argument} of $z$ and write $\arg(z) = \theta$.
+So we can write the polar coordinates of $z$ as:
+\[
+z = r(\cos{\theta} + i\sin{\theta}),
+\]
+and the short hand $z = re ^ {i\theta}$.
+$\arg{z}$ is only defined up to multiples of $2\pi$.
+Strictly $\arg(i) = \pi / 2 + 2\pi k$,
+for any $k \in \Z$.
+
+The principle value of $\arg(z)$ is the value in the interval $(-\pi, \pi]$ and will be denoted $\mathrm{Arg}(z)$.
+So $\mathrm{Arg}(i) = \pi / 2$ and $\mathrm{Arg}(-1) = \pi$ for example.
+
+\begin{lemma}[Properties of argument]
+    \begin{enumerate}[label = \arabic*.]
+        \item $\arg(z_1z_2) = \arg(z_1) + \arg(z_2)\mod{2\pi}$.
+        
+        \item $\arg(1 / z) = -\arg(z)\mod{2\pi}$.
+        
+        \item $\arg(\bar{z}) = -\arg(z)\mod{2\pi}$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+    Geometrically,
+    multiplication in $\C$ is given by a dilated rotation;
+    i.e.,
+    if $z_1 = r_1e ^ {i\theta_1}$ and $z_2 = r_2e ^ {i\theta_2}$ then
+    \[
+    z_1z_2 = r_1r_2(\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2)) = r_1r_2e ^ {i(\theta_1 + \theta_2)}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            z_1z_2 &= r_1r_2(\cos{\theta_1} + i\sin{\theta_1})(\cos{\theta_2} + i\sin{\theta_2}) \\
+            &= r_1r_2((\cos{\theta_1}\cos{\theta_2} - \sin{\theta_1}\sin{\theta_2}) + i(\sin{\theta_1}\cos{\theta_2} + \sin{\theta_2}\cos{\theta_1})) \\
+            &= r_1r_2(\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2)).
+        \end{align*}
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    \begin{enumerate}[label = \arabic*.]
+        \item $|z_1z_2| = |z_1||z_2|$,
+
+        \item De Moivre's formula:
+        \[
+        (\cos{\theta} + i\sin{\theta}) ^ n = \cos(n\theta) + i\sin(n\theta).
+        \]
+
+        \item
+        (Triangle inequality)
+        \[
+        |z_1 + z_2| \leq |z_1| + |z_2|.
+        \]
+
+        \item $|z| \geq 0$ and $|z| = 0 \iff z = 0$.
+
+        \item $\max(|\mathrm{Re}(z)|, |\mathrm{Im}(z)|) \leq |z| \leq |\mathrm{Re}(z)| + |\mathrm{Im}(z)|$.
+    \end{enumerate}
+\end{corollary}
+
+\subsection{Exponential and trigonometric functions}
+
+\begin{definition}[Complex exponential]
+    We define the complex exponential function $\exp : \C \to \C$ by
+    \[
+    \exp(z) \coloneqq e ^ x(\cos{y} + i\sin{y})\qquad(z = x + iy)
+    \]
+    as shorthand we write $\exp(z) = e ^ z$.
+\end{definition}
+
+\begin{proposition}\label{prop:propsofexp}
+    We have the following properties of the complex exponential function:
+    \begin{enumerate}[label = \arabic*.]
+        \item $e ^ {z} \neq 0$ for all $z \in \C$.
+
+        \item $e ^ {z_1 + z_2} = e ^ {z_1}e ^ {z_2}$.
+
+        \item $e ^ {z} = 1 \iff z = 2\pi ik$ for some $k \in \Z$.
+
+        \item $e ^ {-z} = 1 / e ^ {z}$.
+
+        \item $|e ^ z| = e ^ {\mathrm{Re}(z)}$.
+    \end{enumerate}
+
+    \begin{proof}
+        Most of these are easy to check.
+        $3$ is quite important
+        \[
+        \exp(z) = 1 \iff e ^ x\cos{y} = 1\text{ and }e ^ x\sin{y} = 0.
+        \]
+        Since $e ^ x > 0$,
+        the latter is equivalent to $\sin{y} = 0$ and so $y = n\pi$ for some $n \in \Z$.
+        Thus we have $\exp(z) = 1 \iff e ^ x\cos(n\pi) = 1 \iff e ^ x(-1) ^ n = 1 \iff n$ is even and $e ^ x = 1 \iff x = 0$ and $y = 2k\pi$
+        ($k \in \Z$).
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}\label{cor:expzperiodicity}
+    We have $\exp(2\pi i) = 1$ and $\exp(\pi i) = -1$
+    (Euler's formula).
+\end{corollary}
+
+\begin{corollary}
+    The complex exponential function is $2\pi i$ periodic;
+    that is,
+    $\exp(z + 2k\pi i) = \exp(z)$ for any $k \in \Z$.
+\end{corollary}
+
+\begin{definition}[Trigonometric functions]
+    All as functions from $\C \to \C$,
+    we define
+    \begin{align*}
+        \sin(z) &\coloneqq \frac{1}{2i}(e ^ {iz} - e ^ {-iz}) & \cos(z) &\coloneqq \frac{1}{2}(e ^ {iz} + e ^ {-iz}) \\
+        \sinh(z) &\coloneqq \frac{1}{2}(e ^ {z} - e ^ {-z}) & \cosh(z) &\coloneqq \frac{1}{2}(e ^ {z} + e ^ {-z}).
+    \end{align*}
+\end{definition}
+
+\subsection{Logarithms and complex powers}
+Let us define $\C ^ {*} = \C \setminus \{0\}$.
+\begin{lemma}[Inverting the exponential function]
+    For every $w \in \C ^ {*}$,
+    the equation
+    \begin{equation}\label{eq_eq1}
+        e ^ z = w
+    \end{equation}
+    has a solution $z$.
+    Furthermore,
+    if we write $w = |w|e ^ {i\phi}$ with $\phi = \mathrm{Arg}(w)$,
+    then all solutions to \eqref{eq_eq1} are given by
+    \begin{equation}\label{eq_eq2}
+        z = \log{|w|} + i(\phi + 2k\pi)\quad\text{for } k \in \Z.
+    \end{equation}
+    Here $\log{|w|}$ means the natural logarithm of $|w|$.
+
+    \begin{proof}
+        If $z$ is of the form in \eqref{eq_eq2} for some given $k \in \Z$,
+        then
+        \[
+        e ^ z = e ^ {\log{|w|} + i(\phi + 2k\pi)} = e ^ {\log{|w|}}e ^ {i(\phi + 2k\pi)} = e ^ {\log{|w|}}e ^ {i\phi} = |w|e ^ {i\phi} = w,
+        \]
+        by \autoref{prop:propsofexp} and \autoref{cor:expzperiodicity}.
+        Thus,
+        $z$ is a solution.
+        To see all solutions are of this form,
+        write $z = x + iy$ and assume $e ^ z = w$.
+        Since $e ^ xe ^ {iy} = e ^ z = w = |w|e ^ {i\phi}$,
+        we have $|e ^ z| = |e ^ x| = |w|$.
+        Thus $x = \log{|w|}$.
+        Moreover,
+        dividing both sides by $|w|$ we get $e ^ {iy} = e ^ {i\phi}$ and so $e ^ {i(y - \phi)} = 1$.
+        Following from \autoref{prop:propsofexp} all solutions are given by $i(y - \phi) = 2k\pi i$ for some $k \in \Z$ in other words,
+        $y = \phi + 2k\pi$.
+    \end{proof}
+\end{lemma}
+
+Now we will introduce the notion of branch cuts.
+Let us begin by defining $R_{\theta}$ as the following:
+\[
+R_{\theta} = \left\{re ^ {i\theta} : r \in \R, r \geq 0 \right\} \subset \C
+\]
+i.e. a ray
+(or line)
+along the complex plane.
+
+Using this $R_{\theta}$ we can define a continuous function $\log(z)$ on $\C \setminus R_{\theta}$.
+
+\begin{definition}[Complex logarithm functions]
+    For any two real numbers $\theta_1 < \theta_2$ with $\theta_2 - \theta_1 = 2\pi$,
+    let $\arg$ be the choice of argument function with values in $(\theta_1, \theta_2]$.
+    Then the function
+    \[
+    \log(z) \coloneqq \log{|z|} + i\arg(z)
+    \]
+    is called a branch of logarithm.
+\end{definition}
+This definition of the logarithm has a jump discontinuity along the ray $R_{\theta_1} = R_{\theta_2}$.
+This ray is called a branch cut.
+
+If we choose $\arg(z) = \mathrm{Arg}(z) \in (-\pi, \pi]$,
+then we get a branch of the logarithm called the principle branch of $\log$.
+We write $\mathrm{Log}$ for this principal branch:
+given by the formula
+\[
+\mathrm{Log}(z) \coloneqq \log{|z|} + i\mathrm{Arg}(z).
+\]
+The principal branch has a jump discontinuity along the ray given by the non-positive real axis $\R_{\leq 0}$.
+
+\begin{remark}
+    The principal branch $\mathrm{Log}$ agrees with $\log$ on the real line;
+    that is,
+    for $x > 0, \mathrm{Log}{x} = \log{x}$.
+\end{remark}
+
+\begin{lemma}[Properties of logarithms]
+    We have the following properties when using any given branch of logarithm:
+    \begin{enumerate}[label = \arabic*.]
+        \item $e ^ {\log{z}} = z$ for any $z \in \C \setminus \{0\}$.
+
+        \item In general,
+        $\log(zw) \neq \log{z} + \log{w}$.
+
+        \item In general,
+        $\log(e ^ {z}) \neq z$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}[Complex powers]
+    For $w \in \C$ fixed,
+    by choosing any branch of $\log$ we can define a branch of the function $z \mapsto z ^ w$ by the expression
+    \[
+    z ^ w \coloneqq \exp(w\log{z}).
+    \]
+\end{definition}
+
+For example,
+if $w = \frac{1}{n}$ and we use the principal branch we get
+\[
+z ^ {1 / n} = e ^ {(\log{|z|} + i\mathrm{Arg}(z)) / n} = |z| ^ {1 / n}e ^ {i\mathrm{Arg}(z) / n}.
+\]
+
+\begin{example}
+    \begin{enumerate}[label = (\alph*)]
+        \item Find $\log(1 - i)$ and $(1 - i) ^ {1 / 2}$.
+
+        \item Find $(1 - i) ^ i$.
+
+        \item Find $2 ^ {1 / 2}$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item Using the principal branch of $\log$.
+            We have $|1 - i| = \sqrt{2}$ and $\mathrm{Arg}(1 - i) = -\pi / 4$.
+            Thus,
+            \[
+            1 - i = \sqrt{2}e ^ {-i\pi / 4}.
+            \]
+            Giving us
+            \[
+            \mathrm{Log}(1 - i) = \log{|1 - i|} + i\mathrm{Arg}(1 - i) = \log{\sqrt{2}} - i\pi / 4
+            \]
+            we can use this to find $(1 - i) ^ {1 / 2}$ as
+            \begin{align*}
+                (1 - i) ^ {1 / 2} &= \exp\left(\frac{1}{2}\mathrm{Log}(1 - i)\right) \\
+                &= \exp\left(\frac{1}{2}\left(\log{\sqrt{2}} - \frac{i\pi}{4}\right)\right) \\
+                &= \exp\left(\log{\sqrt[4]{2}} - \frac{i\pi}{8}\right) \\
+                &= \sqrt[4]{2}e ^ {-\frac{i\pi}{8}}.
+            \end{align*}
+
+            \item Using the principal branch we get
+            \begin{align*}
+                (1 - i) ^ i &= \exp(i\Log(1 - i)) \\
+                &= \exp\left(i\left(\log{\sqrt{2}} - \frac{i\pi}{4}\right)\right) \\
+                &= \exp\left(\frac{\pi}{4} + i\log{\sqrt{2}}\right) \\
+                &= e ^ {\pi / 4}e ^ {i\log{\sqrt{2}}}
+            \end{align*}
+
+            \item With the principal branch
+            \[
+            2 ^ {1 / 2} = \exp\left(\frac{1}{2}\log{2}\right) = \exp(\log{\sqrt{2}) = \sqrt{2}}.
+            \]
+
+            \textit{We can look at the branch $\arg(z) \in (\pi, 3\pi]$ to find the other root}.
+        \end{enumerate}
+    \end{solution}
+\end{example}
+
+\begin{remark}
+    We can find the $n$th roots of a number $z \in \C ^ {*}$,
+    these roots take the following form
+    \[
+    z ^ {1 / n} = |z| ^ {1 / n}\exp\left(i\frac{\Arg(z)}{n} + \frac{2k\pi i}{n}\right)\qquad\text{for } k = 0, \dotsc, n - 1.
+    \]
+\end{remark}
+
+We can have a look at the branches of $\log$.
+Let $\log$ be the branch of logarithm corresponding to $\arg(z) \in (\theta_1, \theta_2]$.
+Then $\log$ maps $\C\setminus R_{\theta_1}$ to the infinite horizontal strip
+\[
+\{z \in \C\,:\, \theta_1 < \mathrm{Im}(z) \leq \theta_2\}.
+\]
+
+\subsection{The Riemann Sphere and extended complex plane}
+It is very useful at various points to extend the complex plane by adding a point 'at infinity'.
+To do this,
+we create a new object called 'infinity',
+denoted $\infty$,
+and consider the set
+\[
+\hat{\C} \coloneqq \C\cup \{\infty\}.
+\]
+We can think of the point $\infty$ being put nicely into $\C$.
+By introducing the Riemann sphere we can see how $\infty$ gets put into $\C$.
+
+\textbf{The Riemann sphere}
+
+Consider the unit sphere $S ^ 2 \coloneqq \{(x, y, s) \in \R ^ 3\,:\, x ^ 2 + y ^ 2 + s ^ 2 = 1\}$ in $\R ^ 3$ and consider a copy of $\C$ embedded in $\R ^ 3$ by identifying $\C = \R ^ 2$ with the $(x, y)$-plane.
+Explicitly a point $x + iy \in \C$ corresponding to the point $(x, y, 0) \in \R ^ 3$.
+
+Let $N = (0, 0, 1) \in S ^ 2$ denote the 'north pole'.
+For any point $v \in S ^ 2 \setminus \{N\}$,
+there is a unique straight line $L_{N, v}$ passing through $N$ and $v$.
+As $v \neq N$ this line is not parallel to the $(x, y)$-plane.
+Thus it intersects the $(x, y)$-plane in a unique point $(x, y, 0)$.
+Corresponding to the point $x + iy \in \C$.
+We have defined a map $P : S ^ 2 \setminus \{N\} \to \C$ by $P(v) = x + iy$ using the previously defined notation.
+The map $P$ is called a stereographic projection
+(from the north pole).
+
+\newpage
+
+\section{Metric Spaces}
+
+\subsection{Metric spaces}
+We have another way of thinking about $\hat{\C}$ as a sphere in $\R ^ 3$,
+there are two natural ways to measure the distance between two points $z$ and $w$ in the extended complex plane
+(or indeed in $\C$).
+\begin{itemize}
+    \item The modulus $|z - w|$ of their difference in $\C$.
+
+    \item The distance in $\R ^ 3$ between their stereographic representatives on the sphere $S ^ 2$.
+\end{itemize}
+
+A metric space is a set together with a 'distance' function that satisfies certain axioms.
+\begin{definition}[Metric spaces]
+    A metric space is a set $X$ together with a function $d : X \times X \to \R_{\geq 0}$ such that for all $x, y, z \in X$
+    \begin{enumerate}[label = (D\arabic*)]
+        \item Positivity:
+        $d(x, y) \geq 0$ and $d(x, y) = 0 \iff x = y$.
+
+        \item Symmetry:
+        $d(x, y) = d(y, x)$.
+
+        \item Triangle inequality:
+        $d(x, y) \leq d(x, z) + d(z, y)$.
+    \end{enumerate}
+
+    The function $d$ is called a metric and we will often denote a metric space by $(X, d)$.
+\end{definition}
+
+\begin{example}
+    Here we can show that the metric induced by the modulus function $|.|$ on $\R$ or $\C$ is a metric.
+    We can define a distance function $d$ on $\R \times \R$ or $\C \times \C$ by the formula $d(x, y) = |x - y|$.
+    This metric satisfies
+    (D$1$)-(D$3$)
+    by the properties of the modulus we gave.
+\end{example}
+
+\subsection{Open and closed sets}
+
+Since we have a general notion of distance in any metric space $X$,
+we can define balls in the space.
+
+\begin{definition}[Balls in a metric space]
+    Let $(X, d)$ be a metric space,
+    $x \in X$ and $r > 0$ be a real number.
+    Then:
+    \begin{itemize}
+        \item The open ball $B_r(x)$ of radius $r$ centred at $x$ is
+        \[
+        B_r(x) \coloneqq \{y \in X\,:\,d(x, y) < r\}.
+        \]
+
+        \item The closed ball $\bar{B}_r(x)$ of radius $r$ centred at $x$ is
+        \[
+        \bar{B}_r(x) \coloneqq \{y \in X\,:\,d(x, y) \leq r\}.
+        \]
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Open/closed sets in a metric space]
+    Let $(X, d)$ be a metric space.
+    Then:
+    \begin{itemize}
+        \item A subset $U \subseteq X$ is open
+        (in $X$)
+        if for every point $x \in U$ there exists $\varepsilon > 0$ such that $B_{\varepsilon}(x) \subset U$.
+
+        \item A subset $U \subseteq X$ is closed
+        (in $X$)
+        if its complement $X \setminus U$ is open.
+    \end{itemize}
+    
+\end{definition}
+
+\begin{lemma}[Open balls are open]
+    In a metric space,
+    the open ball $B_r(x)$ is open.
+
+    \begin{proof}
+        Let $y \in B_r(x)$ be an open ball with $d(x, y) = s$
+        (and so $s < r$ by definition).
+        We need to now how that there exists $\varepsilon > 0$ such that $B_{\varepsilon}(x) \subseteq B_r(x)$.
+        Hence we need $0 < \varepsilon < r$,
+        we can use $s < r \iff 0 < r - s$ and then clearly $r - s < r$ so we can choose $\varepsilon = r - s$.
+        Then for every $z \in B_{\varepsilon}(y)$ we have
+        \[
+        d(x, z) \leq d(x, y) + d(y, z) < s + \varepsilon = r.
+        \]
+        Thus,
+        $z \in B_r(x)$ as required.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}[Unions and intersections of open sets]
+    Let $(X, d)$ be a metric space.
+    Then:
+    \begin{enumerate}[label = \arabic*.]
+        \item Arbitrary unions of open sets are open;
+        that is
+        \[
+        \bigcup_{i \in I}U_i\text{ is open, for any (possibly infinite) collection of open sets $U_i$}
+        \]
+        
+        \item Finite intersections of open sets are open;
+        that is
+        \[
+        \bigcap_{i \in 1}^{n}U_i\text{ is open, for any finite collection of open sets $U_i$}
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = \arabic*.]
+        \item Let $x \in \bigcup_{i \in I}U_i$.
+        Then,
+        by definition,
+        it must be contained in the set $U_j$ for some $j \in I$.
+        Since $U_j$ is open there must exist a ball $B_{\varepsilon}(x)$ centred at $x$ lying in $U_j$.
+        But then $B_{\varepsilon}(x) \subseteq U_j \subseteq \bigcup_{i \in I}U_i$ as required.
+
+        \item Let $x \in \bigcap_{i = 1}^{n}U_i$.
+        By definition $x \in U_i$ for every $i = 1, \dotsc, n$.
+        But,
+        since they are all open,
+        for every $U_i$ there must exist $r_i > 0$ such that $B_{r_i}(x) \subset U_i$.
+        Now simply take $\displaystyle\varepsilon = \min_{i = 1, \dotsc, n}(r_i)$.
+        Then for every $i$ we have $B_{\varepsilon}(x) \subseteq B_{r_i}(x)$ and so
+        \[
+        B_{\varepsilon}(x) \subseteq \bigcap_{i = 1}^{n}B_{r_i}(x) \subseteq \bigcap_{i = 1}^{n}U_i.
+        \]
+        \end{enumerate}
+    \end{proof}
+    
+\end{lemma}
+
+
+
+
+
+
+\end{document}
