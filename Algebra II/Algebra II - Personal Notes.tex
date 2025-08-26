@@ -323,7 +323,7 @@ Then we have the following properties for all $f(x), g(x) \in F[x]$:
 
 \textbf{The division algorithm in} $\Z$
 
-\begin{proposition}[Division algorithm]
+\begin{proposition}[Division algorithm]\label{prep:algII:prop:divalgpoly}
     Let $f(x), g(x) \in F[x]$ with $g(x) \neq 0$.
     Then there exist unique polynomials $q(x), r(x) \in F[x]$ with $\deg{r} < \deg{g}$ such that
     \[
@@ -532,21 +532,236 @@ A polynomial in $F[x]$ is called monic if its leading coefficient is $1$.
         r_n(x) = h(x)r_{n - 2}(x) + g(x)r_{n - 3}(x)
         \]
         for some $h(x), g(x) \in F[x]$.
-        Now replace $r_{n - 2}(x)$ if we are going up the ladde rwe end up with $r_{-1}(x)$ and $r_0(x)$.
+        Now replace $r_{n - 2}(x)$ if we are going up the ladder we end up with $r_{-1}(x)$ and $r_0(x)$.
         We can write $r_n(x) = A(x)r_{-1}(x) + B(x)r_0(x)$ for some $A(x), B(x) \in F[x]$.
     \end{proof}
 \end{theorem}
 
+\newpage
 
+\section{Factorisation in rings}
 
+\subsection{Irreducible polynomials in \texorpdfstring{$F[x]$}{}}
 
+Some polynomials can be factored into a product of other polynomials,
+e.g.
+\[
+x ^ 3 - 1 = (x ^ 2 + x + 1)(x - 1) \in \Q[x].
+\]
+Since constants are also polynomials we can factorise them too,
+e.g. $13x + 13 = 13(x + 1)$.
 
+\begin{definition}
+    Let $R$ be a commutative ring.
+    An element $0 \neq r \in R$ is called irreducible if the following conditions hold:
+    \begin{enumerate}[label = \roman*)]
+        \item $r$ is not a unit.
+        \item If $r = ab$ for $a, b \in R$,
+        then $a$ is a unit,
+        or $b$ is a unit.
+    \end{enumerate}
+\end{definition}
 
+Let $F$ be a field and $f(x) \in F[x]$.
+An element $a \in F$ is called a root of $f$ in $F$ if $f(a) = 0$.
 
+If $\deg{f} = 2, 3$,
+then it is irreducible if and only if it has no roots in $F$.
+\begin{proof}
+    Let $\alpha \in F$ be a root of $f(x)$.
+    Write $f(x) = q(x)(x - \alpha) + r(x)$ with $\deg{r} \leq 0$,
+    using \autoref{prep:algII:prop:divalgpoly}.
+    Thus $r(x)$ is a constant.
+    Then $0 = f(\alpha) = r(\alpha)$,
+    but $r(x)$ is constant,
+    so $f(x) = q(x)(x - \alpha)$,
+    and so is not irreducible since $\deg(q) \geq 1$.
+    Conversely,
+    if $f(x)$ is not irreducible,
+    then $f(x) = g(x)h(x)$ with $\deg{g}, h \geq 1$.
+    But $\deg{f} = \deg{g} + \deg{h}$ so if $\deg{f} = 2$ or $3$,
+    we must have either $\deg{g} = 1$ or $\deg{h} = 1$,
+    say $g$.
+    Then $g(x) = ax + b$,
+    for some $a, b \in F[x]$,
+    $a \neq 0$.
+    Thus
+    \[
+    0 = g(-b / a) = f(-b / a),
+    \]
+    so $f(x)$ has a root.
+\end{proof}
 
+\begin{proposition}
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$ with $\deg{f} \geq 1$.
+    If $f(p / q) = 0$,
+    where $p, q \in \Z$ and $\gcd(p, q) = 1$,
+    then
+    \[
+    p \mid a_0 \qquad\text{and}\qquad q \mid a_n.
+    \]
 
+    \begin{proof}
+        We have
+        \[
+        f(p / q) = a_0 + a_1(p / q) + \dotsc + a_n(p / q) ^ n = 0.
+        \]
+        Multiply both sides by $q ^ n$ and take out a factor of $p$:
+        \[
+        p(a_1q ^ {n - 1} + a_2pq ^ {n - 2} + \dotsc + a_np ^ {n - 1}) = -a_0q ^ n.
+        \]
+        Thus $p \mid (a_0q ^ n)$,
+        but $\gcd(p, q) = 1$,
+        so $p \mid a_0$.
+        Now shift the leading term of the first equation to the right hand side and multiply by $q ^ n$,
+        we get
+        \[
+        q(a_0q ^ {n - 1} + \dotsc + a_{n - 1}p ^ {n - 1}) = -a_np ^ n.
+        \]
+        Thus $q \mid (a_np ^ n)$,
+        and so $q \mid a_n$.
+    \end{proof}
+\end{proposition}
 
+\begin{example}
+    Show that $f(x) = x ^ 3 - 2x + 2$ is irreducible in $\Q[x]$.
 
+    \begin{solution}
+        From the above we would need $p / q \in \Q$ with $\gcd(p, q) = 1$ and $p \mid 2$ and $q \mid 1$ leaving us with only two choices $\pm 1$ and $\pm 2$,
+        easily we can see that neither $f(1 / 2)$ nor $f(2 / 1)$ is a root and hence $f$ is irreducible in $\Q[x]$.
+    \end{solution}
+\end{example}
+
+\begin{theorem}[Gauss's lemma]\label{prep:algII:thm:guasslem}
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$ be a non-constant polynomial.
+    Then $f(x)$ is irreducible in $\Z[x]$ if and only if it is irreducible in $\Q[x]$ and $\gcd(a_0, a_1, \dotsc, a_n) = 1$.
+
+    \begin{proof}
+        "$\impliedby$"
+        Assume that $f(x)$ is irreducible in $\Q[x]$ and $\gcd(a_0, a_1, \dotsc, a_n) = 1$.
+        Suppose that $f(x) = g(x)h(x)$ for some $g(x), h(x) \in \Z[x]$.
+        If $\deg{g} \geq 1$ and $\deg{h} \geq 1$,
+        then we would also have a proper factorisation in $\Q[x]$,
+        violating irreducibility in $\Q[x]$.
+        Thus either $\deg{g} = 0$ or $\deg{h} = 0$,
+        say it's $g$.
+        Thus $g(x) \in \Z$.
+        If $g(x) \neq \pm 1$,
+        then there will exist a prime number $p \in \Z$ dividing $g(x)$,
+        and thus $f(x)$,
+        violating $\gcd(a_0, a_1, \dotsc, a_n) = 1$.
+        Thus $g(x) = \pm 1$
+        (a unit),
+        so that $f(x)$ is irreducible in $\Z[x]$.
+
+        "$\implies$"
+        Omitted.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}\label{prep:algII:cor:gauslemcorol}
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$ with $\gcd(a_0, \dotsc, a_n) = 1$.
+    Then $f(x)$ is irreducible in $\Z[x]$ if and only if it is irreducible in $\Q[x]$.
+\end{corollary}
+
+\begin{lemma}
+    If a monic polynomial in $\Z[x]$ factors in $\Q[x]$,
+    then it factors into integer monic polynomials.
+
+    \begin{proof}
+        Let $f(x) = a_0 + \dotsc + a_nx ^ n$,
+        $a_n = 1$.
+
+        Thus,
+        \autoref{prep:algII:cor:gauslemcorol} implies that if it factors in $\Q[x]$ then it factors in $\Z[x]$.
+        Thus,
+        \[
+        f(x) = g(x)h(x) = (b_0 + \dotsc + b_mx ^ m)(c_0 + \dotsc + c_lx ^ l),
+        \]
+        where $m + l = n$ and $b_i, c_j \in \Z$.
+        Now equating coefficients of $x ^ n$ on both sides,
+        $b_mc_l = 1$,
+        thus either $b_m = c_l = 1$ or $b_m = c_l = -1$.
+        In the first case $g(x), h(x)$ are monic and in the second case $-g(x), -h(x)$ are monic and $f(x) = (-g(x)(-h(x))$.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Let $R$ be a commutative ring,
+    $x \in R$ and irreducible element and $u \in R ^ {\times}$.
+    Then $ux$ is also irreducible.
+
+    \begin{proof}
+        Since $x \neq 0$ we also have $ux \neq 0$.
+        Now we need to show that $ux$ is not a unit.
+        If $ux$ is a unit then there exists a $b \in R$ such that $v(ux) = 1$ or equivalently $(vu)x = 1$.
+        That is $x$ is a unit.
+        Contradiction.
+
+        Assume now that $ux = ab$ with $a, b \in R$.
+        We need to show that either $a$ or $b$ is a unit.
+        Then we may write $x = abu ^ {-1} = a(bu ^ {-1})$.
+        Since $x$ is irreducible we have that either $a \in R ^ {\times}$ or $bu ^ {-1} \in R ^ {\times}$.
+        But the latter condition also gives that $b \in R ^ {\times}$ as the units form a group under multiplication.
+        That is,
+        $ux$ is irreducible.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}[Eisenstein's criterion]
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$,
+    and let $p \in \Z$ be a prime such that $p \mid a_0, p \mid a_1, \dotsc, p \mid a_{n - 1}$ and $p \nmid a_n$ and $p ^ 2 \nmid a_0$.
+    Then $f(x)$ is irreducible in $\Q[x]$.
+
+    \begin{proof}
+        Set $d \coloneqq \gcd(a_0, a_1, \dotsc, a_n)$.
+        Set $b_i \coloneqq \frac{a_i}{d}$.
+        Then
+        \[
+        F(x) \coloneqq \frac{1}{d}f(x) = b_0 + b_1x + \dotsc + b_nx ^ n \in \Z[x]
+        \]
+        and $\gcd(b_0, b_1, \dotsc, b_n) = 1$.
+        By the above if we show $F(x)$ is irreducible in $\Q[x]$ then so is $f(x)$.
+        We note that since $p \nmid a_n$ we have $p \nmid d$ and so $p \mid b_0, p \mid b_1, \dotsc, p \mid b_{n - 1}, p \nmid b_n$ and $p ^ 2 \nmid b_0$.
+
+        We assume now $F(x)$ is not irreducible in $\Q[x]$ and we will derive a contradiction.
+        By Gauss's lemma we have $F(x) = g(x)h(x)$ with $g(x), h(x) \in \Z[x]$ and $\deg(g), \deg(h) \geq 1$.
+        We now take reduction modulo $p$ and obtain
+        \[
+        \bar{g}(x)\bar{h}(x) = \bar{F}(x) = \bar{b}_0 + \bar{b}_1x + \dotsc + \bar{b}_nx ^ n = \bar{b}_nx ^ n.
+        \]
+        We now write
+        \[
+        \bar{g}(x) = \bar{\alpha}_0 + \dotsc + \bar{\alpha}_mx ^ m,\quad m = \deg(\bar{g}) = \deg(g), \bar{\alpha}_m \neq \bar{0},
+        \]
+        and
+        \[
+        \bar{h}(x) = \bar{\beta}_0 + \dotsc + \bar{\beta}_kx ^ k,\quad k = \deg(\bar{h}) = \deg(h), \bar{\beta}_k \neq \bar{0}.
+        \]
+        From $\bar{g}(x)\bar{h}(x)$ we obtain $\alpha_0\beta_0$ is divisible by $p$.
+        Since $p$ is prime it has to divide at least one of them,
+        we aim to show that it divides both since then we can conclude $p ^ 2$ divides $b_0$.
+        Assume $\alpha_0$ is divisible by $p$.
+        As we just mentioned if $\beta_0$ is also divisible by $p$ we derive our contradiction.
+        Assume $\beta_0$ is not divisible by $p$.
+        First show all other coefficients of $g$ except $\alpha_m$,
+        that is $\alpha_i$ with $i = 1, \dotsc, m - 1$ are divisible by $p$.
+
+        Since $F(x) = g(x)h(x)$,
+        we have $b_1 = \alpha_0\beta_1 + \beta_0\alpha_1$.
+        Since $p \mid b_1$ and $p \mid \alpha_0$ and since $p \nmid \beta_0$ we must have $p \mid \alpha_1$.
+        Continuing inductively we show that all the terms from $\alpha_1$ to $\alpha_{m - 1}$ are divisible by $p$.
+        In particular from $\bar{g}(x)\bar{h}(x)$ we obtain
+        \[
+        \bar{\alpha}_0\bar{\beta}_0 + \bar{\alpha}_0\bar{\beta}_kx ^ k + \bar{\beta}_0\bar{\alpha}_mx ^ m + \dotsc + \bar{\alpha}_m\bar{\beta}_kx ^ {n + k} = \bar{b}_nx ^ n.
+        \]
+        From the above we have that $\bar{\beta}_0\bar{\alpha}_m = \bar{0}$ and since $\bar{\alpha}_m \neq \bar{0}$ we have $\bar{\beta}_0 = \bar{0}$.
+        That is,
+        both $\alpha_0$ and $\beta_0$ are divisible by $p$ and hence we have that $\alpha_0\beta_0$ is divisible by $p ^ 2$.
+        But $b_0 = \alpha_0\beta_0$ and so $p ^ 2$ divides $b_0$.
+        Contradiction.
+    \end{proof}
+\end{proposition}
 
 
 \end{document}
