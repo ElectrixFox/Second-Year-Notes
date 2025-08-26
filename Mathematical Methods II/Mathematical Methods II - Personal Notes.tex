@@ -301,7 +301,7 @@ Note that the area element $\left|\frac{\partial\mbf{x}}{\partial u} \times \fra
     \end{proof}
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}\label{prep:mathmethII:prop:surfintscfldindpparam}
     The surface integral of a scalar field is independent of the choice of parameterisation.
 
     \begin{proof}
@@ -340,9 +340,152 @@ this is often emphasised by writing
 \]
 
 
+\subsection{Volume integrals}
 
+\begin{definition}
+    The volume integral of a scalar field $f : \R ^ 3 \to \R$ over a $3$D subregion $V \subset \R ^ 3$ is
+    \[
+    \int_{V}f\,dV = \int_{U}f(\mbf{x}(u, v, w))\left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right)\right|\,du\,dv\,dw
+    \]
+    where $U$ is the preimage of $V$ in $(u, v, w)$ space
+\end{definition}
 
+For some well-defined coordinates $(u, v, w)$.
+The factor $\left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right)\right|\,du\,dv\,dw$ is the volume of a parallelepiped.
 
+\begin{proposition}
+    If $(u, v, w)$ are orthogonal curvilinear coordinates,
+    then
+    \[
+    \left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right)\right| = h_uh_vh_w.
+    \]
+
+    \begin{proof}
+        Recall that $\pd[\mbf{x}]{u} = h_u\mbf{e}_u$,
+        and similarly for the other two tangent vectors.
+        Since $h_u, h_v, h_w \geq 0$,
+        \[
+        \left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right)\right| = h_uh_vh_w|\mbf{e}_u \cdot (\mbf{e}_v \times \mbf{e}_w)| = h_uh_vh_w|\mbf{e}_u \cdot (\pm\mbf{e}_u)| = h_uh_vh_w.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{remark}
+    \[
+    \left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right)\right|
+    \]
+    is often called the Jacobian
+    (as previously seen).
+
+    \begin{proof}
+        Look at the triple product as a determinant.
+    \end{proof}
+\end{remark}
+
+\begin{proposition}
+    The volume integral of a scalar field is independent of the choice of coordinates.
+
+    \begin{proof}
+        This is analogous to \autoref{prep:mathmethII:prop:surfintscfldindpparam},
+        using the fact that a $3$D change of variables obeys
+        \[
+        dx\,dy\,dz = \left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right)\right|\,du\,dv\,dw.
+        \]
+    \end{proof}
+\end{proposition}
+
+\newpage
+
+\section{Differential operators}
+
+\subsection{Differentiating scalar fields}
+
+\begin{definition}
+    The gradient of a scalar field $f : \R ^ 3 \to \R$ is the operator
+    \[
+    \nabla f\Bigr\rvert_{\mbf{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hat{\mbf{n}}\,dS,
+    \]
+    where $S$ is a closed surface around $\mbf{x}$ with outward normal $\hat{\mbf{n}}$ enclosed volumed $|V|$,
+    and diameter $d(S) = \sup_{x, y \in S}|\mbf{x} - \mbf{y}|$.
+\end{definition}
+
+\begin{proposition}
+    In Cartesian coordinates
+    \[
+    \mbf{\nabla}f = \pd[f]{x}\mbf{e}_1 + \pd[f]{y}\mbf{e}_2 + \pd[f]{z}\mbf{e}_3.
+    \]
+\end{proposition}
+
+\begin{lemma}[Mean Value Theorem for Double Integrals]
+    If a scalar field $f : \R ^ 2 \to \R$ is continuous on a closed,
+    bounded and connected domain $A \subset \R ^ 2$ then there exists $\mbf{x}_{*} \in A$ such that
+    \[
+    \int_{A}f\,dS = |A|f(\mbf{x}_{*}).
+    \]
+
+    \begin{proof}
+        Under the given conditions,
+        we know $f$ attains both its maximum and minimum on $A$,
+        say at some points $\mbf{x}_{\text{max}}, \mbf{x}_{\text{min}}$.
+        We also know that
+        \[
+        |A|f(\mbf{x}_{\text{min}}) \leq \int_{A}f\,dS \leq |A|f(\mbf{x}_{\text{max}}).
+        \]
+        Now let $\mbf{x}(t)$ parameterise a curve in $A$ such that $\mbf{x}(t_0) = \mbf{x}_{\text{min}}$ and $\mbf{x}(t_1) = \mbf{x}_{\text{max}}$,
+        consider the function
+        \[
+        g(t) = |A|f(\mbf{x}(t)).
+        \]
+
+        This is continuous with $g(t_0) = |A|f(\mbf{x}_{\text{min}})$ and $g(t_1) = |A|f(\mbf{x}_{\text{max}})$,
+        so by the intermediate value theorem and the first equation there exists $t_{*}$ with
+        \[
+        g(t_{*}) = \int_{A}f\,dS.
+        \]
+        Then at $\mbf{x}_{*} = \mbf{x}(t_{*})$ we have $|A|f(\mbf{x}_{*}) = \int_{A}f\,dS$,
+        as required.
+    \end{proof}
+\end{lemma}
+
+\begin{proof}[Proof of the previous proposition]
+    To find the $\mbf{e}_1$ component of $\mbf{\nabla}f$,
+    let $V$ be a small cylinder of radius $\epsilon$ and length $h$,
+    whose axis is the unit vector $\mbf{e}_1$.
+    The volume of the cylinder is $|V| = \pi\epsilon ^ 2h$.
+
+    Then
+    \begin{align*}
+        \mbf{e}_1 \cdot \mbf{\nabla}f &= \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\mbf{e}_1 \cdot \hat{\mbf{n}}\,dS \\
+        &= \lim_{\epsilon, h \to 0}\frac{1}{\pi\epsilon ^ 2h}\left[\int_{S_1}f\,dS - \int_{S_0}f\,dS\right]\quad[\text{since $\mbf{e}_1 \cdot \hat{\mbf{n}} = 0$ on the curved surface}] \\
+        &= \lim_{\epsilon, h \to 0}\frac{1}{\pi\epsilon ^ 2h}\left[\pi\epsilon ^ 2f(\mbf{x}_1) - \pi\epsilon ^ 2f(\mbf{x}_0)\right]
+    \end{align*}
+    for some $\mbf{x}_1 \in S$ and $\mbf{x}_0 \in S_0$ by the previous lemma.
+    Taking the $\epsilon$ limit,
+    these points tend to the centre of their faces by the squeezing theorem,
+    so
+    \[
+    \mbf{e}_1 \cdot \mbf{\nabla}f = \lim_{h \to 0}\frac{f(\mbf{x} + h\mbf{e}_1) - f(\mbf{x})}{h} = \pd[f]{\mbf{x}}.
+    \]
+    The other components are obtained analogously.
+\end{proof}
+
+\begin{proposition}
+    In curvilinear coordinates $(u, v, w)$,
+    the gradient has the expression
+    \[
+    \mbf{\nabla}f = \frac{1}{h_u}\pd[f]{u}\mbf{e}_u + \frac{1}{h_v}\pd[f]{v}\mbf{e}_v + \frac{1}{h_w}\pd[f]{w}\mbf{e}_w.
+    \]
+
+    \begin{proof}
+        This is an easy consequence of the previous proposition.
+        Note
+        \[
+        \mbf{e}_u \cdot \mbf{\nabla}f = \left(\frac{1}{h_u}\pd[\mbf{x}]{u}\right)\cdot\mbf{\nabla}f = \frac{1}{h_u}\left(\pd[x]{u}\pd[f]{x} + \pd[y]{u}\pd[f]{y} + \pd[z]{u}\pd[f]{z}\right) = \frac{1}{h_u}\pd[f]{u},
+        \]
+        where the last step used the chain rule.
+        The $\mbf{e}_v$ and $\mbf{e}_w$ components are analogous.
+    \end{proof}
+\end{proposition}
 
 
 \end{document}
