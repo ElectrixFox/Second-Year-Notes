@@ -643,6 +643,152 @@ the mean-square error measures the average squared distance from the parameter v
 When $\E(\hat{\Theta}) = \theta$ our estimator is unbiased,
 then these two measures of error are just a function of each other.
 
+\subsection{Estimating means and variances}
+
+\begin{theorem}[Unbiasedness of the sample mean vector]
+    Suppose $\mbf{X}_i \sim [\mbf{\mu}, \mbf{\Sigma}]$ are $n$ independent realisation of a multivariate random $p$-vector,
+    with $\mbf{\mu}$ and $\mbf{\Sigma}$ finite,
+    then the sample mean vector $\bar{\mbf{X}}$ is unbiased for $\mbf{\mu}$:
+    \[
+    \E(\bar{\mbf{X}}) = \mbf{\mu}.
+    \]
+
+    \begin{proof}
+        \[
+        \E(\bar{X}) = \E\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right) = \frac{1}{n}\sum_{i = 1}^{n}\E(X_i) = \frac{1}{n}\sum_{i = 1}^{n}\mu = \mu.
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}[Variance of the sample mean]
+    For $\mbf{X}_i$ as above
+    \[
+    \Var(\bar{\mbf{X}}) = \frac{1}{n}\mbf{\Sigma}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \Var(\bar{X}) &= \Var\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right) \\
+            &= \frac{1}{n ^ 2}\sum_{i = 1}^{n}\Var(X_i) &(\text{independence}) \\
+            &= \frac{1}{n ^ 2}n\mbf{\Sigma} = \frac{1}{n}\mbf{\Sigma}.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}[Unbiasedness of the sample variance matrix]
+    For $\mbf{X}_i$ as above
+    \[
+    \E(\mbf{S}_X) = \mbf{\Sigma}
+    \]
+
+    \begin{proof}
+        We need to show that
+        \[
+        \E(\mbf{S}_X) = \E\left(\frac{1}{n - 1}\sum_{i = 1}^{n}(\mbf{X}_i - \bar{\mbf{X}})(\mbf{X}_i - \bar{\mbf{X}}) ^ T\right)
+        \]
+        is equal to the variance matrix $\mbf{\Sigma}$.
+
+        \begin{align*}
+            (\mbf{X}_i - \bar{\mbf{X}})(\mbf{X}_i - \bar{\mbf{X}}) ^ T &= (\mbf{X}_i - \mbf{\mu} + \mbf{\mu} - \bar{\mbf{X}})(\mbf{X}_i - \mbf{\mu} + \mbf{\mu} - \bar{\mbf{X}}) ^ T \\
+            &= ((\mbf{X}_i - \mbf{\mu}) - (\bar{\mbf{X}} - \mbf{\mu}))((\mbf{X}_i - \mbf{\mu}) - (\bar{\mbf{X}} - \mbf{\mu})) ^ T \\
+            &= (\mbf{X}_i - \mbf{\mu})(\mbf{X}_i - \mbf{\mu}) ^ T + (\bar{\mbf{X}} - \mbf{\mu})(\bar{\mbf{X}} - \mbf{\mu}) ^ T \\
+            &\phantom{==} -(\mbf{X}_i - \mbf{\mu})(\bar{\mbf{X}} - \mbf{\mu}) ^ T - (\bar{\mbf{X}} - \mbf{\mu})(\mbf{X}_i - \mbf{\mu}) ^ T
+            \intertext{Now,
+            if we take expectations we can see some terms on the right}
+            \E\left((\mbf{X}_i - \bar{\mbf{X}})(\mbf{X}_i - \bar{\mbf{X}}) ^ T\right) &= \E\left((\mbf{X}_i - \mbf{\mu})(\mbf{X}_i - \mbf{\mu}) ^ T\right) + \E\left((\bar{\mbf{X}} - \mbf{\mu})(\bar{\mbf{X}} - \mbf{\mu}) ^ T\right) \\
+            &\phantom{==} -\E\left((\mbf{X}_i - \mbf{\mu})(\bar{\mbf{X}} - \mbf{\mu}) ^ T\right) - \E\left((\bar{\mbf{X}} - \mbf{\mu})(\mbf{X}_i - \mbf{\mu}) ^ T\right) \\
+            &= \Var(\mbf{X}_i) + \Var(\bar{\mbf{X}}) - \Cov(\mbf{X}_i, \bar{\mbf{X}}) - \Cov(\bar{\mbf{X}}, \mbf{X}_i).
+        \end{align*}
+
+        We already know the variances,
+        and $\Cov(\bar{\mbf{X}}, \mbf{X}_i) = \Cov(\mbf{X}_i, \bar{\mbf{X}}) ^ T$ so
+        \begin{align*}
+            \Cov(\mbf{X}_i, \bar{\mbf{X}}) &= \Cov\left(\mbf{X}_i, \frac{1}{n}\sum_{j = 1}^{n}\mbf{X}_j\right) \\
+            &= \frac{1}{n}\sum_{j = 1}^{n}\Cov(\mbf{X}_i, \mbf{X}_j) \\
+            &= \frac{1}{n}\sum_{j = 1}^{n}\Cov(\mbf{X}_i, \mbf{X}_j) &(\mbf{X}_i \independent \mbf{X}_j \text{ for all } i \neq q) \\
+            &= \frac{1}{n}\Var(\mbf{X}_i).
+        \end{align*}
+
+        Putting everything back into the expression for the expectation:
+        \begin{align*}
+            \E\left((\mbf{X}_i - \bar{\mbf{X}})(\mbf{X}_i - \bar{\mbf{X}}) ^ T\right) &= \mbf{\Sigma} + \frac{1}{n}\mbf{\Sigma} - \frac{1}{n}\mbf{\Sigma} - \left(\frac{1}{n}\mbf{\Sigma}\right) ^ T \\
+            &= \mbf{\Sigma} - \frac{1}{n}\mbf{\Sigma} &(\mbf{\Sigma}\text{ is symmetric}) \\
+            &= \frac{n - 1}{n}\mbf{\Sigma}.
+        \end{align*}
+        So we can say that
+        \begin{align*}
+            \E(\mbf{S}_X) &= \frac{1}{n - 1}\sum_{i = 1}^{n}\E\left((\mbf{X}_i - \bar{\mbf{X}})(\mbf{X}_i - \bar{\mbf{X}}) ^ T\right) \\
+            &= \frac{1}{n - 1} \times n \times \frac{n - 1}{n}\mbf{\Sigma} \\
+            &= \mbf{\Sigma}.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}[Estimation of means and variances]
+    Suppose $\mbf{X}_i$ are $n$ independent realisations of a multivariate random $p$-vector,
+    with $\E(\mbf{X}_i) = \mbf{\mu}$ and $\Var(\mbf{X}_i) = \mbf{\Sigma}$.
+    Assuming that the elements of $\mbf{\mu}$ and $\mbf{\Sigma}$ are all finite,
+    then
+    
+    \begin{enumerate}[label = (\alph*)]
+        \item The sample mean vector $\bar{\mbf{X}}$ is unbiased for $\mbf{\mu}$:
+        $\E(\bar{\mbf{X}}) = \mbf{\mu}$.
+
+        \item The variance of $\bar{\mbf{X}}$ is given by $\Var(\bar{\mbf{X}}) = \frac{1}{n}\mbf{\Sigma}$.
+
+        \item The sample variance $\mbf{S}_X$ is unbiased for $\mbf{\Sigma}$:
+        $\E(\mbf{S}_X) = \mbf{\Sigma}$.
+
+        \item $\frac{1}{n}\mbf{S}_X$ is therefore an unbiased estimator of $\Var(\bar{X})$.
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Sampling distributions and confidence intervals}
+
+\begin{definition}[Sampling distribution]
+    The probability distribution for a statistic $S(\mbf{X})$ over all possible samples $\mbf{X}$ is known as its sampling distribution,
+    $f(s)$,
+    and depends on the functional form of $S$,
+    the distribution of $\mbf{X}$,
+    and the method of sampling.
+\end{definition}
+
+\begin{theorem}[Sampling distribution for $\bar{X}$]
+    Let $X_1, \dotsc, X_n$ be an iid sample with mean $\mu$ and variance $\sigma ^ 2 > 0$ known.
+    then for $n < 1$:
+
+    \begin{enumerate}[label = \arabic*.]
+        \item If $n$ is large,
+        then by CLT $\bar{X} \sim \mathcal{N}(\mu, \sigma ^ 2 / n)$.
+
+        \item If $X_i$ are iid $\mathcal{N}(\mu, \sigma ^ 2)$,
+        then $\bar{X} \sim \mathcal{N}(\mu, \sigma ^ 2 / n)$.
+    \end{enumerate}
+\end{theorem}
+
+\subsubsection{Confidence intervals}
+
+\begin{definition}[Confidence interval]
+    Let $\mbf{X} = (X_1, \dotsc, X_n) ^ T$ be a random sample from a probability distribution $f_X(x \mid \theta)$ with parameter $\theta$.
+    A $100(1 - \alpha)\%$ confidence interval for $\theta$ is a random interval $\mathcal{C}(\mbf{X}) = (L(\mbf{X}), U(\mbf{X}))$ formed from the random sample via the random variables $L(\mbf{X})$ and $U(\mbf{X})$ such that
+    \begin{align*}
+        \P(L(\mbf{X}) < \theta < U(\mbf{X})) &= 1 - \alpha \\
+        \P(\mathcal{C}(\mbf{X}) \ni \theta) &= 1 - \alpha.
+    \end{align*}
+    The probability $(1 - \alpha)$ is known as the confidence level or confidence coefficient,
+    and is typically cosen to be close to $1$.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
