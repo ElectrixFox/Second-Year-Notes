@@ -17,4 +17,104 @@
 
 \section{Metric Spaces}
 
+\begin{definition}[Metric space]
+    A metric space is a pair $(X, d)$ where $X$ is a set and $d : X \times X \to [0, \infty)$ is a function such that,
+    for all $x, y, z \in X$:
+
+    \begin{enumerate}[label = (\alph*)]
+        \item
+        \[
+        d(x, y) = 0 \iff x = y.
+        \]
+
+        \item
+        (symmetry)
+        \[
+        d(x, y) = d(y, x)\quad\forall x, y \in X.
+        \]
+
+        \item
+        (triangle inequality)
+        \[
+        d(x, y) \leq d(x, z) + d(z, y)\quad\forall x, y, z \in X.
+        \]
+    \end{enumerate}
+\end{definition}
+
+We call $d$ a metric on $X$.
+
+\begin{example}
+    Let $p \in [1, \infty)$,
+    and $n \in \N$.
+    Then $\R ^ n$ has a metric
+    \[
+    d_p(x, y) = (|x_1 - y_1| ^ p + \dotsi + |x_n - y_n| ^ p) ^ {1 / p} = \left(\sum_{i = 1}^{n}|x_i - y_i| ^ p\right) ^ {\frac{1}{p}}.
+    \]
+\end{example}
+
+\begin{example}
+    Let $X$ be any set.
+    Then
+    \[
+    d(x, y) = \begin{cases}
+        0 &\text{if } x = y \\
+        1 &\text{if } x \neq y
+    \end{cases}
+    \]
+    is a metric,
+    called the discrete metric on $X$.
+\end{example}
+
+\begin{example}
+    Let $p \in [1, \infty)$,
+    and $n \in \N$.
+    Then $\R ^ n$ has a metric
+    \[
+    d_p(x, y) = (|x_1 - y_1| ^ p + \dotsi + |x_n - y_n| ^ p) ^ {1 / p} = \left(\sum_{i = 1}^{n}|x_i - y_i| ^ p\right) ^ {\frac{1}{p}}.
+    \]
+    Is a metric space.
+
+    \begin{solution}
+        Symmetry is easily derived from the properties of modulus.
+
+        \begin{align*}
+            d_p(x, y) = 0 &\iff \left(\sum_{i = 1}^{n}|x_i - y_i| ^ p\right) ^ {\frac{1}{p}} = 0 \\
+            &\iff \sum_{i = 1}^{n}|x_i - y_i| ^ p = 0 \\
+            \intertext{Since $0 \leq |x_i - y_i|$ for all $i \leq n$}
+            &\iff \forall i \leq n, |x_i - y_i| = 0 \\
+            &\iff \forall i \leq n, x_i = y_i \\
+            &\iff x = y.
+        \end{align*}
+
+        For the triangle inequality start with the following:
+        set $a_k = |x_k - z_k|$,
+        $b_k = |z_k - y_k|$.
+        Clearly $0 \leq a_k, b_k$.
+        Then
+        \begin{align*}
+            d_p(x, y) &= \left(\sum_{i = 1}^{n}|x_i - y_i| ^ p\right) ^ {\frac{1}{p}} \\
+            &= \left(\sum_{i = 1}^{n}|(x_i - z_i) + (z_i - y_i)| ^ p\right) ^ {\frac{1}{p}} \\
+            &\leq \left(\sum_{i = 1}^{n}(|x_i - z_i| + |z_i - y_i|) ^ p\right) ^ {\frac{1}{p}} \\
+            &= \left(\sum_{i = 1}^{n}(a_i + b_i) ^ p\right) ^ {\frac{1}{p}} \\
+            &\leq \left(\sum_{i = 1}^{n}a_i ^ p\right) ^ {\frac{1}{p}} + \left(\sum_{i = 1}^{n}b_i ^ p\right) ^ {\frac{1}{p}} &\text{(by Minkowski's inequality)} \\
+            &= d_p(x, z) + d_p(z, y).
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\begin{definition}
+    Let $(X, d)$ be a metric space,
+    $r > 0$ and $x \in X$.
+    Then
+    \[
+    B(x; r) = \{y \in X\mid d(x, y) < r\}
+    \]
+    is called the open ball of radius $r$ around $x$,
+    and
+    \[
+    D(x; r) = \{y \in X\mid d(x, y) \leq r\}
+    \]
+    is called the closed ball of radius $r$ around $x$.
+\end{definition}
+
 \end{document}
