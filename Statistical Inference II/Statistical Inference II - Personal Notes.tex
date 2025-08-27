@@ -776,12 +776,114 @@ then these two measures of error are just a function of each other.
         \P(\mathcal{C}(\mbf{X}) \ni \theta) &= 1 - \alpha.
     \end{align*}
     The probability $(1 - \alpha)$ is known as the confidence level or confidence coefficient,
-    and is typically cosen to be close to $1$.
+    and is typically chosen to be close to $1$.
 \end{definition}
 
+The confidence interval should be interpreted as follows:
+the random interval $[L(\mbf{X}), U(\mbf{X})]$ contains
+(or 'covers')
+the parameter $\theta$ with probability $1 - \alpha$.
 
+The quantity $(1 - \alpha)$ is known as the confidence level or coverage probability.
 
+\subsubsection{A distribution for \texorpdfstring{$S ^ 2$}{}}
+Assuming all of our data $X_1, \dotsc, X_n$ are iid and normally distributed $\mathcal{N}(\mu, \sigma ^ 2)$.
+We have the following lemma which helps us to derive a distribution for the sample variance.
 
+\begin{lemma}
+    For an iid sample $X_1, \dotsc, X_n$ from a Normal population,
+    the random variable $\bar{X} = \frac{1}{n}\sum_{i}X_i$ and the vector of random variables $(X_1 - \bar{X}, \dotsc, X_n - \bar{X})$ are independent.
+    Consequently,
+    the random variables $\bar{X}$ and $S ^ 2 = \frac{1}{n - 1}\sum_{i}(X_i - \bar{X}) ^ 2$ are also independent.
+\end{lemma}
+
+Given the previous lemma,
+we have enough information to say something about the random variable $S ^ 2$.
+
+\begin{theorem}[Sampling distribution for $S ^ 2$]
+    Let $X_1, \dotsc, X_n$ be an iid sample from a Normal population $\mathcal{N}(\mu, \sigma ^ 2)$ with $n > 1$ and $\sigma > 0$ then:
+    \[
+    \frac{(n - 1)S ^ 2}{\sigma ^ 2} \sim \chi_{n - 1}^{2}.
+    \]
+
+    \begin{proof}
+        First note the sample values $X_i$ are iid $\mathcal{N}(\mu, \sigma ^ 2)$ for $i = 1, \dotsc, n$,
+        then we have $(X_i - \mu) / \sigma \sim \mathcal{N}(0, 1)$.
+
+        From the definition of a $\chi_{1}^{2}$ distribution we also have that
+        \[
+        U_i = \left[\frac{X_i - \mu}{\sigma}\right] ^ 2 \sim \chi_{1}^{2}.
+        \]
+        Since all the $X_i$ are independent of each other,
+        then the $U_i$ are also independent of each other.
+        Thus
+        \[
+        \sum_{i = 1}^{n}\left(\frac{X_i - \mu}{\sigma}\right) ^ 2 = \sum_{i = 1}^{n}U_i \sim \chi_{n}^{2}
+        \]
+        from the definition of the $\chi_{n}^{2}$ distribution.
+
+        Now we will re-write this sum in terms of $S ^ 2$,
+        which will allow us to deduce a distribution:
+        \begin{align*}
+            \sum_{i = 1}^{n}\left(\frac{X_i - \mu}{\sigma}\right) ^ 2 &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(X_i - \mu) ^ 2 \\
+            &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}[(X_i - \bar{X}) + (\bar{X} - \mu)] ^ 2 \\
+            &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2 + n\left(\frac{\bar{X} - \mu}{\sigma}\right) ^ 2 + \frac{1}{\sigma}\left(\frac{\bar{X} - \mu}{\sigma}\right)\underbrace{\sum_{i = 1}^{n}(X_i - \bar{X})}_{= 0} \\
+            &= \frac{n - 1}{\sigma ^ 2}\left[\frac{1}{n - 1}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2\right] + \left(\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}\right) ^ 2 \\
+            &= \frac{n - 1}{\sigma ^ 2}S ^ 2 + \left(\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}\right) ^ 2.
+        \end{align*}
+
+        We have established in the first equation that the variable on the left must have a $\chi_{n}^{2}$ distribution,
+        but we have decomposed it into two pieces.
+        From the above corollary the two terms are independent,
+        as only one involves $\bar{X}$ and the other only involves $S ^ 2$.
+        We know that the second term in the sum is a $\chi_{1}^{2}$ random variable as it is the square of a standard Normal random variable.
+        Therefore,
+        for this sum to have a $\chi_{n}^{2}$ distribution then the first term of the sum must be $\chi_{n - 1}^{2}$ by the definition of a chi-square.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}[Pivotal statistic]
+    A pivotal statistic,
+    pivot,
+    or pivotal quantity is a function of the data and parameters $G = G(\mbf{X}, \mbf{\theta})$ such that the distribution of $G$ does not depend on the parameters $\mbf{\theta}$.
+\end{definition}
+
+Pivotal statistics provide us with an easy mechanism to produce confidence intervals.
+given a pivotal statistic $G(\mbf{X}, \mbf{\theta})$,
+with sampling density function $f_{G}(g)$ we can simply write down the following probability statement
+\[
+\P(a \leq G(\mbf{X}, \mbf{\theta}) \leq b) = 1 - \alpha,
+\]
+use $f_{G}(g)$ to find the constants $a, b$ for a given level of confidence,
+and then rearrange the inequalities inside the probability statement so that $\theta$ is sandwiched between an upper and lower limit.
+
+\begin{proposition}[Confidence interval for $\sigma ^ 2$]
+    For $X_1, \dotsc, X_n$ iid $\mathcal{N}(\mu, \sigma ^ 2)$,
+    a $100(1 - \alpha)\%$ confidence interval for the population variance,
+    $\sigma ^ 2$,
+    is given by
+    \[
+    \left[\frac{(n - 1)S ^ 2}{\chi_{\alpha / 2, n - 1}^{*}}, \frac{(n - 1)S ^ 2}{\chi_{1 - \alpha / 2, n - 1}^{*}}\right] = (n - 1)S ^ 2\left[\frac{1}{\chi_{\alpha / 2, n - 1}^{*}}, \frac{1}{\chi_{1 - \alpha / 2, n - 1}^{*}}\right],
+    \]
+    where $\chi_{a, n - 1}^{*}$ corresponds to the point with probability $a$ lying above it for a $\chi ^ 2$ distribution with $(n - 1)$ degrees of freedom,
+    i.e.
+    $\P(X_{n - 1}^{2} > \chi_{a, n - 1}^{*}) = a$.
+
+    \begin{proof}
+        Using the sampling distribution for $S ^ 2$ we get
+        \[
+        \frac{(n - 1)S ^ 2}{\sigma ^ 2} \sim \chi_{n - 1}^{2},
+        \]
+        we can then write
+        \begin{align*}
+            1 - \alpha &= \P\left(\chi_{1 - \alpha / 2}^{*}(n - 1) < \frac{(n - 1)}{\sigma ^ 2}S ^ 2 < \chi_{\alpha / 2}^{*}(n - 1)\right) \\
+            &= \P\left(\frac{1}{\chi_{\alpha / 2}^{*}(n - 1)} < \frac{\sigma ^ 2}{(n - 1)S ^ 2} < \frac{1}{\chi_{1 - \alpha / 2}^{*}(n - 1)}\right) \\
+            &= \P\left(\frac{(n - 1)S ^ 2}{\chi_{\alpha / 2}^{*}(n - 1)} < \sigma ^ 2 < \frac{(n -  1)S ^ 2}{\chi_{1 - \alpha / 2}^{*}(n - 1)}\right).
+        \end{align*}
+
+        Note the positions of the critical values of the $\chi_{n - 1}^{2}$ in the confidence limits are reversed from what we might expect due to taking the reciprocal at the second step.
+    \end{proof}
+\end{proposition}
 
 
 
