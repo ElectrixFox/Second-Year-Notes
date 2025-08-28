@@ -886,7 +886,94 @@ and then rearrange the inequalities inside the probability statement so that $\t
     \end{proof}
 \end{proposition}
 
+\subsubsection{A distribution for \texorpdfstring{$\bar{X}$}{} when \texorpdfstring{$\sigma ^ 2$}{} is unknown}
 
+\begin{definition}[(Student's)
+    $t$ distribution]
+    If $Z \sim \mathcal{N}(0, 1)$ and $U \sim \chi_{k}^{2}$,
+    and $Z$ is independent of $U$,
+    then the variable
+    \[
+    T = \frac{Z}{\sqrt{U / k}}
+    \]
+    has a
+    (Student's)
+    $t$ distribution with $k$ degrees of freedom,
+    $T \sim t_k$,
+    with pdf
+    \[
+    f(t\mid k) = \frac{\Gamma\left(\frac{k + 1}{2}\right)}{\sqrt{k\pi}\Gamma\left(\frac{k}{2}\right)}\left(1 + \frac{x ^ 2}{k}\right) ^ {-\frac{k + 1}{2}}.
+    \]
+\end{definition}
+
+\begin{proposition}[The $t$-statistic]
+    For $X_1, \dotsc, X_n$ iid $\mathcal{N}(\mu, \sigma ^ 2)$,
+    the random variable $T$ defined as
+    \[
+    T = \frac{\bar{X} - \mu}{S / \sqrt{n}}
+    \]
+    has a $t$ distribution with $(n - 1)$ degrees of freedom,
+    $T \sim t_{n - 1}$.
+
+    \begin{proof}
+        We can rearrange the expression for $T$ to give us the right form for a $t$ distribution as follows:
+        \begin{align*}
+            \left(\frac{\bar{X} - \mu}{S / \sqrt{n}}\right) &= \left(\frac{\bar{X} - \mu}{S / \sqrt{n}}\right)\left(\frac{\sigma / \sqrt{n}}{\sigma / \sqrt{n}}\right) \\
+            &= \left(\frac{(\bar{X} - \mu) / (\sigma / \sqrt{n})}{S / \sigma}\right) \\
+            &= \frac{Z}{\sqrt{S ^ 2 / \sigma ^ 2}} = \frac{Z}{\sqrt{\frac{(n - 1)S ^ 2}{(n - 1)\sigma ^ 2}}} \\
+            &= \frac{Z}{\sqrt{U / (n - 1)}} \\
+            &= T
+        \end{align*}
+        where $Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \sim \mathcal{N}(0, 1)$,
+        $U = \frac{(n - 1)S ^ 2}{\sigma ^ 2} \sim \chi_{n - 1}^{2}$.
+        So by the above definition we must have $T \sim t_{n - 1}$.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[Confidence interval for $\mu$ when $\sigma ^ 2$ is unknown]
+    For $X_1, \dotsc, X_n$ iid $\mathcal{N}(\mu, \sigma ^ 2)$,
+    the $100(1 - \alpha)\%$ confidence interval for $\mu$ when $\sigma ^ 2$ is unknown is
+    \[
+    \bar{X} \pm t_{n - 1, \alpha / 2}^{*}\frac{s}{\sqrt{n}}.
+    \]
+\end{proposition}
+
+\subsubsection{The multivariate setting}
+
+\begin{proposition}[Confidence regions for the multivariate Normal mean]
+    For an iid sample $\mbf{X}_1, \dotsc, \mbf{X}_n$ from a multivariate Normal population $\mathcal{N}_p(\mbf{\mu}, \mbf{\Sigma})$ with $n > 1$ and known $\mbf{\Sigma} > 0$:
+    \[
+    \left\{\mbf{\mu}\mid (\bar{\mbf{x}} - \mbf{\mu}) ^ T\left(\frac{1}{n}\mbf{\Sigma}\right) ^ {-1}(\hat{\mbf{x}} - \mbf{\mu}) \leq \chi_{\alpha, p}^{*}\right\}
+    \]
+    is a $100(1 - \alpha)\%$ confidence region for $\mbf{\mu}$.
+
+    \begin{proof}
+        For the multivariate sample mean vector $\bar{\mbf{X}}$,
+        and assuming a known variance,
+        we have from the above results $\bar{\mbf{X}} \sim \mathcal{N}_p(\mbf{\mu}, \frac{1}{n}\mbf{\Sigma})$.
+        We also established that if $\mbf{X} \sim \mathcal{N}_p(\mbf{\mu}, \mbf{V})$ then $\mbf{V} ^ {-\frac{1}{2}}(\mbf{X} - \mbf{\mu}) \sim \mathcal{N}_p(\mbf{0}, \mbf{I}_p)$ and if $\mbf{Z} \sum \mathcal{N}_p(\mbf{0}, \mbf{I}_p)$ then $\mbf{Z} ^ T\mbf{Z} \sum \chi_{p}^{2}$.
+
+        Combining these results we get
+        \begin{align*}
+            \left[\frac{1}{\sqrt{n}}\mbf{\Sigma} ^ {-\frac{1}{2}}\right](\bar{X} - \mbf{\mu}) &\sim \mathcal{N}_p(\mbf{0}, \mbf{I}_p) \\
+            \implies \left[\left(\frac{1}{\sqrt{n}}\mbf{\Sigma}\right) ^ {-\frac{1}{2}}(\bar{X} - \mbf{\mu})\right] ^ T\left[\left(\frac{1}{\sqrt{n}}\mbf{\Sigma}\right) ^ {-\frac{1}{2}}(\bar{X} - \mbf{\mu})\right] &= (\bar{X} - \mbf{\mu}) ^ T\left(\frac{1}{\sqrt{n}}\mbf{\Sigma}\right) ^ {-\frac{1}{2}}\left(\frac{1}{\sqrt{n}}\mbf{\Sigma}\right) ^ {-\frac{1}{2}}(\bar{X} - \mbf{\mu}) \sim \chi_{p}^{2} \\
+            &= (\bar{X} - \mbf{\mu}) ^ T\left[\frac{1}{n}\mbf{\Sigma}\right] ^ {-1}(\bar{X} - \mbf{\mu}) \sim \chi_{p}^{2}.
+        \end{align*}
+        This multivariate statistic is a bit more unwieldy,
+        it is still pivotal as $\chi_{p}^{2}$ doesn't involve any of the parameters.
+        So,
+        for a level of $(1 - \alpha)$ we can find the following region for $\bar{X}$ with the desired probability
+        \[
+        \P\left[\bar{X} \in \left\{\bar{x}\mid (\bar{x} - \mbf{\mu}) ^ T\left[\frac{1}{n}\mbf{\Sigma}\right] ^ {-1}(\bar{x} - \mbf{\mu}) \leq \chi_{\alpha, p}^{*}\right\}\right] = 1 - \alpha.
+        \]
+        Then,
+        by the usual argument,
+        a $100(1 - \alpha)\%$ confidence region for $\mbf{\mu}$ is
+        \[
+        \left\{\mbf{\mu} \mid (\bar{x} - \mbf{\mu}) ^ T\left[\frac{1}{n}\mbf{\Sigma}\right] ^ {-1}(\bar{x} - \mbf{\mu}) \leq \chi_{\alpha, p}^{*}\right\}.
+        \]
+    \end{proof}
+\end{proposition}
 
 
 
