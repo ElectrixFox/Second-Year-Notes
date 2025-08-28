@@ -480,7 +480,7 @@ For this section let $R$ be a commutative ring.
 
 A polynomial in $F[x]$ is called monic if its leading coefficient is $1$.
 
-\begin{theorem}
+\begin{theorem}\label{prep:algII:thm:gcdexistsinfield}
     Let $R$ be either $\Z$ or $F[x]$,
     and let $a, b \in R$.
     Then
@@ -764,5 +764,105 @@ then it is irreducible if and only if it has no roots in $F$.
     \end{proof}
 \end{proposition}
 
+\subsection{Unique factorisation in \texorpdfstring{$F[x]$}{}}
+
+\begin{theorem}
+    Let $F$ be a field and $f(x) \in F[x]$ with $\deg{f} \geq 1$.
+    Then $f(x)$ can be factorised uniquely into a product of irreducible elements,
+    up to order of the factors and multiplication by units.
+
+    \begin{proof}
+        (Existence of factorisation)
+        Working by induction on $\deg{f}$.
+        Base case:
+        If $\deg{f} = 1$ we have seen $f(x)$ is irreducible.
+        Assume we have a factorisation into irreducibles for all $f(x) \in F[x]$ such that $\deg{f} < n$,
+        for some $n \in \N$.
+        Now let $\deg{f} = n$.
+        If $f(x)$ is irreducible,
+        we are done.
+        If not,
+        $f(x) = g(x)h(x)$,
+        for some $g(x), h(x) \in F[x]$ such that $1 \leq \deg{g} < n$,
+        $1 \leq \deg{h} < n$.
+        By our assumption,
+        $g(x)$ and $h(x)$ have factorisation into irreducibles,
+        and putting these together we obtain a factorisation of $f(x)$.
+
+        (Uniqueness)
+        First we prove the following:
+        \textit{If $p(x) \in F[x]$ is irreducible and $p(x)$ divides $a(x)b(x)$ with some $a(x), b(x) \in F[x]$ then either $p(x) \mid a(x)$ or $p(x) \mid b(x)$ in $F[x]$.}
+        Suppose $p(x)$ is irreducible and that $p(x) \mid a(x)b(x)$.
+        If $p(x) \nmid a(x)$,
+        then the monic $\gcd(p(x), a(x)) = 1$,
+        so by \autoref{prep:algII:thm:gcdexistsinfield},
+        there exist $A(x), B(x) \in F[x]$ such that
+        \[
+        A(x)p(x) + B(x)a(x) = 1.
+        \]
+        Hence $A(x)p(x)b(x) + B(x)a(x)b(x) = b(x)$.
+        But $p(x) \mid B(x)a(x)b(x)$ by assumption,
+        and clearly $p(x) \mid A(x)p(x)b(x)$,
+        so $p(x) \mid b(x)$,
+        as required.
+
+        Finishing the proof of the theorem:
+
+        Suppose that
+        \[
+        f(x) = p_1p_2 \dotsi p_m = q_1q_2 \dotsi q_n,
+        \]
+        which implies that
+        \[
+        p_2\dotsi p_m = u_1q_1 \dotsi q_{i - 1}q_{i + 1}\dotsi q_n.
+        \]
+        Repeating the argument until all the factors have been cancelled,
+        we obtain that $m = n$,
+        and each $q_i = p_ju_j$,
+        for some $p_j$ and some unit $u_j$.
+        Thus the two factorisations are the same up to re-ordering and multiplication by units.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    Let $R$ be a commutative ring.
+    An element $x \in R$ is called prime if the following conditions hold:
+    \begin{enumerate}[label = \roman*)]
+        \item $x$ is non-zero and not a unit.
+
+        \item If $x \mid ab$,
+        for $a, b \in R$,
+        then $x \mid a$ or $x \mid b$.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $R$ be an integral domain and $x$ a prime element.
+    Then $x$ is irreducible.
+
+    \begin{proof}
+        $x$ by definition is not zero and not a unit.
+        Assume we have a factorisation $x = ab$,
+        $a, b \in R$.
+        We need to show $a$ or $b$ is a unit.
+        By the definition of $x$ being prime we have that $x \mid a$ or $x \mid b$.
+        Without loss of generality assume $x \mid a$.
+        That is,
+        $\exists r \in R, a = rx$.
+        Then $x = ab$ gives $x = rxb$ or equivalently $x(1 - rb) = 1$.
+        Since $R$ is an integral domain $x \neq 0$ we get $rb = 1$.
+        That is,
+        $b$ is a unit.
+    \end{proof}
+\end{lemma}
+
+\subsection{Unique Factorisation Domains
+(UFDs)}
+
+\begin{definition}[Unique Factorisation Domain]
+    An integral domain $R$ is called a unique factorisation domain
+    (UFD)
+    if every non-zero non-unit element of $R$ can be written as the product of irreducible elements and this product is unique up to order of the factors and multiplication by units.
+\end{definition}
 
 \end{document}
