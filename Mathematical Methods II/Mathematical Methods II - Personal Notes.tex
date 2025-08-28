@@ -1,6 +1,8 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage{preamble}
 
+\newcommand{\bnabla}[0]{\mbf{\nabla}}
+
 \title{Mathematical Methods II \\
     \large Preparation Reading Notes}
 \author{Luke Phillips}
@@ -485,6 +487,216 @@ The factor $\left|\pd[\mbf{x}]{u}\cdot\left(\pd[\mbf{x}]{v}\pd[\mbf{x}]{w}\right
         \]
         where the last step used the chain rule.
         The $\mbf{e}_v$ and $\mbf{e}_w$ components are analogous.
+    \end{proof}
+\end{proposition}
+
+\subsection{Differentiating vector fields}
+
+There are two standard ways to differentiate a vector field $\mbf{f} : \R ^ 3 \to \R ^ 3$,
+defined in a similar way to the gradient.
+$S$ is a closed surface enclosing $\mbf{x}$ with outward normal $\hat{\mbf{n}}$,
+enclosed volume $|V|$,
+and diameter $d(S)$.
+
+\begin{definition}[Divergence]
+    The divergence of $\mbf{f}$ is the scalar field
+    \[
+    \mbf{\nabla}\cdot\mbf{f}\Bigr\rvert_{\mbf{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hat{\mbf{n}}\cdot\mbf{f}\,dS.
+    \]
+\end{definition}
+
+\begin{definition}[Curl]
+    The curl of $\mbf{f}$ is the vector field
+    \[
+    \mbf{\nabla}\times\mbf{f}\Bigr\rvert_{\mbf{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hat{\mbf{n}}\times\mbf{f}\,dS.
+    \]
+\end{definition}
+
+If the divergence of the vector field is $\mbf{\nabla} \cdot \mbf{f} > 0$ then it points outward,
+if it is less than $0$ then it points inward.
+
+The curl measures how much on average the vector field is rotating around any given axis.
+
+\begin{lemma}
+    If $\mbf{a} \in \R ^ 3$ is a constant vector and $f : \R ^ 3 \to \R$ is a $C ^ 1$ scalar field,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \mbf{\nabla} \cdot (f\mbf{a}) = (\mbf{\nabla} f) \cdot\mbf{a},
+        \]
+
+        \item
+        \[
+        \mbf{\nabla} \times (f\mbf{a}) = (\mbf{\nabla} f) \times\mbf{a}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        These formulae follow from the integral definitions
+        \[
+        \mbf{\nabla} \cdot (f\mbf{a}) = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hat{\mbf{n}}\cdot(f\mbf{a})\,dS = \left(\lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hat{\mbf{n}}\,dS\right) \cdot \mbf{a} = (\mbf{\nabla} f) \cdot\mbf{a},
+        \]
+        and
+        \[
+        \mbf{\nabla} \times (f\mbf{a}) = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hat{\mbf{n}}\times(f\mbf{a})\,dS = \left(\lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hat{\mbf{n}}\,dS\right) \times \mbf{a} = (\mbf{\nabla} f) \times\mbf{a}.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    In Cartesian coordinates,
+    divergence and curl are given by
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \mbf{\nabla} \cdot \mbf{f} = \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}.
+        \]
+
+        \item
+        \[
+        \mbf{\nabla} \times \mbf{f} = \begin{vmatrix}
+            \mbf{e}_1 & \mbf{e}_2 & \mbf{e}_3 \\
+            \pd{x} & \pd{y} & \pd{z} \\
+            f_1 & f_2 & f_3
+        \end{vmatrix}
+        = \left(\pd[f_3]{y} - \pd[f_2]{z}\right)\mbf{e}_1 + \left(\pd[f_1]{z} - \pd[f_1]{x}\right)\mbf{e}_2 + \left(\pd[f_2]{x} - \pd[f_1]{y}\right)\mbf{e}_3.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Using the previous lemma,
+        we have
+        \begin{align*}
+            \mbf{\nabla} \cdot \mbf{f} &= \mbf{\nabla} \cdot (f_1\mbf{e}_1 + f_2\mbf{e}_2 + f_3\mbf{e}_3) \\
+            &= \mbf{\nabla} \cdot (f_1\mbf{e}_1) + \mbf{\nabla} \cdot (f_2\mbf{e}_2) + \mbf{\nabla} \cdot (f_3\mbf{e}_3) \\
+            &= (\mbf{\nabla}f_1) \cdot \mbf{e}_1 + (\mbf{\nabla}f_2) \cdot \mbf{e}_2 + (\mbf{\nabla}f_3) \cdot \mbf{e}_3 \\
+            &= \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}.
+        \end{align*}
+
+        We also have
+        \[
+        \mbf{\nabla} \times (f_1\mbf{e}_1) = (\mbf{\nabla}f_1) \times \mbf{e}_1 = \pd[f_1]{y}\mbf{e}_2 \times \mbf{e}_1 + \pd[f_1]{z}\mbf{e}_3 \times \mbf{e}_1 = -\pd[f_1]{y}\mbf{e}_3 + \pd[f_1]{z}\mbf{e}_2.
+        \]
+        The other terms are obtained similarly.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    If $f : \R ^ 3 \to \R$ is a scalar field,
+    and $\mbf{f} : \R ^ 3 \to \R ^ 3$ is a vector field,
+    both with continuous second derivatives,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\mbf{\nabla} \cdot (\mbf{\nabla} \times \mbf{f}) = 0$,
+        
+        \item $\mbf{\nabla} \times (\mbf{\nabla}f) = \mbf{0}$.
+    \end{enumerate}
+
+    \begin{proof}
+        Note the expressions are independent of any choice of coordinates.
+        So we can prove the identities in Cartesian coordinates,
+        so we can use the previous proposition.
+
+        For
+        (i)
+        \begin{align*}
+            \mbf{\nabla} \cdot (\mbf{\nabla} \times \mbf{f}) &= \pd{x}\left(\pd[f_3]{y} - \pd[f_2]{z}\right) + \pd{y}\left(\pd[f_1]{z} - \pd[f_1]{x}\right) + \pd{z}\left(\pd[f_2]{x} - \pd[f_1]{y}\right) \\
+            &= \frac{\partial ^ 2f_1}{\partial y\partial z} - \frac{\partial ^ 2f_1}{\partial z\partial y} + \frac{\partial ^ 2f_2}{\partial z\partial x} - \frac{\partial ^ 2f_2}{\partial x\partial z} + \frac{\partial ^ 2f_3}{\partial x\partial y} - \frac{\partial ^ 2f_3}{\partial y\partial x} = 0.
+        \end{align*}
+
+        For
+        (ii)
+        \[
+        \mbf{\nabla} \times (\mbf{\nabla}f) = \left(\frac{\partial ^ 2 f}{\partial y \partial z} - \frac{\partial ^ 2 f}{\partial z \partial y}\right)\mbf{e}_1 + \left(\frac{\partial ^ 2 f}{\partial z \partial x} - \frac{\partial ^ 2 f}{\partial x \partial z}\right)\mbf{e}_2 + \left(\frac{\partial ^ 2 f}{\partial x \partial y} - \frac{\partial ^ 2 f}{\partial y \partial x}\right)\mbf{e}_3 = \mbf{0}.
+        \]
+    \end{proof}
+\end{corollary}
+
+
+\subsection{Product rules}
+
+\begin{proposition}[Product rules]
+    If $f, g : \R ^ 3 \to \R$ are scalar fields,
+    and $\mbf{f, g} : \R ^ 3 \to \R ^ 3$ are vector fields,
+    all $C ^ {1}$,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\mbf{\nabla}(fg) \equiv g\mbf{\nabla}f + f\mbf{\nabla}g$,
+
+        \item $\bnabla \cdot (g\mbf{f}) \equiv (\bnabla g) \cdot \mbf{f} + g\bnabla \cdot \mbf{f}$,
+
+        \item $\bnabla \cdot (\mbf{f} \times \mbf{g}) \equiv \mbf{g}(\bnabla \times \mbf{f}) - \mbf{f} \cdot (\bnabla \times \mbf{g})$,
+
+        \item $\bnabla \times (g\mbf{f}) \equiv g(\bnabla \times \mbf{f}) + (\bnabla g) \times \mbf{f}$,
+
+        \item $\bnabla \times (\mbf{f} \times \mbf{g}) \equiv (\mbf{g} \cdot \bnabla)\mbf{f} - (\mbf{f} \cdot \bnabla)\mbf{g} + \mbf{f}(\bnabla \cdot \mbf{g}) - \mbf{g}(\bnabla \cdot \mbf{f})$.
+
+        \item $\bnabla(\mbf{f} \cdot \mbf{g}) \equiv (\mbf{g} \cdot \bnabla) \mbf{f} + (\mbf{f} \cdot \bnabla)\mbf{g} + \mbf{f} \times (\bnabla \times \mbf{g}) + \mbf{g} \times (\bnabla \times \mbf{f})$.
+    \end{enumerate}
+
+    \begin{proof}
+        Most of the proofs are long and pretty easy.
+    \end{proof}
+\end{proposition}
+
+\subsection{Divergence and curl in curvilinear coordinates}
+
+\begin{proposition}
+    In orthogonal curvilinear coordinates $(u, v, w)$,
+    the divergence and curl are given by
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \bnabla \cdot \mbf{f} = \frac{1}{h_uh_vh_w}\left[\pd{u}(h_vh_wf_u) + \pd{v}(h_uh_wf_v) + \pd{w}(h_uh_vf_w)\right].
+        \]
+
+        \item
+        \[
+        \bnabla \times \mbf{f} = \frac{1}{h_uh_vh_w}\begin{vmatrix}
+            h_u\mbf{e}_u & h_v\mbf{e}_v & h_w\mbf{e}_w \\
+            \pd{u} & \pd{v} & \pd{w} \\
+            h_uf_u & h_vf_v & h_wf_w
+        \end{vmatrix}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Note
+        \[
+        \bnabla v = \frac{1}{h_v}\mbf{e}_v\quad\mbf{e}_v = h_v\bnabla v\quad\mbf{e}_w = h_w\bnabla w.
+        \]
+        For
+        (i),
+        note using orthogonality followed by the previous proposition,
+        we get
+        \begin{align*}
+            \bnabla  \cdot (f_u\mbf{e}_u) &= \bnabla \cdot (f_u\mbf{e}_v \times \mbf{e}_w) \\
+            &= \bnabla \cdot (f_uh_vh_w \bnabla v \times \bnabla w) \\
+            &= \bnabla(f_uh_vh_w) \cdot \bnabla v \times \bnabla w f_uh_vh_w\bnabla \cdot (\bnabla v \times \bnabla w) \\
+            &= \bnabla(f_uh_vh_w) \cdot \bnabla v \times \bnabla w f_uh_vh_w\bnabla \cdot (\bnabla \times [v \bnabla w]) \\
+            &= \bnabla(f_uh_vh_w) \cdot \bnabla v \times \bnabla w  \\
+            &= \bnabla(f_uh_vh_w) \cdot \frac{\mbf{e}_v \times \mbf{e}_w}{h_vh_w} \\
+            &= \frac{1}{h_vh_w}\mbf{e}_u \cdot \bnabla(f_uh_vh_w) \\
+            &= \frac{1}{h_uh_vh_w}\pd{u} \cdot \bnabla(h_vh_wf_u),
+        \end{align*}
+        the other components are similar.
+
+        For
+        (ii),
+        we use $\mbf{e}_u = h_u\bnabla u$ and the previous proposition to find
+        \begin{align*}
+            \bnabla\times(f_u\mbf{e}_u) &= \bnabla\times(f_uh_u\bnabla u)\\
+            &= \bnabla(f_u h_u)\times\bnabla u + f_uh_u\bnabla\times\bnabla u\\
+            &= \bnabla(f_u h_u)\times\bnabla u \quad \textrm{[using $\bnabla\times\bnabla f = 0$]}\\
+            &= \frac{1}{h_u}\bnabla(f_uh_u)\times\mbf{e}_u\\
+            &= \frac{1}{h_u}\bnabla(f_uh_u)\times(\mbf{e}_v\times\mbf{e}_w)\\
+            &= \frac{1}{h_u}\mbf{e}_v[\mbf{e}_w\cdot\bnabla(f_uh_u)] - \mbf{e}_w[\mbf{e}_v\cdot\bnabla(f_uh_u)]\\
+            &= \frac{1}{h_uh_w}\pd{w}(h_uf_u)\mbf{e}_v - \frac{1}{h_uh_v}\pd{v}(h_uf_u)\mbf{e}_w.
+        \end{align*}
+        The penultimate step used the vector triple product identity.
+        Again,
+        the other components are similar.
     \end{proof}
 \end{proposition}
 
