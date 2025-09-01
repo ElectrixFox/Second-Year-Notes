@@ -975,6 +975,168 @@ and then rearrange the inequalities inside the probability statement so that $\t
     \end{proof}
 \end{proposition}
 
+\newpage
+
+\section{Likelihood Inference}
+
+\subsection{Maximum likelihood estimation}
+
+\begin{definition}[Likelihood]
+    Suppose a random vector $\mbf{X} = (X_1, \dotsc, X_n) ^ T$ has a joint density $f(\mbf{x}; \theta)$.
+    Given a statistical model parameterised by a fixed and unknown scalar $\theta \in \Omega \subseteq \R$,
+    the likelihood function,
+    $\ell(\theta)$,
+    is the probability
+    (density)
+    of the observed data considered as a function of $\theta$
+    \[
+    \ell(\theta) \equiv \ell(\theta; \mbf{x}) = f(\mbf{x}; \theta),
+    \]
+    and the log-likelihood function is its logarithm
+    \[
+    \mathcal{L}(\theta) \equiv \mathcal{L}(\theta; \mbf{x}) = \log{\ell(\theta)} = \log{f(\mbf{x}; \theta)}.
+    \]
+\end{definition}
+
+\begin{definition}[Maximum Likelihood Estimate
+    (MLE)]
+    The maximum likelihood estimate
+    (MLE)
+    $\hat{\theta}_{MLE}$ for $\theta$ given the data $\mbf{x}$ is the value of $\theta$ which maximises the likelihood over the parameter space
+    \[
+    \hat{\theta}_{MLE} = \argmax_{\theta \in \Omega}\ell(\theta) = \argmax_{\theta \in \Omega}\mathcal{L}(\theta),
+    \]
+    where the second equality is due to the monotonicity of the logarithm.
+\end{definition}
+
+
+The MLE obtained from $\ell(\theta)$ is the same as the MLE obtained from $\mathcal{L}(\theta)$,
+since $\log$ is just a monotone transformation.
+
+If $X_1, \dotsc, X_n$ are iid then
+\begin{align*}
+    \ell(\theta) &= f(x_1, \dotsc, x_n; \theta) = \prod_{i = 1}^{n}f(x_i; \theta), \\
+    \mathcal{L}(\theta) &= \log{\prod_{i = 1}^{n}f(x_i; \theta)} = \sum_{i = 1}^{n}\log{f(x_i; \theta)}.
+\end{align*}
+
+If $\ell(\theta) = a \times g(\theta)$,
+then $\hat{\theta}$ maximises $g(\theta)$ also maximises $\ell(\theta)$.
+Multiplicative constants can be ignored when seeking the MLE.
+
+\begin{definition}[Likelihood equation,
+    score function]
+    If $\ell(\theta)$ is differentiable in $\theta$,
+    then we define the score function as the first derivative of the log-likelihood:
+    \[
+    \mathcal{S}(\theta) = \pd{\theta}\mathcal{L}(\theta).
+    \]
+    Then the MLE $\hat{\theta}$ is the solution to the likelihood equation,
+    which equates the score function with zero:
+    \[
+    \mathcal{S}(\theta) = \pd{\theta}\mathcal{L}(\theta) = 0.
+    \]
+    To verify that a root of $\mathcal{S}(\theta)$ is a maximum,
+    we must confirm that $\frac{\partial ^ 2}{\partial \theta ^ 2}\mathcal{L}(\theta) < 0$.
+\end{definition}
+
+\begin{definition}[Multiparameter likelihood estimation]
+    For $\mbf{\theta} = (\theta_1, \dotsc, \theta_p) ^ T$,
+    the likelihood $\ell(\mbf{\theta})$ is a function of $p$ parameters,
+    and the score function is now a gradient vector
+    \[
+    \mathcal{S}(\mbf{\theta}) = \pd{\mbf{\theta}}\mathcal{L}(\mbf{\theta}) = \nabla\mathcal{L}(\mbf{\theta}) = \begin{bmatrix}
+        \pd[\mathcal{L}]{\theta_1} \\
+        \vdots \\
+        \pd[\mathcal{L}]{\theta_p}
+    \end{bmatrix},
+    \]
+    and the MLE $\hat{\theta}$
+    (if it exists)
+    simultaneously satisfies all $p$ likelihood equations:
+    \[
+    \mathcal{S}_{\theta_1}(\mbf{\theta}) = \pd{\theta_1}\mathcal{L}(\mbf{\theta}) = \mbf{0},\quad\dotsc, \mathcal{S}_{\theta_p}(\mbf{\theta}) = \pd{\theta_p}\mathcal{L}(\mbf{\theta}) = \mbf{0}
+    \]
+    or equivalently
+    \[
+    \mathcal{S}(\mbf{\theta}) = \pd{\mbf{\theta}}\mathcal{L}(\mbf{\theta}) = \nabla\mathcal{L}(\mbf{\theta)} = \mbf{0}.
+    \]
+    To verify $\hat{\mbf{\theta}}$ is a maximum,
+    we need to find the Hessian matrix $\mbf{H}$ of second-order partial derivatives
+    \[
+    \mbf{H} = \begin{bmatrix}
+        \frac{\partial ^ 2\mathcal{L}}{\partial\theta_1 ^ 2} & \frac{\partial ^ 2\mathcal{L}}{\partial\theta_1\partial\theta_2} & \dotsi & \frac{\partial ^ 2\mathcal{L}}{\partial\theta_1\partial\theta_p} \\
+        \frac{\partial ^ 2\mathcal{L}}{\partial\theta_2\partial\theta_1} & \frac{\partial ^ 2\mathcal{L}}{\partial\theta_2 ^ 2} & \dotsi & \frac{\partial ^ 2\mathcal{L}}{\partial\theta_2\partial\theta_p} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial ^ 2\mathcal{L}}{\partial\theta_p\partial\theta_1} & \frac{\partial ^ 2\mathcal{L}}{\partial\theta_p\theta_2} & \dotsi & \frac{\partial ^ 2\mathcal{L}}{\partial\theta_p ^ 2} \\
+    \end{bmatrix} = \left[\frac{\partial ^ 2\mathcal{L}}{\partial\theta_i\partial\theta_j}\right]_{ij}
+    \]
+    and determine whether it is negative definite
+    (i.e. $\mbf{x} ^ T\mbf{H}\mbf{x} < 0\,\forall \mbf{x}$)
+    to verify we have located a minimum.
+\end{definition}
+
+\subsection{Information}
+
+\begin{definition}[Observed
+    (Fisher)
+    information]
+    For a random sample $\mbf{X}$ iid $f(\mbf{x}; \theta)$ with log-likelihood
+    \[
+    \mathcal{L}(\theta; \mbf{X}) = \sum_{i = 1}^{n}\log{f(X_i\mid \theta)}.
+    \]
+    The observed
+    (Fisher)
+    information from a sample $\mbf{X}$ for estimating parameter $\theta$ is the curvature of $\mathcal{L}$ at $\hat{\theta}$
+    \[
+    I(\hat{\theta}) = -\frac{\partial ^ 2}{\partial\theta ^ 2}\log{\ell(\theta)}\Biggr\rvert_{\theta = \hat{\theta}} = -\mathcal{L}''(\hat{\theta})
+    \]
+    for scalar $\theta$.
+
+    For multivariate $\mbf{\theta}$,
+    the observed information is the negative of the $p \times p$ matrix of second derivatives
+    (the Hessian matrix $\mbf{H}$)
+    \[
+    I(\hat{\mbf{\theta}}) = \left[-\frac{\partial ^ 2}{\partial\theta_i\partial\theta_j}\mathcal{L}(\mbf{\theta})\Biggr\rvert_{\mbf{\theta} = \mbf{\hat{\theta}}}\right] = -\mbf{H}(\hat{\mbf{\theta}}).
+    \]
+\end{definition}
+
+\begin{definition}[Expected
+    (Fisher)
+    information]
+    The expected
+    (Fisher)
+    information from a sample $\mbf{X}$ of size $n$ for estimating parameter $\theta$ is the expectation of the observed information over all possible samples
+    \[
+    \mathcal{I}_n(\theta) = \E_{\mbf{X}}(I(\theta))
+    \]
+    where $\E_{\mbf{X}}(\cdot)$ denotes taking expectation with respect to the sample $\mbf{X}$.
+\end{definition}
+
+\begin{proposition}[Information for IID samples]
+    For an iid sample $\mbf{X}$ of size $n$ from $f(\mbf{x}; \theta)$,
+    \[
+    \mathcal{I}_n(\theta) = n\mathcal{I}_1(\theta).
+    \]
+
+    \begin{proof}
+        If the sample $\mbf{X} = (x_1, \dotsc, x_n)$ is iid from some distribution $f(x_i; \theta)$,
+        then we can make simplification to the likelihood function:
+        \begin{align*}
+            \mathcal{L}(\theta) &= \sum_{i = 1}^{n}\log{f(x_i; \theta)} \\
+            \mathcal{L}''(\theta) &= \sum_{i = 1}^{n}\frac{\partial ^ 2}{\partial\theta ^ 2}\log{f(x_i; \theta)}
+            \intertext{and so}
+            \mathcal{I}_n(\theta) &= -\E\left(\sum_{i = 1}^{n}\frac{\partial ^ 2}{\partial\theta ^ 2}\log{f(x_i; \theta)}\right) \\
+            &= \sum_{i = 1}^{n}-\E\left(\frac{\partial ^ 2}{\partial\theta ^ 2}\log{f(x_i; \theta)}\right) \\
+            &= \sum_{i = 1}^{n}\mathcal{I}_1(\theta) \\
+            &= n\mathcal{I}_1(\theta).
+        \end{align*}
+        So,
+        for iid samples we can express the information for a sample of $n$ in terms of the information contained in a single data point,
+        we can see each additional data point increases our information in a linear manner.
+    \end{proof}
+\end{proposition}
+
+
 
 
 
