@@ -700,5 +700,83 @@ The curl measures how much on average the vector field is rotating around any gi
     \end{proof}
 \end{proposition}
 
+\newpage
+
+\section{Integral theorems}
+
+\begin{theorem}[Fundamental Theorem of Calculus]
+    If $f'(x)$ is continuous on $[a, b]$ then
+    \[
+    \int_{a}^{b}f'(t)\,dt = f(b) - f(a).
+    \]
+\end{theorem}
+
+\begin{theorem}[Fundamental Theorem of Line Integrals]
+    If $f : \R ^ n \to \R$ is a $C ^ {1}$ scalar field and $C$ is an oriented curve with parameterisation $x(t)$ for $t \in [t_0, t_1]$,
+    then
+    \[
+    \int_{C}\bnabla\mbf{f} \cdot \hat{\mbf{t}}\,d\ell = f(\mbf{x}(t_1)) - f(\mbf{x}(t_0)).
+    \]
+
+    \begin{proof}
+        Evaluating the line integral gives
+        \begin{align*}
+            \int_{C}\bnabla\mbf{f} \cdot \hat{\mbf{t}}\,d\ell &= \int_{t_0}^{t_1}\bnabla f\cdot\frac{d\mbf{x}}{dt}\,dt \\
+            &= \int_{t_0}^{t_1}\left(\pd[f]{x}\mbf{e}_1 + \pd[f]{y}\mbf{e}_2 + \pd[f]{z}\mbf{e}_3\right) \cdot \left(\frac{dx}{dt}\mbf{e}_1 + \frac{dy}{dt}\mbf{e}_2 + \frac{dz}{dt}\mbf{e}_3\right)\,dt \\
+            &= \int_{t_0}^{t_1}\left(\pd{f}[x]\frac{dx}{dt} + \pd[f]{y}\frac{dy}{dt} + \pd[f]{z}\frac{dz}{dt}\right)\,dt \\
+            &= \int_{t_0}^{t_1}\frac{df}{dt}\,dt&(\text{By the Chain rule}) \\
+            &= f(\mbf{x}(t_1)) - f(\mbf{x}(t_0))
+        \end{align*}
+        where the last line uses FTOC.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}[(scalar)
+    potential]
+    A vector field $\mbf{f} : \R ^ n \to \R ^ n$ is conservative if it can be written as $\mbf{f} = \bnabla g$ for some $C ^ {1}$ scalar field $g : \R ^ n \to \R$ called a
+    (scalar)
+    potential.
+\end{definition}
+
+\begin{proposition}[Path independence]
+    A vector field is conservative if and only if it has path independent line integrals between every pair of points.
+
+    \begin{proof}
+        Firstly.
+        assume $\mbf{f}$ is conservative,
+        so $\mbf{f} = \bnabla g$.
+        Let $C_1, C_2$ be two curves sharing both endpoints $\mbf{x}_a, \mbf{x}_b$.
+
+        Then by FTOC for line integrals
+        \[
+        \int_{C_1}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell = g(\mbf{x}_b) - g(\mbf{x}_a) = \int_{C_2}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell.
+        \]
+        So the integral depends only on the endpoints,
+        not the path.
+        
+        Conversely suppose that $\mbf{f}$ has path independent line integrals.
+        Claim that a suitable scalar field is
+        \[
+        g(\mbf{x}) = \int_{C(\mbf{x})}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell,
+        \]
+        where $C(\mbf{x})$ is
+        (any)
+        curve connecting $\mbf{0}$ to $\mbf{x}$.
+        To see that $\bnabla g = \mbf{f}$,
+        consider one component:
+        \[
+        \pd[g]{x} = \lim_{\delta \to 0}\frac{1}{\delta}\left[\int_{C(\mbf{x} + \delta \mbf{e}_1)}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell - \int_{C(\mbf{x})}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell\right].
+        \]
+        By path independence,
+        this is the same as integrating along the straight-line segment $C_1$.
+        So
+        \begin{align*}
+            \pd[g]{x} &= \lim_{\delta \to 0}\frac{1}{\delta}\int_{0}^{\delta}f_1(\mbf{x} + t\mbf{e}_1)\,dt \\
+            &= \lim_{\delta \to 0}\delta f_1(\mbf{x} + t_{*}\mbf{e}_1)\text{ for some $t_{*} \in [0, \delta]$ by mean value theorem} \\
+            &= f_1(x).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
 
 \end{document}
