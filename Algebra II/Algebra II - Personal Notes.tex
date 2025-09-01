@@ -865,7 +865,112 @@ then it is irreducible if and only if it has no roots in $F$.
     if every non-zero non-unit element of $R$ can be written as the product of irreducible elements and this product is unique up to order of the factors and multiplication by units.
 \end{definition}
 
+\newpage
 
+\section{Homomorphisms}
+
+\subsection{Definitions and properties}
+
+\begin{definition}
+    If $R$ and $S$ are rings,
+    a function $f : R \to S$ is called a homomorphism if for all $a, b \in R$ we have:
+    \begin{enumerate}[label = \roman*)]
+        \item $f(1) = 1$.
+
+        \item $f(a + b) = f(a) + f(b)$.
+
+        \item $f(ab) = f(a)f(b)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $f : R \to S$ be a homomorphism of rings.
+    Then
+    \begin{enumerate}
+        \item $f(0) = 0$.
+
+        \item $\forall a \in R, f(-a) = -f(a)$.
+    \end{enumerate}
+
+    \begin{proof}
+        We have
+        \[
+        f(0 + 0) = f(0) + f(0) \iff f(0) = f(0) + f(0) \iff f(0) = 0.
+        \]
+
+        Then
+        \begin{align*}
+            0 &= f(0) \\
+            &= f(0 - a + a) \\
+            &= f(a + (0 - a)) \\
+            &= f(a) + f(0 - a) \\
+            &= f(a) + f(-a) \iff f(-a) = -f(a).
+        \end{align*}
+    \end{proof}
+\end{lemma}
+
+\subsection{Examples of ring homomorphisms}
+
+Homomorphisms have kernels and images
+\[
+\Ker{f} \coloneqq \{a \in R\mid f(a) = 0\}\subseteq R,
+\]
+and the image is
+\[
+\Im{f} \coloneqq \{f(a) \mid a \in R\} \subseteq S.
+\]
+
+\begin{definition}[Isomorphism]
+    We say that two rings $R$ and $S$ are isomorphic if there exists a bijective homomorphism between them.
+    We write $R \cong S$.
+\end{definition}
+
+\begin{lemma}
+    A homomorphism $f : R \to S$ is injective if and only if $\Ker{f} = 0$.
+
+    \begin{proof}
+        Assume $f$ is injective.
+        This means that $f(a) = f(b) \implies a = b$,
+        for all $a, b \in R$,
+        setting $b = 0$ we have
+        \[
+        f(a) = f(0) = 0 \implies a = 0
+        \]
+        and since $a \in R$ we get $\forall a \in R, f(a) = 0$ which is equivalent to $\Ker{f} = 0$.
+
+        If $\Ker{f} = 0$ then,
+        \[
+        f(a) = f(b) \implies f(a) - f(b) = f(a - b) = 0 \implies a - b = 0 \implies a = b,
+        \]
+        so $f$ is injective.
+    \end{proof}
+\end{lemma}
+
+\subsection{Product of rings and projections}
+Given two rings $R, S$ we can construct a new ring,
+called the product of $R$ and $S$.
+Denoted $R \times S$ as a set it is the Cartesian product of $R$ and $S$.
+Its binary operations are defined as follows
+\begin{align*}
+    (r, s) + (r', s') &\coloneqq (r + r', s + s'), \\
+    (r, s)(r', s') &\coloneqq (rr', ss').
+\end{align*}
+The conditions for being a ring follow immediately from $R$ and $S$.
+Two surjective homomorphisms $p_1 : R \times S \to R$ and $p_2 : R \times S \to S$ defined by
+\[
+p_1(r, s) = r,\quad p_2(r, s) = s,\quad\forall (r, s) \in R \times S.
+\]
+$\Ker{p_1} = \{(0, s)\mid s \in S\}$ and $\Ker{p_2} = \{(r, 0)\mid r \in R\}$.
+If we think of $\Ker{p_1}$ as a ring with identity element $(0, 1)$,
+we have $\Ker{p_1} \cong S$ via the map
+\[
+(0, s) \mapsto s.
+\]
+We similarly get $\Ker{p_2} \cong R$.
+We then have
+\[
+\Ker{p_1} \times \Ker{p_2} \cong R \times S.
+\]
 
 
 
