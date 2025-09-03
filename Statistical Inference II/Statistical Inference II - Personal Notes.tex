@@ -1136,8 +1136,100 @@ Multiplicative constants can be ignored when seeking the MLE.
     \end{proof}
 \end{proposition}
 
+\begin{theorem}[Cramer-Rao]
+    Under certain regularity conditions on $f(\mbf{x}; \theta)$,
+    if a statistic $T$ is an unbiased estimator for $\theta$ from a sample of size $n$,
+    then
+    \[
+    \Var(T) \geq \frac{1}{\mathcal{I}_n(\theta)}.
+    \]
+\end{theorem}
 
+\begin{definition}[Efficiency]
+    An unbiased estimator whose variance achieves the Cramer-Rao lower bound is called efficient.
 
+    An estimator which tends to the Cramer-Rao lower bound as $n \to \infty$ is called asmptotically efficient if it is also unbiased.
+\end{definition}
+
+\begin{definition}[Regular likelihood]
+    For a sample $\mbf{X}_1, \dotsc, \mbf{X}_n$ from $f(\mbf{x} \mid \mbf{\theta})$,
+    we have a regular likelihood if
+    \begin{enumerate}
+        \item $f$ is continuous,
+        smooth and at least three times differentiable.
+
+        \item $\theta$ does not define the region where $f(\mbf{x}) > 0$.
+
+        \item $\mathcal{I}_n(\theta) > 0$ and finite.
+    \end{enumerate}
+    In other words,
+    $\mathcal{L}(\theta)$ can be well-approximated by a quadratic function around $\hat{\theta}$.
+\end{definition}
+
+\begin{theorem}[Large-sample distribution of $\hat{\theta}$]
+    Let $\mbf{X} = (x_1, \dotsc, x_n)$ be an iid sample of size $n$ from $f(x \mid \theta)$ with a regular likelihood.
+    Then the MLE $\hat{\theta}$ for $\theta$ is such that for scalar $\theta$
+    \[
+    \hat{\theta} \rightsquigarrow \mathcal{N}\left(\theta, \frac{1}{\mathcal{I}_n(\theta)}\right),
+    \]
+    and for multivariate $\mbf{\theta}$
+    \[
+    \hat{\mbf{\theta}} \rightsquigarrow \mathcal{N}\left(\mbf{\theta}, (\mathcal{I}_n(\mbf{\theta})) ^ {-1}\right),
+    \]
+    as $n \to \infty$.
+
+    \begin{proof}
+        Very very long,
+        so I shall put it in later.
+    \end{proof}
+\end{theorem}
+
+This theorem says that for a very large sample,
+the MLE is:
+
+\begin{enumerate}[label = (\roman*)]
+    \item asymptotically unbiased - as $n \to \infty$,
+    the expectation approaches the true parameter value,
+    $\E(\hat{\theta}) \to \infty$.
+
+    \item asymptotically efficient - as $n \to \infty$,
+    the variance approaches the Cramer-Rao lower bound,
+    $\Var(\hat{\theta}) \to \frac{1}{\mathcal{I}_n(\theta)}$.
+
+    \item asymptotically Normal - the sampling distribution of the MLE approaches a Normal distribution with the above properties.
+\end{enumerate}
+
+\begin{proposition}
+    For an iid sample from a regular likelihood,
+    as $n \to \infty$:
+    \begin{enumerate}[label = (\roman*)]
+        \item $I(\hat{\theta}) \to \mathcal{I}(\theta)$,
+
+        \item and so for $n$ large $I(\hat{\theta}) \approx \mathcal{I}(\hat{\theta}) \approx I(\theta) \approx \mathcal{I}(\theta)$.
+    \end{enumerate}
+
+    \begin{proof}
+        For an iid sample of data $X_1, \dotsc, X_n$
+        \[
+        I(\theta) = \sum_{i = 1}^{n}-\frac{\partial ^ 2}{\partial\theta ^ 2}\mathcal{L}(\theta; X_i).
+        \]
+        This is a sum of $n$ independent random variables,
+        so if we divide both sides by $n$ and apply the law of large numbers
+        \[
+        \frac{1}{n}I(\theta) \to \E\left(-\frac{\partial ^ 2}{\partial\theta ^ 2}\mathcal{L}(\theta; X)\right) = \mathcal{I}_1(\theta).
+        \]
+        As we have an iid sample,
+        we can multiply both sides by $n$ again to get
+        \[
+        I(\theta) \to n\mathcal{I}_1(\theta) = \mathcal{I}_n(\theta).
+        \]
+
+        From the previous theorem we know that $\hat{\theta} \to \theta$,
+        so we can combine this fact with part
+        (i)
+        to establish the approximate equalities.
+    \end{proof}
+\end{proposition}
 
 
 
