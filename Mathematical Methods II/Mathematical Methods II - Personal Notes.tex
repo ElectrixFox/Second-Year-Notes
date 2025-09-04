@@ -738,7 +738,7 @@ The curl measures how much on average the vector field is rotating around any gi
     potential.
 \end{definition}
 
-\begin{proposition}[Path independence]
+\begin{proposition}[Path independence]\label{prep:mathmethII:prop:pathindep}
     A vector field is conservative if and only if it has path independent line integrals between every pair of points.
 
     \begin{proof}
@@ -777,6 +777,175 @@ The curl measures how much on average the vector field is rotating around any gi
         \end{align*}
     \end{proof}
 \end{proposition}
+
+\subsection{Divergence Theorem}
+
+\begin{theorem}[Divergence Theorem]
+    If $\mbf{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field and $S$ is a closed surface with outward normal $\hat{\mbf{n}}$ bounding a region $V$,
+    then
+    \[
+    \oint_{S}\mbf{f}\cdot\hat{\mbf{n}}\,dS = \int_{V}(\bnabla \cdot \mbf{f})\,dV.
+    \]
+
+    \begin{proof}
+        The idea is to subdivide $V$ into a disjoint union of small domains $V_i$ for $i = 1, \dotsc, m$,
+        whose boundaries $S_i$ have normal vectors $\hat{\mbf{n}}_i$.
+
+
+        Then observe that each segment of interior boundary is shared by two neighbouring domains with equal and opposite normals.
+        So these interior surface integrals all cancel and we write
+        
+        \begin{align*}
+            \oint_{S}\mbf{f} \cdot \hat{\mbf{n}}\,dS &= \sum_{i = 1}^{m}\oint_{S_i}\mbf{f} \cdot \hat{\mbf{n}}_i\,dS \\
+            &= \sum_{i = 1}^{m}\left(\frac{1}{|V_i|}\oint_{S_i}\mbf{f}\cdot\hat{\mbf{n}}_i\,dS\right)|V_i| \\
+            &= \lim_{m \to \infty}\sum_{i = 1}^{m}\left(\frac{1}{|V_i|}\oint_{S_i}\mbf{f} \cdot \hat{\mbf{n}}_i\,dS\right)|V_i| \\
+            &= \int_{V}(\bnabla \cdot \mbf{f})\,dV.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\subsection{Stokes' Theorem}
+
+\begin{theorem}[Stokes' Theorem]\label{prep:mathmethII:thm:stokesthm}
+    If $\mbf{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field and $C$ is an oriented closed curve bounding a surface $S$,
+    then
+    \[
+    \oint_{C}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell = \int_{S}(\bnabla \times \mbf{f})\cdot\hat{\mbf{n}}\,dS,
+    \]
+    where $\hat{\mbf{n}}$ is chosen such that $\hat{\mbf{t}} \times \hat{\mbf{n}}$ on $C$ is outward.
+\end{theorem}
+
+\begin{corollary}[Green's Theorem]
+    If $\mbf{f} : \R ^ 2 \to \R ^ 2$ is a $C ^ {1}$ vector field and $C$ is a closed curve in $\R ^ 2$ oriented clockwise bounding a region $A$,
+    then
+    \[
+    \oint_{C}\mbf{f} \cdot \hat{\mbf{t}}\,d\ell = \int_{A}\left(\pd[f_2]{x} - \pd[f_1]{y}\right)\,dxdy.
+    \]
+\end{corollary}
+
+\begin{corollary}[Green's Theorem]
+    If $\mbf{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field with $\bnabla \times \mbf{f} = \mbf{0}$ throughout a simply connected region $V \subset \R ^ 3$,
+    then $\mbf{f}$ is conservative in $V$.
+
+    \begin{proof}
+        From \autoref{prep:mathmethII:prop:pathindep} $\mbf{f} = \bnabla g$ if and only if $\mbf{f}$ has path independent line integrals.
+        So consider two arbitrary curves $C_1, C_2$ between two arbitrary endpoints $\mbf{x}_a, \mbf{x}_b \in V$,
+        and define $C = C_1 - C_2$,
+        being the clockwise curve from $\mbf{x}_a$ to $\mbf{x}_b$ to $\mbf{x}_a$ again,
+        not $\mbf{x}_a$ to $\mbf{x}_b$ along $C_1, C_2$.
+
+        Since $V$ is simply connected,
+        we can always find a surface $S$ with boundary $C$ that lies wholly within $V$.
+        Then $\bnabla \times \mbf{f} = \mbf{0}$ everywhere on that surface so Stokes' Theorem gives
+        \[
+        \oint_{C}\mbf{f} \cdot \hat{\mbf{t}}\,d\ell = 0 \implies \int_{C_1}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell = \int_{C_2}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell.
+        \]
+    \end{proof}
+\end{corollary}
+
+\subsection{Proof of Stokes' Theorem}
+To prove Stokes' theorem we need the following lemma.
+
+\begin{lemma}
+    Let $C$ be a curve in the plane having unit normal $\hat{\mbf{n}}$,
+    with diameter $d(C)$,
+    enclosed area $|A|$,
+    and containing the point $\mbf{x}$.
+    For any $C ^ {1}$ vector field $\mbf{f} : \R ^ 3 \to \R ^ 3$,
+    \[
+    \hat{\mbf{n}} \cdot(\bnabla \times \mbf{f})\Bigr\rvert_{\mbf{x}} = \lim_{d(C) \to 0}\frac{1}{|A|}\oint_{C}\mbf{f} \cdot \hat{\mbf{t}}\,d\ell,
+    \]
+    where $C$ is parameterised such that $\hat{\mbf{t}} = \hat{\mbf{n}} \times \hat{\mbf{n}}_{c}$,
+    with $\hat{\mbf{n}}_c$ being the outward normal to the curve.
+
+    \begin{proof}
+        We defined $\bnabla \times \mbf{f}$ as a surface integral,
+        so extrude $C$ by a
+        (small)
+        distance $h$ in the $\hat{\mbf{n}}$ direction to form a thin
+        "pill"
+        surface $S$ with normal $\hat{\mbf{n}}_{s}$.
+
+        By definition of curl,
+        \[
+        \hat{\mbf{n}} \cdot (\bnabla \times \mbf{f})\Bigr\rvert_{\mbf{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hat{\mbf{n}} \cdot (\hat{\mbf{n}}_{s} \times \mbf{f})\,dS = \lim_{|A|, h \to 0}\frac{1}{|A|h}\int_{\tilde{S}}\hat{\mbf{f}} \cdot (\hat{\mbf{n}} \times \hat{\mbf{n}}_s)\,dS.
+        \]
+        The integrals on the top and bottom surfaces vanish because $\hat{\mbf{n}} \times \hat{\mbf{n}}_s = \mbf{0}$,
+        leaving only the side
+        "ribbon"
+        surface $\tilde{S}$,
+        on which $\hat{\mbf{n}}_{s} \equiv \hat{\mbf{n}}_{c}$.
+
+        We can parameterise $\tilde{S}$ by $\tilde{\mbf{x}}(t, v) = \mbf{x}_{c}(t) + v\hat{\mbf{n}}$ for $v \in [0, h]$ and $t \in [t_0, t_1]$,
+        where $\mbf{x}_{c}(t)$ is a parameterisation of $C$.
+        The corresponding Jacobian is
+        \[
+        \left|\pd[\tilde{\mbf{x}}]{t} \times \pd[\tilde{\mbf{x}}]{v}\right| = \left|\frac{d\mbf{x}_{c}}{dt} \times \hat{\mbf{n}}\right| = \left|\frac{d\mbf{x}_c}{dt}\right|,
+        \]
+        since the tangent vector $\frac{d\mbf{x}_{c}}{dt}$ is perpendicular to $\hat{\mbf{n}}$.
+        Evaluating the surface integral then gives
+        \begin{align*}
+            \int_{S}\hat{\mbf{f}} \cdot(\hat{\mbf{n}} \times \hat{\mbf{n}}_{c})\,dS &= \int_{t_0}^{t_1}(\hat{\mbf{n}} \times \hat{\mbf{n}}_{c}) \times \left(\int_{0}^{h}\mbf{f}\,dv\right)\left|\frac{d\mbf{x}_c}{dt}\right|\,dt \\
+            &= h\int_{t_0}^{t_1}(\hat{\mbf{n}} \times \hat{\mbf{n}}_{c}) \times f(t, v_{*}(t))\left|\frac{d\mbf{x}_c}{dt}\right|\,dt,
+        \end{align*}
+        where we used the mean value theorem for integrals for each $t$,
+        with all of the $v_{*}(t) \in [0, h]$.
+
+        When we take the limit $h \to 0$,
+        we have $v_{*}(t) \to 0$ for all $t$,
+        so our first equation gives
+        \[
+        \hat{\mbf{n}} \cdot (\bnabla \times \mbf{f})\Bigr\rvert_{\mbf{x}} = \lim_{|A| \to 0}\frac{1}{|A|}\int_{t_0}^{t_1}(\hat{\mbf{n}} \times \hat{\mbf{n}}_{c}) \cdot \mbf{f}(t, 0)\left|\frac{d\mbf{x}_c}{dt}\right|\,dt = \lim_{d(C) \to 0}\frac{1}{|A|}\oint_{C}\hat{\mbf{t}}\cdot\mbf{f}\,d\ell,
+        \]
+        where the tangent vector is $\hat{\mbf{t}} = \hat{\mbf{n}} \times \hat{\mbf{n}}_{c}$.
+    \end{proof}
+\end{lemma}
+
+
+\begin{theorem}[continues = prep:mathmethII:thm:stokesthm]
+    \begin{proof}
+        We subdivide $S$ into a disjoint union of small regions $S_i$ for $i = 1, \dotsc, m$,
+        whose boundary curves have unit tangent vector $\hat{\mbf{t}}_i$.
+
+        Then observe that each interior boundary segment is shared by two neighbouring regions with equal and opposite tangents.
+        So these interior line integrals all cancel and we can write
+        \begin{align*}
+            \oint_{C}\mbf{f}\cdot\hat{\mbf{t}}\,d\ell &= \sum_{i = 1}^{m}\oint_{S_i}\mbf{f}\cdot\hat{\mbf{t}_i}\,d\ell \\
+            &= \sum_{i = 1}^{m}\left(\frac{1}{|A_i|}\oint_{S_i}\mbf{f} \cdot \hat{\mbf{t}}_i\,d\ell\right)|A_i| \\
+            &= \lim_{m \to \infty}\sum_{i = 1}^{m}\left(\frac{1}{|A_i|}\oint_{S_i}\mbf{f} \cdot \hat{\mbf{t}}_i\,d\ell\right)|A_i| \\
+            &= \int_{S}(\bnabla \times \mbf{f}) \cdot \hat{\mbf{n}}\,dS,
+        \end{align*}
+        where in the last step we used the previous lemma.
+    \end{proof}
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
