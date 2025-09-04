@@ -1231,6 +1231,120 @@ the MLE is:
     \end{proof}
 \end{proposition}
 
+\subsection{Likelihood-based intervals}
+
+\begin{corollary}[Wald Intervals]
+    For large $n$ and a regular likelihood,
+    an approximate $100(1 - \alpha)\%$ confidence interval for the parameter $\theta$ based on the MLE $\hat{\theta}$ is:
+    \[
+    \hat{\theta} \pm z_{\alpha / 2}^{*}\mathrm{sd}(\hat{\theta})
+    \]
+    and is known as the Wald interval.
+    For $n$ large,
+    a $100(1 - \alpha)\%$ likelihood confidence region for $p$-vector parameter $\mbf{\theta}$ is
+    \[
+    \{\mbf{\theta} \mid (\hat{\mbf{\theta}} - \mbf{\theta})(\mathcal{I}(\mbf{\theta}) ^ {-1})(\hat{\mbf{\theta}} - \mbf{\theta}) ^ T \leq \chi_{\alpha}^{*}p\}.
+    \]
+\end{corollary}
+
+\subsubsection{The delta method for the MLE}
+
+\begin{proposition}[The delta method]
+    Suppose $\mbf{g}(\mbf{\theta})$ is a collection of functions of $\mbf{\theta}, g : \R ^ p \to \R ^ q$,
+    which are continuously differentiable with $q \leq p$.
+    Then for $p = 1$
+    \[
+    g(\hat{\theta}) \sim \mathcal{N}\left(g(\theta), \frac{1}{\mathcal{I}_n}\left(\frac{\mbf{d}g(\hat{\theta})}{\mbf{d}\theta}\right) ^ 2\right),
+    \]
+    and for $p > 1$
+    \[
+    \mbf{g}(\hat{\mbf{\theta}}) \sim \mathcal{N}_q(\mbf{g}(\mbf{\theta}), \mbf{J}(\hat{\mbf{\theta}})\mathcal{I}_n(\theta) ^ {-1}\mbf{J}(\hat{\mbf{\theta}}) ^ T),
+    \]
+    where $\mbf{J}(\hat{\mbf{\theta}})$ is the Jacobian matrix of first derivatives of $g$ with respect to each element of $\mbf{\theta}$,
+    evaluated at $\mbf{\theta} = \hat{\mbf{\theta}}$.
+
+    \begin{proof}
+        This is only a brief outline of the univariate case.
+        Assume that $g(\cdot)$ can be linearly approximated around $\hat{\theta}$,
+        then
+        \begin{align*}
+            g(\hat{\theta}) &\simeq g(\theta) + g'(\hat{\theta})(\theta - \hat{\theta}) \\
+            g(\hat{\theta}) - g(\theta) &\simeq g'(\hat{\theta})(\hat{\theta} - \theta).
+        \end{align*}
+        By the large-sample distribution of $\hat{\theta}$
+        \[
+        (\theta - \hat{\theta}) \sim \mathcal{N}\left(0, \frac{1}{\mathcal{I}_n(\theta)}\right).
+        \]
+        Thus the quantity on the right of the equation has distribution:
+        \[
+        g'(\hat{\theta})(\theta - \hat{\theta}) \sim \mathcal{N}\left(0, \frac{1}{\mathcal{I}_n(\theta)}g'(\hat{\theta}) ^ 2\right),
+        \]
+        and so we can ultimately say that
+        \begin{align*}
+            g(\hat{\theta}) &= g(\theta) + g'(\hat{\theta})(\theta - \hat{\theta}) \\
+            &\sim \mathcal{N}\left(g(\theta), \frac{1}{\mathcal{I}_n(\theta)}g'(\hat{\theta}) ^ 2\right).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\newpage
+
+\section{Bayesian Statistics}
+
+\subsection{Prior distributions and conjugacy}
+
+There are two types of priors:
+
+\textbf{Informative priors} -
+$f(\theta)$ expresses specific knowledge or information about the behaviour of $\theta$.
+In principle,
+we must
+(subjectively)
+choose or specify a distribution that represents our knowledge about $\theta$,
+or else we must
+'elicit'
+one from someone else.
+This is particularly difficult when $\theta$ is high-dimensional,
+or not well-understood.
+
+\textbf{Noninformative priors} -
+$f(\theta)$ is deliberately vague about the behaviour of $\theta$ so as avoid introducing any information on $\theta$ that would create a posterior of a different shape to the likelihood.
+
+\subsubsection{Conjugacy}
+
+\begin{definition}[Conjugate family,
+    conjugate prior]
+    Suppose that data $\mbf{x}$ have distribution $f(\mbf{x}\mid \theta)$.
+    A class $\mathcal{F}$ of prior distribution for $\theta$ forms a conjugate family if for every prior $f(\theta) \in \mathcal{F}$ the posterior distribution
+    \[
+    f(\theta \mid \mbf{x}) \propto f(\mbf{x}\mid \theta)f(\theta)
+    \]
+    is also in $\mathcal{F}$ for all $x$.
+    Any $f(\theta) \in \mathcal{F}$ is then called a conjugate prior for $f(\mbf{x} \mid \theta)$.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
