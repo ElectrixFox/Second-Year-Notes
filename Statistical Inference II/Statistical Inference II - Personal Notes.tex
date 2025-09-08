@@ -1323,13 +1323,257 @@ $f(\theta)$ is deliberately vague about the behaviour of $\theta$ so as avoid in
     Any $f(\theta) \in \mathcal{F}$ is then called a conjugate prior for $f(\mbf{x} \mid \theta)$.
 \end{definition}
 
+Conjugacy implies that the prior $f(\theta)$ and the posterior,
+$f(\theta \mid x)$,
+have the same functional form.
+For example,
+both could be Normal distributions.
 
+\begin{theorem}[The Beta-binomial model]
+    Suppose that we observe a random variable $X = x$ where $X \mid p \sim \Bin(n, p)$.
+    Suppose our prior distribution for $p$ is such that $p \sum \mathrm{Beta}(a, b)$ for $a, b > 0$ known with pdf
+    \begin{align*}
+        f(x) &= \frac{1}{B(a, b)}x ^ {a - 1}(1 - x) ^ {b - 1} \\
+        &= \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)}x ^ {a - 1}(1 - x) ^ {b - 1}
+    \end{align*}
+    for $x \in [0, 1]$ and $0$ otherwise,
+    $B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)}$ is the Beta function,
+    $\Gamma(a)$ is the gamma function,
+    and $\Gamma(a) = (a - 1)!$ for $a \in \Z$.
 
+    Then the posterior distribution for $p \mid X$ is
+    \[
+    p \mid X \sim \mathrm{Beta}(a + x, b + a - x),
+    \]
+    and hence the Beta distribution is a conjugate prior for the Binomial parameter for $\mu$.
+\end{theorem}
 
+\begin{remark}
+    The Beta distribution has the following properties:
 
+    \begin{enumerate}[label = (\roman*)]
+        \item If $X \sim \mathrm{Beta}(a, b)$,
+        then
+        \[
+        \E(X) = \frac{a}{a + b},\qquad\Var(X) = \frac{ab}{(a + b) ^ 2(a + b + 1)}.
+        \]
 
+        \item $\mathrm{Beta}(1, 1)$ is the same as $\mathrm{U}(0, 1)$,
+        i.e. $f(x) = 1$ for $x \in [0, 1]$.
 
+        \item For $a, b$ large,
+        then $X \sim \mathcal{N}(\E(X), \Var(X))$.
 
+        \item The core of $\mathrm{Beta}(a, b)$ pdf is $x ^ {a - 1}(1 - x) ^ {b - 1}$.
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}[Core
+    (or kernel)
+    of a distribution]
+    For a random variable $\mbf{X}$ with pdf $f(\mbf{x})$,
+    if we can express its pdf $f(\mbf{x})$ in the form
+    \[
+    f(\mbf{x}) = C \times \kappa(\mbf{x}),
+    \]
+    where $C > 0$ is a constant that doesn't depend on $\mbf{x}$,
+    then we call $\kappa(\mbf{x})$ the core
+    (or kernel)
+    of the density $f(\mbf{x})$.
+\end{definition}
+
+\begin{lemma}
+    Each core of a distribution,
+    $\kappa(\mbf{x})$,
+    corresponds to a unique pdf,
+    $f(\mbf{x})$.
+
+    \begin{proof}
+        Following the above definition,
+        let $\kappa(\mbf{x})$ be such that $f(\mbf{x}) = C\kappa(\mbf{x})$ where $f(\mbf{x})$ is a valid pdf.
+        For $f(\mbf{x})$ to be valid,
+        we must have
+        \[
+        \int f(\mbf{x})\,d\mbf{x} = 1 \implies \kappa(\mbf{x})\,d\mbf{x} = \frac{1}{C}.
+        \]
+        Suppose there is another valid pdf $g(\mbf{x})$ which also is associated with $\kappa(\mbf{x})$,
+        so we have $g(\mbf{x}) \propto \kappa(\mbf{x})$.
+        If we write $g(\mbf{x}) = B\kappa(\mbf{x})$,
+        then
+        \[
+        \int g(\mbf{x})\,d\mbf{x} = B\int\kappa(\mbf{x})\,d\mbf{x} = \frac{B}{C}.
+        \]
+        For $g(\mbf{x})$ to also be a valid pdf it must integrate to $1$,
+        which implies that we must have $B = C$.
+        Therefore
+        \[
+        g(\mbf{x}) = C\kappa(\mbf{x}) = f(\mbf{x}),
+        \]
+        and so each $\kappa(\mbf{x})$ is associated with a unique valid pdf $f(\mbf{x})$.
+    \end{proof}
+\end{lemma}
+
+\subsubsection{Conjugate analysis of Poisson data}
+
+\begin{theorem}[The Gamma-Poisson model]
+    Suppose our data $X_1, \dotsc, X_n$ are iid $\Po(\lambda)$,
+    and our prior distribution for $\lambda$ is $\mathrm{Gamma}(\alpha, \beta)$.
+    Then the posterior distribution for $\lambda \mid X_1, \dotsc, X_n$ is
+    \[
+    \lambda \mid \mbf{X} \sim \mathrm{Gamma}(a + T, \beta + n),
+    \]
+    where $T = \sum_{i = 1}^{n}X_i$,
+    and the $\mathrm{Gamma}(a, b)$ pdf is given by:
+    \[
+    f(y\mid a, b) = \frac{b ^ {a}}{\Gamma(a)}y ^ {a - 1}e ^ {-by},\quad y > 0,
+    \]
+    and $0$ otherwise,
+    and $\Gamma(a)$ is the Gamma function.
+
+    \begin{proof}
+        We observe $X_1 = x_1, \dotsc, X_n = x_n$,
+        and so our likelihood for the sample is:
+        \[
+        f(x_1, \dotsc, x_n\mid\lambda) = \prod_{i = 1}^{n}\frac{e ^ {-\lambda}\lambda ^ {x_i}}{x_i!} = \frac{e ^ {-n\lambda}\lambda ^ {\sum_{i}x_i}}{\prod_{i}x_i!} = \frac{e ^ {-n\lambda}\lambda ^ T}{\prod_{i}x_i!},
+        \]
+        where $T = \sum_{i = 1}^{n}x_i$.
+
+        Suppose our prior distribution for $\lambda$ is $\mathrm{Gamma}(\alpha, \beta)$ as defined above.
+        Then our posterior pdf for $\lambda \mid x$,
+        up to proportionality,
+        is:
+        \begin{align*}
+            f(\lambda \mid x) &\propto f(x\mid \lambda)f(\lambda) \\
+            &= \frac{e ^ {-n\lambda}\lambda ^ T}{\prod_{i}x_i!}\frac{b ^ {\alpha}}{\Gamma(\alpha)}\lambda ^ {\alpha - 1}e ^ {-\beta\lambda} \\
+            &\propto \lambda ^ {\alpha + T - 1}e ^ {-(n + \beta)\lambda},
+        \end{align*}
+        which is the core of a $\mathrm{Gamma}(\alpha + Y, \beta + n)$ distribution.
+        Thus we have a conjugate prior in the Gamma distribution.
+    \end{proof}
+\end{theorem}
+
+\begin{remark}
+    The Gamma distribution has the following properties:
+    \begin{enumerate}[label = \arabic*.]
+        \item $\E(Y) = \frac{\alpha}{\beta}$,
+        $\Var(Y) = \frac{\alpha}{\beta ^ 2}$,
+
+        \item $Y \sim \mathrm{Gamma}(\alpha, \beta) \to \mathrm{N}(\E(Y), \Var(Y))$ for $\alpha$ large,
+        unless $\alpha \ll \beta$,
+
+        \item The core of a $\mathrm{Gamma}(\alpha, \beta)$ pdf is $y ^ {\alpha - 1}e ^ {-\beta x}$.
+    \end{enumerate}
+\end{remark}
+
+\subsubsection{Conjugate analysis of Normal data}
+
+If $X_1, \dotsc, X_n$ are independent $\mathrm{N}(\mu, \sigma ^ 2)$ but the variance $\sigma ^ 2$ is known,
+then the only unknown parameter is $\mu$.
+
+\begin{definition}[Precision]
+    The precision,
+    $\tau$,
+    of a random variable $X$ is defined as the reciprocal of its variance
+    \[
+    \tau = \frac{1}{\Var(X)} = \frac{1}{\sigma ^ 2}.
+    \]
+    So,
+    if $X$ has high precision then it has a low variance,
+    and vice versa.
+\end{definition}
+
+\begin{theorem}[Conjugate Normal sampling with known variance]
+    Let $X_1, \dotsc, X_n$ be iid $\mathrm{N}(\mu, \sigma ^ 2 = \frac{1}{\tau})$ with precision $\tau > 0$ known.
+    Suppose our prior pdf for $\mu$ is $\mathrm{N}(m_0, v_0 ^ 2 = \frac{1}{t_0})$ with $t_0 > 0$,
+    then our posterior pdf for $\mu \mid X$ is also normal such that
+    \[
+    \mu \mid X \sim \mathrm{N}\left(m_1, \frac{1}{t_1}\right),
+    \]
+    where
+    \[
+    t_1 = t_0 + n\tau,\qquad\text{and}\quad m_1 = \frac{t_0m_0 + n\tau\bar{x}}{t_0 + n\tau} = \frac{t_0m_0 + n\tau\bar{x}}{t_1}.
+    \]
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{theorem}
+
+Consider the case where the precision $\tau$ is unknown.
+Suppose we will observe $X_1, \dotsc, X_n$ where $X_i \sim \mathrm{N}(\mu, \tau ^ {-1})$ and given $\mu, \tau$,
+the observations are independent.
+
+\begin{theorem}[Conjugate Normal with unknown variance]
+    Suppose that the data $\mbf{X}$ are conditionally iid $\mathrm{N}(\mu, \sigma ^ 2 = \frac{1}{\tau})$ given parameters $\mu$ and $\tau = \frac{1}{\sigma ^ 2}$,
+    with priors
+    \[
+    \mu \mid \tau \sim \mathrm{N}\left(m_0, v_0 ^ 2 = \frac{1}{k_0\tau}\right)\quad\text{and}\quad\tau \sim \mathrm{Gamma}(\alpha_0, \beta_0),
+    \]
+    for constant $k_0 > 0$.
+    Then the posterior distribution for $\mu$ and $\tau$ given the data $\mbf{x}$ are:
+    \[
+    \mu \mid \mbf{X}, \tau \sim \mathrm{N}\left(m_1, V_1 ^ 2 = \frac{1}{k_1\tau}\right)\quad\text{and}\quad\tau \mid \mbf{X} \sim \mathrm{Gamma}(\alpha_1, \beta_1),
+    \]
+    where
+    \begin{align*}
+        m_1 &= \frac{k_0m_0 + n\bar{x}}{k_0 + n} = \frac{k_0m_0 + n\bar{x}}{k_1},& k_1 &= k_0 + n, \\
+        \alpha_1 &= \alpha_0 + \frac{n}{2},& \beta_1 &= \beta_0 + \frac{1}{2}(n - 1)s ^ 2 + \frac{k_0n(\bar{x} - m_0) ^ 2}{2k_1}.
+    \end{align*}
+
+    \begin{proof}
+        To motivate the choice of prior,
+        first look at the form of the likelihood function
+        \begin{align*}
+            f(\mbf{x} \mid \mu, \sigma ^ 2) &= \prod_{i = 1}^{n}\frac{1}{\sqrt{2\pi}\sigma}\exp\left\{-\frac{1}{2\sigma ^ 2}(x_i - \mu) ^ 2\right\} \\
+            f(\mbf{x} \mid \mu, \tau) &= \prod_{i = 1}^{n}\sqrt{\frac{\tau}{2\pi}}\exp\left\{-\frac{\tau}{2}(x_i - \mu) ^ 2\right\} \\
+            &= \frac{\tau ^ {n / 2}}{(2\pi) ^ {n / 2}}\exp\left\{-\frac{\tau}{2}\sum_{i = 1}^{n}(x_i - \mu) ^ 2\right\} \\
+            &=\dotsc
+        \end{align*}
+        There is much more to this proof,
+        so I will omit it for the moment and add it in later.
+    \end{proof}
+\end{theorem}
+
+\begin{proposition}
+    For any $\mu, \tau$ with a joint Normal-Gamma distribution
+    \[
+    \mu \mid \tau \sim \mathrm{N}\left(m, v ^ 2 = \frac{1}{k\tau}\right)\quad\text{and}\quad\tau \sim \mathrm{Gamma}(\alpha, \beta),
+    \]
+    then the marginal distribution of $\mu$ is a $t$ distribution:
+    \[
+    \frac{\mu - m}{\sqrt{\beta / (\alpha k)}} = \frac{\mu - \E(\mu)}{\sqrt{1 / (k\E(\tau))}} \sim t_{2\alpha}.
+    \]
+
+    \begin{proof}
+        We obtain the marginal distribution for $\mu$ by integrating its joint distribution with $\tau$:
+        \begin{align*}
+            f(\mu) &= \int_{0}^{\infty}f(\mu, \tau)\,d\tau \\
+            &= \int_{0}^{\infty}\tau ^ {\alpha - \frac{1}{2}}\exp\left\{-\frac{\tau}{2}(k(\mu - m) ^ 2 + 2\beta)\right\}\,d\tau \\
+            &= \int_{0}^{\infty}\tau ^ {\alpha + \frac{1}{2} - 1}\exp\left\{-\tau\left(\frac{k(\mu - m) ^ 2}{2} + \beta\right)\right\}\,d\tau,
+        \end{align*}
+        which we recognise as the core of a $\mathrm{Gamma}(a = \alpha + \frac{1}{2}, b = \frac{k(\mu - m) ^ 2}{2} + \beta)$ distribution.
+        Thus
+        \begin{align*}
+            f(\mu) &\propto \frac{\Gamma(a)}{b ^ a} \propto b ^ {-a} \\
+            &= \left(\frac{k(\mu - m) ^ 2}{2} + \beta\right) ^ {-\alpha - \frac{1}{2}} \\
+            &\propto \left(1 + \frac{1}{2\alpha}\frac{ak(\mu - m) ^ 2}{\beta}\right) ^ {-(2\alpha + 1) / 2} \\
+            &= \left(1 + \frac{1}{2\alpha}\frac{(\mu - m) ^ 2}{\beta / (\alpha k)}\right) ^ {-(2\alpha + 1) / 2}.
+        \end{align*}
+        If $X$ is $\tau_r$,
+        then its pdf can be written as
+        \[
+        f(X) \propto \left(1 + \frac{x ^ 2}r\right) ^ {-\frac{r + 1}{2}},
+        \]
+        thus if we write $x ^ 2 = \frac{(\mu - m) ^ 2}{}\beta / (\alpha k)$ then we find
+        \[
+        f(\mu) \propto \left(1 + \frac{1}{2\alpha}\frac{(\mu - m) ^ 2}{\beta / (\alpha k)}\right) ^ {-\frac{2\alpha + 1}{2}},
+        \]
+        and so
+        \[
+        \sqrt{\frac{(\mu - m) ^ 2}{\beta / (\alpha k)}} = \frac{\mu - m}{\sqrt{\beta / (\alpha k)}} \sim t_{2\alpha}.
+        \]
+    \end{proof}
+\end{proposition}
 
 
 
