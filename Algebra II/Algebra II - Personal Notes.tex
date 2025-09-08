@@ -1259,15 +1259,89 @@ The equivalence classes of the above relation are usually called cosets.
     \end{proof}
 \end{corollary}
 
+\newpage
 
+\section{Principal Ideal Domains
+    (PID)}
 
+\subsection{Definitions and Examples}
 
+\begin{definition}[Principal Ideal Domain]
+    An integral domain in which all ideals are principal is called a Principal Ideal Domain
+    (PID).
+\end{definition}
 
+\begin{theorem}
+    The rings $\Z$ and $F[x]$
+    (with $F$ a field),
+    are PIDs.
 
+    \begin{proof}
+        Let $R$ be either $\Z$ or $F[x]$.
+        Define a degree function $d : R \setminus \{0\} \to \N$ by
+        \[
+        d(a) \coloneqq \begin{cases}
+            |a| &\text{if } a \in \Z, \\
+            \deg{a} &\text{if } a \in F[x].
+        \end{cases}
+        \]
+        Then,
+        by long division in $\Z$ and $F[x]$,
+        we have that for any $a, m \in R \setminus \{0\}$ we can find $q, r \in R$ such that
+        \[
+        a = qm + r,\quad\text{where either $r = 0$ or } d(r) < d(m).
+        \]
+        Now let $I$ be an ideal in $R$ and let $m \in I$ be non-zero and such that $d(m)$ is minimal among the elements of $I$
+        ($m$ exists,
+        because the zero ideal is principal,
+        so we may assume that $I \neq 0$).
+        Let $a \in I$ be an arbitrary element.
+        Then the statement we found from the division algorithm holds,
+        and thus
+        \[
+        r = a - qm \in I.
+        \]
+        Now,
+        if $r \neq 0$ we would have $d(r) < d(m)$,
+        which is impossible by the choice of $m$.
+        Hence $r = 0$,
+        so $a = qm$,
+        which implies $a \in (m)$.
+        This is true for all $a \in I$,
+        so $I = (m)$.
+    \end{proof}
+\end{theorem}
 
+\subsection{PIDs and UFDs}
 
+\begin{theorem}
+    Any PID is a UFD.
 
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{theorem}
 
+\begin{proposition}
+    Let $R$ be a PID and $a, b \in R$.
+    Then $d = \gcd(a, b)$ exists and $(d) = (a, b)$.
+
+    \begin{proof}
+        Let $d \in R$ be such that $(d) = (a, b)$.
+        Then $a = dm$ and $b = dn$,
+        for some $m, n \in R$.
+        Suppose there exists an $e \in R$ such that $a = em'$ and $b = en'$,
+        for some $m', n' \in R$.
+        Then
+        \[
+        (d) = (a, b) \subseteq (e).
+        \]
+        Thus there is a $k \in R$ such that $d = ek$,
+        that is,
+        $e \mid d$,
+        so $d$ is a $\gcd$ of $a$ and $b$.
+    \end{proof}
+\end{proposition}
 
 
 
