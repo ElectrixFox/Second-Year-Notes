@@ -1343,7 +1343,78 @@ The equivalence classes of the above relation are usually called cosets.
     \end{proof}
 \end{proposition}
 
+\subsection{Fields as quotients}
 
+Let $R$ be a commutative ring and $I \subseteq R$ an ideal of $R$.
+We have seen that $R / I$ is a field if and only if $I$ is a maximal ideal.
+
+\begin{lemma}
+    Let $R$ be a PID and $a \in R$ an irreducible element.
+    Then the principal ideal $(a)$ is a maximal ideal.
+
+    \begin{proof}
+        Suppose that some ideal $I$ contains $(a)$.
+        Then $I = (t)$ for some $t \in R$ and so $a = tm$ for some $m \in R$.
+        Then either $t$ or $m$ is a unit
+        (since $a$ is irreducible).
+        If $t$ is,
+        then $(t) = (1) = R$,
+        and if $m$ is,
+        then $(t) = (a)$.
+        Thus either $I = R$ or $I = (a)$,
+        that is,
+        $(a)$ is maximal.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}
+    Let $F$ be a field and $f(x) \in F[x]$ be an irreducible polynomial.
+    Then $F[x] / (f(x))$ is a field.
+    Moreover it is a vector space over $F$ with basis $B \coloneqq \{1, \bar{x}, \bar{x} ^ 2, \dotsc, \bar{x} ^ {n - 1}\}$,
+    where $n = \deg{f}$.
+    That is,
+    every element in $F[x] / ((f(x))$ can be uniquely written as
+    \[
+    a_0 + a_1\bar{x} + \dotsc + a_{n - 1}\bar{x} ^ {n - 1},
+    \]
+    with $a_i \in F$.
+
+    \begin{proof}
+        Since $f(x)$ is irreducible and $F[x]$ is a PID we have seen above that $F[x] / (f(x))$ is a field.
+        Moreover $F[x] / (f(x))$ is a vector space over $F$,
+        because it is an abelian group with scalar multiplication given by $\alpha \cdot \overline{(g(x))} = \overline{\alpha g(x)}$,
+        for $\alpha \in F$,
+        $g(x) \in F[x]$.
+
+        The set $B$ spans $F[x] / (f(x))$:
+        By long division,
+        any $g(x) \in F[x]$ with $\deg{g} > n$ can be written
+        \[
+        g(x) = q(x)f(x) + r(x),\quad \deg{r} < n,
+        \]
+        so $\overline{g(x)} = \overline{r(x)}$
+        (i.e.,
+        $g(x) - r(x) \in (f(x))$).
+        Since the span of $B$ contains any polynomial in $\bar{x}$ of degree at most $n - 1$,
+        it will contain $\overline{r(x)}$,
+        hence $\overline{g(x)}$.
+
+        The set $B$ is linearly independent:
+        If
+        \[
+        \sum_{i = 0}^{n - 1}a_i\bar{x} ^ i = \bar{0}.
+        \]
+        for some $a_i \in F$,
+        then $\sum_{i = 0}^{n - 1}a_ix ^ i \in (f(x))$,
+        so $f(x)$ divides $\sum_{i = 0}^{n - 1}a_ix ^ i$,
+        hence $\deg{f} = n \leq n - 1$.
+        This is a contradiction,
+        unless $a_1 = a_2 = \dotsi = a_{n - 1} = 0$.
+        Thus $B$ is a basis.
+    \end{proof}
+\end{theorem}
+
+\subsection{Finite Fields}
 
 
 
