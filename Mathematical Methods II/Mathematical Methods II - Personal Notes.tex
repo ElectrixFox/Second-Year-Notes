@@ -919,9 +919,134 @@ To prove Stokes' theorem we need the following lemma.
     \end{proof}
 \end{theorem}
 
+\newpage
 
+\section{Index notation}
 
+\subsection{Scalar products}
 
+For simplifying vector equations,
+there is a powerful method called index
+(or suffix)
+notation.
+
+A vector equation such as
+\begin{align*}
+    \mbf{c} &= \mbf{a} + \mbf{b} \\
+    \intertext{is written in index notation as}
+    c_i &= a_i + b_i,
+\end{align*}
+where it is understood that the equation holds for $i = 1, \dotsc, n$,
+meaning an arbitrary component in the standard
+(Cartesian)
+basis $\{\mbf{e}_1, \dotsc, \mbf{e}_n\}$.
+
+\begin{definition}[Free index]
+    An index that appears once in each term is called a free index.
+\end{definition}
+
+In index notation,
+we write the scalar product as
+\[
+\mbf{a} \cdot \mbf{b} = a_jb_j,
+\]
+where the repeated index indicates that the term should be summed from $j = 1, \dotsc, n$.
+The implied summation is called the
+(Einstein)
+summation convention.
+
+\begin{definition}[Dummy index]
+    An index that appears exactly twice in a term is called a dummy index.
+\end{definition}
+
+The scalar product $\mbf{a} \cdot \mbf{b}$ is as a quadratic form
+\[
+\mbf{a} \cdot \mbf{b} = (a_1, a_2, a_3)\begin{pmatrix}
+    1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+\end{pmatrix}\begin{pmatrix}
+    b_1 \\ b_2 \\ b_3
+\end{pmatrix} = a_1b_1 + a_2b_2 + a_3b_3.
+\]
+In index notation,
+this may be written
+\[
+\mbf{a} \cdot \mbf{b} = \delta_{ij}a_ib_j,
+\]
+where the components of the identity matrix are given by the Kronecker delta,
+defined as
+\[
+\delta_{ij} = \begin{cases}
+    1 &\text{if } i = j, \\
+    0 &\text{if } i \neq j.
+\end{cases}
+\]
+
+\begin{proposition}
+    Multiplying an expression with free index $i$ by $\delta_{ij}$ is equivalent to replacing $i \to j$.
+
+    \begin{proof}
+        Consider some expression $a_i$ with free index $i$.
+        Then if we multiply by $\delta_{ij}$,
+        our index $i$ becomes a dummy index,
+        and
+        \[
+        a_i\delta_{ij} = a_1\delta_{1j} = a_2\delta_{2j} + \dotsc + a_n\delta_{nj}.
+        \]
+        Now $j$ is the free index.
+        If $j = 1$,
+        then
+        \[
+        a_i\delta_{i1} = a_1\delta{11} + a_2\delta{21} + \dotsc + a_n\delta{n1} = a_1(1) + a_2(0) + \dotsc + a_n(0) = a_1.
+        \]
+        Similarly for any $j$,
+        we have $a_i\delta_{ij} = a_j$.
+    \end{proof}
+\end{proposition}
+
+\subsection{Vector products}
+
+In $\R ^ 3$,
+we can write vector products in index notation by introducing the alternating tensor
+(or Levi-Civita symbol),
+\[
+\epsilon_{ijk} = \begin{cases}
+    0 &\text{if any of $i, j, k$ are equal}, \\
+    +1 &\text{if $(i, j, k) = (1, 2, 3), (2, 3, 1)$ or $(3, 1, 2)$}, \\
+    -1 &\text{if $(i, j, k) = (1, 3, 2), (2, 1, 3)$ or $(3, 2, 1)$}.
+\end{cases}
+\]
+
+We can express this product in index notation as
+\[
+[\mbf{a} \times \mbf{b}]_{i} = \epsilon_{ijk}a_jb_k.
+\]
+
+\begin{proposition}[The $\epsilon\text{-}\delta$ identity]
+    \[
+    \epsilon_{ijk}\epsilon_{klm} = \delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}.
+    \]
+
+    \begin{proof}
+        The left hand side is
+        \[
+        \epsilon_{ijk}\epsilon_{klm} = \begin{cases}
+            +1 &\text{if $(klm)$ is an even permutation of $(ijk)$}, \\
+            -1 &\text{if $(klm)$ is an odd permutation of $(ijk)$}, \\
+            0 &\text{if $(klm)$ is not a permutation of $(ijk)$}.
+        \end{cases}
+        \]
+        So there are six possibilities:
+        \[
+        \epsilon_{ijk}\epsilon_{klm} = \delta_{ik}\delta_{jl}\delta_{km} - \delta_{ik}\delta_{jm}\delta_{kl} + \delta_{il}\delta_{jm}\delta_{kk} - \delta_{il}\delta_{jk}\delta_{km} + \delta_{im}\delta_{jk}\delta_{kl} - \delta_{im}\delta_{jl}\delta_{kk}.
+        \]
+        Using $\delta_{kk} = 3$ and the previous proposition,
+        we find
+        \begin{align*}
+        \epsilon_{ijk}\epsilon_{klm} &= \delta_{im}\delta_{jl} - \delta_{il}\delta_{jm} + 3\delta_{il}\delta_{jm} - \delta_{il}\delta_{jm} + \delta_{im}\delta_{jl} - 3\delta_{im}\delta_{jl} \\
+        &= \delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
 
 
 
