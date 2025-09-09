@@ -1416,8 +1416,93 @@ We have seen that $R / I$ is a field if and only if $I$ is a maximal ideal.
 
 \subsection{Finite Fields}
 
+\begin{theorem}
+    For any given prime $p \in \Z$ and $n \in \N$,
+    there exists an irreducible polynomial $f(x) \in (\Z / p)[x]$ of degree $n$.
+    Thus we can construct the field $(\Z / p)[x] / (f(x))$.
+    It is a field with $p ^ n$ elements.
+    Any two such fields are isomorphic,
+    and hence we can denote the unique field with $p ^ n$ elements as $\mathbb{F}_{p ^ n}$.
+\end{theorem}
 
 
+\subsection{The Chinese Remainder Theorem
+    (CRT)
+    for PIDs}
+
+\begin{lemma}
+    Let $R$ be a PID and $a, b \in R$ two coprime elements.
+    Then $(a, b) = (1)$,
+    and thus $ax + by = 1$,
+    for some $x, y \in R$.
+    In particular any $\gcd(a, b)$ is a unit.
+
+    \begin{proof}
+        Since $R$ is a PID,
+        we know that $(a, b) = (r)$,
+        for some $r \in R$.
+        Thus $r$ divides both $a$ and $b$,
+        and so it must be a unit.
+        Since $r$ is a unit,
+        we have $(r) = R = (1)$.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}
+    Let $R$ be a PID.
+    If $a_1, \dotsc, a_k \in R$ are pairwise coprime elements,
+    then the map
+    \begin{align*}
+        \varphi : R / (a_1 \dotsi a_k) &\to R / (a_1) \times \dotsi \times R / (a_k) \\
+        r + (a_1 \dotsi a_k) &\mapsto (r + (a_1), \dotsc, r + (a_k))
+    \end{align*}
+    is an isomorphism.
+
+    \begin{proof}
+        Let $\psi : R \to R / (a_1) \times \dotsi \times R / (a_k)$ be a map given by $\psi(r) = (\bar{r}, \dotsc, \bar{r})$.
+        It is easy to see that this is a homomorphism.
+        We will prove that this map is surjective and that $\Ker(\psi) = (a_1a_1\dotsc a_k)$.
+        The theorem will then follow from FIT.
+
+        We first show that $\psi$ is surjective.
+        For each $i = 1, \dotsc, k$,
+        the elements $a_i$ and $a_1 \dotsi a_{i - 1}a_{i + 1}\dotsi a_k$ are coprime.
+
+        Thus,
+        by the previous lemma there exist elements $x_i, y_i \in R$ such that
+        \[
+        a_ix_i + (a_1 \dotsi a_{i - 1}a_{i + 1} \dotsi a_k)y_i = 1.
+        \]
+        Set $e_i \coloneqq 1 - a_ix_i$.
+        Then
+        \begin{align*}
+            e_i &\equiv 1\mod{(a_j)} &\text{if } i = j, \\
+            e_i &\equiv 0\mod{(a_j)} &\text{if } i \neq j.
+        \end{align*}
+
+        For any element
+        \[
+        (r_1 + (a_1), \dotsc, r_k + (a_k)) \in R / (a_1) \times \dotsi \times R / (a_k)
+        \]
+        we then have
+        \[
+        \psi\left(\sum_{i = 1}^{k}r_ie_i\right) = (r_1 + (a_1), \dotsc, r_k + (a_k)),
+        \]
+        so $\varphi$ is surjective.
+        Finally,
+        we need to check that $\varphi$ is injective.
+        \begin{align*}
+            \Ker{\psi} &= \{r \mid r \in (a_i), i = 1, \dotsc, k\} \\
+            &= \{r \mid a_i \mid r, i = 1, \dotsc, k\} \\
+            &= \{r \mid a_1 \dotsi a_k \mid r\} \\
+            &= (a_1 \dotsi a_k).
+        \end{align*}
+
+        The crucial step here was the third equality,
+        which follows from the assumption that the $a_i$ are coprime,
+        and the fact that $R$ is a UFD.
+    \end{proof}
+\end{theorem}
 
 
 
