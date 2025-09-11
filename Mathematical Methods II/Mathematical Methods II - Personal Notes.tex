@@ -1048,6 +1048,20 @@ We can express this product in index notation as
     \end{proof}
 \end{proposition}
 
+\subsection{Derivatives}
+We can infer from the Cartesian expressions
+\[
+\bnabla f = \pd[f]{x}\mbf{e}_1 + \pd[f]{y}\mbf{e}_2 + \pd[f]{z}\mbf{e}_3,\qquad\bnabla\cdot\mbf{f} = \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z},\quad\bnabla \times \mbf{f} = \begin{vmatrix}
+    \mbf{e}_1 & \mbf{e}_2 & \mbf{e}_3 \\
+    \pd{x} & \pd{y} & \pd{z} \\
+    f_1 & f_2 & f_3
+\end{vmatrix}
+\]
+that the gradient,
+divergence and curl are written in index notation as
+\[
+|\bnabla f|_i = \pd[f]{x_i},\quad\bnabla \cdot \mbf{f} = \pd[f_j]{x_j},\quad|\bnabla \times \mbf{f}|_i = \epsilon_{ijk}\pd[f_k]{x_j}.
+\]
 
 
 
