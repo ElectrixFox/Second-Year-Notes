@@ -230,7 +230,87 @@ From the previous two definitions we can get the following:
     \end{proof}
 \end{proposition}
 
+\begin{lemma}
+    Let $X$ be a metric space.
 
+    \begin{enumerate}[label = (\alph*)]
+        \item $X$ and $\emptyset$ are both open and closed.
+
+        \item An arbitrary union of open sets is open.
+
+        \item A finite intersection of open sets is open.
+
+        \item A finite union of closed sets is closed.
+
+        \item An arbitrary intersection of closed sets is closed.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            For $x \in X$,
+            we have $x \in B(x; 1) \subseteq X$,
+            as
+            \[
+            x \in \{y \in X \mid |x - y| < 1\} \subseteq X.
+            \]
+            Also,
+            there is no point $x$ in $\emptyset$.
+            So $\forall x \in \emptyset, \exists \varepsilon > 0, \{y \in X \mid |x - y| < \varepsilon\} \subset X$,
+            since there is no $x$ we can trivially see that this definition is satisfied by merely taking $\varepsilon = |y|$ for any $y \in X$.
+
+            Both are closed as $X$ is closed if $X \setminus X = \emptyset$ is open which we have just shown,
+            $\emptyset$ is closed if $X \setminus \emptyset = X$ is open which we have just shown.
+
+            \item
+            Let $X_i \subset X$ be open for all $i \in I$
+            ($I$ is some interval).
+            Then if $x \in \bigcup_{i \in I}X_i$ we have $x \in X_{r}$ for some $r \in I$.
+            So $\exists \varepsilon > 0, a \in B(x; \varepsilon) \subseteq X_{r} \subseteq \bigcup_{i \in I}X_i$.
+            Hence $\bigcup_{i \in I}X_i$ is open.
+
+            \item
+            Let $U_i \subset X$ be open for $i = 1, \dotsc, n$.
+            Then if $x \in \bigcap_{i = 1}^{n}U_i$ we have $x \in U_i$ for $i = 1, \dotsc, n$.
+            So $\forall i, \exists \varepsilon_i > 0, x \in B(x; \varepsilon_i) \subseteq U_i$.
+            Let $\varepsilon = \min\{\varepsilon_1, \dotsc, \varepsilon_n\} > 0$.
+            Then for $i = 1, \dotsc, n$ we have $x \in B(x; \varepsilon) \subseteq B(x; \varepsilon_i) \subseteq U_i$.
+            Hence $x \in B(x; \varepsilon) \subseteq \bigcap_{i = 1}^{n}U_i$ as required.
+
+            \item
+            Let $V_i \subset X$ be closed for $i = 1, \dotsc, n$.
+            Then by definition $X \setminus V_i \subseteq X$ is open for $i = 1, \dotsc, n$,
+            so by the previous
+            (c)
+            we know $X \setminus \left(\bigcup_{i = 1}^{n}V_i\right) = \bigcap_{i = 1}^{n}(X \setminus V_i)$ is open,
+            so $\bigcup_{i = 1}^{n}V_i$ is closed as required.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\subsection{Continuity}
+
+\begin{definition}
+    Let $(X, d)$ be a metric space.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item A sequence in $X$ is a function $a : \N = \{0, 1, \dotsc\} \to X$.
+        We write $(a_n)_{n \in \N}$ or simply $(a_n)$ for the sequence,
+        where $a_n = a(n)$.
+
+        \item Let $a \in X$.
+        Then the sequence $(a_n)_{n \in \N}$ converges to $a$,
+        if for all $\varepsilon > 0$ there is a $N \in \N$ with $d(a, a_n) < \varepsilon$ for all $n \geq N$.
+        We write $\lim_{n \to \infty}a_n = a$ or $a_n \to a$.
+        
+        In symbols this is:
+        \[
+        \forall \varepsilon > 0, \exists N \in \N, \forall n \geq N, d(a, a_n) < \varepsilon.
+        \]
+    \end{enumerate}
+\end{definition}
+
+We would say "converges in $d$ to $a$" written as $a_n \xrightarrow{d} a$.
 
 
 
