@@ -117,4 +117,135 @@ We call $d$ a metric on $X$.
     is called the closed ball of radius $r$ around $x$.
 \end{definition}
 
+\subsection{Open and closed sets}
+
+\begin{definition}
+    Let $X$ be a metric space.
+    A subset $U \subset X$ is called open,
+    if for every $x \in U$ there is $\epsilon > 0$ such that $B(x; \epsilon) \subset U$.
+    A subset $A \subset X$ is called closed,
+    if $X \setminus A$ is open.
+\end{definition}
+
+\begin{example}
+    Let $\R$ have the usual $|x - y|$ metric.
+    Then,
+    considered as sets:
+    
+    \begin{enumerate}[label = \arabic*.]
+        \item Any single point $\{x\} \in \R$ is not open.
+
+        \item Any single point $\{x\} \in \R$ is closed.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = \arabic*.]
+            \item
+            We have $\{x\} \in \R$ so for $\{x\}$ to be not open we need
+            \begin{align*}
+                \{x\} \subset \R, \neg(\forall x \in \{x\}, \exists \varepsilon > 0, B(x; \varepsilon) \subset \{x\}) &\iff \{x\} \subset \R, \forall \varepsilon > 0, B(x; \varepsilon) \not\subset \{x\} \\
+                &\iff \forall \varepsilon > 0, \{y \in X \mid |x - y| < \varepsilon\} \not\subset \{x\}. \\
+                &\iff \forall\varepsilon > 0, \exists y \in X, |x - y| < \varepsilon \wedge y \neq x.
+            \end{align*}
+            So let $\varepsilon > 0$,
+            then we need to find a $y \in X$ such that $|x - y| < \varepsilon$ such that $y \notin \{x\}$,
+            we can simply choose $y = x + \varepsilon / 2$ as
+            \[
+            |x - y| = |x - (x + \varepsilon / 2)| = |\varepsilon / 2| < \varepsilon
+            \]
+            hence $y \in B(x, \varepsilon)$,
+            but $y \notin \{x\}$.
+            So $\{x\}$ is not open.
+
+            \item
+            For $\{x\} \in \R$ to be closed we need for $\R \setminus \{x\}$ to be open and hence
+            \[
+            \forall y \in \R \setminus \{x\}, \exists \varepsilon > 0, B(y; \varepsilon) \subset \R \setminus \{x\} \iff \forall y \neq x, \exists \varepsilon > 0, |x - y| < \varepsilon
+            \]
+            hence we can choose $\varepsilon = |x - y| > 0$,
+            which means we have $x \notin B(y; \varepsilon)$,
+            $y \in B(y; \varepsilon) \subseteq \R \setminus \{x\}$.
+            So $\R \setminus \{x\}$ is open,
+            so $\{x\}$ is closed.
+        \end{enumerate}
+    \end{proof}
+\end{example}
+
+\begin{definition}
+    Suppose $X$ is a metric space and $x \in N \subseteq X$.
+    We call $N$ a neighbourhood of $x$ if there exists an open set $V \subseteq X$ with $x \in V \subseteq N$.
+\end{definition}
+
+From the previous two definitions we can get the following:
+\begin{corollary}
+    For $x$ in a metric space $X$,
+    $N \subseteq X$ is a neighbourhood of $x$ if and only if there is some $\varepsilon > 0$ such that $x \in B(x; \varepsilon) \subseteq N$.
+
+    A set $U \subseteq X$ is open if and only if $U$ is a neighbourhood of each $x \in U$.
+\end{corollary}
+
+\begin{proposition}
+    Open balls are open,
+    and closed balls are closed.
+
+    \begin{proof}
+        Let $B(x; r)$ be an open ball,
+        with $x \in X$ and $r > 0$,
+        suppose $y \in B(x; r)$.
+        We need to find an open ball round $y$ within $B(x; r)$.
+        So let $s = d(x, y)$.
+        Then we know $s < r$ and we can set $\varepsilon = r - s > 0$.
+        Now we claim that $B(t; \varepsilon) \subset B(x; r)$.
+        To show this,
+        consider any $z \in B(y; \varepsilon)$.
+        Then
+        \begin{align*}
+            d(z, x) &\leq d(z, y) + d(y, x) \\
+            &< \varepsilon + s \\
+            &= (r - s) + s = r.
+        \end{align*}
+        So $z \in B(x; r)$,
+        and we have $y \in B(y; \varepsilon) \subset B(x; r)$ as required.
+
+        Now let $D(x; r)$ be a closed ball.
+        To show it is closed,
+        we must show $X \setminus D(x; r)$ is open.
+
+        If $X \setminus D(x; r) = \emptyset$ there is nothing to show.
+        So we consider some $y \in X \setminus D(x; r)$.
+        This has $s = d(x, y) > r$.
+        Then setting $\varepsilon = s - r > 0$,
+        we claim that $B(y; \varepsilon) \subset X \setminus D(x; r)$.
+        Let $z \in B(y; \varepsilon)$.
+        Then
+        \begin{align*}
+            d(z, x) &\geq d(x, y) - d(y, z) \\
+            &> s - \varepsilon \\
+            &= s - (s - r) = r.
+        \end{align*}
+        So $z \notin D(x; r)$,
+        and we have $y \in B(y; \varepsilon) \subset X \setminus D(x; r)$ as required.
+        This means $X \setminus D(x; r)$ is open,
+        so $D(x; r)$ is closed.
+    \end{proof}
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
