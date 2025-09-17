@@ -312,6 +312,87 @@ From the previous two definitions we can get the following:
 
 We would say "converges in $d$ to $a$" written as $a_n \xrightarrow{d} a$.
 
+\begin{proposition}
+    Suppose that $(X, d_{X})$ and $(Y, d_{Y})$ are metric spaces,
+    $a \in X$,
+    and $f : X \to Y$ is a function.
+    Then the following are equivalent.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item For all $\varepsilon > 0$ there exists $\delta > 0$ such that
+        \[
+        d_{X}(a, x) < \delta \implies d_{Y}(f(a), f(x)) < \varepsilon,
+        \]
+
+        \item For any sequence $(a_n)$ with $a_n \xrightarrow{d_{X}} a$,
+        we have $f(a_n) \xrightarrow{d_{Y}}f(a)$.
+
+        \item For all open $U \subseteq Y$ with $f(a) \in U$,
+        we have that $f ^ {-1}(U)$ is a neighbourhood of $a$.
+    \end{enumerate}
+
+    \begin{proof}
+        We will prove that $(a) \implies (b) \implies (c) \implies (a)$.
+
+        $(a) \implies (b)$:
+
+        Assume $(a)$ holds,
+        and we have a sequence $(a_n)$ in $X$,
+        $a_n \xrightarrow{d_{X}} a$.
+        We must show that $f(a_n) \xrightarrow{d_{Y}} f(a)$,
+        that is,
+        for all $\varepsilon > 0$ there is some $N \in \N$ such that $n \geq N$ we have $d_{Y}(f(a_n), f(a)) < \varepsilon$.
+        So let $\varepsilon > 0$ be given.
+        Then by $(a)$ there is some $\delta > 0$ such that if $d_{X}(a_n, a) < \delta$ then $d_{Y}(f(a_n), f(a)) < \varepsilon$.
+        But also,
+        since $a_n \xrightarrow{d_{X}} a$,
+        there is some $N \in \N$ such that for all $n \geq N$ we have $d_{X}(a_n, a) < \delta$.
+        Hence,
+        for $n \geq N$ we have $d_{Y}(f(a_n), f(a)) < \varepsilon$ as required.
+
+        $(b) \implies (c)$ by contrapositive:
+
+        Assume that $(c)$ does not hold.
+        So there is some open set $U$ with $f(a) \in U \subseteq X$ such that $f ^ {-1}(U)$ is not a neighbourhood of $a$.
+        This means that,
+        for this $U$,
+        there is no open set $V$ with $a \in V \subseteq f ^ {-1}(U)$.
+        Some obvious candidates for $V$ are the open balls $B_{X}(a; 1/ n)$,
+        but by our assumption these do not satisfy:
+        for all $n \geq 1, B_{X}(a; 1 / n) \nsubseteq f ^ {-1}(U)$.
+        Each $B_{X}(a; 1 / n)$
+        'sticks out'
+        somewhere from $f ^ {-1}(U)$.
+
+        To show $(b)$ is false,
+        we need a sequence,
+        and we make it by picking a point from each sticking out region:
+        for all $n$,
+        let $a_n \in B_{X}(a; 1 / n) \setminus f ^ {-1}(U)$.
+        Since $d_{X}(a_n, a) < 1 / n$,
+        this sequence converges to $a$.
+        But also,
+        since $U$ is open there is some $\varepsilon > 0$ such that $B_{Y}(f(a), \varepsilon) \subseteq U$.
+        Hence,
+        since $f(a_n) \notin U$,
+        we must have $d_{Y}(f(a_n), f(a)) \geq \varepsilon$ for all $n$.
+        Thus $f(a_n)$ does not converge to $f(a)$,
+        so $(b)$ is false.
+
+        $(c) \implies (a)$:
+
+        Assume $(c)$ holds,
+        let $\varepsilon > 0$.
+        Then $B_{Y}(f(a); \varepsilon)$ is open,
+        so by $(c)$ $f ^ {-1}(B_{Y}(f(a); \varepsilon))$ is a neighbourhood of $a$.
+        Then by the previous corollary for some $\delta > 0$ we have $a \in B_{X}(a; \delta) \subseteq f ^ {-1}(B_{Y}(f(a); \varepsilon))$.
+        It says that if $d_{X}(a, x) < \delta$,
+        so $x \in B_{X}(a; \delta)$,
+        then $x \in f ^ {-1}(B_{Y}(f(a), \varepsilon)$.
+        So $f(x) \in B_{Y}(f(a); \varepsilon)$,
+        so $d_{Y}(f(a), f(x)) < \varepsilon$ as required.
+    \end{proof}
+\end{proposition}
 
 
 
