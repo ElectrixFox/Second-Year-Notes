@@ -394,6 +394,44 @@ We would say "converges in $d$ to $a$" written as $a_n \xrightarrow{d} a$.
     \end{proof}
 \end{proposition}
 
+\begin{definition}
+    If a function $f$ as above satisfies property $(a)$,
+    we say it is continuous at point $a \in X$.
+
+    I.e.
+    $\forall \varepsilon > 0, \exists \delta > 0$,
+    \[
+    d_{X}(a, x) < \delta \implies d_{Y}(f(a), f(x)) < \varepsilon.
+    \]
+\end{definition}
+
+\begin{definition}
+    If $f : X \to Y$ is continuous at all points $a \in X$ we say that $f$ is continuous.
+\end{definition}
+
+\begin{proposition}
+    A function $f : X \to Y$ is continuous if and only if $f ^ {-1}(U)$ is open for all open $U \subseteq Y$.
+
+    \begin{proof}
+        "$\implies$":
+
+        Consider any open set $U \subseteq Y$.
+        Since $f$ is continuous,
+        for any $a \in f ^ {-1}(U) \subseteq X$ we have that $f ^ {-1}(U)$ is a neighbourhood of $a$.
+        It follows that there is some $\varepsilon > 0$ such that $a \in B_{X}(a; \varepsilon) \subseteq f ^ {-1}(U)$.
+        But this means that $f ^ {-1}(U)$ is open as required.
+
+        "$\impliedby$":
+        Consider any point $a \in X$,
+        and any open set $U$ with $f(a) \in U \subseteq Y$,
+        so $a \in f ^ {-1}(U)$.
+        Our assumption is that $f ^ {-1}(U)$ is open,
+        so there is some $\varepsilon > 0$ such that $a \in B_{X}(a; \varepsilon) \subseteq f ^ {-1}(U)$,
+        as required for property $(c)$,
+        so $f$ is continuous.
+    \end{proof}
+\end{proposition}
+
 
 
 
