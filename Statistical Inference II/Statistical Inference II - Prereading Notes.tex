@@ -1,0 +1,240 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Statistical Inference II \\
+    \large Prereading Notes}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Multivariate probability}
+
+\begin{definition}[Random vector]
+    If $X_1, \dotsc, X_p$ is a collection of real-valued random variables,
+    then
+    \[
+    \mbf{X} = \begin{bmatrix}
+        X_1 \\ \vdots \\ X_p
+    \end{bmatrix} = (X_1, \dotsc, X_p) ^ T,
+    \]
+    is a $p$-dimensional random vector in $\R ^ p$,
+    and $\mbf{x} = (x_1, \dotsc, x_p) ^ T$ is a particular realisation of $\mbf{X}$.
+\end{definition}
+
+\begin{definition}[PDF of a random vector]
+    The pdf of a random vector $\mbf{X} = (X_1, \dotsc, X_p) ^ T$ is the joint probability density function
+    (also just density or pdf)
+    $f(X_1, \dotsc, X_p)$ from $\R ^ p$ to $\R_{0}^{+} = [0, \infty)$ such that:
+    \begin{enumerate}[label = \roman*)]
+        \item $f(\mbf{x}) \geq 0$ for all $\mbf{x} \in \R ^ p$.
+
+        \item $\int_{\R ^ p}f(\mbf{x})\,d\mbf{x} = \int_{-\infty}^{\infty}\dotsi\int_{-\infty}^{\infty}f(X_1, \dotsc, X_p)\,dX_1\dotsc dX_p = 1$.
+
+        \item For any subset $\mathcal{A}$ of $\R ^ p = \P(\mbf{X} \in \mathcal{A}) = \int_{\mathcal{A}}f(\mbf{x})\,d\mbf{x}$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[CDF of a random vector]
+    Similarly,
+    the joint cdf is defined as
+    \[
+    F(\mbf{x}) = \P(X_1 \leq x_1, \dotsc, X_p \leq x_p) = \int_{-\infty}^{x_1} \dotsi \int_{-\infty}^{x_p}f(x_1', \dotsc, x_p')\,dx_p'\dotsc dx_1',
+    \]
+    and we can recover the pdf by
+    (partial)
+    differentiation
+    \[
+    f(\mbf{x}) = \frac{\partial ^ p}{\partial x_1, \dotsc, \partial x_p}F(\mbf{x}).
+    \]
+\end{definition}
+
+\subsection{Key operations and relations}
+\begin{example}
+    Consider the bivariate
+    $(p = 2)$ pdf:
+    \[
+    f_{X, Y}(x, y) = \begin{cases}
+        \lambda ^ 2e ^ {-\lambda y}, &0 < x < y,\text{ and } \lambda > 0 \\
+        0, &\text{otherwise}.
+    \end{cases}
+    \]
+    Is this a valid pdf?
+
+    \begin{solution}
+        We know $\lambda ^ 2 > 0$ and $e ^ x > 0$ for all $x \in \R$,
+        so we have $f_{X, Y}(x, y) \geq 0$ for all $(x, y) \in \R ^ 2$ hence we have positivity.
+
+        Now we need to check that the integral integrates to $1$ over $\R ^ 2$:
+        \begin{align*}
+            \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X, Y}(x, y)\,dxdy &= \int_{0}^{\infty}\int_{0}^{y}\lambda ^ 2e ^ {-\lambda y}\,dxdy \\
+            &= \int_{0}^{\infty}\lambda ^ 2e ^ {-\lambda y}\int_{0}^{y}\,dxdy \\
+            &= \int_{0}^{\infty}\lambda ^ 2e ^ {-\lambda y}y\,dy \\
+            &= \left[-(\lambda y + 1)e ^ {-\lambda y}\right]_{0}^{\infty} \\
+            &= 0 - (-1) = 1.
+        \end{align*}
+        Hence,
+        the integral equals $1$ and we have positivity so this is a valid pdf.
+    \end{solution}
+\end{example}
+
+\begin{definition}[Marginal pdf]
+    A sub-collection $(X_1, \dotsc, X_q)$ of $(X_1, \dotsc, X_p)$,
+    where $q < p$,
+    has a marginal pdf defined as
+    \[
+    f(x_1, \dotsc, x_q) = \int_{-\infty}^{\infty}\dotsi\int_{-\infty}^{\infty}f(x_1, \dotsc, x_p)\,dx_{q + 1}\dotsc dx_p. 
+    \]
+    For discrete random variables,
+    the same definition holds with integrals replaced by sums.
+\end{definition}
+
+\begin{definition}[Conditional pdf]
+    If we know the values $X_{q + 1} = x_{q + 1}, \dotsc, X_p = x_p$,
+    but not the values of $X_1, \dotsc, X_q$,
+    then the $X_1, \dotsc, X_q$ are still random variables and have a conditional pdf
+    \[
+    f(x_1, \dotsc, x_q\mid x_{q + 1}, \dotsc, x_p) = \frac{f(x_1, \dotsc, x_q, x_{q + 1}, \dotsc, x_p)}{f(x_{q + 1}, \dotsc, x_p)}.
+    \]
+\end{definition}
+
+\begin{definition}[Independence]
+    A collection of random variables $(X_1, \dotsc, X_p)$ is said to be
+    (mutually)
+    independent if and only if their joint pdf factorises as
+    \[
+    f(x_1, x_2, \dotsc, x_p) = f_1(x_1)f_2(x_2)\dotsc f_p(x_p),
+    \]
+    for all $(x_1, x_2, \dotsc, x_p) \in \R ^ o$.
+    We will sometimes write this as $X_1 \independent X_2 \dotsc \independent X_p$ or $X_i \independent X_j\ \forall i \neq j$,
+    where the symbol $\independent$ means 'is independent of'.
+
+    An equivalent statement,
+    is that the conditional densities are equal to the marginal densities:
+    \[
+    f(x_i \mid x_1, \dotsc, x_{i - 1}, x_{i + 1}, \dotsc, x_p) = f(x_i),
+    \]
+    for all $i = 1, \dotsc, p$.
+\end{definition}
+
+\begin{definition}[Random sample,
+    IID]
+    The random variables $X_1, \dotsc, X_p$ are called independent and identically distributed
+    (iid)
+    random variables with pdf or pmf $f(x)$ if they are all independent of each other,
+    and the marginal pdf or pmf of each $X_i$ is the same function $f(x)$.
+    This means that the joint pdf simplifies to
+    \[
+    f(x_1, x_2, \dotsc, x_p) = f(x_1)f(x_2) \dotsc f(x_p) = \prod_{i = 1}^{p}f(x_i).
+    \]
+    Alternatively,
+    $X_1, \dotsc, X_p$ are called a random sample of size $n$ from the distribution
+    (or population)
+    $f(x)$.
+\end{definition}
+
+\newpage
+
+\section{Expectations,
+means,
+and variances}
+
+\subsection{Expectation of a scalar function of multiple random variables}
+
+\begin{definition}[The honesty condition]
+    The honesty condition for a pdf
+    (or pmf)
+    says that the integral
+    (or sum)
+    of a valid pdf over all possible values must equal $1$.
+\end{definition}
+
+\begin{remark}
+    When working with probability densities if we can rearrange our integral
+    (or part of it)
+    to be the integral of a known valid pdf over its entire range,
+    then we can immediately state that it must integrate to one.
+\end{remark}
+
+\subsection{Expectation and variance of a random vector}
+
+\begin{definition}[Mean vector]
+    The expectation $\E(\mbf{X})$ of a random vector $\mbf{X} = (X_1, \dotsc, X_p)$ is defined as:
+    \[
+    \E(\mbf{X}) = \int\mbf{x}f(\mbf{x})\,d\mbf{x} = \begin{bmatrix}
+        \int_{-\infty}^{\infty}x_1f(\mbf{x})\,d\mbf{x} \\
+        \vdots \\
+        \int_{-\infty}^{\infty}x_pf(\mbf{x})\,d\mbf{x}
+    \end{bmatrix} = \begin{bmatrix}
+        \E(X_1) \\ \vdots \\ \E(X_p)
+    \end{bmatrix} = \mbf{\mu},
+    \]
+    which is simply the $p$-dimensional vector whose components are the expectations of the individual components of $\mbf{x}$ and is known as the mean vector,
+    $\mbf{\mu}$,
+    of $\mbf{X}$.
+\end{definition}
+
+\begin{definition}[Variance matrix]
+    The variance matrix of the random vector $\mbf{X}$ is defined to be the $p \times p$ matrix such that,
+    for $i, j = 1, \dotsc, p$,
+    the $(i, j)$ element of the matrix is $\Cov(X_i, X_j)$:
+    \[
+    \Var(\mbf{x}) = \E((\mbf{X} - \mbf{\mu})(\mbf{x} - \mbf{\mu}) ^ T) = \E(\mbf{X}\mbf{X} ^ T) - \mbf{\mu}\mbf{\mu} ^ T = \begin{bmatrix}
+        \Sigma_{11} & \dotsi & \Sigma_{1p} \\
+        \vdots & \ddots & \vdots \\
+        \Sigma_{p1} & \dotsi & \Sigma_{pp}
+    \end{bmatrix} = \mbf{\Sigma},
+    \]
+    where the components of the matrix comprise the individual variances and covariances of the random variables:
+    \begin{align*}
+        \Sigma_{jj} &= \E(X_j ^ 2) - \E(X_j) ^ 2 = \Var(X_j) = \sigma_j ^ 2 \\
+        \Sigma_{ij} &= \E(X_iX_j) - \E(X_i)\E(X_j) = \Cov(X_i, X_j) = \Cov(X_j, X_i) = \Sigma_{ji}.
+    \end{align*}
+\end{definition}
+
+\begin{definition}[Covariance and correlation]
+    The covariance,
+    $\Cov(X_i, X_j)$ between a pair of random variables $X_i$ and $X_j$ is a measure of the strength of linear association between the two variables,
+    defined as:
+    \begin{align*}
+        \Cov(X_i, X_j) &= \E((X_i - \E(X_i))(X_j - \E(X_j))) = \Cov(X_j, X_i) \\
+        &= \sigma_i\sigma_j\rho_{ij},
+    \end{align*}
+    where $\sigma_i, \sigma_j$ are the standard deviations of $X_i$ and $X_j$ respectively,
+    and $\rho_{ij}$ is the correlation between $X_i$ and $X_j$.
+
+    The correlation $\rho_{ij}$ between $X_i$ and $X_j$ is a unit-less measure of association which quantifies the extent to which two random variables are linearly related.
+    The correlation is such that $\rho_{ij} \in [-1, 1]$,
+    with values further from zero indicating stronger association.
+    If $X_1$ and $X_2$ are independent then $\rho_{ij} = 0$,
+    but the reverse is not true in general.
+\end{definition}
+
+\subsection{Data,
+sample means and variances}
+
+\begin{definition}[Data matrix]
+    The measurement of the $j$th variable on the $i$th individual is denoted $x_{ij}$,
+    and is stored as the $(i, j)$th element of the $n \times p$ data matrix
+    \[
+    \mbf{X} = \begin{bmatrix}
+        x_{11} & x_{12} & \dotsi & x_{1p} \\
+        x_{21} & x_{22} & \dotsi & x_{2p} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        x_{n1} & x_{n2} & \dotsi & x_{np} \\
+    \end{bmatrix}.
+    \]
+\end{definition}
+The $i$th row of $\mbf{X}$ is the observation vector of all $p$ variables for individual $i$,
+$\mbf{x}_i$,
+and then the $j$th column of $\mbf{X}$ corresponds to all of the observation of variable $j$ across the $n$ individuals.
+
+\end{document}
