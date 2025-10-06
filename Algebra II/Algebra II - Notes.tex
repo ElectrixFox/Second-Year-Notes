@@ -15,5 +15,275 @@
 
 \newpage
 
+\section{Rings,
+subrings and fields}
+
+\subsection{First examples
+(non-examples)}
+
+\begin{enumerate}[label = (\roman*)]
+    \item $\Z = \{0, \pm 1, \pm 2, \dotsc\}$.
+
+    \item $\Q = \{\frac{a}{b} \mid a, b \in \Z, b \neq 0\}$.
+
+    \item $\R$,
+    $\C$.
+    In these cases we can divide by non-zero elements.
+
+    \item Polynomials:
+    Let $Q[x] = \{a_0 + a_1x + \dotsc + a_nx ^ n \mid a_i \in \Q\}$.
+
+    \item Matrices:
+    Let $n \in \N \coloneqq \{1, 2, 3, \dotsc\}$ and define $M_n(\Q) = \{n \times n\text{ matrices with entries in } \Q\}$.
+
+    We can add/multiply matrices.
+
+    \item Functions.
+    Let $C(\R) = \{f : \R \to \R \mid f\text{ continuous}\}$.
+    We can add,
+    subtract and multiply functions:
+    \[
+    (f \pm g)(x) = f(x) \pm g(x),\qquad (f\cdot g)(x) = f(x)g(x).
+    \]
+\end{enumerate}
+
+Informal definition of a ring:
+A ring is a set of objects where we can add/subtract/multiply two objects whilst remaining inside the set.
+If we can also divide,
+then this structure is called a field.
+
+All the examples in the above list are rings,
+$\Q, \R, \C$ are fields.
+
+Non-examples:
+\begin{enumerate}[label = (\roman*)]
+    \item $\N \coloneqq \{1, 2, 3, \dotsc\}$ is a not a ring,
+    $1 - 2 = -1 \notin \N$.
+
+    \item Let $V = \R ^ 3$.
+    Is $V$ a ring under $+$ and cross product?
+
+    No,
+    as in general
+    \[
+    u \times (v \times w) \neq (u \times v) \times w.
+    \]
+    This missing property is called associativity.
+\end{enumerate}
+
+Summarising:
+$\Z$ is a ring,
+but not a field.
+I.e. $\frac{1}{2} \notin \Z$.
+
+$\Q[x]$ is a ring,
+but not a field:
+$\frac{1}{x} \notin \Q[x]$.
+
+$M_n(\Q)$,
+$C(\R)$ are rings.
+
+$\N$,
+$\R ^ 3, +, \times$ are not rings.
+
+\subsection{Definition of a ring}
+
+\textbf{Binary operations} are operations which take in two inputs such that if $R$ is a set,
+a binary operation is a function $f : R \times R \to R$,
+$(x, y) \mapsto f(x, y)$.
+$+(x, y)$ is addition,
+normally written as $x + y$.
+$+$ should make $R$ into an abelian group
+($x + y = y + x$).
+
+For $R$ to be a ring,
+we also need another binary operation $\cdot : R \times R \to R$,
+written $x \cdot y$ or $xy$.
+
+\begin{definition}[Ring]
+    A ring $R$ is a set together with two binary operations $+, \cdot$,
+    such that $+$ makes $R$ into an abelian group and such that
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item (Identity)
+        \[
+        \exists 1 \in R, 1 \cdot x = x \cdot 1 = x,\quad\forall x \in R.
+        \]
+
+        \item (Associativity)
+        \[
+        x(yz) = (xy)z,\quad\forall x, y, z \in R.
+        \]
+
+        \item (Distributivity)
+        \[
+        x(y + z) = xy + xz\text{ and } (y + z)x = yx + zx\qquad\forall x, y, z \in R.
+        \]
+    \end{enumerate}
+\end{definition}
+
+\textit{Note:
+$R$ is an abelian group implies that for any $x \in R, -x \in R$,
+$x - y \coloneqq x + (-y)$.}
+
+\subsection{Integers modulo \texorpdfstring{$n$}{}}
+Let $n \in \N$.
+If we divide an integer by $n$ we always get a remainder among $0, 1, 2, \dotsc, n - 1$.
+When $a \in \Z$ is thought of as a remainder modulo $n$,
+we write it $\bar{a}$.
+$\bar{a}$ cannot be an integer,
+e.g. if $n = 2$,
+$\bar{a} = \bar{0}, \bar{1}$ and $\bar{0} = \bar{2} = \dotsi$ but $0 \neq 2$ so $\bar{a}$ cannot be defined.
+\[
+\bar{0} = 0, \pm 2, \pm 4, \dotsi.
+\]
+\[
+\bar{1} = 1, \pm 3, \pm 5, \dotsi.
+\]
+Define
+\[
+\bar{0} = \{x \in \Z\mid x \equiv 0 \pmod{2}\},\qquad\bar{1} = \{x \in \Z \mid x \equiv 1\pmod{2}\}.
+\]
+For general $n$,
+we define
+\[
+\bar{a} = \{x \in \Z \mid x \equiv a \pmod{n}\}.
+\]
+This is called a residue class.
+There are $n$ of these:
+\[
+\bar{0}, \bar{1}, \dotsc, \overline{n - 1}.
+\]
+We denote this set by $\Z / n$
+(sometimes written $\Z_{n}$).
+
+\begin{example}
+    We will show that $\Z / n$ is a commutative ring
+    (i.e. $xy = yx$).
+
+    \begin{solution}
+        We need two binary operations $+, \cdot$:
+        \begin{align*}
+            \bar{a} + \bar{b} &\coloneqq \overline{a + b}. \\
+            \bar{a} \cdot \bar{b} \coloneqq \overline{ab}.
+        \end{align*}
+        Thus,
+        to define $+$ and $\cdot$ we have chosen $a$ and $b$ in $\Z$,
+        as "representing" $\bar{a}$ and $\bar{b}$.
+        To be sure that these operations define a ring,
+        we need to check that they are independent of the choice of representatives.
+
+        We leave the task of checking $\Z / n$ is an abelian group
+        (under $+$),
+        since this will not be as important.
+
+        Existence of a
+        (multiplicative)
+        identity.
+        $\bar{1} \in \Z / n$.
+        commutativity $(xy = yx)$,
+        associativity $(x(yz) = (xy)z)$ and distributivity $(x(y + z) = xy + xz)$ all follow from the corresponding properties in $\Z$,
+        e.g.,
+        \[
+        \bar{a}(\bar{b} + \bar{c}) = \bar{a}(\overline{b + c}) = \overline{a(b + c)} = \overline{ab + ac} = \overline{ab} + \overline{ac} = \bar{a}\bar{b} + \bar{a}\bar{c}.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Consider $\Z / 3 = \{\bar{0}, \bar{1}, \bar{2}\}$.
+    Addition and multiplication tables:
+    
+    \begin{table}[H]
+        \begin{tabular}{c|c|c|c}
+            & $\bar{0}$ & $\bar{1}$ & $\bar{2}$ \\
+            \hline
+             $\bar{0}$ & $\bar{0}$ & $\bar{1}$ & $\bar{2}$ \\
+             $\bar{1}$ & $\bar{1}$ & $\bar{2}$ & $\bar{0}$ \\
+             $\bar{2}$ & $\bar{2}$ & $\bar{0}$ & $\bar{1}$
+        \end{tabular}
+    \end{table}
+    
+    \begin{table}[H]
+        \begin{tabular}{c|c|c|c}
+            & $\bar{0}$ & $\bar{1}$ & $\bar{2}$ \\
+            \hline
+             $\bar{0}$ & $\bar{0}$ & $\bar{0}$ & $\bar{0}$ \\
+             $\bar{1}$ & $\bar{0}$ & $\bar{1}$ & $\bar{2}$ \\
+             $\bar{2}$ & $\bar{0}$ & $\bar{2}$ & $\bar{1}$
+        \end{tabular}
+    \end{table}
+\end{example}
+
+\subsection{Subrings}
+
+\begin{example}
+    $\Z \subseteq \Q$,
+    $\R \subseteq \C$,
+    $\Q \subseteq \Q[x]$.
+\end{example}
+
+\begin{definition}[Subring]
+    A subring $S$ of a ring $(R, +, \cdot)$ is a set $S \subseteq R$ such that
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item $0 \in S$,
+        $1 \in S$.
+
+        \item $a, b \in S \implies a + b \in S$.
+
+        \item $a, b \in S \implies ab \in S$.
+
+        \item $a \in S \implies -a \in S$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    Show that $\Z[\sqrt{2}] = \{a + b\sqrt{2} \mid a, b \in \Z\}$ is a ring.
+
+    \begin{solution}
+        We can show that $\Z[\sqrt{2}]$ is a subring of $\R$.
+
+        We can clearly see that $0, 1 \in Z[\sqrt{2}]$.
+        To see associativity, distributivity and inverse.
+        \begin{align*}
+            (a + b\sqrt{2}) + (c + d\sqrt{2}) &= (a + b) + (b + d)\sqrt{2} \\
+            (a + b\sqrt{2})(c + d\sqrt{2}) &= (ac + 2bd) + (ad + bc)\sqrt{2} \\
+            -(a + b\sqrt{2}) &= -a - b\sqrt{2}.
+        \end{align*}
+        Thus,
+        $\Z[\sqrt{2}]$ is a subring of $\R$.
+        We do not have to check associativity or distributivity as these follow from the corresponding known properties in $\R$.
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Consider the ring $\Z / 6$.
+    It has $R = \{\bar{0}, \bar{2}, \bar{4}\}$ as a subset which satisfies the properties of being a subring
+    (apart from $\bar{1} \in R$).
+    It is a ring:
+    $\bar{4}$ works as the multiplicative identity,
+    e.g. $\bar{4} \cdot \bar{0} = \bar{0}$.
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
