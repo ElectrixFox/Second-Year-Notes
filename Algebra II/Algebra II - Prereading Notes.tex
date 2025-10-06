@@ -1,0 +1,214 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Algebra II \\
+    \large Prereading Notes}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Rings, subrings and fields}
+
+\subsection{First examples
+(and non-examples)
+of rings and fields}
+
+The integers $\Z = \{0, \pm 1, \pm 2, \dotsc\}$.
+We can add,
+subtract and multiply two integers while always remaining inside $\Z$.
+
+Polynomials:
+Let $\Q[x] = \{a_0 + a_1x + \dotsc + a_nx ^ n \mid a_i \in \Q\}$ denote the set of polynomials with rational coefficients.
+We can add
+subtract,
+and multiply two polynomials while remaining in $\Q[x]$.
+
+These examples lead us to an informal definition of a ring:
+A ring is a set of mathematical objects
+(e.g. numbers,
+matrices,
+functions etc.)
+where we can add,
+subtract and multiply two elements while remaining in the set.
+If we can also divide,
+the ring is called a field.
+
+Here is a non-example of a ring
+Let
+\[
+\N = \{1, 2, 3, \dotsc\}
+\]
+be the set of natural numbers.
+We can add two numbers such that the result is still in $\N$.
+The same holds for multiplication.
+However,
+we cannot subtract without eventually ending up outside of $\N$
+(e.g. $1 - 3 = -2 \notin \N$).
+Thus $\N$ is not a ring.
+
+
+\subsection{Definition of a ring}
+Now we will precisely state what is means to be a ring.
+
+First we need to state what a binary operation is.
+
+If we let $R \times R = \{(x, y) \mid x, y \in R\}$ be the Cartesian product,
+then addition in $R$ is nothing but a function $+ : R \times R \to \R$,
+but instead of $+(x, y)$ we write $x + y$.
+Such functions are called binary operations,
+because they take two elements as arguments.
+
+We can recall that $R$ is an abelian group with respect to $+$ if:
+\begin{enumerate}[label = (\roman*)]
+    \item $R$ has an additive identity element,
+    such that
+    \[
+    x + 0 = 0 + x = x,\quad\forall x \in R.
+    \]
+
+    \item (Associativity)
+    \[
+    (x + y) + z = x + (y + z),\quad \forall x, y, z \in R.
+    \]
+
+    \item $\forall x \in R, \exists y \in R$ such that
+    \[
+    x + y = y + x = 0.
+    \]
+    Such a $y$ is unique and is usually denotes as $-x$.
+
+    \item The above ensure that $R$ is a group with respect to $+$.
+    For $R$ to be abelian,
+    we further require that
+    \[
+    x + y = y + x,\quad\forall x, y \in R.
+    \]
+\end{enumerate}
+
+For the definition of a ring,
+we need another binary operation,
+which we usually call multiplication in $R$.
+It is a function $\cdot : R \times R \to R$,
+written $x \cdot y$,
+or simply $xy$.
+
+\begin{definition}[Ring]
+    A ring $R$ is a set together with two binary operations called "addition" and "multiplication",
+    such that $+$ makes $R$ into an abelian group,
+    and such that the following conditions hold:
+    \begin{enumerate}[label = \roman*)]
+        \item (Identity)
+        \[
+        \exists 1 \in R, 1 \cdot x = x \cdot 1 = x,\quad\forall x \in R.
+        \]
+
+        \item (Associativity)
+        For any $x, y, z \in R$ we have $x(yz) = (xy)z$.
+
+        \item (Distributivity)
+        For any $x, y, z \in R$ we have $x(y + z) = xy + xz$ and $(y + z)x = yx + zx$.
+    \end{enumerate}
+\end{definition}
+
+If the two conditions for distributivity coincide then we call the ring commutative.
+
+\subsection{The integers modulo \texorpdfstring{$n$}{}}
+Here is an important example of rings.
+Through residue classes of integers modulo some fixed natural number $n \in \N$ we can get rings.
+Dividing an integer by $n$ always gets a remainder along the following numbers
+\[
+0, 1, \dotsc, n - 1.
+\]
+When an integer $a \in \Z$ is thought of as a remainder modulo $n$,
+we write it as $\bar{a}$.
+
+$\bar{a}$ is not a precise definition as $\bar{a}$ cannot be an integer,
+for example when $n = 2$,
+every integer has remainder $0$ or $1$,
+so $\bar{0} = \bar{2} = \bar{4} = \dotsi$ and $\bar{1} = \bar{3} = \dotsi$.
+But we certainly don't have $0 = 2$ so we cannot have $\bar{a} = a$.
+
+For general $a$ and $n$,
+\[
+\bar{a} = \{x \in \Z \mid x \equiv a\pmod{n}\}.
+\]
+The elements $\bar{a}$ are called residue classes
+(modulo $n$).
+There are precisely $n$ of them,
+\[
+\{\bar{0}, \bar{1}, \dotsc, \overline{n - 1}\}
+\]
+we will denote this set by $\Z / n$.
+
+\begin{example}
+    We will show that $\Z / n$ is a commutative ring.
+    To do this we first need to say what we mean by "adding" and "multiplying" two residue classes.
+    The way to do this is by defining
+    \begin{align*}
+        \bar{a} + \bar{b} &= \overline{a + b}, \\
+        \bar{a} \cdot \bar{b} &= \overline{ab}.
+    \end{align*}
+    Thus,
+    to define $\bar{a} + \bar{b}$,
+    we have chosen $a \in \bar{a}$ and $b \in \bar{b}$,
+    taken $a + b \in \Z$ and then $\overline{a + b} \in \Z / n$.
+
+    We will leave showing that $\Z / n$ forms an abelian group under addition since this is not too important.
+
+    Existence of an identity element,
+    commutativity,
+    associativity and distributivity follow straight-forwardly,
+    using the properties of multiplication in $\Z$.
+    For example:
+    \[
+    \bar{a}(\bar{b} + \bar{c}) = \bar{a}(\overline{b + c}) = \overline{a(b + c)} = \overline{ab + ac} = \overline{ab} + \overline{ac} = \bar{a}\cdot\bar{b} + \bar{a}\cdot\bar{c},
+    \]
+    where we have used distributivity in the ring $\Z$ for the third equality.
+\end{example}
+
+\subsection{Subrings}
+
+\begin{definition}[Subring]
+    A subring $S$ of a ring $(R, +, \cdot)$ is a set $S \subseteq R$ such that
+    \begin{enumerate}[label = \roman*)]
+        \item $0 \in S, 1 \in S$,
+
+        \item $a, b \in S \implies a + b \in S$,
+
+        \item $a, b \in S \implies ab \in S$,
+
+        \item $a \in S \implies -a \in S$.
+    \end{enumerate}
+\end{definition}
+
+We can intuitively sum up this definition as:
+"A subring contains $0$ and $1$ and is closed under addition,
+subtraction and multiplication".
+A subring is itself a ring.
+
+\begin{example}
+    Show that $\Z[\sqrt{2}] \coloneqq \{a + b\sqrt{2}\mid a, b \in \Z\}$ is a ring.
+
+    \begin{solution}
+        We can quickly do this by showing that $\Z[\sqrt{2}]$ is a subring of $\R$.
+        $0, 1 \in \Z[\sqrt{2}]$ can be seen easily.
+        \begin{align*}
+            (a + b\sqrt{2}) + (c + d\sqrt{2}) &= (a + c) + (b + d)\sqrt{2} \in \Z[\sqrt{2}], \\
+            (a + b\sqrt{2})(c + d\sqrt{2}) &= (ac + 2bd) + (ab + bc)\sqrt{2} \in \Z[\sqrt{2}], \\
+            -(a + b\sqrt{2}) &= -a - b\sqrt{2} \in \Z[\sqrt{2}].
+        \end{align*}
+        Therefore $\Z[\sqrt{2}]$ is a subring of $\R$ and is hence a ring.
+    \end{solution}
+\end{example}
+
+
+\end{document}
