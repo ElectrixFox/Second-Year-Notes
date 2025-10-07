@@ -1,0 +1,159 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\newcommand{\bnabla}[0]{\mbf{\nabla}}
+
+\title{Mathematical Methods II \\
+    \large Prereading Notes}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Line integrals}
+
+\subsection{Curves}
+It is convenient to describe a curve by a parameterisation,
+$\mbf{x}(t)$,
+which maps a real interval $[t_0, t_1]$ into $\R ^ n$.
+This is a vector-valued function
+\[
+\mbf{x}(t) = x_1(t)\mbf{e}_1 + x_2(t)\mbf{e}_2 + \dotsc + x_n(t)\mbf{e}_n
+\]
+where $\{\mbf{e}_1, \mbf{e}_2, \dotsc, \mbf{e}_n\}$ denote the Cartesian unit vectors.
+
+If $\mbf{x}(t_1) = \mbf{x}(t_2)$ then the curve is called closed.
+
+A curve that does not cross itself is called simple.
+
+A parameterisation $x(t)$ is differentiable if it has a well-defined tangent vector,
+\[
+\frac{d\mbf{x}}{dt} = \lim_{dt \to 0}\frac{\mbf{x}(t + dt) - \mbf{x}(t)}{dt}.
+\]
+
+\subsection{Line integrals of scalar fields}
+A scalar field on $\R ^ n$ is a map $f : \R ^ n \to \R$.
+
+The line integral of a scalar field $f(\mbf{x})$ along a curve $C$ with parameterisation $\mbf{x}(t)$,
+for $t \in [t_0, t_1]$,
+is defined as
+\[
+\int_{C}f\,d\ell = \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{dt}\right|\,dt.
+\]
+
+\begin{proposition}
+    The line integral of a scalar field is independent of the choice of parameterisation.
+
+    \begin{proof}
+        Suppose we have two parameterisations of the same curve:
+        $\mbf{x}(t)$ for $t \in [t_0, t_1]$,
+        and $\mbf{x}(\tau)$ for $\tau \in [\tau_0, \tau_1]$.
+        By the chain rule,
+        the tangent vectors are related by
+        \[
+        \frac{d\mbf{x}}{dt} = \frac{d\tau}{dt}\frac{d\mbf{x}}{d\tau} \implies \left|\frac{d\mbf{x}}{dt}\right| = \left|\frac{d\mbf{x}}{dt}\right| = \left|\frac{d\tau}{dt}\right|\left|\frac{d\mbf{x}}{d\tau}\right|.
+        \]
+        There are now to cases:
+
+        Case $1$:
+        $\mbf{x}(\tau_0) = \mbf{x}(t_0)$,
+        meaning both parameterisation trace the curve in the same direction.
+        Then
+        \[
+        \frac{d\tau}{dt} > 0 \implies \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{d\tau}\right|\frac{d\tau}{dt}\,dt = \int_{\tau_0}^{\tau_1}f(\mbf{x}(\tau))\left|\frac{d\mbf{x}}{d\tau}\right|\,d\tau.
+        \]
+        Case $2$:
+        $\mbf{x}(\tau_0) = \mbf{x}(t_1)$,
+        meaning they trace the curve in opposite directions.
+        Now
+        \[
+        \frac{d\tau}{dt} < 0 \implies \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\mbf{x}(t))\left|\frac{d\mbf{x}}{d\tau}\right|\left(-\frac{d\tau}{dt}\right)\,dt = -\int_{\tau_1}^{\tau_0}f(\mbf{x}(\tau))\left|\frac{d\mbf{x}}{d\tau}\right|\,d\tau.
+        \]
+        Both cases recover the original formula.
+    \end{proof}
+\end{proposition}
+
+For the special case $f(\mbf{x}) \equiv 1$,
+the line integral is called the arclength of the curve,
+\[
+L = \int_{C}\,d\ell = \int_{t_0}^{t_1}\left|\frac{d\mbf{x}}{dt}\right|\,dt.
+\]
+
+\subsection{Line integrals of vector fields}
+A vector field is a function $\mbf{f} : \R ^ n \to \R ^ n$ that assigns a vector to each point in $\R ^ n$.
+For $n = 2$,
+we can visualise $\mbf{f}$ as an arrow at each point in the plane.
+
+The unit target vector of a parameterisation is
+\[
+\hat{\mbf{t}} = \frac{\frac{d\mbf{x}}{dt}}{\left|\frac{d\mbf{x}}{dt}\right|}
+\]
+
+An oriented curve is a curve together with a specified
+(consistent)
+choice of $\hvec{t}$.
+We indicate this by adding an arrow to the curve.
+
+The line integral of a vector field $\mbf{f}(\mbf{x})$ along an oriented curve $C$ with parameterisation $\vec{x}(t)$,
+for $t \in [t_0, t_1]$,
+is defined as the scalar line integral of the tangential component:
+\[
+\int_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\hvec{t}\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\frac{d\vec{x}}{dt}\,dt.
+\]
+
+If the curve $C$ is closed,
+this is often emphasised by the notation
+\[
+\int_{C}\vec{f}\cdot\hvec{t}\,d\ell = \oint_{C}\vec{f}\cdot \hvec{t}\,d\ell,
+\]
+and the line integral is called the circulation of $\vec{f}$ around $C$.
+
+\subsection{Curvilinear coordinates}
+In a curvilinear coordinate system $(u, v, w)$,
+the coordinate lines -
+where two of the coordinates are constant and one varies -
+may be curved.
+These coordinates lines may be parameterised by the corresponding coordinate,
+so are given by $\vec{x}(u, v, w)$ with two of the coordinates fixed.
+
+The coordinate system is orthogonal if the three tangent vectors are mutually orthogonal at every point.
+We can then define an orthonormal basis $\{\mbf{e}_u, \mbf{e}_v, \mbf{e}_w\}$ by normalising:
+\[
+\vec{e}_u = \frac{1}{h_u}\pd[\vec{x}]{u}\quad\vec{e}_v = \frac{1}{h_v}\pd[\vec{x}]{v},\quad\vec{e}_w = \frac{1}{h_w}\pd[\vec{x}]{w},
+\]
+where
+\[
+h_u = \left|\pd[\vec{x}]{u}\right|,\quad h_v = \left|\pd[\vec{x}]{v}\right|,\quad h_w = \left|\pd[\vec{x}]{w}\right|
+\]
+are called the scale factors.
+
+In $\R ^ 3$,
+there are two non-Cartesian systems in common use:
+
+\textbf{Cylindrical coordinates} are useful for problems with axial symmetry:
+\[
+\vec{x}(r, \theta, z) = r\cos{\theta}\vec{e}_1 + r\sin{\theta}\vec{e}_2 + z\vec{e}_3,\quad r > 0,\quad \theta \in [0, 2\pi],\quad z \in \R,
+\]
+leading to scale factors $h_r = 1$,
+$h_{\theta} = r$,
+$h_z = 1$.
+
+\textbf{Spherical coordinates} are useful for problems with spherical symmetry:
+\[
+\vec{x}(r, \theta, \phi) = r\sin{\theta}\cos{\phi}\vec{e}_1 + r\sin{\theta}\sin{\phi}\vec{e}_2 + r\cos{\theta}\vec{e}_3,\quad r > 0,\quad \theta \in [0, \pi],\quad \phi \in [0, 2\pi],
+\]
+leading to scale factors $h_r = 1$,
+$h_{\theta} = r$,
+$h_{\phi} = r\sin{\theta}$.
+
+
+
+\end{document}
