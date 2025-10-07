@@ -17,4 +17,291 @@
 
 \newpage
 
+\section{Line Integrals}
+
+\subsection{Curves}
+
+A curve $C$ is a $1$D subset of $\R ^ n$,
+for $n > 1$.
+Usually describe a curve by a parameterisation $\vec{x}(t)$:
+\[
+\vec{x}(t) = x_1(t)\vec{e}_1 + x_2(t)\vec{e}_2 + \dotsc + x_n(t)\vec{e}_n
+\]
+which maps an interval $[t_0, t_1]$ into $\R ^ n$.
+\textit{Think of $\vec{x}(t)$ as "trajectory" of a particle with $t$ being time.}
+
+\begin{example}
+    Find a parameterisation $\vec{x}(t)$ for the circle $x ^ 2 + y ^ 2 = a ^ 2$ in $\R ^ 2$.
+
+    \begin{solution}
+        Recall
+        \[
+        \begin{cases}
+            x = r\cos{\theta} \\
+            y = r\sin{\theta}
+        \end{cases}
+        \]
+        so
+        \[
+        x ^ 2 + y ^ 2 = a ^ 2 \implies r ^ 2(\cos ^ 2{\theta} + \sin ^ 2{\theta}) = a ^ 2 \implies r = a.
+        \]
+        So we can set $t = \theta$ and obtain
+        \[
+        \vec{x}(t) = a\cos(t)\vec{e}_1 + a\sin(t)\vec{e}_2\quad\text{for } t \in [0, 2\pi].
+        \]
+    \end{solution}
+\end{example}
+
+A curve is closed if $\vec{x}(t_1) = \vec{x}(t_0)$.
+
+A curve is simple if it doesn't cross/intersect itself.
+
+\begin{example}
+    Is the helix $\vec{x}(t) = \cos(t)\vec{e}_1 + \sin(t)\vec{e}_2 + t\vec{e}_3$ for $t \in [0, 6\pi]$ closed?
+    Or simple?
+
+    \begin{solution}
+        $\vec{x}(0) = \vec{e}_1 \neq \vec{e}_1 + 6\pi\vec{e}_2 = \vec{x}(6\pi)$ so it is not closed,
+        i.e. open.
+        No self-intersections so it is simple.
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Is the "clover" $\vec{x}(t) = \cos(3t)\cos(t)\vec{e}_1 + \cos(3t)\sin(t)\vec{e}_2$ for $t \in [0, \pi]$ closed? Or simple?
+
+    \begin{solution}
+        $\vec{x}(0) = \vec{e}_1 = \vec{e}_1 = \vec{x}(\pi)$ so it is closed.
+        It is not simple because of the triple intersection at $\vec{x} = \vec{0}$,
+        $\vec{x}\left(\frac{\pi}{6}\right) = \vec{x}\left(\frac{\pi}{2}\right) = \vec{x}\left(\frac{5\pi}{6}\right) = \vec{0}$.
+    \end{solution}
+\end{example}
+
+A parameterisation $\vec{x}(t)$ is differentiable if it has a well-defined tangent vector
+\[
+\frac{d\vec{x}}{dt} = \lim_{dt \to 0}\frac{\vec{x}(t + dt) - \vec{x}(t)}{dt}
+\]
+points along the curve.
+
+If $\vec{x}(t)$ is a trajectory then $\frac{d\vec{x}}{dt}$ is its velocity,
+and $\left|\frac{d\vec{x}}{dt}\right|$ its speed.
+
+\textit{Note:
+the parameterisation of a curve is not unique
+(could have opposite direction,
+or different speed).}
+
+\begin{example}
+    Find the tangent vectors for
+    \begin{enumerate}[label = (\roman*)]
+        \item $\vec{x}(t) = \vec{a} + t(\vec{b} - \vec{a})$ for $t \in [0, 1]$.
+
+        \item $\vec{x}(\tau) = \vec{a} + (\vec{b} - \vec{a})\sin{\tau}$ for $\tau \in \left[0, \frac{\pi}{2}\right]$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \[
+            \frac{d\vec{x}}{dt} = \vec{b} - \vec{a}.
+            \]
+
+            \item
+            \[
+            \frac{d\vec{x}}{d\tau} = (\vec{b} - \vec{a})\cos{\tau}.
+            \]
+        \end{enumerate}
+
+        They both describe the same straight line from $\vec{a}$ to $\vec{b}$
+        (but with different speeds)
+        because $\frac{d\vec{x}}{dt}$ and $\frac{d\vec{x}}{dt}$ have the same direction.
+
+        If $\vec{x}(t)$ and $\vec{x}(\tau)$ are two parameterisation of the same curve,
+        the Chain Rule gives
+        \[
+        \frac{d\vec{x}}{dt} = \frac{d\vec{x}}{d\tau}\frac{d\tau}{dt}.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Verify the chain rule formula for the two parametrisation in the previous example.
+
+    At a given point on the curve,
+    \[
+    \vec{x}(t) = \vec{x}(\tau) \iff \vec{a} + t(\vec{b} - \vec{a}) = \vec{a} + (\vec{b} - \vec{a})\sin{\tau} \implies t = \sin{\tau} \implies \frac{dt}{d\tau}\cos{\tau}.
+    \]
+    Then
+    \[
+    \frac{d\vec{x}}{dt} = \frac{d\vec{x}}{d\tau}\frac{1}{\frac{dt}{d\tau}} = \frac{1}{\cos{\tau}}\frac{d\vec{x}}{dt}.
+    \]
+\end{example}
+
+\begin{remark}
+    A parameterisation $\vec{x}(t)$ is called regular if $\frac{d\vec{x}}{dt} \neq \vec{0}$ everywhere
+    (otherwise it is singular).
+    
+    A curve is called regular if it has at least one regular parameterisation.
+\end{remark}
+
+\begin{example}
+    Hypocycloid $\vec{x}(t) = \cos ^ 3(t)\vec{e}_1 + \sin ^ 3(t)\vec{e}_2$ for $t \in [0, 2\pi]$.
+
+    Tangent vector:
+    \[
+    \frac{d\vec{x}}{dt} = -3\cos ^ 2(t)\sin(t)\vec{e}_1 + 3\sin ^ 2(t)\cos(t)\vec{e}_2.
+    \]
+    Vanishes when either $\sin(t) = 0$ or $\cos(t) = 0$ so $t = 0, \pi / 2, \pi, 3\pi / 2$ and $\vec{x}(0) = (1, 0)$,
+    $\vec{x}\left(\frac{\pi}{2}\right) = (0, 1)$,
+    $\vec{x}(\pi) = (-1, 0)$,
+    $\vec{x}\left(\frac{3\pi}{2}\right) = (0, -1)$.
+\end{example}
+
+\subsection{Line integrals of scalar fields}
+
+Recall:
+a scalar field on $\R ^ n$ is a map $f : \R ^ n \to \R$
+(assigns a real number to every point).
+
+The line integral of a scalar field $f(\vec{x})$ along a curve $C$ with parameterisation $\vec{x}(t)$ for $t \in [t_0, t_1]$ is
+\[
+\int_{C}f\,d\ell = \int_{t_0}^{t_1}f(\vec{x}(t))\left|\frac{d\vec{x}}{dt}\right|\,dt.
+\]
+
+\begin{example}
+    Integrate $f(\vec{x}) = y + x ^ 2$ around the unit circle.
+
+    Parameterisation:
+    \[
+    \vec{x}(t) = \cos(t)\vec{e}_1 + \sin(t)\vec{e}_2 \text{ for } t \in [0, 2\pi].
+    \]
+
+    Tangent vector:
+    \[
+    \frac{d\vec{x}}{dt} = -\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2 \implies \left|\frac{d\vec{x}}{dt}\right| = \sqrt{\sin ^ 2 t + \cos ^ 2 t} = 1
+    \]
+    so
+    \[
+    \int_{C}f\,d\ell = \int_{0}^{2\pi}(y + x ^ 2)(1)\,dt = \int_{0}^{2\pi}(\sin(t) + \cos ^ 2(t))\,dt = \int_{0}^{2\pi}\cos ^ 2t\,dt = \frac{1}{2}\int_{0}^{2\pi}(1 + \cos(2t))\,dt = \frac{1}{2}\left[t\right]_{0}^{2\pi} = \pi.
+    \]
+\end{example}
+
+\begin{proposition}
+    The line integral of a scalar field is independent of the choice of parameterisation.
+
+    \begin{proof}
+        Suppose we have two parameterisations of the same curve
+        \[
+        \begin{cases}
+            \vec{x}(t) &\text{for } t \in [t_0, t_1] \\
+            \vec{x}(\tau) &\text{for } \tau \in [\tau_0, \tau_1].
+        \end{cases}
+        \]
+        By the chain rule
+        \[
+        \frac{d\vec{x}}{dt} = \frac{d\tau}{dt}\frac{d\vec{x}}{dt} \implies \left|\frac{d\vec{x}}{dt}\right| = \left|\frac{d\tau}{dt}\right|\left|\frac{d\vec{x}}{d\tau}\right|.
+        \]
+
+        There are now two cases to consider:
+
+        Case $1$:
+        \[
+        \vec{x}(t_0) = \vec{x}(\tau_0)
+        \]
+        i.e. both have same direction.
+        Then $\frac{dt}{d\tau} > 0$,
+        so
+        \[
+        \int_{t_0}^{t_1}f(\vec{x}(t))\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\vec{x}(t))\frac{d\tau}{dt}\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{\tau_0}^{\tau_1}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau.
+        \]
+        
+        Case $2$:
+        $\vec{x}(t_0) = \vec{x}(\tau_1)$ i.e. opposite directions.
+        Then $\frac{dt}{d\tau} < 0$,
+        so
+        \[
+        \int_{t_0}^{t_1}f(\vec{x}(t))\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\vec{x}(t))\left(-\frac{d\tau}{dt}\right)\left|\frac{d\vec{x}}{d\tau}\right|\,dt = -\int_{\tau_1}^{\tau_0}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau = \int_{\tau_0}^{\tau_1}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau.
+        \]
+    \end{proof}
+\end{proposition}
+
+For the special case $f(\vec{x}) \equiv 1$,
+the line integral is called the arclength of the curve,
+$L = \int_{C}d\ell = \int_{t_0}^{t_1}\left|\frac{d\vec{x}}{dt}\right|\,dt$.
+
+\begin{remark}
+    There is always an arclength parameterisation $\vec{x}(s)$ where $\left|\frac{d\vec{x}}{ds}\right| \equiv 1$ all along the curve.
+    Then $s$ is the distance and $L = \int_{0}^{L}\,ds$.
+\end{remark}
+
+\begin{example}
+    Calculate the arclength of the circle $x ^ 2 + y ^ 2 = a ^ 2$.
+
+    \begin{solution}
+        Parameterisation:
+        $\vec{x}(t) = a\cos(t)\vec{e}_1 + a\sin(t)\vec{e}_2$ for $t \in [0, 2\pi]$.
+        \[
+        \frac{d\vec{x}}{dt} = -a\sin(t)\vec{e}_1 + a\cos(t)\vec{e}_2 \implies \left|\frac{d\vec{x}}{dt}\right| = a.
+        \]
+        So
+        \[
+        L = \int_{0}^{2\pi}\left|\frac{d\vec{x}}{dt}\,dt\right| = \int_{0}^{2\pi}a\,dt = 2\pi a.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Calculate the arclength of the hypocycloid $\vec{x}(t) = \cos ^ 3(t)\vec{e}_1 + \sin ^ 2(t)\vec{e}_2$ for $t \in [0, 2\pi]$.
+    \[
+    \frac{d\vec{x}}{dt} = -3\cos ^ 2(t)\sin(t)\vec{e}_1 + 3\sin ^ 2(t)\cos(t)\vec{e}_2 \implies \left|\frac{d\vec{x}}{dt}\right| = \sqrt{9\cos ^ 4(t)\sin ^ 2(t) + 9\sin ^ 4(t)\cos ^ 2(t)} = 3\sqrt{\cos ^ 2(t)\sin ^ 2(t)}\sqrt{\cos ^ 2t + \sin ^ 2t} = 3|\cos(t)\sin(t)|.
+    \]
+    By symmetry,
+    we only need to integrate over $t \in [0, \pi / 2]$,
+    so
+    \[
+    L = \int_{0}^{2\pi}3|\cos(t)\sin(t)|\,dt = 4\int_{0}^{\pi / 2}3\cos(t)\sin(t)\,dt = 6\int_{0}^{\pi / 2}2\cos(t)\sin(t)\,dt = 6\int_{0}^{\pi / 2}\sin(2t)\,dt = 6\left[-\frac{1}{2}\cos(2t)\right]_{0}^{\pi / 2} = 6.
+    \]
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
