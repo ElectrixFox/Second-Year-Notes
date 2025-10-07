@@ -17,4 +17,321 @@
 
 \section{Introduction}
 
+General statistical problem:
+Observe data $X_1, \dotsc, X_n$
+(the sample)
+from a distribution
+(the population),
+$F$.
+How can we learn about $F$ and its properties?
+
+Assume $F$ is a particular form of distribution
+(the model),
+which we can summarise by the parameters $\theta \in \Omega$,
+e.g. Normal has two parameters $(\mu, \sigma ^ 2) = \theta$.
+
+Inference problems:
+\begin{itemize}
+    \item Estimation -
+    given $F$,
+    make a best guess at the value of $\theta$.
+    
+    \item Uncertainty Quantification -
+    determine accuracy of the estimate of $\theta$.
+
+    \item Hypothesis testing -
+    does the data provide enough evidence to reject a default theory about $F$
+    (or $\theta$)?
+\end{itemize}
+
+\newpage
+
+\section{Multivariate probability}
+
+\begin{definition}
+    Let $X_1, \dotsc, X_p$ be a collection of $p > 0$ real valued random variables.
+    Then
+    \[
+    \vec{X} = \begin{bmatrix}
+        X_1 \\ \vdots \\ X_p
+    \end{bmatrix} = \begin{bmatrix}
+        X_1, \dotsc, X_p
+    \end{bmatrix} ^ T
+    \]
+    is a $p$-dimensional random vector and $\vec{x} = [x_1, \dotsc, x_p] ^ T$ is a realisation of $\vec{X}$.
+\end{definition}
+
+Everything probabilistic about $\vec{X}$ is determined by its joint pdf,
+$f(\vec{x})$,
+which is just
+\begin{align*}
+    f(\vec{x}) = &f(x_1, \dotsc, x_p) \\
+    &\R ^ p \mapsto \R_{+}
+\end{align*}
+
+Key operations:
+
+Marginalisation:
+The pdf of a subset of $q < p$ random variables is called the marginal pdf of $[X_1, \dotsc, X_q]$
+\[
+f(x_1, \dotsc, x_q) = \int_{-\infty}^{\infty}\dotsi\int_{-\infty}^{\infty}f(x_1, \dotsc, x_q, x_{q + 1}, \dotsc, x_p)\,dx_{q + 1}\dotsc dx_p.
+\]
+"We integrate out what we don't want".
+
+Conditioning:
+If we know the values of $q < p$ random variables $X_1 = x_1, \dotsc, X_q = x_q$,
+but we do not know the values of $X_{q + 1}, \dotsc, X_p$,
+the latter are still random and have a conditional pdf
+\[
+f(x_{q + 1}, \dotsc, x_p\mid x_1, \dotsc, x_q) = \frac{f(x_1, \dotsc, x_q, x_{q + 1}, \dotsc, x_p)}{f(x_1, \dotsc, x_q)}
+\]
+"We slice through the distribution at $X = x_1, X_2 = x_2, \dotsc, X_q = x_q$".
+
+Independence:
+
+The collection of random variables $X_1, \dotsc, X_p$ are
+(mutually)
+independent if and only if:
+\[
+f_{\vec{x}}(x_1, \dotsc, x_p) = f_{x_1}(x_1)f_{x_2}(x_2) \dotsi f_{x_p}(x_p)
+\]
+for all $(x_1, \dotsc, x_p) \in \R ^ p$.
+We write $X_1 \independent X_2$ for $X_1$ is independent of $X_2$.
+
+We often assume that a collection of variables is independent and identically distributed
+(iid),
+which means
+\[
+f_{\vec{x}}(x_1, \dotsc, x_p) = f(x_1) \cdots f(x_p) = \prod_{i = 1}^{p}f(x_i).
+\]
+We then say that $\vec{X} = [X_1, \dotsc, X_p]$ is a random sample from $f$.
+
+\begin{example}
+    \[
+    f(x, y) = \begin{cases}
+        \lambda ^ 2e ^ {-\lambda y}, &0 \leq x \leq y, \lambda > 0, \\
+        0, &\text{otherwise}.
+    \end{cases}
+    \]
+    Marginalisation:
+    \[
+    f_X(x) = \int_{x}^{\infty}\lambda ^ 2e ^ {\lambda y}\,dy = \left[-\lambda e ^ {-\lambda y}\right]_{x}^{\infty} = \lambda e ^ {-\lambda x}, \quad x \geq 0
+    \]
+    $X \sim \Exp(\lambda)$.
+
+    \[
+    f_Y(y) = \int_{0}^{y}\lambda ^ 2e ^ {-\lambda y}\,dx = \lambda ^ 2ye ^ {-\lambda y},\quad y \geq 0
+    \]
+    $Y \sim \mathrm{Ga}(2, \lambda)$.
+
+    Is $X \independent Y$?
+
+    \[
+    f(x, y) = \lambda ^ 2e ^ {-\lambda y} \neq f_X(x)f_Y(y) = \lambda ^ 3ye ^ {-\lambda(y + x)}
+    \]
+    so not independent.
+
+    Find conditionals $f(x\mid y)$ and $f(y\mid x)$.
+\end{example}
+
+\newpage
+
+\section{Expectations,
+means and variances}
+
+\begin{definition}[Honesty condition]
+    For a pdf $f$,
+    \[
+    \int_{-\infty}^{\infty}f(x)\,dx = 1.
+    \]
+\end{definition}
+
+
+\begin{example}
+    $\vec{X} = [X, Y] ^ T$ has pdf
+    \[
+    f(x, y) = \begin{cases}
+        \lambda ^ 2e ^ {-\lambda y}, &0 \leq x \leq y, \lambda > 0, \\
+        0, &\text{otherwise}.
+    \end{cases}
+    \]
+    Find $\E(X, Y)$.
+
+    \begin{solution}
+        \begin{align*}
+            \E(X, Y) &= \int_{0}^{\infty}\int_{0}^{y}(x + y)\lambda ^ 2e ^ {-\lambda y}\,dxdy \\
+            &= \int_{0}^{\infty}\int_{0}^{y}x\lambda ^ 2e ^ {-\lambda y} + y\lambda ^ 2e ^ {-\lambda y}\,dxdy \\
+            &= \int_{0}^{\infty}\lambda ^ 2e ^ {-\lambda y}\left[\frac{x ^ 2}{2}\right]_{0}^{y} + \lambda ^ 2y ^ 2e ^ {-\lambda y}\,dy \\
+            &= \int_{0}^{\infty}\frac{\lambda ^ 2y ^ 2}{2}e ^ {-\lambda y} + \lambda ^ 2y ^ 2e ^ {-\lambda y}\,dy \\
+            \intertext{Suppose $Z \sim \mathrm{Ga}(3, \lambda)$,
+            then $f(z) = \frac{\lambda ^ 3}{2}z ^ 2e ^ {-\lambda z}, z > 0$}
+            &= \int_{0}^{\infty}f(y)\frac{1}{\lambda}\,dy + \int_{0}^{\infty}f(y)\frac{2}{\lambda}\,dy \\
+            &= \frac{1}{\lambda}\int_{0}^{\infty}f(y)\,dy + \frac{2}{\lambda}\int_{0}^{\infty}f(y)\,dy \\
+            &= \frac{1}{\lambda} + \frac{2}{\lambda} = \frac{3}{\lambda}.
+        \end{align*}
+    \end{solution}
+\end{example}
+
+Given a random vector $\vec{X}$,
+with pdf $f(\vec{x})$,
+what are $\E(\vec{X})$ and $\Var(\vec{X})$?
+
+\begin{definition}
+    The expectation of $\vec{X}$ is the $p$-vector:
+    \[
+    \vec{\mu} = \E(\vec{X}) = \begin{bmatrix}
+        \E(X_1) \\
+        \vdots \\
+        \E(X_p)
+    \end{bmatrix} = \int\vec{x}f(\vec{x})\,d\vec{x}.
+    \]
+\end{definition}
+
+\begin{definition}
+    The variance matrix is the $p \times p$ symmetric non-singular
+    (positive definite)
+    matrix:
+    \[
+    \Sigma = \Var(\vec{X}) = \begin{bmatrix}
+        \Var(X_1) & \dotsi & \Cov(X_1, X_p) \\
+        \vdots & \ddots & \vdots \\
+        \Cov(X_1, X_p) & \dotsi & \Var(X_p)
+    \end{bmatrix} = \E((\vec{X} - \vec{\mu})(\vec{X} - \vec{\mu}) ^ T) = \E(\vec{X}\vec{X} ^ T) - \vec{\mu}\vec{\mu} ^ T.
+    \]
+\end{definition}
+
+\begin{definition}
+    The covariance $\Cov(X_i, X_j)$ is a measure of the strength of association between $X_i, X_j$.
+    \[
+    \Cov(X_i, X_j) = \sigma_i\sigma_j\rho_{ij} = \Cov(X_j, X_i)
+    \]
+    $\sigma_i$ is the standard deviation of $X_i$,
+    $\rho_{ij}$ is the correlation.
+\end{definition}
+
+\begin{definition}
+    The correlation,
+    $\mathbb{C}\mathrm{orr}(X_i, X_j) = \rho_{ij} \in [-1, 1]$,
+    quantifies the extent which $X_i, X_j$ are linearly related.
+    Independence between $X_i, X_j \implies \rho = 0$,
+    but $\rho = 0 \not\implies$ independence.
+\end{definition}
+
+The sample:
+observe $p$ random variables for each of $n$ individuals,
+gives observations $x_{ij}$ for individual $i$,
+variable $j$ -
+As vectors,
+$\vec{X}_1 = \vec{x}_1, \dotsc, \vec{X}_n = \vec{x}_n$,
+which we can summarise.
+
+Sample mean vector
+\[
+\bar{\vec{X}} = \frac{1}{n}\sum_{i = 1}^{n}\vec{X}_i = \begin{bmatrix}
+    \bar{X}_1 \\ \vdots \\ \bar{X}_p
+\end{bmatrix},
+\]
+$X_1$ is the sample mean of variable $1$.
+
+Sample covariance matrix:
+\[
+S = \begin{bmatrix}
+    S_1 ^ 2 & \dotsi & S_{1p} \\
+    \vdots & \ddots & \vdots \\
+    S_{1p} & \dotsi & S_p ^ 2
+\end{bmatrix}
+\]
+$S_i ^ 2 = \frac{1}{n - 1}\sum_{i = 1}^{n})X+{ij} - \bar{X}_i) ^ 2$ is the sample variance of variable $i$.
+$S_{ij} = \frac{1}{n - 1}\sum_{k = 1}^{n}(X_{ki} - \bar{X}_i)(X_{kj} - \bar{X}_j) = S_iS_jr_{ij}$ is the sample covariance.
+
+
+\begin{proposition}
+    For a random variable $\vec{X}$ $p < 1$ with $\E(\vec{X}) = \vec{\mu}$ and $\Var(\vec{X}) = \Sigma$,
+    and constants $A$ $q \times p$,
+    $\vec{b}$ $q \times 1$,
+    $C$ $q \times p$,
+    $\vec{d}$ $q \times 1$.
+    $A\vec{X} + \vec{b}$ is a linear transformation of $\vec{X}$ is also a random vector.
+    \begin{enumerate}[label = (\roman*)]
+        \item $\E(A\vec{X} + \vec{b}) = A\E(\vec{X}) + \vec{b}$.
+    
+        \item $\Var(A\vec{X} + \vec{b}) = A\Var(\vec{X})A ^ T$.
+    
+        \item $\Cov(A\vec{X} + \vec{b}, C\vec{X} + \vec{d}) = A\Cov(X, X ^ T)C ^ T = A\Var(X)C ^ T$.
+    \end{enumerate}
+
+    \begin{proof}
+        Expand and integrate.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Let $\vec{X} = X_1, \dotsc, X_n$ be independent random variables with $\E(X_i) = \mu$,
+    $\Var(X_i) = \sigma ^ 2$ for all $i$.
+    \[
+    \E(\vec{X}) = \begin{bmatrix}
+        \mu \\ \vdots \\ \mu
+    \end{bmatrix} = \mu\vec{1}_a = \vec{\mu},\quad \Var(\vec{X}) = \begin{bmatrix}
+        \sigma ^ 2 & \dotsi & 0 \\
+        \vdots & \ddots & \vdots & \\
+        0 & \dotsi & \sigma ^ 2
+    \end{bmatrix} = \sigma ^ 2I_n = \Sigma.
+    \]
+
+    Suppose $\vec{c} = \left[\frac{1}{n}, \dotsc, \frac{1}{n}\right] ^ T$,
+    find expectation and variance of $C ^ T\vec{X}$.
+    \[
+        \E(\vec{C} ^ T\vec{X}) = \vec{C} ^ T\E(\vec{X}) = \vec{C} ^ T\vec{\mu} = \left[\frac{1}{n}, \dotsc, \frac{1}{n}\right]\begin{bmatrix}
+        \mu \\ \vdots \\ \mu
+    \end{bmatrix} = n \times \frac{\mu}{n} = \mu.
+    \]
+    \[
+    \Var(\vec{C} ^ T\vec{X}) = C ^ T\Sigma C = \left[\frac{1}{n}, \dotsc, \frac{1}{n}\right] \begin{bmatrix}
+        \sigma ^ 2 & \dotsi & 0 \\
+        \vdots & \ddots & \vdots & \\
+        0 & \dotsi & \sigma ^ 2
+    \end{bmatrix}\begin{bmatrix}
+        \frac{1}{n} \\ \vdots \\ \frac{1}{n}
+    \end{bmatrix} = n \times \frac{\sigma ^ 2}{n ^ 2} = \frac{\sigma ^ 2}{n}.
+    \]
+\end{example}
+
+\newpage
+
+\section{A change of variables}
+
+\subsection{Univariate transformations}
+If a random variable $X$ has pdf $f_{X}(\vec{x})$ and $Y$ is the random variable $Y = y(X)$,
+what is $f_Y(y)$?
+
+Method A:
+The CDF method
+\begin{enumerate}[label = (\arabic*)]
+    \item Find the CDF for $Y$:
+    $F_{X}(y) = \P(Y < y)$ by probability calculations.
+
+    \item Differentiate with respect to $y$:
+    $f_Y(y) = \frac{d}{dy}F_y(y)$.
+\end{enumerate}
+
+\begin{definition}
+    If $Z \sim N(0, 1)$,
+    then $Y = Z ^ 2$ has a chi-squared distribution with parameter $1$.
+\end{definition}
+
+
+\begin{example}
+    The Chi-Squared distribution.
+
+    CDF method:
+    \[
+    F_Y(y) = \P(Y < y) = \P(Z ^ 2 < y) = \P(-\sqrt{y} < Z < \sqrt{y}) = \Phi(\sqrt{y}) - \Phi(-\sqrt{y}) = 2\Phi(\sqrt{y}) - 1
+    \]
+    \[
+    f_{Y}(y) = \frac{d}{dy}F_y(y) = \frac{d}{dy}(2\Phi(\sqrt{y}) - 1) = 2 \times \frac{1}{2}y ^ {-\frac{1}{2}} \times \phi(\sqrt{y}) = \frac{1}{\sqrt{y}}\frac{1}{\sqrt{2\pi}}e ^ {-\frac{1}{2}y}.
+    \]
+    $\phi$ is the normal pdf.
+\end{example}
+
+
 \end{document}
