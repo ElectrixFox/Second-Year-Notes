@@ -194,7 +194,7 @@ We denote this set by $\Z / n$
     Consider $\Z / 3 = \{\bar{0}, \bar{1}, \bar{2}\}$.
     Addition and multiplication tables:
     
-    \begin{table}[H]
+    \begin{table}[h!]
         \begin{tabular}{c|c|c|c}
             & $\bar{0}$ & $\bar{1}$ & $\bar{2}$ \\
             \hline
@@ -204,7 +204,7 @@ We denote this set by $\Z / n$
         \end{tabular}
     \end{table}
     
-    \begin{table}[H]
+    \begin{table}[h!]
         \begin{tabular}{c|c|c|c}
             & $\bar{0}$ & $\bar{1}$ & $\bar{2}$ \\
             \hline
@@ -265,6 +265,266 @@ We denote this set by $\Z / n$
     $\bar{4}$ works as the multiplicative identity,
     e.g. $\bar{4} \cdot \bar{0} = \bar{0}$.
 \end{example}
+
+\subsection{Fields}
+
+Some examples of fields $\Q, \R, \C$.
+Multiplication is commutative,
+$xy = yx, \forall x. y$ and any non-zero element has an inverse:
+\[
+\frac{a}{b} = ab ^ {-1} = b ^ {-1}a,\qquad b \neq 0.
+\]
+
+\begin{definition}[Field]
+    A ring $(R, +,\,\cdot)$ is called a field if
+    \begin{enumerate}[label = \roman*)]
+        \item $R$ is commutative,
+
+        \item $1 \neq 0$
+        (i.e. $R$ has at least two elements),
+
+        \item For every $a \in R$,
+        such that $a \neq 0$,
+        $\exists b \in \R$ such that $ab = 1$
+        ($b$ is called the inverse of $a$,
+        denoted $a ^ {-1}$).
+    \end{enumerate}
+\end{definition}
+
+Inverses are unique:
+If $ab = 1$ and $ab' = 1$,
+then $abb' = b'$,
+so $b' = abb' = ab'b = 1b = b$.
+
+\section{Arithmetic in \texorpdfstring{$\Z$}{} and \texorpdfstring{$F[x]$}{}}
+In any commutative ring $R$,
+an element $a \in R$ is said to divide $b \in R$,
+written $a \mid b$,
+if $\exists x \in R$ such that $b = ax$.
+An easy observation if $a \mid b$ and $a \mid c$,
+$a, b, c \in R$,
+then
+\[
+a \mid (bx + cy)\quad\forall x, y \in R.
+\]
+
+\subsection{Divisibility in \texorpdfstring{$\Z$}{}}
+
+\textbf{Fundamental property of $\N$} is:
+\begin{lemma}[Well-Ordering Principle
+    (WOP)]
+    Let $S$ be a non-empty subset of $\N_0 = \N \cup \{0\}$.
+    Then $S$ has a smallest element.
+\end{lemma}
+
+\textbf{Division with remainder in $\Z$}
+
+\begin{example}
+    Find the quotient and remainder of $435$ divided by $43$ in $\Z$.
+
+    \begin{solution}
+        \[
+        435 = 10 \cdot 43 + 5
+        \]
+        $5 < 43$,
+        so we stop,
+        the quotient is $10$ and the remainder is $5$.
+    \end{solution}
+\end{example}
+
+\begin{proposition}
+    Let $a, b \in \Z$,
+    $b \neq 0$.
+    Then there exist $q, r \in \Z$ such that
+    \[
+    a = q \cdot b + r\qquad\text{and}\qquad 0 \leq r < |b|.
+    \]
+
+    \begin{proof}
+        First,
+        assume that $b > 0$.
+        Indeed,
+        if $b < 0$,
+        then we can apply the result to $-b$ and use $-q$ instead of $q$.
+        This does not change the value of $|b|$.
+
+        Assume $b > 0$.
+        Define
+        \[
+        S ^ {+} = \{a + bk \mid k \in \Z, a + bk \geq 0\} \subset S = \{a + bk \mid k \in \Z\}
+        \]
+        $S ^ {+}$ is non-empty since both $a + b\cdot 0 = a \in S$ and $a + b(-a) \in S$,
+        and one of these is always positive
+        (if $a < 0$,
+        then $a + b(-a) = (-a)(b - 1) \geq 0$.
+        So by the well ordering principle,
+        $S ^ {+}$ contains a smallest element $r = a + bk$,
+        some $k \in \Z$.
+        Also,
+        $r - b = a + b(k - 1) \in S$,
+        but this cannot lie in $S ^ {+}$ because $r - b < r$.
+        Thus $r - b < 0$,
+        so $r < b$.
+    \end{proof}
+\end{proposition}
+
+\textbf{The Euclidean Algorithm in $\Z$}
+
+Recall that the $\gcd$
+(greatest common divisor)
+of two numbers in $\Z$.
+We denote it by $\gcd(a, b)$ for $a, b \in \Z$.
+
+\begin{theorem}
+    Let $a, b \in \Z$,
+    not both $0$.
+    Then $\gcd(a, b)$ exists and can be computed by the Euclidean algorithm.
+    Moreover,
+    if $d = \gcd(a, b)$ then $\exists x, y \in \Z$ such that $ax + by = d$.
+
+    \begin{proof}
+        This will be proved later,
+        together with $F[x]$,
+        $F$ a field.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Use the Euclidean algorithm to compute $d = \gcd(455, 1235)$.
+
+    \begin{solution}
+        Division with remainder:
+        \begin{align*}
+            1235 &= 2 \cdot 455 + 325 \\
+            455 &= 1 \cdot 325 + 130 \\
+            325 &= 2 \cdot 130 + 65 \\
+            130 &= 2 \cdot 65 + 0.
+        \end{align*}
+        When the remainder is $0$,
+        we stop.
+        The $\gcd$ will be the last non-zero remainder.
+        $d = 65$.
+
+        Solving for the remainders and substituting:
+        \begin{align*}
+            65 &= 325 - 2 \cdot 130 \\
+            &= 325 - 2(455 - 1 \cdot 325) \\
+            &= \dotsi \\
+            &= 455 \cdot (-8) + 1235 \cdot 3.
+        \end{align*}
+        So $x = -8, y = 3$.
+    \end{solution}
+\end{example}
+
+Primes and unique factorisation in $\Z$.
+
+To prove the Fundamental Theorem of Arithmetic,
+which we will do later in a general setting including also $F[x]$,
+$F$ a field,
+one needs an important property of primes:
+
+\begin{lemma}
+    If $p$ is a prime and $p \mid ab$,
+    $a, b \in \Z$,
+    then $p \mid a$ or $p \mid b$
+    (in other words,
+    $p$ prime implies $\forall a, b \in \Z, p \mid ab \implies p \mid a\,\wedge\,p \mid b$).
+\end{lemma}
+
+Using this,
+one can prove
+
+\begin{theorem}[Fundamental Theorem of Arithmetic
+    (FTA)]
+    Let $n \in \N$,
+    $n > 1$,
+    then $n$ can be written as a product of primes in a unique way
+    (up to the order of the factors and factors of $\pm 1$)
+    More precisely,
+    there are distinct primes $p_1, \dotsc, p_r$ and $e_1, \dotsc, e_r \in \N$ such that
+    \[
+    n = p_1 ^ {e_1} \dots p_r ^ {e_r}
+    \]
+    and if $n = q_1 ^ {f_1} \dots q_s ^ {f_s}$ for some primes $q_i$,
+    $f_i \in \N$,
+    $s \in \N$,
+    then $r = s$,
+    and up to re-ordering $p_i = q_i$ and $e_i = f_i$,
+    for all $i$.
+\end{theorem}
+
+\subsection{Divisibility in \texorpdfstring{$F[x]$}{}}
+From now on $F$ will be any field,
+e.g. $\Q, \R$ or even finite such as $\Z / 2$ or $\Z / 3$,
+etc.
+
+For $f(x) = a_0 + a_1x + \dotsi + a_nx ^ n \in F[x]$,
+its degree is
+\[
+\deg{f} \coloneqq \begin{cases}
+    \max\{i \mid a_i \neq 0\} &\text{if } f(x) \neq 0, \\
+     -\infty &\text{if } f(x) = 0.
+\end{cases}
+\]
+Then we have the following basic properties:
+For all $f(x), g(x) \in F[x]$,
+\begin{enumerate}[label = (\roman*)]
+    \item $\deg(fg) = \deg{f} + \deg{g}$.
+
+    \item $\deg(f + g) \leq \max\{\deg{f}, \deg{g}\}$
+    (\textit{Note:
+    equality if $\deg{f} \neq \deg{g}$.}).
+\end{enumerate}
+
+Why is $\deg{0} = -\infty$?
+Reason is to make the two properties above hold also for $f(x) = 0$ or $g(x) = 0$.
+
+If $f(x) = 0$ and $\deg{0} = \deg(0 \cdot g) = \deg{0} + \deg{g}$,
+then we cannot allow $\deg{0}$ to lie in $\Z$,
+but it will work if we define $\deg{f} = -\infty$
+
+\textbf{Division with remainder in $F[x]$}
+\begin{example}
+    $f(x) = x ^ 3 + x ^ 2 - 3x - 3$,
+    $g(x) = x ^ 2 + 3x + 2$.
+    Long division with remainder:
+    \begin{align*}
+        f_1(x) &= f(x) - xg(x) \\
+        &= -2x ^ 2 - 5x - 3 \\
+        f_2(x) &= f_1(x) - (-2)g(x) \\
+        &= x + 1
+    \end{align*}
+    $\deg{f_2} < \deg{g}$,
+    so we stop.
+    Substituting back
+    \[
+    f(x) = f_1(x) + xg(x) = f_2(x) - 2g(x) + xg(x) = (x - 2)g(x) + f_2(x) = (x - 2)g(x) + x + 1
+    \]
+    so $q = x - 2$ and $r = x + 1$.
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
