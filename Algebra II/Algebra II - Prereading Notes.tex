@@ -210,5 +210,168 @@ A subring is itself a ring.
     \end{solution}
 \end{example}
 
+\subsection{Fields}
+
+\begin{definition}[Fields]
+    A ring $(R, +, \cdot)$ is called a field if
+    \begin{enumerate}[label = \roman*)]
+        \item $R$ is commutative,
+
+        \item $1 \neq 0$ in $R$.
+
+        \item For any $a \in R$ such that $a \neq 0$,
+        there exists a $b \in R$ such that $ab = 1$
+        ($b$ is called the inverse of $a$ and we usually write $b = a ^ {-1}$).
+    \end{enumerate}
+\end{definition}
+Inverses are unique:
+If $ab = 1$ and $ab' = 1$,
+then $abb' = b'$,
+so
+\[
+b' = abb' = bab' = b \cdot 1 = b.
+\]
+
+\newpage
+
+\section{Arithmetic in \texorpdfstring{$\Z$}{} and \texorpdfstring{$F[x]$}{}}
+In a commutative ring $R$,
+an element $a \in R$ is said to divide an element $b \in R$,
+written $a \mid b$,
+if there exists an $x \in R$ such that
+\[
+b = ax.
+\]
+
+\subsection{Divisibility in \texorpdfstring{$\Z$}{}}
+
+\begin{lemma}[Well-Ordering Principle
+    (WOP)]
+    Let $S$ be a non-empty subset of $\N_0 = \N \cup \{0\}$.
+    Then $S$ has a smallest element.
+\end{lemma}
+
+\textbf{Division with remainder in $\Z$}
+
+\begin{example}
+    Find the integer quotient and remainder of $435$ divided by $43$ in $\Z$
+
+    \begin{solution}
+        \[
+        435 = 43 \cdot 10 + 5,
+        \]
+        and $5 < 43$ so we stop.
+        The quotient is $q = 10$ and remainder $r = 5$.
+    \end{solution}
+\end{example}
+
+\begin{proposition}
+    Let $a \in \Z$,
+    $b \neq 0$.
+    Then there exist integers $q$ and $r$ such that
+    \[
+    a = q \cdot b + r,\quad\text{and}\quad 0 \leq r < |b|.
+    \]
+
+    \begin{proof}
+        First,
+        we can assume that $b > 0$.
+        Indeed,
+        if $b < 0$,
+        then we can apply the statement to $-b > 0$ and use $-q$ instead of $q$.
+        This does not change $|b|$ so the inequalities still hold.
+        Consider the subsets
+        \[
+        S ^ {+} = \{a + bk\mid k \in \Z, a + bk \geq 0\} \subset S = \{a + bk \mid k \in \Z\}.
+        \]
+        $S ^ {+}$ is non-empty since both
+        \[
+        a + b \cdot 0 = a \in S\quad\text{and}\quad a + b(-a) \in S
+        \]
+        and one of these is always $\geq 0$
+        (if $a < 0$,
+        then $a + b(-a) = (-a)(b - 1) \geq 0$).
+
+        So by the well ordering principle,
+        $S ^ {+}$ contains a minimal element $r = a + bk$,
+        for some $k$.
+        Also,
+        \[
+        r - b = a + b(k - 1) \in S,
+        \]
+        but this cannot lie in $S ^ {+}$ because $r - b < r$ and $r$ is minimal in $S ^ {+}$.
+        Thus $r - b < 0$,
+        so $r < b$.
+    \end{proof}
+\end{proposition}
+
+\textbf{The Euclidean Algorithm in $\Z$}
+
+\begin{theorem}
+    Let $a, b \in \Z$,
+    not both zero.
+    Then $\gcd(a, b)$ exists and can be computed by the Euclidean algorithm.
+    Moreover,
+    if $d = \gcd(a, b)$,
+    then these exist $x, y \in \Z$ such that
+    \[
+    ax + by = d.
+    \]
+\end{theorem}
+
+\begin{example}
+    Use the Euclidean Algorithm to compute $d = \gcd(455, 1235)$ and find integers $x, y$ such that $d = 455x + 1235y$.
+
+    \begin{solution}
+        Division with remainder:
+        \begin{align*}
+            1235 &= 2 \cdot 455 + 325 \\
+            455 &= 1 \cdot 325 + 130 \\325 &= 2 \cdot 130 + 65 \\
+            130 &= 2 \cdot 65.
+        \end{align*}
+        When the remainder is $0$ we stop.
+        The $\gcd$ will be the last non-zero remainder,
+        here $d = 65$.
+
+        Solving for the remainders,
+        substituting back and simplifying,
+        we get
+        \begin{align*}
+            65 &= 325 - 2 \cdot 130 \\
+            &= 325 - 2(455 - 1 \cdot 325) \\
+            &= \dotsi \\
+            &= 455 \cdot (-8) + 1235 \cdot 3
+        \end{align*}
+        so $x = -8$ and $y = 3$.
+    \end{solution}
+\end{example}
+
+\textbf{Primes and unique factorisation in $\Z$}
+
+\begin{lemma}
+    If $p$ is a prime and $p \mid ab$ for some $a, b \in \Z$,
+    then $p \mid a$ or $p \mid b$
+    (in other words $p$ prime implies $(\forall a, b \in \Z, p \mid ab \implies p \mid a\  \wedge\ p \mid b$)
+\end{lemma}
+
+\begin{theorem}[Fundamental Theorem of Arithmetic
+    (FTA)]
+    Let $n \in \N$,
+    $n > 1$.
+    Then $n$ can be written as a product of primes in a unique way.
+    More precisely,
+    there are distinct primes $p_1, \dotsc, p_r$ and $e_1, \dotsc, e_r \in \N$ such that
+    \[
+    n = p_1 ^ {e_1} \dotsi p_r ^ {e_r},
+    \]
+    and if $n = q_1 ^ {f_1} \dotsi q_s ^ {f_s}$ for some distinct primes $q_1, \dotsc, q_s$ and $f_1, \dotsc, f_s \in \N$,
+    then $r = s$,
+    and up to re-ordering,
+    $p_i = q_i$ and $e_i = f_i$ for all $i$.
+    
+\end{theorem}
+
+
+
 
 \end{document}
