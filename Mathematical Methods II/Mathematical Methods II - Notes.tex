@@ -181,8 +181,14 @@ The line integral of a scalar field $f(\vec{x})$ along a curve $C$ with paramete
     \frac{d\vec{x}}{dt} = -\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2 \implies \left|\frac{d\vec{x}}{dt}\right| = \sqrt{\sin ^ 2 t + \cos ^ 2 t} = 1
     \]
     so
+    \begin{align*}
+        \int_{C}f\,d\ell &= \int_{0}^{2\pi}(y + x ^ 2)(1)\,dt \\
+        &= \int_{0}^{2\pi}(\sin(t) + \cos ^ 2(t))\,dt \\
+        &= \int_{0}^{2\pi}\cos ^ 2t\,dt \\
+        &= \frac{1}{2}\int_{0}^{2\pi}(1 + \cos(2t))\,dt \\
+        &= \frac{1}{2}\left[t\right]_{0}^{2\pi} = \pi.
+    \end{align*}
     \[
-    \int_{C}f\,d\ell = \int_{0}^{2\pi}(y + x ^ 2)(1)\,dt = \int_{0}^{2\pi}(\sin(t) + \cos ^ 2(t))\,dt = \int_{0}^{2\pi}\cos ^ 2t\,dt = \frac{1}{2}\int_{0}^{2\pi}(1 + \cos(2t))\,dt = \frac{1}{2}\left[t\right]_{0}^{2\pi} = \pi.
     \]
 \end{example}
 
@@ -219,9 +225,11 @@ The line integral of a scalar field $f(\vec{x})$ along a curve $C$ with paramete
         $\vec{x}(t_0) = \vec{x}(\tau_1)$ i.e. opposite directions.
         Then $\frac{dt}{d\tau} < 0$,
         so
-        \[
-        \int_{t_0}^{t_1}f(\vec{x}(t))\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}f(\vec{x}(t))\left(-\frac{d\tau}{dt}\right)\left|\frac{d\vec{x}}{d\tau}\right|\,dt = -\int_{\tau_1}^{\tau_0}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau = \int_{\tau_0}^{\tau_1}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau.
-        \]
+        \begin{align*}
+            \int_{t_0}^{t_1}f(\vec{x}(t))\left|\frac{d\vec{x}}{dt}\right|\,dt &= \int_{t_0}^{t_1}f(\vec{x}(t))\left(-\frac{d\tau}{dt}\right)\left|\frac{d\vec{x}}{d\tau}\right|\,dt \\
+            &= -\int_{\tau_1}^{\tau_0}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau \\
+            &= \int_{\tau_0}^{\tau_1}f(\vec{x}(\tau))\left|\frac{d\vec{x}}{d\tau}\right|\,d\tau.
+        \end{align*}
     \end{proof}
 \end{proposition}
 
@@ -252,23 +260,220 @@ $L = \int_{C}d\ell = \int_{t_0}^{t_1}\left|\frac{d\vec{x}}{dt}\right|\,dt$.
 
 \begin{example}
     Calculate the arclength of the hypocycloid $\vec{x}(t) = \cos ^ 3(t)\vec{e}_1 + \sin ^ 2(t)\vec{e}_2$ for $t \in [0, 2\pi]$.
-    \[
-    \frac{d\vec{x}}{dt} = -3\cos ^ 2(t)\sin(t)\vec{e}_1 + 3\sin ^ 2(t)\cos(t)\vec{e}_2 \implies \left|\frac{d\vec{x}}{dt}\right| = \sqrt{9\cos ^ 4(t)\sin ^ 2(t) + 9\sin ^ 4(t)\cos ^ 2(t)} = 3\sqrt{\cos ^ 2(t)\sin ^ 2(t)}\sqrt{\cos ^ 2t + \sin ^ 2t} = 3|\cos(t)\sin(t)|.
-    \]
+    \begin{align*}
+        \frac{d\vec{x}}{dt} &= -3\cos ^ 2(t)\sin(t)\vec{e}_1 + 3\sin ^ 2(t)\cos(t)\vec{e}_2 \\
+        \implies \left|\frac{d\vec{x}}{dt}\right| &= \sqrt{9\cos ^ 4(t)\sin ^ 2(t) + 9\sin ^ 4(t)\cos ^ 2(t)} \\
+        &= 3\sqrt{\cos ^ 2(t)\sin ^ 2(t)}\sqrt{\cos ^ 2t + \sin ^ 2t} \\
+        &= 3|\cos(t)\sin(t)|.
+    \end{align*}
     By symmetry,
     we only need to integrate over $t \in [0, \pi / 2]$,
     so
+    \begin{align*}
+        L &= \int_{0}^{2\pi}3|\cos(t)\sin(t)|\,dt \\
+        &= 4\int_{0}^{\pi / 2}3\cos(t)\sin(t)\,dt \\
+        &= 6\int_{0}^{\pi / 2}2\cos(t)\sin(t)\,dt \\
+        &= 6\int_{0}^{\pi / 2}\sin(2t)\,dt \\
+        &= 6\left[-\frac{1}{2}\cos(2t)\right]_{0}^{\pi / 2} = 6.
+    \end{align*}
+\end{example}
+
+\subsection{Line integrals of vector fields}
+A vector field is a function $\vec{f} : \R ^ n \to \R ^ n$ that assigns a vector to each point in $\R ^ n$.
+
+For a curve with parameterisation $\vec{x}(t)$ for $t \in [t_0, t_1]$,
+the unit tangent vector is:
+\[
+\hvec{t} = \frac{\frac{d\vec{x}}{dt}}{\left|\frac{d\vec{x}}{dt}\right|}
+\]
+\textit{"Only depends on direction,
+not speed".}
+
+An oriented curve is a curve together with a specified
+(consistent)
+choice of $\hvec{t}$.
+
+The line integral of a vector field $\vec{f}(\vec{x})$ along an oriented curve $C$ with parameterisation $\vec{x}(t)$ for $t \in [t_0, t_1]$ is defined as
+\[
+\int_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\hvec{t}\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\frac{d\vec{x}}{dt}\,dt
+\]
+the scalar line integral of the tangential component of $\vec{f}$.
+
+\textbf{Warning:}
+Changing the orientation $\hvec{t} \to -\hvec{t}$ will flip the sign of the integral.
+
+\begin{example}
+    Evaluate $\int_{C}\vec{f}\cdot\hvec{t}d\ell$ for $\vec{f}(\vec{x}) = -\vec{x}$ and $C$ the straight line from $(1, 0)$ to $(2, 0)$.
+
+    Parameterisation:
+    $\vec{x}(t) = (1 + t)\vec{e}_1$ for $t \in [0, 1]$.
     \[
-    L = \int_{0}^{2\pi}3|\cos(t)\sin(t)|\,dt = 4\int_{0}^{\pi / 2}3\cos(t)\sin(t)\,dt = 6\int_{0}^{\pi / 2}2\cos(t)\sin(t)\,dt = 6\int_{0}^{\pi / 2}\sin(2t)\,dt = 6\left[-\frac{1}{2}\cos(2t)\right]_{0}^{\pi / 2} = 6.
+    \frac{d\vec{x}}{dt} = \vec{e}_1.
+    \]
+    Then
+    \[
+    \int_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{0}^{1}(-x\vec{e}_1 - y\vec{e}_2) \cdot \vec{e}_1\,dt = \int_{0}^{1}x\,dt = -\int_{0}^{1}(1 + t)\,dt = -\left[t + \frac{1}{2}t ^ 2\right]_{0}^{1} = -\frac{3}{2}.
     \]
 \end{example}
 
+If $C$ is closed we usually write
+\[
+\int_{C}\vec{f}\cdot\hvec{t}\,d\ell = \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell
+\]
+called the circulation of $\vec{f}$ around $C$.
 
+\begin{example}
+    Evaluate $\oint_{C}\vec{f}\cdot\hvec{t}\,d\ell$ for $\vec{f}(\vec{x}) = -\vec{x}$ and $C$ the anti-clockwise unit circle.
+    
+    \begin{solution}
+        Parameterisation:
+        \[
+        \vec{x}(t) = \cos(t)\vec{e}_1 + \sin(t)\vec{e}_2\qquad\text{for } t \in [0, 2\pi].
+        \]
+        \[
+        \frac{d\vec{x}}{dt} = -\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2.
+        \]
+        So
+        \begin{align*}
+            \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{0}^{2\pi}(-x\vec{e}_1 - y\vec{e}_2)\cdot \frac{d\vec{x}}{dt}\,dt \\
+            &= \int_{0}^{2\pi}(-\cos(t)\vec{e}_1 - \sin(t)\vec{e}_2)\cdot(-\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2)\,dt \\
+            &= \int_{0}^{2\pi}(\cos(t)\sin(t) - \sin(t)\cos(t))\,dt = 0.
+        \end{align*}
+    \end{solution}
+\end{example}
 
+\begin{example}
+    Evaluate $\oint_{C}\vec{g}\cdot\hvec{t}\,d\ell$ for $\vec{g}(\vec{x}) = (y - x)\vec{e}_1 - (x + y)\vec{e}_2$ and $C$ the anti-clockwise unit circle.
 
+    \begin{solution}
+        \begin{align*}
+            \oint_{C}\vec{g}\cdot\hvec{t}\,d\ell &= \int_{0}^{2\pi}\left[(\sin{t} - \cos{t})\vec{e}_1 - (\cos{t} + \sin{t})\vec{e}_2\right] \cdot \left[-\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2\right] \\
+            &= \int_{0}^{2\pi}(-\sin ^ 2{t} + \cos(t)\sin(t) - \cos ^ 2{t} - \sin(t)\cos(t))\,dt \\
+            &= -\int_{0}^{2\pi}\,dt = -2\pi.
+        \end{align*}
+    \end{solution}
+\end{example}
 
+\begin{remark}
+    \begin{enumerate}[label = (\roman*)]
+        \item Alternative notation for vector line integrals:
+        \[
+        \int_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{C}\vec{f}\cdot\vec{dx}.
+        \]
 
+        \item A physical example is the work done by a particle moving in a force-field $\vec{F}(\vec{x})$ under $m\ddot{\vec{x}} = \vec{F}(\vec{x})$.
+        \[
+        [\text{work done}] = K(T) - K(0) = \int_{0}^{T}\frac{dK}{dt}\,dt = \int_{0}^{T}m\dot{\vec{x}}\cdot\ddot{\vec{x}}\,dt = \int_{0}^{T}\vec{F}\cdot\dot{\vec{x}}\,dt = \int_{C}\vec{F}\cdot\hvec{t}\,d\ell
+        \]
+        change in kinetic energy
+        \[
+        K = \frac{1}{2}m|\dot{\vec{x}}| ^ 2 = \frac{1}{2}m\dot{\vec{x}}\cdot\dot{\vec{x}}.
+        \]
+    \end{enumerate}
+\end{remark}
 
+\subsection{Curvilinear Coordinates}
+A system of curvilinear coordinates $(u,, v, w)$ for $\R ^ 3$ has coordinate lines $\vec{x}(u, v_0, w_0)$,
+$\vec{x}(u_0, v, w_0)$,
+$\vec{x}(u_0, v_0, w)$
+which are curves with tangent vectors
+\[
+\pd[\vec{x}]{u}, \pd[\vec{x}]{v}, \pd[\vec{x}]{w}.
+\]
+The coordinate system is called orthogonal if the three tangent vectors are mutually orthogonal everywhere.
+Then we get an orthonormal basis
+\[
+\vec{e}_u = \frac{1}{\left|\pd[\vec{x}]{u}\right|}\pd[\vec{x}]{u}\qquad\vec{e}_v = \frac{1}{\left|\pd[\vec{x}]{v}\right|}\pd[\vec{x}]{v}\qquad\vec{e}_w = \frac{1}{\left|\pd[\vec{x}]{w}\right|}\pd[\vec{x}]{w}.
+\]
+The scale factors $h_u, h_v, h_w$ are the bottom parts of the fractions.
+
+Geometrically,
+the scale factors tell us how much an infinitesimal region in $(u, v, w)$-space is stretched at different points in $\R ^ 3$.
+
+\begin{example}
+    Find the unit basis vectors for
+    (plane)
+    polar coordinates $\vec{x}(r, \theta) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2$.
+
+    \begin{solution}
+        Differentiate to find coordinate tangent vectors:
+        \[
+        \pd[\vec{x}]{r} = \cos(\theta)\vec{e}_1 + \sin(\theta)\vec{e}_2\qquad\pd[\vec{x}]{\theta} = -r\sin(\theta)\vec{e}_1 + r\cos(\theta)\vec{e}_2.
+        \]
+        Scale factors:
+        \[
+        h_r = \left|\pd[\vec{x}]{r}\right| = \sqrt{\cos ^ 2\theta + \sin ^ 2\theta} = 1.
+        \]
+        \[
+        h_{\theta} = \left|\pd[\vec{x}]{\theta}\right| = \sqrt{r ^ 2\cos ^ 2\theta + r ^ 2\sin ^ 2\theta} = r.
+        \]
+        So the basis vectors are
+        \begin{align*}
+            \vec{e}_r &= \frac{1}{h_r}\pd[\vec{x}]{r} = \cos(\theta)\vec{e}_1 + \sin(\theta)\vec{e}_2 \\
+            \vec{e}_{\theta} &= \frac{1}{h_{\theta}}\pd[\vec{x}]{\theta} = -\sin(\theta)\vec{e}_1 + \cos(\theta)\vec{e}_2.
+        \end{align*}
+        (These are normal to $r = \text{constant}$ and $\theta = \text{constant}$ respectively)
+    \end{solution}
+\end{example}
+
+Need to learn the two most common non-Cartesian systems in $\R ^ 3$
+\begin{enumerate}[label = (\roman*)]
+    \item Cylindrical coordinates:
+    ($r > 0$,
+    $\theta \in [0, 2\pi]$,
+    $z \in \R$)
+    \[
+    \vec{x}(r, \theta, z) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2 + z\vec{e}_3.
+    \]
+    Scale factors:
+    $h_r = 1$,
+    $h_{\theta} = r$,
+    $h_z = 1$.
+    Orthogonal.
+
+    \item Spherical coordinates:
+    ($r > 0$,
+    $\theta \in [0, \pi)$,
+    $\phi \in [0, 2\pi]$)
+    \[
+    \vec{x}(r, \theta, \phi) = r\sin(\theta)\cos(\phi)\vec{e}_1 + r\sin(\theta)\sin(\phi)\vec{e}_2 + r\cos(\theta)\vec{e}_3.
+    \]
+    Scale factors:
+    $h_r = 1$,
+    $h_{\theta} = r$,
+    $h_{\theta} = r\sin{\theta}$.
+
+    To derive the parameterisation:
+
+    Side view of sphere and draw $z$ from top to bottom then derive using trigonometry and the radius line.
+
+    Then do a top view with $y$ drawn as usual,
+    use trigonometry to derive the others.
+\end{enumerate}
+
+\begin{example}
+    Write the vector field $\vec{g}(\vec{x}) = (y - x)\vec{e}_1 - (x + y)\vec{e}_2$ in the cylindrical basis $\{\vec{e}_r, \vec{e}_{\theta}, \vec{e}_z\}$.
+
+    \begin{solution}
+        We found
+        \begin{align*}
+            \vec{e}_r &= \cos(\theta)\vec{e}_1 + \sin(\theta)\vec{e}_2 \\
+            \vec{e}_{\theta} &= -\sin(\theta)\vec{e}_1 + \cos(\theta)\vec{e}_2 \\
+            \vec{e}_z &= \vec{e}_3.
+        \end{align*}
+        We get
+        \begin{align*}
+            \vec{e}_1 &= \cos(\theta)\vec{e}_r - \sin(\theta)\vec{e}_{\theta} \\
+            \vec{e}_2 &= -\sin(\theta)\vec{e}_r + \cos(\theta)\vec{e}_{\theta} \\
+            \vec{e}_3 &= \vec{e}_z.
+        \end{align*}
+        So
+        \begin{align*}
+            \vec{g}(\vec{x}) &= (r\sin{\theta} - r\cos{\theta})(\cos(\theta)\vec{e}_r - \sin(\theta)\vec{e}_{\theta}) - (r\cos{\theta} + r\sin{\theta})(\sin(\theta)\vec{e}_r + \cos(\theta)\vec{e}_{\theta}) \\
+            &= -r(\vec{e}_r + \vec{e}_{\theta}).
+        \end{align*}
+    \end{solution}
+\end{example}
 
 
 
