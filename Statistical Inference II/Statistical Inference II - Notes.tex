@@ -333,5 +333,393 @@ The CDF method
     $\phi$ is the normal pdf.
 \end{example}
 
+Properties of $\chi ^ 2$:
+\begin{enumerate}[label = (\roman*)]
+    \item If $U \sim \chi_1 ^ 2$,
+    then $\E(U) = 1$,
+    $\Var(U) = 2$.
+
+    \item If $U_1, \dotsc, U_n$ are all iid $\chi_1 ^ 2$,
+    then $V = \sum_{i = 1}^{k}U_i \sim \chi_k ^ 2$,
+    $\E(V) = k$,
+    $\Var(V) = 2k$
+\end{enumerate}
+
+
+Method B:
+
+Change of variables theorem.
+
+\begin{proposition}
+    Let $X$ be a random variable with pdf $f_{X}(x)$ over support $\mathcal{X} = [a, b]$.
+    Let $Y = y(X)$ where $y(\cdot)$ is invertible
+    (monotonic)
+    and differentiable over $\mathcal{X}$,
+    with inverse $X = x(Y) = y ^ {-1}(Y)$.
+    Then $Y$ has pdf
+    \[
+    f_{Y}(y) = f_{X}(x(y))\left|\frac{dx(y)}{dx}\right|
+    \]
+    for $y \in Y = [y(a), y(b)]$.
+
+    \begin{proof}
+        $y(x)$ invertible over $\mathcal{X}$ if and only if strictly monotonically increasing or decreasing.
+
+        Increasing:
+        \[
+        F_{Y}(y) = \P(Y < y) = \P(y(X) < y) = \P(X < x(y)) = F_{X}(x(y)).
+        \]
+        \[
+        F_{Y}(y) = \frac{d}{dy}F_{X}(x(y)) = f_X(x(y))\frac{dx(y)}{dy}.
+        \]
+
+        Decreasing:
+        \[
+        F_{Y}(y) = \P(Y < y) = \P(X > x(y)) = 1 - \P(X < x(y) = 1 - F_{X}(x(y))
+        \]
+        \[
+        f_{Y}(y) = \frac{d}{dy}F_{Y}(y) = -f_{X}(x(y))\overbrace{\frac{dx(y)}{dy}}^{<0}.
+        \]
+
+        Combining both cases:
+        \[
+        f_{Y}(y) = f_{X}(x(y))\left|\frac{dx}{dy}\right|.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    $X$ has pdf $f_{X}(x) = 3x ^ 2$ for $x \in [0, 1]$.
+    Find $f_{Y}(y)$ for $Y = 1 - X ^ 2$.
+
+    \begin{solution}
+        For $x \in [0, 1]$,
+        $y(x) = 1 - x ^ 2$ is invertible so we use the previous.
+        \[
+        y = 1 - x ^ 2 \implies x = \sqrt{1 - y}.
+        \]
+        \[
+        \frac{dx}{dy} = -\frac{1}{2}(1 - y) ^ {-1 / 2}
+        \]
+
+        \begin{align*}
+            f_{Y}(y) &= f_{X}(x(y))\left|\frac{dx(y)}{dy}\right| \\
+            &= f_{X}(\sqrt{1 - y})\left|-\frac{1}{2}(1 - y) ^ {-1 / 2}\right| \\
+            &= 3(\sqrt{1 - y}) ^ 2\frac{1}{2\sqrt{1 - y}} \\
+            &= \frac{3}{2}\sqrt{1 - y},
+        \end{align*}
+        for $y \in \mathcal{Y} = [0, 1]$ and zero everywhere else.
+    \end{solution}
+\end{example}
+
+\subsection{Multivariate transforms}
+What happens if $X$ is a random vector?
+
+\begin{proposition}
+    Let $\vec{X} = (X_1, \dotsc, X_p)$ be a continuous random vector with pdf $f_{\vec{X}}(\vec{x})$,
+    and support $\mathcal{X}$.
+    Suppose $\vec{Y} = (Y_1, \dotsc, Y_p)$ where $Y_1 = y_1(\vec{x}), \dotsc, Y_p = y_p(\vec{x})$.
+    If $\vec{y}(\cdot)$ is invertible and differentiable with inverse
+    \[
+    \vec{X} = \vec{x}(\vec{y}) = [x_1(\vec{Y}), x_2(\vec{Y}), \dotsc, x_p(\vec{Y})]
+    \]
+    then
+    \[
+    f_{\vec{Y}}(\vec{y}) = \begin{cases}
+        f_{\vec{X}}(\vec{x}(\vec{y})|\det(J)|, & y \in \mathcal{Y}, \\
+        0, &\text{elsewhere}
+    \end{cases}
+    \]
+    where $J$ is the Jacobian matrix of partial derivatives:
+    \[
+    J = \begin{bmatrix}
+        \pd[x_1]{y_1} & \dotsi & \pd[x_1]{y_p}
+        \vdots & \ddots & \vdots
+        \pd[x_p]{y_1} & \dotsi & \pd[x_p]{y_p}
+    \end{bmatrix} = \left[\pd[x_i]{y_j}\right]_{ij}.
+    \]
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{proposition}
+
+\textit{Note:
+$J$ is a generalisation of the derivative in the univariate case,
+i.e. $p = 1 \implies J = \frac{dx}{dy}$.
+We must have the same number of $X$s and $Y$s.
+Else,
+$\det(J)$ doesn't exist.}
+
+\begin{example}
+    Let $\vec{X} = (X_1, X_2)$ be independent $N(0, 1)$ random variables.
+    \begin{align*}
+        f_{\vec{X}}(\vec{x}) &= f_{X_1, X_2}(x_1, x_2) \\
+        &= f_{X_1}(x_1)f_{X_2}(x_2) \\
+        &= \frac{1}{\sqrt{2\pi}}e ^ {-\frac{1}{2}x_1 ^ 2}\frac{1}{\sqrt{2\pi}}e ^ {-\frac{1}{2}x_2 ^ 2} \\
+        &= \frac{1}{2\pi}e ^ {-\frac{1}{2}(x_1 ^ 2 + x_2 ^ 2}\quad\vec{x} \in \mathcal{X} = \R ^ 2.
+    \end{align*}
+    Transformation:
+    Polar coordinates
+    \begin{align*}
+        Y_1 &= R = \sqrt{X_1 ^ 2 + X_2 ^ 2} \\
+        Y_2 &= \mu = \tan ^ {-1}\left(\frac{X_2}{X_1}\right) \implies \vec{Y} = [R, \mu] ^ T
+    \end{align*}
+    Inverses:
+    $X_1 = R\cos{\mu}$,
+    $X_2 = R\sin{\mu}$
+    Jacobian:
+    \[
+    J = \begin{bmatrix}
+        \pd[X_1]{R} & \pd[X_1]{\mu} \\
+        \pd[X_2]{R} & \pd[X_2]{\mu}
+    \end{bmatrix}
+    = \begin{bmatrix}
+        \cos{\mu} & -R\sin{\mu} \\
+        \sin{\mu} & R\cos{\mu}
+    \end{bmatrix}
+    \]
+    \[
+    \det{J} = R\cos ^ 2{\mu} + R\sin ^ 2{\mu} = R.
+    \]
+    Applying the theorem
+    \begin{align*}
+        f_{\vec{Y}}(\vec{y}) &= f_{R, \mu}(r, \theta) \\
+        &= f_{\vec{X})}(x_1(r, \theta), x_2(r, \theta))|\det{J}| \\&
+        = \frac{1}{2\pi}e ^ {-\frac{1}{2}(r ^ 2\cos ^ 2\theta + r ^ 2\sin ^ 2\theta)}|r| \\
+        &= \frac{r}{2\pi}e ^ {-\frac{1}{2}r ^ 2}
+    \end{align*}
+    for $(r, \theta) \in \mathcal{Y}$.
+
+    Find $\mathcal{Y}$:
+    for $\vec{x} \in \R ^ 2$,
+    $r \in [0, \infty)$ and $\theta \in [0, 2\pi)$.
+\end{example}
+
+\begin{example}
+    $X, Y$ are iid $U[0, 1]$ so $f(x, y) = \begin{cases}
+        1 & x \in [0, 1]\text{ and } y \in [0, 1] \\
+        0 &\text{elsewhere}.
+    \end{cases}$
+
+    Transformations:
+    $V = X + Y$,
+    $W = X - Y$.
+
+    Find $f_{V, W}(v, w)$.
+
+    \begin{solution}
+        Inverses:
+        \begin{align*}
+            V &= X + Y \\
+            W &= X - Y \\
+            X &= \frac{1}{2}(V + W) \\
+            Y &= \frac{1}{2}(V - W)
+        \end{align*}
+
+        Jacobian:
+        \[
+        J = \begin{bmatrix}
+            \pd[x]{v} & \pd[x]{w} \\
+            \pd[y]{v} & \pd[y]{w}
+        \end{bmatrix} = \begin{bmatrix}
+            \frac{1}{2} & \frac{1}{2} \\ \frac{1}{2} & -\frac{1}{2}
+        \end{bmatrix} \implies \det{J} = -\frac{1}{4} - \frac{1}{4} = -\frac{1}{2}.
+        \]
+
+        \begin{align*}
+            f_{V, W}(x, w) &= f_{X, Y}(x(v, w), y(v, w))|\det{J}| \\
+            &= \begin{cases}
+                1 \cdot \left|-\frac{1}{2}\right| = \frac{1}{2}, &(v, w) \in \mathcal{Y} \\
+                0 &\text{elsewhere}.
+            \end{cases}
+        \end{align*}
+        
+        Find $\mathcal{Y}$.
+        We know $0 \leq X \leq 1$ and $0 \leq Y \leq 1$,
+        where $X = \frac{1}{2}(V + W)$ and $Y = \frac{1}{2}(V - W)$.
+        \begin{align*}
+            0 \leq \frac{1}{2}(V + W) \leq 1 && 0 \leq \frac{1}{2}(V - W) \leq 1 \\
+            0 \leq V + W \leq 2 && 0 \leq V - W \leq 2 \\
+            -V \leq W \leq 2 - V && V \geq W \geq V - 2
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\subsection{Multivariate Normal Distribution}
+
+\begin{definition}
+    Let $Z_1, \dotsc, Z_p$ be independent identically distributed $N(0, 1)$ random variables.
+    Then let the random $p$-vector $\vec{Z} = [Z_1, \dotsc, Z_p] ^ T$ has a multivariate standard Normal distribution,
+    $\vec{Z} \sim N_p(\vec{0}, I_p)$.
+
+    PDF:
+    \begin{align*}
+        F_{\vec{Z}}(\vec{z}) &= F(z_1, \dotsc, z_p) \\
+        &= F(z_1)\dotsi F(z_p) \\
+        &= \frac{1}{\sqrt{2\pi}}e ^ {-\frac{1}{2}z_1 ^ 2}\dotsi\frac{1}{\sqrt{2\pi}}e ^ {-\frac{p}{2}z_1 ^ 2} \\
+        &= \frac{1}{(2\pi) ^ {p / 2}}e ^ {-\frac{1}{2}\sum_{i = 1}^{p}z_i ^ 2} \\
+        f_{\vec{Z}}(\vec{z}) &= \frac{1}{(2\pi) ^ {p / 2}}e ^ {-\frac{1}{2}\vec{z} ^ T\vec{z}}\quad\text{for }\vec{z} \in \R ^ p
+    \end{align*}
+\end{definition}
+
+\textit{Note:
+$\vec{Z}$ has mean $\vec{\mu} = \vec{0}$,
+and variance $\Sigma = I_p$.
+The polar coordinate example was $N_2(\vec{0}, I_2)$.}
+
+What about a general Normal distribution?
+
+Take a $\vec{Z} \sim N_q(\vec{0}, I_q)$ and transform to
+\begin{equation}\tag{*}\label{statsinfII:eq:1}
+    \vec{X} = \vec{\mu} + A\vec{Z}
+\end{equation},
+where $\vec{\mu} \in \R ^ p$ and $A$ is a $p \times q$ matrix.
+
+$\E$ and $\Var$ properties
+\begin{align*}
+    \E(\vec{X}) &= \vec{\mu} + A\E(\vec{Z}) = \vec{\mu} \\
+    \Var(\vec{X}) &= A\Var(\vec{Z})A ^ T = AA ^ T \coloneqq \Sigma.
+\end{align*}
+Since each $X_i$ is a linear combination of Normal random variables \eqref{statsinfII:eq:1},
+then each $X_i$ must also be Normal.
+
+\begin{proposition}
+    The random $p$-vector $\vec{X}$ has a multivariate Normal
+    (MVN)
+    distribution with mean of $\vec{\mu}$ and variance $\Sigma$,
+    written $\vec{X} \sim N_{p}(\vec{\mu}, \Sigma)$ if it has pdf:
+    \[
+    f_{\vec{X}}(\vec{x}) = \frac{1}{(2\pi) ^ {p / 2}(\det{\Sigma}) ^ {1 / 2}}\exp\left\{-\frac{1}{2}(\vec{x} - \vec{\mu}) ^ T\Sigma ^ {-1}(\vec{x} - \vec{\mu})\right\}.
+    \]
+
+    \begin{proof}
+        For $\vec{Z} \sim N_p(\vec{0}, I_p)$ and $\Sigma = AA ^ T$,
+        let $\vec{Z} \to \vec{X} = A\vec{Z} + \vec{\mu}$.
+
+        Inverses:
+        \[
+        \vec{X} - \vec{\mu} = A\vec{Z} \implies \vec{Z} = A ^ {-1}(\vec{X} - \vec{\mu}).
+        \]
+
+        Derivatives:
+        \[
+        J = \frac{d\vec{z}}{d\vec{x}} = A ^ {-1}.
+        \]
+
+        \begin{align*}
+            f_{\vec{X}}(\vec{x}) &= f_{\vec{Z}}(\vec{z}(\vec{x}))|\det{J}| \\
+            &= (2\pi) ^ {-p / 2}\exp\left\{-\frac{1}{2}\vec{z}(\vec{x}) ^ T\vec{z}(\vec{x})\right\}|A ^ {-1}| \\
+            &= (2\pi) ^ {-p / 2}|A| ^ {-1}\exp\left\{-\frac{1}{2}\left[A ^ {-1}(\vec{x} - \vec{\mu})\right] ^ T\left[A ^ {-1}(\vec{x} - \vec{\mu})\right]\right\} \\
+            &= (2\pi) ^ {-p / 2}|A| ^ {-1}\exp\left\{-\frac{1}{2}(\vec{x} - \vec{\mu}) ^ T(A ^ {-1}) ^ TA ^ {-1}(\vec{x} - \vec{\mu})\right\} \\
+            &= (2\pi) ^ {-p / 2}|\Sigma| ^ {-1 / 2}\exp\left\{-\frac{1}{2}(\vec{x} - \vec{\mu}) ^ T(AA ^ T) ^ {-1}(\vec{x} - \vec{\mu})\right\} \\
+            &= (2\pi) ^ {-p / 2}|\Sigma| ^ {-1 / 2}\exp\left\{-\frac{1}{2}(\vec{x} - \vec{\mu}) ^ T\Sigma ^ {-1}(\vec{x} - \vec{\mu})\right\}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Properties of MVN.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item Linear transformation:
+        Suppose $\vec{X} \sim N_p(\vec{\mu}, \Sigma)$ and $\vec{Y} = B\vec{X} + \vec{c}$,
+        then
+        \[
+        \vec{Y} \sim N_{r}(B\vec{\mu} + \vec{c}, B\Sigma B ^ T).
+        \]
+
+        \item Standardisation:
+        For non-singular $\Sigma$
+        \[
+        \vec{Z} = \Sigma ^ {-1 / 2}(\vec{X} - \vec{\mu}) \sim N_p(\vec{0}, I_p)
+        \]
+        where $\Sigma = AA ^ T = \Sigma ^ {1 / 2}\Sigma_r ^ {1 / 2}$.
+
+        \item Marginalisation:
+        Every element of $\vec{X}$ is Normal,
+        and every subset is MVN.
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}
+    Suppose $\vec{X} \sim N_e\left(\begin{bmatrix}
+        1 \\ 3 \\ -1
+    \end{bmatrix}, \begin{bmatrix}
+        5 & 6 & 1 \\ 6 & 8 & -2 \\ 1 & -2 & 13
+    \end{bmatrix}\right)$.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item $\vec{Y} = \begin{bmatrix}
+            X_1 \\ X_3
+        \end{bmatrix}$.
+        Use $B = \begin{bmatrix}
+            1 & 0 & 0 \\ 0 & 0 & 1
+        \end{bmatrix}$ and $\vec{c} = \begin{bmatrix}
+            0 \\ 0
+        \end{bmatrix}$.
+        $\vec{Y} \sim N_2\left(\begin{bmatrix}
+            1 \\ -1
+        \end{bmatrix}, \begin{bmatrix}
+            5 & 1 \\ 1 & 13
+        \end{bmatrix}\right)$.
+
+        \item $W = 5X_1 - 4X_2 - X_3$.
+        Use $B = [5, -4, -1]$ and $c = 0$.
+        \begin{align*}
+            \E(W) &= B\vec{\mu} + c = [5, -4, -1]\begin{bmatrix}
+                1 \\ 3 \\ -1
+            \end{bmatrix} = -6 \\
+            \Var(W) &= B\Sigma B ^ T = [5, -4, -1]\Sigma\begin{bmatrix}
+                5 \\ -4 \\ -1
+            \end{bmatrix} = [5, -4, -1]\begin{bmatrix}
+                0 \\ 0 \\ 0
+            \end{bmatrix} = 0.
+        \end{align*}
+        $B$ is eigenvector of $W$,
+        with eigenvalue $0$
+        ($B$ is in the null space of $\Sigma$).
+    \end{enumerate}
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
