@@ -1,0 +1,201 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Algebra II \\
+    \large Problem Class}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Problems Class \texorpdfstring{$1$}{}}
+
+\begin{problem}[Question $2$]
+    Let $R$ be a ring.
+    Show,
+    using only the definition of ring,
+    that for any two elements $a, b \in R$ we have
+    \begin{enumerate}[label = (\alph*)]
+        \item $0 \cdot a = a \cdot 0 = 0$.
+
+        \item $(-a)b = -(ab)$,
+        and similarly $a(-b) = -(ab)$.
+
+        \item $(-a)(-b) = ab$
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            \begin{align*}
+                0 \cdot a &= (0 + 0) \cdot a &&\text{(by adding $0$}) \\
+                &= 0 \cdot a + 0 \cdot a &&\text{(by distributivity)} \\
+                &\iff \\
+                0 &= 0 \cdot a &&\text{(subtracting $0 \cdot a$)}
+            \end{align*}
+            $a \cdot 0$ is done similarly.
+
+            \item
+            First we want:
+            \begin{align*}
+                (-a)b &= -(ab) \\
+                &\iff \\
+                (-a)b + ab &= 0 &&\text{(by definition of $-x$)} \\
+                &\iff \\
+                (-a + a)b &= 0  &&\text{(by distributivity)} \\
+                &\iff \\
+                0 \cdot b &= 0
+            \end{align*}
+            this is true by $a$.
+
+            \item
+            Sub $-b$ in $b$:
+            \[
+            (-a)(-b) = -(a(-b))
+            \]
+            we want $-(a(-b)) = ab$,
+            i.e.
+            $ab + a(-b) = 0$.
+            But $ab + a(-b) = a(b + -b) = a \cdot 0 = 0$ by $a$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Question $3$]
+    Let $V$ be a finite dimensional vector space over $\C$.
+    Let
+    \[
+    \mathrm{End}(V) = \{f : V \to V \mid f\text{ is a linear map}\}.
+    \]
+    An element of $\mathrm{End}(V)$ is usually called a
+    (linear)
+    endomorphism.
+    We can add two such functions:
+    $(f + g)(v) = f(v) + g(v)$,
+    for $f, g \in \mathrm{End}(V)$,
+    $v \in V$.
+    Define another binary operation by composition:
+    \[
+    (f \circ g)(v) = f(g(v)).
+    \]
+    Prove that $(\mathrm{End}(V), +, \circ)$ is a ring.
+
+    \begin{solution}
+        First we know that the endomorphism form an abelian group under addition.
+        Identity:
+        $\mathrm{id} : V \to V$,
+        $V \mapsto V$.
+        Associativity:
+        We need,
+        $\forall f, g, h \in \mathrm{End}(V)$,
+        \[
+        f \circ (g \circ h) = (f \circ g) \circ h.
+        \]
+        For any $v \in V$,
+        \[
+        (f \circ (g \circ h))(v) = f((g \circ h)(v)) = f(g(h(v)))
+        \]
+        and $((f \circ g) \circ h)(v) = (f \circ g)(h(v)) = f(g(h(v)))$.
+        This proves associativity.
+        This works for any functions $f, g, h$ $X \to X$,
+        $X$ any set.
+
+        Distributivity:
+        \begin{align*}
+            (f \circ (g + h))(v) &= f(g(v) + h(v)) \\
+            &= f(g(v)) + f(h(v)) &&\text{(by linearity of $f$)} \\
+            &= (f \circ g)(v) + (f \circ h)(v)
+        \end{align*}
+        Similarly for right distributivity.
+        Thus,
+        $(\mathrm{End}(V), +, \circ)$ is a ring.
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Question $17$]
+    \begin{enumerate}[label = (\alph*)]
+        \item Let $m, n, a \in \Z$ be such that $m$ and $n$ are coprime.
+        Prove that if $m \mid na$,
+        then $m \mid a$.
+
+        \item Show,
+        by giving a counter-example,
+        that the statement in the previous part fails if $m$ and $n$ are not coprime.
+
+        \item Let $m, n \in \Z$ be coprime.
+        Prove that if $m \mid a$ and $n \mid a$,
+        for some integer $a$,
+        then
+        \[
+        mn \mid a.
+        \]
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            Coprime when $\gcd(m, n) = 1$.
+            By the Euclidean algorithm,
+            $\exists x, y \in \Z$ such that $xm + yn = 1$.
+            $m \mid na \iff na = mr$,
+            some $r \in \Z$.
+            By the Euclidean algorithm equation,
+            we get
+            \[
+            axm + ayn = a \iff axm + mry = a \iff m(ax + ry) = a \implies m \mid a.
+            \]
+
+            \item $m = 2$,
+            $n = 4$.
+
+            \item
+            Write $a = mr = ns$,
+            for some $r, s \in \Z$.
+            Then $m \mid ns$.
+            But by ($a$)
+            $m \mid s$,
+            i.e.,
+            $s = mt$,
+            for some $t \in \Z$.
+            Thus $a = ns = nmt$,
+            i.e. $nm \mid a$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Question $21$]
+    Let
+    \[
+    f(x) = x ^ 3 - 12x ^ 2 - 42,\qquad g(x) = x - 3
+    \]
+    be polynomials in $\Q[x]$.
+    Find $q(x)$ and $r(x)$ in $\Q[x]$ such that $\deg{r} < 1$ and
+    \[
+    f(x) = q(x)g(x) + r(x).
+    \]
+
+    \begin{solution}
+        \[
+        -9x ^ 2 + 27x +39.
+        \]
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+\end{document}

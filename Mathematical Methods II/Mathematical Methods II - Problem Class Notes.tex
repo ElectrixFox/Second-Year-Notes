@@ -1,0 +1,140 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Mathematical Methods II \\
+    \large Problem Class}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Problems Class \texorpdfstring{$1$}{}}
+
+\begin{problem}[$2012$ question $2$]
+    Calculate $\int_{C}\vec{f}\cdot\hvec{t}\,d\ell$ where $\vec{f} = -x\vec{e}_1 + 4y\vec{e}_2$ and $C$ is the part of $x ^ 2 + 4y ^ 2 = 4$ from $(2, 0)$ to $(0, 1)$.
+
+    \begin{solution}
+        Parameterisation:
+        \[
+        \vec{x}(t) = 2\cos(t)\vec{e}_1 + \sin(t)\vec{e}_2\qquad\text{for } t \in [0, \frac{\pi}{2}].
+        \]
+        \begin{align*}
+            \int_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{0}^{\frac{\pi}{2}}\vec{f}\cdot\hvec{t}\left|\frac{d\vec{x}}{dt}\right|\,dt \\
+            &= \int_{0}^{\frac{\pi}{2}}\vec{f}\cdot\frac{d\vec{x}}{dt}\,dt \\
+            &= \int_{0}^{\frac{\pi}{2}}\vec{f}\cdot(-2\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2)\,dt \\
+            &= \int_{0}^{\frac{\pi}{2}}(-x\vec{e}_1 + 4y\vec{e}_2)\cdot(-2\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2)\,dt \\
+            &= \int_{0}^{\frac{\pi}{2}}(-2\cos(t)\vec{e}_1 + 4\sin(t)\vec{e}_2)\cdot(-2\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2)\,dt \\
+            &= \int_{0}^{\frac{\pi}{2}}(4\cos(t)\sin(t) + 4\sin(t)\cos(t))\,dt \\
+            &= 8\int_{0}^{\frac{\pi}{2}}\cos(t)\sin(t)\,dt \\
+            &= 8\int_{1}^{0}(-u)\,du \\
+            &= -8\left[\frac{u ^ 2}{2}\right]_{1}^{0} = 4.
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+
+\begin{problem}[$2015$ question $8$]
+    Calculate the line integral of $\vec{f}(\vec{x}) = z ^ 2\vec{e}_1 + x ^ 2\vec{e}_2 + y ^ 2\vec{e}_3$ along each of the following curves.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item The straight line $C_1$ from $(0, 0, 0)$ to $(1, 1, 1)$.
+
+        \item The circle $C_2$ with radius $a > 0$ in the $z = 0$ plane centred at $(1, 1, 0)$,
+        traversed anti-clockwise.
+
+        \item The triangle $C_3$ with vertices $(1, 1, 0) \to (1 + b, 1, 0) \to (1, 1 + b, 0)$ for $b > 0$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item Need parameterisation:
+            \[
+            \vec{x}(t) = t\vec{e}_1 + t\vec{e}_2 + t\vec{e}_3\quad\text{for } t \in [0, 1]
+            \]
+            \[
+            \frac{d\vec{x}}{dt} = \vec{e}_1 + \vec{e}_2 + \vec{e}_3.
+            \]
+
+            So
+            \begin{align*}
+                \int_{C_1}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{0}^{1}(z ^ 2\vec{e}_1 + x ^ 2\vec{e}_2 + y ^ 2\vec{e}_3)\cdot(\vec{e}_1 + \vec{e}_2 + \vec{e}_3)\,dt \\
+                &= \int_{0}^{1}(t ^ 2\vec{e}_1 + t ^ 2\vec{e}_2 + t ^ 2\vec{e}_3) \cdot (\vec{e}_1 + \vec{e}_2 + \vec{e}_3)\,dt \\
+                &= \int_{0}^{1}3t ^ 2\,dt = \left[t ^ 3\right]_{0}^{1} = 1.
+            \end{align*}
+
+            \item Parameterisation for $C_2$:
+            \[
+            \vec{x}(t) = (1 + a\cos(t))\vec{e}_1 + (1 + a\sin(t))\vec{e}_2\quad\text{for } [0, 2\pi].
+            \]
+            \[
+            \frac{d\vec{x}}{dt} = -a\sin(t)\vec{e}_1 + a\cos(t)\vec{e}_2.
+            \]
+            So
+            \begin{align*}
+                \int_{C_2}\vec{f}\hvec{t}\,d\ell &= \int_{0}^{2\pi}(z ^ 2\vec{e}_1 + x ^ 2\vec{e}_2 + y ^ 2\vec{e}_3) \cdot (-a\sin(t)\vec{e}_1 + a\cos(t)\vec{e}_2)\,dt \\
+                &= \int_{0}^{2\pi}\left[(1 + a\cos(t)) ^ 2\vec{e}_2 + (1 + a\sin(t)) ^ 2\vec{e}_3\right]\cdot\left(-a\sin(t)\vec{e}_1 + a\cos(t)\vec{e}_2\right)\,dt \\
+                &= \int_{0}^{2\pi}a\cos(t)(1 + a\cos(t)) ^ 2\,dt \\
+                &= \int_{0}^{2\pi}a\cos(t)(1 + 2a\cos(t) + a ^ 2\cos ^ 2(t))\,dt \\
+                &= a\int_{0}^{2\pi}\cos(t)\,dt + 2a ^ 2\int_{0}^{2\pi}\cos ^ 2(t)\,dt + a ^ 3\int_{0}^{2\pi}\cos ^ 3(t)\,dt \\
+                &= 0 + 2\pi a ^ 2 + 0 = 2\pi a ^ 2.
+            \end{align*}
+
+            \item
+            Split into three straight lines that are differentiable:
+            \[
+            \vec{x}(t) = \begin{cases}
+                (1 + bt)\vec{e}_1 + \vec{e}_2 &\text{for } t \in [0, 1] \\
+                (1 + b(1 -t))\vec{e}_1 + (1 + bt)\vec{e}_2 &\text{for } t \in [0, 1] \\
+                \vec{e}_1 + (1 + b(1 -t))\vec{e}_2 &\text{for } t \in [0, 1].
+            \end{cases}
+            \]
+            So
+            \begin{align*}
+                \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int\vec{f}\cdot\hvec{t}\,d\ell + \int\vec{f}\cdot\hvec{t}\,d\ell + \int\vec{f}\cdot\hvec{t}\,d\ell \\
+                &= \int_{0}^{1}(x ^ 2\vec{e}_2 + y ^ 2\vec{e}_3)\cdot(b\vec{e}_1)\,dt + \int_{0}^{1}(x ^ 2\vec{e}_2 + y ^ 2\vec{e}_3)\cdot(-b\vec{e}_1 + b\vec{e}_2)\,dt + \int_{0}^{1}(x ^ 2\vec{e}_2 + y ^ 2\vec{e}_3)\cdot(-b\vec{e}_2)\,dt \\
+                &= \int_{0}^{1}0\,dt + \int_{0}^{1}bx ^ 2\,dt - \int_{0}^{1}bx ^ 2\,dt \\
+                &= \int_{0}^{1}b(1 + b(1 - t)) ^ 2\,dt - \int_{0}^{1}b\,dt \\
+                &= \int_{0}^{1}b(1 + b ^ 2 + b ^ 2t ^ 2 + 2b - 2bt)\,dt - \int_{0}^{1}b\,dt \\
+                &= \left[b(1 + b ^ 2)t + \frac{b ^ 3}{3}t ^ 3 + 2b ^ 2t - b ^ 2t ^ 2 - b ^ 3t ^ 2\right]_{0}^{1} - \left[bt\right]_{0}^{1} \\
+                &= b(1 + b ^ 2) + \frac{b ^ 3}{3} + 2b ^ 2 - b ^ 2 - b ^ 3 - b \\
+                &= b ^ 2\left(\frac{b}{3} + 1\right).
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[August $2024$ question $6$]
+    The position vector in
+    "ellipsoidal coordinates"
+    is given by
+    \[
+    \vec{x}(r, \theta, \phi) = ar\sin(\theta)\cos(\phi)\vec{e}_1 + br\sin(\theta)\sin(\phi)\vec{e}_2 + cr\cos(\theta)\vec{e}_3
+    \]
+    where $r > 0$,
+    $\theta \in [0, \pi]$,
+    $\phi \in [0, 2\pi]$ and $a, b, c \in \R$ are given positive constants.
+
+    Determine whether or not this $(r, \theta, \phi)$ coordinate system is orthogonal.
+
+    \begin{solution}
+        Calculate tangent vectors:
+        \begin{align*}
+            \pd[\vec{x}]{r} &= a\sin(\theta)\cos(\phi)\vec{e}_1 + b\sin(\theta)\sin(\phi)\vec{e}_2 + c\cos(\theta)\vec{e}_3 \\
+            \pd[\vec{x}]{\theta} &= ar\cos(\theta)\cos(\phi)\vec{e}_1 + br\cos(\theta)\sin(\phi)\vec{e}_2 - cr\sin(\theta)\vec{e}_3
+        \end{align*}
+        then dotting them together
+        \[
+        \pd[\vec{x}]{r} \cdot \pd[\vec{x}]{\theta} \neq 0.
+        \]
+    \end{solution}
+\end{problem}
+
+\end{document}
