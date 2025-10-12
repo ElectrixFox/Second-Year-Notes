@@ -201,6 +201,28 @@ then we define the surface integral of $f$ over $S$ to be
 where $U$ is the preimage of $S$ in the $(u, v)$ plane.
 
 \begin{proposition}
+    If $(u, v)$ are
+    (two of a set of)
+    orthogonal curvilinear coordinates,
+    then
+    \[
+    \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = h_uh_v.
+    \]
+
+    \begin{proof}
+        Recall that $\pd[\vec{x}]{u} = h_u\vec{e}_u$ and $\pd[\vec{x}]{v} = h_v\vec{e}_v$.
+        Since $h_u, h_v \geq 0$,
+        we have that
+        \[
+        \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = h_uh_v|\vec{e}_u \times \vec{e}_v| = h_uh_v|\pm\vec{e}_w| = h_uh_v.
+        \]
+    \end{proof}
+\end{proposition}
+
+The surface area of $S$ is computed by taking $f(\vec{x}) \equiv 1$,
+giving $|S| = \int_{S}\,dS$.
+
+\begin{proposition}\label{pre:mathmethII:prop:surfintscalindepparam}
     The surface integral of a scalar field is independent of the choice of parameterisation.
 
     \begin{proof}
@@ -264,5 +286,37 @@ The volume integral of a scalar field $f : \R ^ 3 \to \R$ over a $3$D subregion 
 \]
 where $U$ is the preimage of $V$ in $(u, v, w)$ space,
 for some well-defined coordinates $(u, v, w)$.
+
+The factor $\left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right|\,dudvdw$ is the volume of a parallelepiped corresponding to an infinitesimal cuboid $(du, dv, dw)$ in $(u, v, w)$ space.
+
+\begin{proposition}
+    If $(u, v, w)$ are orthogonal curvilinear coordinates,
+    then
+    \[
+    \left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right| = h_uh_vh_w.
+    \]
+
+    \begin{proof}
+        Recall that $\pd[\vec{x}]{u} = h_u\vec{e}_u$,
+        and similarly for the other two tangent vectors.
+        Since $h_u, h_v, h_w \geq 0$,
+        \[
+        \left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right| = h_uh_vh_w|\vec{e}_u \cdot (\vec{e}_v \times \vec{e}_w)| = h_uh_vh_w|\vec{e}_u \cdot (\pm\vec{e}_u)| = h_uh_vh_w.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    The volume integral of a scalar field is independent of the choice of coordinates.
+
+    \begin{proof}
+        This is analogous to \autoref{pre:mathmethII:prop:surfintscalindepparam},
+        using the fact that a $3$D change of variables obeys
+        \[
+        dx\,dy\,dz = \left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right|\,du\,dv\,dw.
+        \]
+    \end{proof}
+\end{proposition}
+
 
 \end{document}
