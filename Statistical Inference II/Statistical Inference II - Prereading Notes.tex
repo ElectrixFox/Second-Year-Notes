@@ -237,4 +237,181 @@ The $i$th row of $\mbf{X}$ is the observation vector of all $p$ variables for in
 $\mbf{x}_i$,
 and then the $j$th column of $\mbf{X}$ corresponds to all of the observation of variable $j$ across the $n$ individuals.
 
+\newpage
+
+\section{Estimation}
+
+\subsection{Point Estimation}
+\begin{definition}[Estimate and estimator]
+    An estimator or a population or model parameter $\theta$ is a random variable which is a function of the random sample,
+    i.e. a statistic,
+    \[
+    \hat{\Theta} = \hat{\Theta}(X_1, \dotsc, X_n),
+    \]
+    which takes values in the parameter space $\Omega$.
+
+    Once the sample is observed,
+    the value of the estimator can be found and its value is the estimate,
+    \[
+    \hat{\theta} = \hat{\Theta}(x_1, \dotsc, x_n).
+    \]
+    A point estimator is any estimator which returns a single value as our estimate for $\theta$,
+    i.e. a single point in $\Omega$.
+\end{definition}
+
+The frequentist approach to statistics is based on the following:
+\begin{enumerate}[label = (\roman*)]
+    \item A limiting frequency interpretation of probability.
+    Probabilities are associated only with observable events,
+    and are determined as the limit of relative frequencies in infinitely many trials.
+
+    \item The parameter of interest,
+    $\theta$,
+    is the unknown but constant.
+    The parameter is not an observable event,
+    it cannot be viewed as a random variable,
+    can not have a probability distribution,
+    so we cannot make probability statements about $\theta$.
+
+    \item Before observation the sample $\vec{X} = [X_1, \dotsc, X_n] ^ T$ is random,
+    and can be considered to be any one of many possible samples $\vec{X} ^ {(1)}, \vec{X} ^ {(2)}, \dotsc$ consistent with $f(\vec{x})$.
+
+    \item After observation the observed sample $\vec{x} = [x_1, \dotsc, x_n] ^ T$ is a constant realisation of the random $\vec{X}$.
+    It gives a constant estimate $\hat{\theta} = \hat{\Theta}(\vec{x})$ as a single realisation of the random $\hat{\Theta}$.
+
+    \item We equate the accuracy of $\hat{\theta}$ with the variability of $\hat{\Theta}$.
+\end{enumerate}
+
+\subsection{Evaluating an estimator}
+
+\begin{definition}[Bias and Unbiased]
+    The bias of an estimator is
+    \[
+    \mathrm{bias}(\hat{\Theta}, \theta) = \E(\hat{\Theta} - \theta) = \E(\hat{\Theta}) - \theta,
+    \]
+    where we take expectation with respect to the random sample $\vec{X}$.
+
+    An estimator is unbiased if $\mathrm{bias}(\hat{\Theta}, \theta) = 0$,
+    i.e. if
+    \[
+    \E(\hat{\Theta}) = \theta.
+    \]
+\end{definition}
+
+\begin{definition}[Standard error]
+    The standard error of an estimator $\hat{\Theta}$ is the standard deviation of $\hat{\Theta}$:
+    \[
+    \mathrm{SE}(\hat{\Theta}) = \mathrm{sd}(\hat{\Theta}) = \sqrt{\Var(\hat{\Theta})}.
+    \]
+\end{definition}
+Standard error is used as a measure of the variability of the estimator.
+
+Another measure of the quality of an estimator is the mean-square error:
+\begin{definition}[Mean-square error
+    (MSE)]
+    The mean-square error
+    (MSE)
+    of an estimator $\hat{\Theta}$ for the parameter $\theta$ is
+    \[
+    \mathrm{MSE}(\hat{\Theta}, \theta) = \E((\hat{\Theta} - \theta) ^ 2) = \Var(\hat{\Theta}) + \mathrm{bias}(\hat{\Theta}, \theta) ^ 2.
+    \]
+\end{definition}
+This is where the standard error measures the average distance of the estimator from its mean $\E(\hat{\Theta})$.
+
+\subsection{The method of moments}
+
+\begin{definition}[Central moments]
+    The $k$th central moment of $X$ is:
+    \[
+    \mathbb{c}_k(\theta) = \begin{cases}
+        \E(X) = \mu & k = 1 \\
+        \E((X - \mu) ^ 2) = \Var(X) = \sigma ^ 2 & k = 2 \\
+        \E((X - \mu) ^ k) & k = 3, 4, \dotsc
+    \end{cases}
+    \]
+    The $k$th sample central moment of $X$ is:
+    \[
+    \hat{c}_k(\theta) = \begin{cases}
+        \frac{1}{n}\sum_{i = 1}^{n}x_i = \bar{x} & k = 1 \\
+        \frac{1}{n}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ k & k = 2, 3, \dotsc
+    \end{cases}
+    \]
+\end{definition}
+
+\begin{definition}
+    If $f(x; \theta)$ has $p$ parameters,
+    $\vec{\theta} \in \R ^ p$,
+    the method of moments
+    (MoM)
+    estimators of $\vec{\theta}$ are obtained by equating:
+    \[
+    \mathbb{c}_k(\hvec{\theta}) = \hat{c}_{\vec{X}}(,)
+    \]
+    for $k = 1, \dotsc, p$,
+    and solving for $\hvec{\theta}$.
+\end{definition}
+
+\newpage
+
+\section{Estimating means and variances}
+
+\subsection{Properties of the sample mean and variance}
+
+\begin{proposition}[Unbiasedness of the sample mean vector]
+    Suppose $\vec{X}_i \sim [\vec{\mu}, \vec{\Sigma}]$ are $n$ independent realisation of a multivariate random $p$-vector,
+    with $\vec{\mu}$ and $\vec{\Sigma}$ finite,
+    then the sample mean vector $\bar{\vec{X}}$ is unbiased for $\vec{\mu}$:
+    \[
+    \E(\bar{\vec{X}}) = \vec{\mu}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \E(\bar{X}) &= \E\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right) \\
+            &= \frac{1}{n}\sum_{i = 1}^{n}\E(X_i) \\
+            &= \frac{1}{n}\sum_{i = 1}^{n}\mu = \mu.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[Variance of the sample mean]
+    For $\vec{X}_i$ as above
+    \[
+    \Var(\bar{\vec{X}}) = \frac{1}{n}\vec{\Sigma}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \Var(\bar{X}) &= \Var\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right) \\
+            \intertext{Since the $X_i$ are all independent:}
+            \Var(\bar{X}) &= \frac{1}{n ^ 2}\sum_{i = 1}^{n}\Var(X_i) \\
+            &= \frac{1}{n ^ 2}n\vec{\Sigma} \\
+            &= \frac{1}{n}\vec{\Sigma}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[Unbiasedness of the sample variance matrix]
+    For $\vec{X}_i$ as above
+    \[
+    \E(\vec{S}_X) = \vec{\Sigma}.
+    \]
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
