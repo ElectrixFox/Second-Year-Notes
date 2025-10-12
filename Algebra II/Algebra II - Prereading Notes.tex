@@ -368,8 +368,279 @@ b = ax.
     then $r = s$,
     and up to re-ordering,
     $p_i = q_i$ and $e_i = f_i$ for all $i$.
-    
 \end{theorem}
+
+\subsection{Divisibility in \texorpdfstring{$F[x]$}{}}
+From now on,
+let $F$ be any field,
+e.g. $\Q$ or $\R$.
+For $f(x) = a_0 + a_1x + \dotsi + a_nx ^ n \in F[x]$,
+its degree is
+\[
+\deg{f} \coloneqq \begin{cases}
+    \max\{i \mid a_i \neq 0\} &\text{if } f(x) \neq 0, \\
+    -\infty &\text{if } f(x) = 0.
+\end{cases}
+\]
+Then we have the following basic properties for all $f(x), g(x) \in F[x]$:
+\begin{align*}
+    \deg(fg) &= \deg{f} + \deg{g} \\
+    \deg(f + g) &\leq \max\{\deg{f}, \deg{g}\}.
+\end{align*}
+
+\begin{proposition}
+    Let $f(x), g(x) \in F[x]$ with $g(x) \neq 0$.
+    Then there exist polynomials $q(x), r(x) \in F[x]$ with $\deg{r} < \deg{g}$ such that
+    \[
+    f(x) = q(x)g(x) + r(x).
+    \]
+
+    \begin{proof}
+        If $\deg{g} > \deg{f}$,
+        take $q(x) = 0$ and $r(x) = f(x)$.
+        If $\deg{g} \leq \deg{f}$,
+        let
+        \begin{align*}
+            f(x) &= a_0 + \dotsi + a_mx ^ m, && a_m \neq 0, \\
+            g(x) &= b_0 + \dotsi + b_nx ^ n, && b_n \neq 0.
+        \end{align*}
+        Let $d = m - n \geq 0$.
+        We use induction on $d$:
+
+        Base step:
+        Let $d = 0$,
+        so that $m = n$.
+        Set $q(x) = a_m / b_n$ and
+        \[
+        r(x) \coloneqq f(x) - q(x)g(x).
+        \]
+
+        Induction step:
+        Assume the existence of $q(x)$ and $r(x)$ for all $d < k$,
+        for some $k \geq 0$.
+        Now consider $d = k$,
+        so that $m = n + k$.
+        Let
+        \[
+        f_1(x) \coloneqq f(x) - \frac{a_m}{b_n}x ^ {m - n}g(x).
+        \]
+        Note $\deg{f_1} < \deg{f}$,
+        so by induction,
+        there exists polynomials $q_1(x)$ and $r(x)$ such that $\deg{r} < \deg{g}$ and
+        \[
+        f_1(x) = q_1(x)g(x) + r(x).
+        \]
+        Thus
+        \[
+        f(x) = f_1(x) + \frac{a_m}{b_n}x ^ {m - n}g(x) = (q_1(x) + \frac{a_m}{b_n}x ^ {m - n})g(x) + r(x),
+        \]
+        so the result is true for $d = k$,
+        and hence for all $d \geq 0$,
+        by induction.
+    \end{proof}
+\end{proposition}
+
+\newpage
+
+\section{Units,
+zero divisors and integral domains}
+
+\subsection{Examples of units in rings}
+
+The units in $\Z$ are $\pm 1$ and the units in $F[x]$,
+$F$ a field are the non-zero constants,
+that is,
+$F ^ {\times}$.
+
+If $R$ is a ring the units $R ^ {\times}$ actually form a group under multiplication in $R$:
+\[
+a, b \in R ^ {\times} \implies ab \in R ^ {\times}
+\]
+because if $c, d \in R$ are elements such that $ac = 1$ and $bd = 1$,
+then $(ab)(dc) = 1$,
+so $ab$ is a unit.
+
+\begin{proposition}\label{pre:algII:prop:unitiffgcdone}
+    An element $\bar{a} \in \Z / n$ is a unit if and only if $\gcd(a, n) = 1$.
+
+    \begin{proof}
+        Let $d = \gcd(a, n)$.
+        Then in particular $d \mid a$ and $d \mid n$.
+        First suppose that $\bar{a}$ is a unit and let $\bar{b} = \bar{a} ^ {-1}$.
+        Then $\bar{a}\bar{b} = \bar{1}$,
+        which means that $ab \equiv 1\pmod{n}$.
+        Thus $ab = xn + 1$,
+        for some $x \in \Z$.
+        But then,
+        since $d \mid (ab)$ and $d \mid xn$,
+        we must have $d \mid 1$.
+        Hence $d = 1$.
+        Conversely,
+        assume that $d = 1$
+        The Euclidean Algorithm shows that there exist $x, y \in \Z$ such that
+        \[
+        xa + ny = d = 1.
+        \]
+        Therefore $xa \equiv 1 \pmod{n}$,
+        which means that $\bar{x}\bar{a} = \bar{1}$ in $\Z / n$.
+        Hence $\bar{a}$ is a unit.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    $\Z / p$ is a field if and only if $p$ is a prime.
+
+    \begin{proof}
+        If $\Z / p$ is a field,
+        then it is also an integral domain,
+        so $p$ is prime 
+        (since $\Z / p$ is an integral domain).
+        Conversely,
+        if $p$ is a prime,then 
+        \autoref{pre:algII:prop:unitiffgcdone},
+        every element $\bar{1}, \bar{2}, \dotsc, \overline{p - 1}$ is a unit,
+        so $\Z / p$ is a field.
+    \end{proof}
+\end{corollary}
+
+\subsection{Zero divisors and integral domains}
+
+\begin{definition}
+    Let $R$ be a ring.
+    If $a \in R$ such that $ab = 0$ for some $b \neq 0$,
+    then $a$ is called a zero divisor.
+\end{definition}
+
+\begin{definition}
+    A ring $R$ which is commutative,
+    has at least two elements
+    $(0 \neq 1)$,
+    and does not have any zero divisors apart from $0$,
+    is called an integral domain.
+\end{definition}
+
+\begin{lemma}
+    $\Z / n$ is an integral domain if and only if $n$ is a prime.
+
+    \begin{proof}
+        Suppose that $\Z / n$ is an integral domain and that $n$ is not prime.
+        Then we can write $n = ab$,
+        with $a, b \in \Z$,
+        where $2 \leq a, b \leq n - 1$.
+        Thus
+        \[
+        \bar{a}\bar{b} = \bar{n} = \bar{0} \in \Z / n,
+        \]
+        so $\bar{a}$ and $\bar{b}$ are zero divisors in $\Z / n$;
+        contradiction.
+
+        Conversely,
+        suppose that $n$ is a prime and that $\bar{a} \in \Z / n$ is a zero divisor.
+        Then there is a $\bar{b} \neq 0$ such that $\overline{ab} = \bar{0}$.
+        This means that $n \mid ab$,
+        so,
+        as $n$ is a prime,
+        $n \mid a$ or $n \mid b$.
+        In other words,
+        $\bar{a} = \bar{0}$ or $\bar{b} = \bar{0}$,
+        hence $\bar{a} = \bar{0}$,
+        as $\bar{b} \neq \bar{0}$.
+        Thus $\bar{0}$ is the only zero-divisor,
+        so $\Z / n$ is an integral domain.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    If $R$ is an integral domain
+    (e.g. a field),
+    then the ring of polynomials $R[x] = \{a_0 + a_1x + \dotsi + a_nx ^ n \mid a_i \n R\}$ is also an integral domain.
+
+    \begin{proof}
+        It is clear that $R[x]$ is commutative and that $0 \neq 1$
+        (because this holds in $R$).
+        We thus need to show that there are no zero-divisors in $R[x]$ apart from $0$.
+        Assume the opposite,
+        namely that there are two non-zero polynomials $f(x), g(x) \in R[x]$ such that $f(x)g(x) = 0$ such that $f(x),g(x) = 0$.
+        Then we can write
+        \begin{align*}
+            f(x) &= a_0 + \dotsi + a_mx ^ m,\quad m = \deg{f}, a_m \neq 0, \\
+            g(x) &= b_0 + \dotsi + b_nx ^ n,\quad n = \deg{g}, b_n \neq 0.
+        \end{align*}
+        If we expand $f(x)g(x)$,
+        the term of degree $m + n$ will be
+        \[
+        a_mb_nx ^ {m + n}.
+        \]
+        Thus,
+        $f(x)g(x) = 0$ implies that $a_mb_n = 0$.
+        But $a_m$ and $b_n$ are in $R$,
+        which was assumed to be an integral domain.
+        Thus $a_m = 0$ or $b_n = 0$,
+        which is a contradiction.
+    \end{proof}
+\end{proposition}
+
+\subsection{Prime elements and Unique Factorisation Domains
+    (UFDs)}
+\begin{definition}
+    Let $R$ be a commutative ring.
+    An element $x \in R$ is called prime
+    (or a prime element)
+    if the following conditions hold:
+    \begin{enumerate}[label = \roman*)]
+        \item $x$ is non-zero and not a unit.
+
+        \item If $x \mid ab$,
+        for $a, b \in R$,
+        then $x \mid a$ or $x \mid b$.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $R$ be an integral domain $x \in R$ a prime element.
+    Then $x$ is irreducible.
+
+    \begin{proof}
+        Note that by definition,
+        $x \neq 0$ and not a unit.
+        Assume that $x = ab$ with $a, b \in R$.
+        We need to show that either $a$ or $b$ is a unit.
+        By definition of $x$ being prime,
+        $x \mid a$ or $x \mid b$.
+        Assume $x \mid a$.
+        Then $a = rx$,
+        for some $r \in R$ and so
+        \[
+        x = rxb = xrb.
+        \]
+        Since $R$ is an integral domain and $x \neq 0$,
+        we get $rb = 1$,
+        so $b$ is a unit.
+    \end{proof}
+\end{lemma}
+
+\begin{definition}
+    An integral domain $R$ is called a unique factorisation domain
+    (UFD)
+    if every non-zero non-unit element of $R$ can be written as a product of irreducible elements and this product is unique up to order of the factors and multiplication by units.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
