@@ -154,6 +154,115 @@ leading to scale factors $h_r = 1$,
 $h_{\theta} = r$,
 $h_{\phi} = r\sin{\theta}$.
 
+\newpage
 
+\section{Surface and volume integrals}
+
+\subsection{Surfaces}
+
+A $2$D surface embedded in $\R ^ 3$ can be defined parametrically as a map $\vec{x}(u, v)$ from $\R ^ 2 \to \R ^ 3$,
+for $u \in [u_0, u_1]$ and $v \in [v_0, v_1]$.
+
+For each value of $v$,
+the position $\vec{x}(u, v)$ describes a curve on the surface with tangent vector $\pd[\vec{x}]{u}$.
+
+Similarly,
+for each value of $u$,
+we get a curve with tangent vector $\pd[\vec{x}]{v}$.
+
+If $(u, v)$ is a well-defined parameterisation,
+then their tangent vectors cannot be collinear.
+So the cross product of these tangent vectors allows us to define the unit normal to the surface:
+\[
+\hvec{n} = \frac{\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}}{\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|}.
+\]
+The sign of $\hvec{n}$ depends on the ordering of $(u, v)$.
+A surface together with a specified
+(consistent)
+choice of $\hvec{n}$ is called an oriented surface.
+
+A surface is called smooth if $\hvec{n}$ varies continuously over the surface.
+It is called piecewise smooth if it can be divided into finitely many portions each of which is smooth.
+
+A surface can be either open if it is bounded by a curve,
+or closed if it has no boundary.
+The boundary of an open surface $S$ is a curve,
+often written $\partial S$.
+
+A simple type of surface is an explicit surface given by the height of a two-dimensional function,
+$z = h(x, y)$.
+
+\subsection{Surface integrals of scalar fields}
+If $f(\vec{x}) = f(x, y, z)$ is a scalar field and $S$ is a surface with parameterisation $\vec{x}(u, v)$,
+then we define the surface integral of $f$ over $S$ to be
+\[
+\int_{S}f\,dS = \int_{U}f(\vec{x}(u, v))\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv,
+\]
+where $U$ is the preimage of $S$ in the $(u, v)$ plane.
+
+\begin{proposition}
+    The surface integral of a scalar field is independent of the choice of parameterisation.
+
+    \begin{proof}
+        Suppose $\vec{x}(u, v)$ and $\vec{x}(\mu, \nu)$ are two regular parameterisations of the same surface.
+        By the chain rule,
+        \[
+        \pd[\vec{x}]{u} = \pd[\vec{x}]{\mu}\pd[\mu]{u} + \pd[\vec{x}]{\nu}\pd[\nu]{u},\qquad \pd[\vec{x}]{v} = \pd[\vec{x}]{\mu}\pd[\mu]{v} + \pd[\vec{x}]{v}\pd[\nu]{v}.
+        \]
+        So
+        \begin{align*}
+            \pd[\vec{x}]{u} \times \pd[\vec{x}]{v} &= \left(\pd[\vec{x}]{\mu}\pd[\mu]{u} + \pd[\vec{x}]{\nu}\pd[\nu]{u}\right) \times \left(\pd[\vec{x}]{\mu}\pd[\mu]{v} + \pd[\vec{x}]{\nu}\pd[\nu]{v}\right) \\
+            &= \left(\pd[\vec{x}]{\mu}\pd[\mu]{u} + \pd[\vec{x}]{\nu}\pd[\nu]{u}\right) + \left(\pd[\vec{x}]{\nu}\pd[\nu]{u} + \pd[\vec{x}]{\mu}\pd[\mu]{v}\right) \\
+            &= \left(\pd[\mu]{u}\pd[\nu]{v} - \pd[\mu]{v}\pd[\nu]{u}\right)\pd[\vec{x}]{\mu} \times \pd[\vec{x}]{\nu}.
+        \end{align*}
+        This means
+        \[
+        \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = |J|\left|\pd[\vec{x}]{\mu} \times \pd[\vec{x}]{\nu}\right|,
+        \]
+        where $J$ is the Jacobian.
+        Since $|J|\,dudv = d\mu d\nu$,
+        we obtain
+        \[
+        \int_{U}f(\vec{x}(u, v))\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv = \int_{U'}f(\vec{x}(\mu, \nu))\left|\pd[\vec{x}]{\mu} \times \pd[\vec{x}]{\nu}\right|\,d\mu d\nu,
+        \]
+        where $U'$ is the corresponding region of the $(\mu, \nu)$ plane.
+    \end{proof}
+\end{proposition}
+
+\subsection{Surface integrals of vector fields}
+If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a vector field and $S$ is an oriented surface with unit normal $\hvec{n}$,
+we define the surface integral
+(or flux)
+of $\vec{f}$ through $S$ as
+\[
+\int_{S}\vec{f} \cdot\hvec{n}\,dS.
+\]
+
+We evaluate the integral using a specific parameterisation $\vec{x}(u, v)$,
+so
+\begin{align*}
+    \int_{S}\vec{f}\cdot\hvec{n}\,dS &= \int_{U}\vec{f}(\vec{x}(u, v))\cdot\hvec{n}\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv \\
+    &= \int_{U}\vec{f}(\vec{x}(u, v)) \cdot \left(\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right)\,dudv,
+\end{align*}
+where $U$ is the preimage of $S$ in the $(u, v)$ plane.
+
+If the surface $S$ is closed,
+this is often emphasised by writing
+\[
+\int_{S}\vec{f}\cdot\hvec{n}\,dS = \oint_{S}\vec{f}\cdot\hvec{n}\,dS.
+\]
+We also have vector-valued surface integrals of the form
+\[
+\int_{S}\vec{f}\,dS
+\]
+for some vector field $\vec{f} : \R ^ 3 \to \R ^ 3$.
+
+\subsection{Volume integrals}
+The volume integral of a scalar field $f : \R ^ 3 \to \R$ over a $3$D subregion $V \subset \R ^ 3$ is
+\[
+\int_{V}f\,dV = \int_{U}f(\vec{x}(u, v, w))\left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right|\,dudvdw,
+\]
+where $U$ is the preimage of $V$ in $(u, v, w)$ space,
+for some well-defined coordinates $(u, v, w)$.
 
 \end{document}
