@@ -503,8 +503,272 @@ but it will work if we define $\deg{f} = -\infty$
     so $q = x - 2$ and $r = x + 1$.
 \end{example}
 
+\begin{proposition}
+    Let $f(x), g(x) \in F[x]$,
+    $g(x) \neq 0$.
+    Then there exist polynomials $q(x), r(x) \in F[x]$ such that $f(x) = q(x) \cdot g(x) + r(x)$,
+    with $\deg{r} < \deg{g}$.
 
+    \begin{proof}
+        If $\deg{g} > \deg{f}$,
+        take $q(x) = 0$ and $r(x) = f(x)$.
+        If $\deg{g} \leq \deg{f}$,
+        let
+        \begin{align*}
+            f(x) &= a_0 + \dotsc + a_mx ^ m, && a_m \neq 0 \\
+            g(x) &= b_0 + \dotsc + b_nx ^ n, && b_n \neq 0.
+        \end{align*}
+        Let $d = m - n$.
+        Use induction on $d$.
+        Base case:
+        Let $d = 0$,
+        so that $m = n$.
+        Set $q(x) \coloneqq \frac{a_m}{b_n}$ and $r(x) \coloneqq f(x) - q(x)g(x)$.
+        Note that $\deg{r} < m = \deg{g}$.
 
+        Induction:
+        Assume the distance of $q(x)$ and $r(x)$ for all $d < k$,
+        some $k \geq 0$.
+        Now consider $d = k$,
+        so that $m = n + k$.
+        Let $f_1(x) \coloneqq f(x) - \frac{a_m}{b_n}x ^ {m - n}g(x)$.
+        Note that $\deg{f} < \deg{f_1}$,
+        so by induction,
+        there exist polynomials $q_1(x), r_1(x)$ such that $\deg{r_1} < \deg{g}$ and $f_1(x) = q_1(x)g(x) + r_1(x)$.
+        Thus,
+        \[
+        f(x) = f_1(x) + \frac{a_m}{b_n}x ^ {m - n}g(x) = \underbrace{\left(q_1(x) + \frac{a_m}{b_n}x ^ {m - n}\right)}_{\eqqcolon q(x)}g(x) + \underbrace{r_1(x)}_{\eqqcolon r(x)}.
+        \]
+        So the result is true for $d = k$,
+        hence for all $d \geq 0$,
+        by induction.
+    \end{proof}
+\end{proposition}
+
+\subsection{GCDs and the Euclidean Algorithm in \texorpdfstring{$F[x]$}{}}
+Let $F$ be a field.
+The greatest common divisor
+(GCD)
+of two polynomials
+"should be"
+a polynomial of highest degree that divides two polynomials.
+But such a GCD would not be unique because every constant multiple of the GCD would also be a GCD.
+A polynomial is called monic if its leading coefficient is $1$.
+Among all constant multiples $af(x)$,
+$a \in F$,
+$f(x) \in F[x]$,
+there is precisely one that is monic.
+We will show that there is a unique monic GCD.
+
+\begin{definition}
+    Let $f(x), g(x) \in F[x]$ with either $f(x) \neq 0$ or $g(x) \neq 0$.
+    A greatest common divisor 
+    (GCD)
+    of $f(x)$ and $g(x)$ is a polynomial of highest degree that divides both $f(x)$ and $g(x)$.
+\end{definition}
+\textit{Note:
+Not yet obvious that the GCD always exists and if it does,
+whether it is unique
+(up to rescaling).}
+
+\begin{example}
+    Let $f(x) = x ^ 2 + 1$ and $g(x) = x ^ 2 + 3x + 1$ in $\Q[x]$.
+    Euclidean Algorithm:
+    
+    \begin{solution}
+        \begin{align*}
+            f(x) &= 1 \cdot g(x) - 4x \\
+            g(x) &= \left(-\frac{1}{3}x - 1\right)(-3x) + 1, \\
+            -3x &= 1 \cdot (-3x) + 0.
+        \end{align*}
+        Remainder $0$,
+        so stop.
+        A GCD of $f(x)$ and $g(x)$ is $1$.
+
+        We can use this to write $1$ as a linear combination of $f(x)$ and $g(x)$:
+        \begin{align*}
+            1 &= g(x) - \left(-\frac{1}{3}x - 1\right)(-3x) = g(x) + \left(\frac{1}{3}x + 1\right)(f(x) - g(x)) \\
+            &= \left(\frac{1}{3}x + 1\right)f(x) - \frac{1}{3}xg(x).
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Let $f(x) = x ^ 2 + 7x + 6$,
+    $g(x) = x ^ 2 - 5x - 6$ in $\Q[x]$.
+
+    \begin{solution}
+        Using the Euclidean algorithm:
+        \begin{align*}
+            f(x) &= g(x) + 12(x + 1) \\
+            g(x) &= \left(\frac{1}{12}x\right) \cdot 12(x + 1) - 6(x + 1) = (x - 6)(x + 1) + 0.
+        \end{align*}
+        A GCD is $12(x + 1)$.
+        Dividing through by $12$ we get the monic GCD:
+        $x + 1$.
+    \end{solution}
+\end{example}
+
+\textbf{The degree function}
+
+This is the key to division with remainder.
+The tricky part is the inequality $r < b$
+(in the equation $a = qb + r$).
+In an arbitrary ring,
+"$r < |b|$"
+does not make sense.
+
+Define the degree function $d : R \setminus \{0\} \to \N$
+($R = \Z$ or $F[x]$)
+by
+\[
+d(a) \coloneqq \begin{cases}
+    |a| &\text{if } a \in \Z, \\
+    \deg{a} &\text{if } a \in F[x].
+\end{cases}
+\]
+For $0 \in \Z$,
+$|0| = 0 \notin \N$ and for $0 \in F[x]$,
+$\deg{0} = -\infty \notin \N$.
+With this degree function both division in $\Z$ and $F[x]$ can be reformulated as the following statement:
+
+\begin{proposition}\label{algII:prop:genremdiv}
+    Let $R$ be either $\Z$ or $F[x]$.
+    Then,
+    for any $a, b \in R$,
+    $b \neq 0$,
+    $\exists q, r \in R$ such that $a = qb + r$ with $r = 0$ or $d(r) < d(b)$.
+\end{proposition}
+
+\begin{lemma}\label{algII:lem:degfunlessifdiv}
+    Let $R$ be either $\Z$ or $F[x]$.
+    If $a, b \in R$ are such that $a \mid b$,
+    then $d(a) \leq d(b)$.
+
+    \begin{proof}
+        $a \mid b \iff b = am$,
+        for some $m \in R$.
+        Then $d(b) = d(am) = \begin{cases}
+            |a||m| \geq |a| &\text{for } \Z \\
+            d(a) + d(m) \geq d(a) &\text{for } F[x].
+        \end{cases}$
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}[Euclidean Algorithm]
+    Let $R$ be $\Z$ or $F[x]$,
+    $F$ a field and let $a, b \in R$ such that $a \neq 0$ or $b \neq 0$.
+    Then
+    \begin{enumerate}[label = \roman*)]
+        \item A GCD of $a$ and $b$ exists and can be computed via the Euclidean Algorithm
+        (given in the proof).
+
+        \item If $R = F[x]$,
+        the monic GCD is unique and we denote it by $\gcd(a, b)$.
+
+        \item If $d$ is a GCD of $a$ and $b$,
+        then $\exists \alpha, \beta \in R$ such that $\alpha a + \beta b = d$.
+    \end{enumerate}
+
+    \begin{proof}
+        Without loss of generality,
+        we may assume that $b \neq 0$.
+        For notation we set $r_{-1} \coloneqq a, r_0 \coloneqq b$.
+        By \autoref{algII:prop:genremdiv} we can find $q_1, r_1 \in R$ such that
+        \[
+        r_{-1} = q_1b + r_1 = q_1r_0 + r_1,\qquad r_1 = 0\text{ or } d(r_1) < d(r_0).
+        \]
+        If $r_1 = 0$ we are done,
+        as then $r_0 \mid r_{-1}$ and have $r_0$ is a GCD.
+        If $r_1 \neq 0$,
+        then $d(r_1) < d(r_0)$ and we can iterate the process for $r_0$ and $r_1$:
+        \begin{align*}
+            r_{-1} &= q_1r_0 + r_1 && d(r_1) < d(r_0) \\
+            r_0 &= q_2r_1 + r_2 && d(r_2) < d(r_1) \\
+            &\vdots \\
+            r_{i - 2} &= q_ir_{i - 1} + r_i && d(r_i) < d(r_{i - 1}) \\
+            &\vdots \\
+            r_{n - 2} = q_nr_{n - 1} + r_n && d(r_n) < d(r_{n - 1}) \\
+            r_{n - 1} = q_{n + 1}r_n + 0.
+        \end{align*}
+        When $n$ is the smallest number of steps needed to get remainder $0$.
+        This $n$ is finite as $d(r_i)$ is a natural number that goes down by at least $1$ each time.
+
+        The last non-zero remainder $r_n$ is a common divisor of $a = r_{-1}$ and $b = r_0$ because $r_n \mid r_{n - 1}$,
+        hence by the $n$th equation,
+        $r_n \mid r_{n - 2}$ and so on,
+        going up to the top,
+        showing that $r_n \mid r_i$ for all $i$
+        (including $i = -1, 0$).
+        Moreover,
+        any common divisor of $a$ and $b$,
+        call it $e$,
+        must,
+        by the first equation,
+        divide $r_i$,
+        so by the second equation $e \mid r_2$ and so on,
+        going all the way down until we get $e \mid r_n$.
+        By \autoref{algII:lem:degfunlessifdiv},
+        $d(e) \leq d(r_n)$,
+        so $r_n$ is a GCD of $a$ and $b$.
+
+        This argument also proves the second statement because if $R = F[x]$ and $e \in R$ is another GCD
+        (apart from $r_n$),
+        then $e \mid r_n$ and $d(e) = d(r_n)$,
+        by definition of GCD.
+        Then $r_n = em$,
+        for some $m \in F[x]$ and $d(e) = d(r_n) = d(em) = d(e) + d(m) \implies 0 = d(m)$,
+        thus $m \in F[x]$ is a non-zero constant.
+        Among all constant multiples of $r_n$,
+        there is a unique one that is monic.
+
+        The last statement:
+        Solve for $r_i$ and substitute back
+        \begin{align*}
+            r_n &= r_{n - 2} - q_nr_{n - 1} \\
+            r_{n - 1} &= r_{n - 3} - q_{n - 1}r_{n - 2}, \\
+            &\vdots
+        \end{align*}
+        Use the second equation here to eliminate $r_{n - 1}$ from the first equation,
+        collecting terms and write in the form
+        \begin{equation}\tag{*}\label{algII:eq:eq1}
+            r_n = Ar_{n - 2} + Br_{n - 3}\qquad A, B \in R
+        \end{equation}
+        Now solve for $r_{n - 1}$ and eliminate from \eqref{algII:eq:eq1},
+        etc.
+        Eventually,
+        we get
+        \[
+        r_n = \alpha r_{-1} + \beta r_0,
+        \]
+        for some $\alpha, \beta \in R$.
+    \end{proof}
+\end{theorem}
+
+\subsection{Unique Factorisation,
+units and irreducibles}
+$\pm 1$ in $\Z$ and non-zero constant polynomials in $F[x]$,
+respectively,
+have the property in common of being precisely the invertible elements in the ring.
+
+\begin{definition}
+    Let $R$ be a ring.
+    An element $a \in R$ is said to be invertible or a unit,
+    if $\exists b \in R$ such that $ab = ba = 1$
+    (then $b$ is the inverse,
+    $a ^ {-1}$)
+
+    The set of units in $R$ is denoted $R ^ {\times}$.
+\end{definition}
+
+If $u$ is a unit,
+its inverse is unique
+(same argument as for fields).
+\[
+F[x] ^ {\times} = \{\text{non-zero constants}\} = F \setminus \{0\}
+\]
+because if $a(x) \in F[x]$ has an inverse $b(x)$ then $a(x)b(x) = 1$ implies $\deg{a} + \deg{b} = 0$,
+so the only possibility is $\deg{a} = 0$.
 
 
 
