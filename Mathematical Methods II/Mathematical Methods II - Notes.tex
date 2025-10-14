@@ -7,6 +7,9 @@
 \author{Luke Phillips}
 \date{October 2025}
 
+\newif\ifplots
+\plotsfalse
+
 \begin{document}
 
 \maketitle
@@ -475,19 +478,283 @@ Need to learn the two most common non-Cartesian systems in $\R ^ 3$
     \end{solution}
 \end{example}
 
+\newpage
+
+\section{Surface and Volume Integrals}
+
+\subsection{Surfaces}
+
+A $2$D surface embedded in $\R ^ 3$ can be defined parametrically as a map $\vec{x}(u, r)$ from $R ^ 2 \to \R ^ 3$.
+
+For fixed $v = v_0$,
+position $\vec{x}(u, v_0)$ is a curve with tangent vector $\pd[\vec{x}]{u}$
+(and vice versa).
+
+If $\vec{x}(u, v)$ is a well-defined parameterisation then $\pd[\vec{x}]{u}, \pd[\vec{x}]{v}$ are not collinear so we define the unit normal
+\[
+\hvec{n} = \frac{\pd[\vec{x}]{u}\times\pd[\vec{x}]{r}}{\left|\pd[\vec{x}]{u}\times\pd[\vec{x}]{r}\right|}.
+\]
+The sign of $\hvec{n}$ depends on the ordering of $\pd[\vec{x}]{u}$,
+$\pd[\vec{x}]{v}$.
+A surface together with a specified
+(consistent)
+choice of $\hvec{n}$ is called oriented.
+
+\begin{example}
+    Find the outward unit normal for the sphere $x ^ 2 + y ^ 2 + z ^ 2 = a ^ 2$.
+
+    From spherical coordinates,
+    $\hvec{n} = \vec{e}_r$
+    (the basis vector).
+    (Could derive this from $\pd[\vec{x}]{\theta} \times \pd[\vec{x}]{\phi} = (h_{\theta}\vec{e}_{\theta}) \times (h_{\phi}\vec{e}_{\phi}) = h_{\theta}h_{\phi}(\vec{e}_{\theta} \times \vec{e}_{\phi}) = h_{\theta}h_{\phi}\vec{e}_r$.)
+\end{example}
+
+\begin{example}
+    Find the outward unit normal for the torus
+    \[
+    \vec{x}(u, v) = (R + \cos{v})\cos(u)\vec{e}_1 + (R + \cos{v})\sin(u)\vec{e}_2 + \sin(v)\vec{e}_3\qquad\text{for } u, v \in [0, 2\pi]
+    \]
+    with $R > 1$ constant.
 
 
+    Tangent vectors:
+    \begin{align*}
+        \pd[\vec{x}]{u} &= -(R + \cos{v})\sin(u)\vec{e}_1 + (R +\cos{v})\cos(u)\vec{e}_2 \\
+        \pd[\vec{x}]{v} &= -\sin(v)\cos(u)\vec{e}_1 - \sin(v)\sin(u)\vec{e}_2 + \cos(v)\vec{e}_3
+    \end{align*}
+    \begin{align*}
+        \pd[\vec{x}]{u} \times \pd[\vec{x}]{v} &= \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            -(R + \cos{v})\sin{u} & (R + \cos{v})\cos{u} & 0 \\
+            -\sin(v)\cos(u) & -\sin(v)\sin(u) & \cos{v}
+        \end{vmatrix} \\
+        &=\vec{e}_1((R + \cos{v})\cos(u)\cos(V) - 0) + \vec{e}_2(0 + (R + \cos{v})\sin(u)\cos(v)) \\
+        &+ \vec{e}_3((R + \cos{v})\sin(v)\sin ^ 2(u) + (R + \cos{v})\cos ^ 2(u)\sin(v) \\
+        &= (R + \cos{v})(\cos(u)\cos(v)\vec{e}_1 + \sin(u)\cos(v)\vec{e}_2 + (\sin ^ 2u + \cos ^ 2u)\sin(v)\vec{e}_3.
+    \end{align*}
+    Magnitude:
+    \begin{align*}
+        \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| &= |R + \cos{v}|\sqrt{\cos ^ 2(u)\cos ^ 2(v) + \sin ^ 2(u)\cos ^ 2(v) + \sin ^ 2(v)} \\
+        &= |R + \cos{v}|\sqrt{\cos ^ 2{v} + \sin ^ 2{v}} = |R + \cos{v}| = R + \cos{v}\footnotemark
+    \end{align*}
+    \footnotetext{No absolute as $R > 1$ and $|\cos{x}| \leq 1$}.
 
+    So unit normal is
+    \[
+    \hvec{n} = \frac{\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}}{\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|} = \cos(u)\cos(v)\vec{e}_1 + \sin(u)\cos(v)\vec{e}_2 + \sin(v)\vec{e}_3.
+    \]
 
+    Putting in $u = 0$,
+    $v = 0$,
+    then
+    $\hvec{n} = \vec{e}_1$
+    (so outward $v$).
+\end{example}
 
+A surface is smooth if $\hvec{n}$ varies continuously over the surface.
+piecewise-smooth if it can be divided into finitely-many smooth pieces.
 
+\begin{example}
+    Sketch the surface $\vec{x}(r, \theta) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2 + r\vec{e}_3$ for $r \in [0, \infty)$,
+    $\theta \in [0, 2\pi]$,
+    and determine whether or not it is smooth.
 
+    \begin{solution}
+        To sketch the surface,
+        note that $x ^ 2 + y ^ 2 = z ^ 2$.
+        This is a cone with its point at $\vec{x} = \vec{0}$.
 
+        \ifplots
+        \begin{figure}[h!]
+             \begin{tikzpicture}
+                 \begin{axis}
+                 [
+                 view={130}{30},
+                 z buffer=sort,
+                 ticks=none,
+                 ]
+                 \addplot3[surf,shader=interp,
+                     domain=0:2*pi,
+                     y domain = 0:3,
+                     samples=40,
+                     samples y=20,
+                     colormap/cool,
+                     shader=interp,
+                 ]
+                 ({y*cos(deg(x))},
+                 {y*sin(deg(x))},
+                 {y});
+                 \end{axis}
+             \end{tikzpicture}
+        \end{figure}
+        \fi
 
+        To check smoothness,
+        compute the normal:
+        \[
+        \pd[\vec{x}]{r} \times \pd[\vec{x}]{\theta} = \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            \cos{\theta} & \sin{\theta} & 1 \\
+            -r\sin{\theta} & r\cos{\theta} & 0
+        \end{vmatrix} = -r\cos(\theta)\vec{e}_1 - r\sin(\theta)\vec{e}_2 + r\vec{e}_3
+        \]
+        which vanishes at $r = 0$ which means $\hvec{n}$ is not defined at $r = 0$ so the surface is not smooth.
+    \end{solution}
+\end{example}
 
+A surface is open if it is bounded by a curve
+(written $\partial S$),
+or closed if it has no boundary.
 
+\begin{example}
+    Find the upward unit normal to the surface $z = h(x, y)$.
 
+    \begin{solution}
+        Parameterisation:
+        \[
+        \vec{x}(x, y) = x\vec{e}_1 + y\vec{e}_1 + h(x, y)\vec{e}_3
+        \]
+        so
+        \[
+        \pd[\vec{x}]{x} \times \pd[\vec{x}]{y} = \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            1 & 0 & \pd[h]{x} \\
+            0 & 1 & \pd[h]{y}
+        \end{vmatrix} = -\pd[h]{x}\vec{e}_1 - \pd[h]{y}\vec{e}_2 + \vec{e}_3
+        \]
+        therefore the unit normal
+        \[
+        \hvec{n} = \frac{-\pd[h]{x}\vec{e}_1 - \pd[h]{y}\vec{e}_2 + \vec{e}_3}{\sqrt{1 + \left(\pd[h]{x}\right) ^ 2 + \left(\pd[h]{y}\right) ^ 2}}
+        \]
+    \end{solution}
+\end{example}
 
+\subsection{Surface Integrals of Scalar Fields}
+If $f : \R ^ 3 \to \R$ is a scalar field and $\mathcal{S}$ is a surface with parameterisation $\vec{x}(u, v)$ then we define the surface integral of $f$ over $\mathcal{S}$ to be
+\[
+\int_{\mathcal{S}}f\,d\mathcal{S} = \int_{\mathcal{U}}f(\vec{x}(u, v))\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv
+\]
+$\mathcal{U}$ is the preimage of $\mathcal{S}$ in the $(u, v)$-plane.
+
+Idea:
+the area element $\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv$ is the area on $\mathcal{S}$ corresponding to an infinitesimal rectangle with sides $(du, dv)$ in the $(u, v)$-plane.
+
+\begin{example}
+    Find the area element for the plane $z = ax + b$ when parameterised by $(x, y)$.
+
+    \begin{solution}
+        Parameterisation:
+        \[
+        \vec{x}(x, y) = x\vec{e}_1 + y\vec{e}_2 + (ax + b)\vec{e}_3
+        \]
+        with
+        \[
+        \pd[\vec{x}]{x} \times \pd[\vec{x}]{y} = -\pd{x}(ax + b)\vec{e}_1 - \pd{y}(ax + b)\vec{e}_2 + \vec{e}_3 = -a\vec{e}_1 + \vec{e}_3.
+        \]
+        So the area element is 
+        \[
+        \left|\pd[\vec{x}]{x} \times \pd[\vec{x}]{y}\right|\,dxdy = \sqrt{1 + a ^ 2}\,dxdy
+        \]
+    \end{solution}
+\end{example}
+
+\begin{proposition}
+    If $(u, v)$ are two of a set of orthogonal curvilinear coordinates,
+    then
+    \[
+    \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = h_uh_v.
+    \]
+
+    \begin{proof}
+        Recall $\pd[\vec{x}]{u} = h_u\vec{e}_u$ and $\pd[\vec{x}]{v} = h_V\vec{e}_v$ so
+        \[
+        \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = |h_uh_v(\vec{e}_u \times \vec{e}_v)| = h_uh_v|\vec{e}_u \times \vec{e}_v| = h_uh_v|\pm\vec{e}_w| = h_uh_v.
+        \]
+    \end{proof}
+\end{proposition}
+
+\textit{Note:}
+\begin{enumerate}[label = (\textit{\arabic*})]
+    \item
+    \textit{The value of $\int_{\mathcal{S}}f\,d\mathcal{S}$ does not depend on the sign of $\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}$,
+    i.e. orientation of the surface doesn't matter.}
+    
+    \item
+    \textit{The surface area of $\mathcal{S}$ is $|\mathcal{S}| = \int_{\mathcal{S}}\,d\mathcal{S}$
+    ($f(\vec{x}) \equiv 1$)
+    (similarly to arclength).}
+\end{enumerate}
+
+\begin{example}
+    Find the surface area of the sphere $x ^ 2 + y ^ 2 + z ^ 2 = a ^ 2$.
+
+    \begin{solution}
+        Parametrise with spherical coordinates,
+        since $r = a$
+        (constant).
+        \[
+        \vec{x}(\theta, \phi) = a\sin(\theta)\cos(\phi)\vec{e}_1 + a\sin(\theta)\sin(\phi)\vec{e}_2 + a\cos(\theta)\vec{e}_3
+        \]
+        for $\theta \in [0, \pi]$,
+        $\phi \in [0, 2\pi]$.
+
+        Recall $h_{\theta} = a$,
+        $h_{\phi} = a\sin{\theta}$.
+
+        So we have
+        \[
+        \left|\pd[\vec{x}]{\theta} \times \pd[\vec{x}]{\phi}\right| = h_{\theta}h_{\phi} = a ^ 2\sin{\theta}.
+        \]
+        Therefore
+        \begin{align*}
+            |S| &= \int_{\mathcal{S}}\,d\mathcal{S} \\
+            &= \int_{0}^{2\pi}\left(\int_{0}^{\pi}a ^ 2\sin{\theta}\,d\theta\right)\,d\phi \\
+            &= a ^ 2 \int_{0}^{2\pi}\left[-\cos{\theta}\right]_{0}^{\pi}\,d\phi \\
+            &= 2a ^ 2\int_{0}^{2\pi}\,d\phi = 4\pi a ^ 2.
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Find the surface area of the torus from a previous example.
+    We had $\vec{x}(u, v)$ for $u, v \in [0, 2\pi]$ and $\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = R + \cos{v}$.
+    So
+    \begin{align*}
+        |\mathcal{S}| &= \int_{0}^{2\pi}\left(\int_{0}^{2\pi}(R + \cos{v})\,du\right)\,dv \\
+        &= 2\pi\int_{0}^{2\pi}(R + \cos{v})\,dv = 4\pi ^ 2R.
+    \end{align*}
+\end{example}
+
+\begin{proposition}
+    The surface integral of a scalar field is independent of the choice of parameterisation.
+
+    \begin{proof}
+        Suppose $\vec{x}(u, v)$ and $\vec{x}(\mu, \nu)$ parametrise the same surface.
+        \begin{align*}
+            \pd[\vec{x}]{u} \times \pd[\vec{x}]{v} &= \left(\pd[\vec{x}]{\mu}\pd[\mu]{u} + \pd[\vec{x}]{\nu}\pd[\nu]{u}\right) \times \left(\pd[\vec{x}]{\mu}\pd[\mu]{v} + \pd[\vec{x}]{\nu}\pd[\nu]{v}\right) \\
+            &= \pd[\vec{x}]{\mu}\pd[\mu]{u} \times \pd[\vec{x}]{\nu}\pd[\nu]{v} + \pd[\vec{x}]{\nu}\pd[\nu]{\mu} \times \pd[\vec{x}]{\mu}\pd[\mu]{v}. \\
+            &= \underbrace{\left(\pd[\mu]{u}\pd[\nu]{v} - \pd[\mu]{v}\pd[\nu]{u}\right)}_{J - \text{Jacobian for change of variables $(\mu, \nu) \to (u, v)$}}\pd[\vec{x}]{\mu} \times \pd[\vec{x}]{\nu}
+        \end{align*}
+        which leads to
+        \[
+        \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = |J|\left|\pd[\vec{x}]{\mu} \times \pd[\vec{x}]{\nu}\right|
+        \]
+        so
+        \[
+        \int_{\mathcal{U}}f(\vec{x}(u, v))\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv = \int_{\mathcal{U}'}f(\vec{x}(\mu, \nu)|J|\left|\pd[\vec{x}]{\mu} \times \pd[\vec{x}]{\nu}\right|\frac{1}{|J|}\,d\mu d\nu.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{remark}
+    If $\mathcal{S} \in \R ^ 2$ is a flat surface in the $(x, y)$-plane,
+    then our parameterisation $\vec{x}(u, v)$ is just a change of variables and
+    \[
+    \left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right| = \left|\pd[x]{u}\pd[y]{v} - \pd[x]{v}\pd[y]{u}\right| = |J|
+    \]
+    only has a $\vec{e}_3$ component.
+    $|J|$ is the Jacobian for the change of coordinates in the plane.
+\end{remark}
 
 
 
