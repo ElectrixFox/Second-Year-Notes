@@ -683,17 +683,446 @@ then each $X_i$ must also be Normal.
 \end{example}
 
 
+\newpage
+
+\section{Estimation}
+
+\subsection{Point estimation}
+
+General idea:
+We have a random sample
+(IID)
+$X_1, \dotsc, X_n$ from distribution $f(\vec{x}, \vec{\theta})$ and we want to make a best guess for the value of unknown parameter $\vec{\theta}$.
+
+Question:
+In $1$D,
+$\bar{x}$ and $s ^ 2$ are
+'good'
+estimates for $\mu, \sigma ^ 2$.
+Are $\bar{\vec{x}}$ and $S$ also
+'good'
+estimates for $\vec{\mu}$ and $\Sigma$?
+Yes.
+
+\begin{definition}
+    A
+    (point)
+    estimator of a parameter $\vec{\theta} \in \Omega$
+    ($\Omega$ the parameter space)
+    of the random sample
+    (i.e. statistic)
+    \[
+    \hvec{\Theta} = \hvec{\Theta}(X_1, \dotsc, X_n)
+    \]
+    which takes values in the parameter space $\Omega$.
+    $\hvec{\Theta} : \mathcal{X} ^ n \mapsto \Omega$.
+    Once the sample is observed,
+    we can evaluate the random estimator and obtain the estimate
+    \[
+    \hvec{\theta} = \hvec{\Theta}(x_1, \dotsc, x_n).
+    \]
+\end{definition}
+
+e.g.
+$\bar{X} = \frac{1}{n}\sum_{i = 1}^{n}X_i$ is an estimator for $\mu$,
+but $\bar{x} = \frac{1}{n}\sum x_i$ is the estimate.
+
+As the estimator is random,
+it changes with each possible sample.
+How can we assess if its any good of estimating $\vec{\theta}$?
+
+Consider its random behaviour and compare to $\vec{\theta}$.
+How we do this depends on our approach to statistics.
+For now,
+we follow the frequentist approach.
+
+\textit{Frequentist approach to statistics}
+\begin{definition}\phantom{}
+    \begin{itemize}
+        \item
+        Adopts a limiting frequency interpretation of probability.
+        
+        \item
+        Parameter $\theta$ is unknown but constant
+        (not random,
+        so has no distribution).
+
+        \item
+        Only the data $\vec{X}$ is random.
+
+        Before observation:
+        Sample values $X_1, \dotsc, X_n$ are random.
+        Yielding a random estimator $\hvec{\Theta}$ for $\vec{\theta}$.
+        Many possible samples lead to many possible estimates.
+        The sample is the only sort of randomness.
 
 
+        After observation:
+        Sample $\vec{x}_1, \dotsc, \vec{x}_n$ is now constant.
+        Giving a constant estimate $\hvec{\theta}$ of $\vec{\theta}$.
+        $\vec{x}$ is a realisation of $\vec{X}$,
+        and $\vec{\theta}$ is a realisation of $\hvec{\Theta}$.
+        Equate accuracy of $\hvec{\Theta}$ with estimating $\vec{theta}$ with variability of $\hvec{\Theta}$.
 
+        Key frequentist idea:
+        All uncertainty comes from the data.
+    \end{itemize}
+\end{definition}
 
+\subsection{Evaluating an estimator}
+Given this approach,
+how can we tell if a particular estimator is good or bad?
+Consider behaviour of the random estimator $\hvec{\Theta}(\vec{x})$ relative to constant $\vec{\theta}$.
 
+\begin{enumerate}[label = (\arabic*)]
+    \item Expectation - average over all possible samples.
 
+    \item Variance - spread over all samples.
 
+    \item Sampling distribution - distribution over all possible samples.
+\end{enumerate}
 
+\textbf{Expectation}:
+Ideally,
+we'd like $\hvec{\Theta}(\vec{X}) \approx \vec{\theta}$ on average,
+over all $\vec{x}$.
 
+\begin{definition}
+    The bias of our estimator is:
+    \[
+    \bias(\hvec{\Theta}(\vec{X}), \vec{\theta}) = \E_{\vec{X}}(\hvec{\Theta} - \vec{\theta}) = \E_{X}(\hvec{\Theta}) - \vec{\theta}.
+    \]
+    An estimator is unbiased if
+    \[
+    \bias(\hvec{\Theta}, \vec{\theta}) = 0 \iff \E(\hvec{\Theta}) = \vec{\theta}.
+    \]
+\end{definition}
 
+\textbf{Variance}:
+We'd also like the estimates to be consistently close to $\vec{\theta}$,
+i.e. have a low spread.
 
+\begin{definition}
+    The standard error of an estimator is its standard deviation over all $\vec{X}$:
+    \[
+    \mathrm{SE}(\hvec{\Theta}) = \mathrm{sd}_{\vec{X}}(\hvec{\Theta}) = \sqrt{\Var(\hvec{\Theta})} = \sqrt{\E_{X}((\hvec{\Theta}(X) - \E_{X}(\hvec{\Theta}(X)) ^ 2}.
+    \]
+\end{definition}
+
+A low standard error implies that $\hvec{\Theta}$ close to $\E(\hvec{\Theta})$ on average.
+If it is also unbiased this implies $\E(\hvec{\Theta}) = \theta$ and so we're close to $\vec{\theta}$ on average.
+But if biased,
+$\E(\hvec{\Theta}) \neq \vec{\theta}$ and instead we calculate the mean-square error.
+
+\begin{definition}
+    The mean-square error of an estimator:
+    \[
+    \mathrm{MSE}(\hvec{\Theta}, \vec{\theta}) = \E_{X}((\hvec{\Theta} - \vec{\theta}) ^ 2)
+    \]
+    which is the same as the standard error when $\hvec{\Theta}$ is unbiased.
+\end{definition}
+
+\textbf{Sampling Distribution}:
+return to this later.
+
+\subsection{Method of Moments}
+Given a sample of $X_1, \dotsc, X_n$ from pdf $f(\vec{x}; \vec{\theta})$ -
+how can we find a $\hvec{\theta}$?
+A simple first method equates the theoretical central moments of $\vec{X}$ with the sample central moments from $x_1, \dotsc, x_n$.
+
+\begin{definition}
+    The $k$th theoretical central moment of $\vec{X}$ is:
+    \begin{align*}
+        k &= 1&&\mathbb{c}_1(\vec{\theta}) = \E(X) = \mu \\
+        k &> 1&&\mathbb{c}_{k}(\vec{\theta}) = \E((X - \mu) ^ k).
+    \end{align*}
+    The $k$th sample central moment of $X$ is:
+    \begin{align*}
+        k &= 1&&\hat{c}_1(\vec{x}) = \frac{1}{n}\sum_{i = 1}^{n}x_i = \bar{x} \\
+        k &> 1&&\hat{c}_k(\vec{x}) = \frac{1}{n}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ k.
+    \end{align*}
+\end{definition}
+
+A simple estimation method equates to this:
+\begin{definition}
+    If $f(\vec{x}; \vec{\theta})$ has $p$ parameter $(\vec{\theta} \in \R ^ p)$,
+    the method of moments
+    (MoM)
+    estimators are defined by equating
+    \[
+    \mathbb{c}_k(\hvec{\theta}) = \hat{c}_k(\vec{x})
+    \]
+    for $k = 1, \dotsc, p$,
+    and solving for $\hvec{\theta}$.
+\end{definition}
+\textit{Note:
+can also use the non-central moments $\E(X ^ k) = \frac{1}{n}\sum_{i = 1}^{n}x_i ^ k$.}
+
+\begin{example}
+    Let $X \sim U[0, \theta]$ and suppose we have sample $x_1, \dotsc, x_n$.
+
+    Find the MoM estimator of $\theta$.
+
+    \begin{solution}
+        Only one parameter,
+        so need
+        \[
+        \mathbb{c}_1(\theta) = \E(X) = \frac{0 + \theta}{2} = \frac{\theta}{2}
+        \]
+        and
+        \[
+        \hat{c}_1(\vec{x}) = \bar{x}.
+        \]
+
+        Then the MoM estimator satisfies\footnotemark:
+        \footnotetext{Just equate them and stick a hat on the $\theta$.}
+        \[
+        \frac{\hat{\theta}}{2} = \bar{x} \iff \hat{\theta} = 2\bar{x}.
+        \]
+        Is it a biased estimator?
+        \[
+        \E(\hat{\Theta}) = \E(2\bar{X}) = \E\left(\frac{2}{n}\sum_{i = 1}^{n}X_i\right) = \frac{2}{n}\sum_{i = 1}^{n}\E(X_i) = \frac{2}{n} \times n \times \frac{\theta}{2} = \theta
+        \]
+        this implies it is an unbiased estimator.
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Let $X_1, \dotsc, X_n$ be IID,
+    Gamma,
+    $X_i \sim \mathrm{Ga}(\alpha, \beta)$,
+    with pdf:
+    \[
+    f(x_i, \alpha, \beta) = \frac{\beta ^ {\alpha}}{\Gamma(\alpha)}x_i ^ {\alpha - 1}e ^ {-\beta x_i}\qquad\text{for } x_i > 0.
+    \]
+
+    \begin{solution}
+        The Gamma has $\E(X) = \frac{\alpha}{\beta} = \mathbb{c}_1$,
+        $\Var(X) = \frac{\alpha}{\beta ^ 2} = \mathbb{c}_2$.
+        Two parameters,
+        so we need
+        \[
+        \hat{c}_1 = \bar{x},\qquad\hat{c}_2 = \frac{1}{n}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ 2 = \hat{\sigma} ^ 2.
+        \]
+        Equate and solve to find the MoM estimates:
+        \[
+        \frac{\hat{\alpha}}{\beta} = \bar{x}\qquad \frac{\hat{\alpha}}{\hat{\beta} ^ 2} = \hat{\sigma ^ 2}
+        \]
+        substituting the first into the second
+        \begin{align*}
+            \frac{1}{\hat{\beta}}\bar{x} &= \hat{\sigma} ^ 2 \\
+            \hat{\beta} &= \frac{\bar{x}}{\hat{\sigma} ^ 2}.
+        \end{align*}
+        Substituting back into the first equation
+        \[
+        \hat{\alpha} = \bar{x}]\hat{\beta} = \frac{\bar{x} ^ 2}{\hat{\sigma} ^ 2}
+        \]
+    \end{solution}
+\end{example}
+
+\newpage
+
+\section{Estimating Means and Variances}
+Question:
+Regardless of distribution,
+can we find good estimates for the mean and variance of $X$?
+
+E.g.
+First year exam marks.
+A sample of $n = 40$ with summaries:
+\[
+\bar{\vec{x}} = \begin{bmatrix}
+    \bar{x}_S \\ \bar{x}_C \\ \bar{x}_A
+\end{bmatrix} = \begin{bmatrix}
+    62.1 \\ 29.0 \\ 58.2
+\end{bmatrix}, \qquad S = \begin{bmatrix}
+    S_S ^ 2 & S_{SC} & S_{SA} \\
+    S_{SC} & S_{C} ^ 2 & S_{CA} \\
+    S_{SA} & S_{CA} & S_{A} ^ 2
+\end{bmatrix} = \begin{bmatrix}
+    522 & 484 & 437 \\
+    484 & 572 & 491 \\
+    437 & 491 & 507
+\end{bmatrix}
+\]
+\textit{Note:
+$S$ sample variances and others sample covariances.}
+We want estimates of $\vec{\mu} = \begin{bmatrix}
+    \mu_S \\ \mu_C \\ \mu_A
+\end{bmatrix}$
+and $\Sigma = \begin{bmatrix}
+    \sigma_S ^ 2 & \sigma_{SC} & \sigma_{SA} \\
+    \sigma_{SC} & \sigma_{C} ^ 2 & \sigma_{CA} \\
+    \sigma_{SA} & \sigma_{CA} & \sigma_A ^ 2
+\end{bmatrix}$.
+Are $\bar{\vec{X}}, S$ good estimates of $\vec{\mu} = \E(\vec{X})$ and $\Sigma = \Var(\vec{X})$?
+
+\begin{proposition}[a]
+    Suppose $\vec{X}_i$ are all IID random vectors,
+    $i = 1, \dotsc, n$,
+    with $\E(X_i) = \vec{\mu}$,
+    and $\Var(\vec{X}_i) = \Sigma$,
+    then
+    \[
+    \E(\bar{\vec{X}}) = \vec{\mu}
+    \]
+    and hence $\bar{\vec{X}}$ is an unbiased estimator for $\vec{\mu}$.
+
+    \begin{proof}
+        \begin{align*}
+            \E(\bar{\vec{X}}) &= \E\left(\frac{1}{n}\sum_{i = 1}^{n}\vec{X}_i\right) \\
+            &= \frac{1}{n}\sum_{i = 1}^{n}\E(\vec{X}_i) \\
+            &= \frac{1}{n} \cdot n\vec{\mu} = \vec{\mu}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    $\bar{\vec{X}}$ is unbiased for $\vec{\mu}$,
+    but what about a single value $\vec{X}_i$?
+
+    $\E(\vec{X}_i) = \vec{\mu}$ also unbiased.
+    But which is best?
+    Compare variances.
+    \[
+    \Var(\vec{X}_i) = \Sigma
+    \]
+    by definition.
+\end{example}
+
+\textit{Following from $a$:}
+\begin{proposition}[b]
+    \[
+    \Var(\bar{\vec{X}}) = \frac{1}{n}\Sigma.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \Var(\bar{\vec{X}}) &= \Var\left(\frac{1}{n}\sum_{i = 1}^{n}\vec{X}_i\right) \\
+            &= \frac{1}{n ^ 2}\Var\left(\sum_{i = 1}^{n}\vec{X}_i\right) \\
+            &= \frac{1}{n ^ 2}\sum_{i = 1}^{n}\Var(\vec{X}_i) &&\text{(by independence)} \\
+            &= \frac{1}{n ^ 2}n\Sigma = \frac{1}{n}\Sigma.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    For any $n > 1$,
+    $\Var(\bar{\vec{X}}) = \frac{1}{n}\Sigma$,
+    "$<$"
+    (element-wise)
+    $\Var(\vec{X}_i) = \Sigma$.
+
+    $\bar{\vec{X}}$ will have lower variance and uncertainty for $n > 1$ so prefer $\bar{\vec{X}}$.
+    But if $\vec{\mu}$ is  unknown,
+    then $\Sigma$ is almost certainly uncertain too.
+
+    \begin{solution}
+        Estimate $\Sigma$ too.
+    \end{solution}
+\end{example}
+
+\textit{Following from $a$ and $b$:}
+\begin{proposition}[c]
+    \[
+    S_{X} = \frac{1}{n - 1}\sum_{i = 1}^{n}(\vec{X}_i - \bar{\vec{X}})(\vec{X}_i - \bar{\vec{X}}) ^ T
+    \]
+    is an unbiased estimator for $\Sigma$.
+
+    \begin{proof}
+        \[
+        S_{X} = \frac{1}{n - 1}\sum_{i = 1}^{n}\overbrace{(\vec{X}_i - \bar{\vec{X}})(\vec{X}_i - \bar{\vec{X}}) ^ T}^{(*)}
+        \]
+        Need to show $\E(S_X) = \Sigma$.
+        First,
+        expand $(*)$:
+        \begin{align*}
+            (\vec{X}_i - \bar{\vec{X}})(\vec{X}_i - \bar{\vec{X}}) ^ T &= ((\vec{X}_i - \vec{\mu}) + (\vec{\mu} - \bar{\vec{X}}))((\vec{X}_i - \vec{\mu}) + (\vec{\mu} - \bar{\vec{X}})) ^ T \\
+            &= ((\vec{X}_i - \vec{\mu}) - (\bar{\vec{X}} - \vec{\mu}))((\vec{X}_i - \vec{\mu}) - (\bar{\vec{X}} - \vec{\mu})) ^ T \\
+            &= (\vec{X}_i - \vec{\mu})(\vec{X}_i - \vec{\mu}) ^ T + (\bar{\vec{X}} - \vec{\mu})(\bar{\vec{X}} - \vec{\mu}) ^ T \\
+            &- (\bar{\vec{X}} - \vec{\mu})(\vec{X}_i - \vec{\mu}) ^ T - (\vec{X}_i - \vec{\mu})(\bar{\vec{X}} - \vec{\mu}) ^ T
+        \end{align*}
+
+        \begin{align*}
+            \E((\vec{X}_i - \bar{\vec{X}})(\vec{X}_i - \bar{\vec{X}}) ^ T) &= \E(\vec{X}_i - \vec{\mu})(\vec{X}_i - \vec{\mu}) ^ T) + \E((\bar{\vec{X}} - \vec{\mu})(\bar{\vec{X}} - \vec{\mu}) ^ T) \\
+            &- \E((\bar{\vec{X}} - \vec{\mu})(\vec{X}_i - \vec{\mu}) ^ T) - \E((\vec{X}_i - \vec{\mu})(\bar{\vec{X}} - \vec{\mu}) ^ T) \\
+            &= \Var(\vec{X}_i) + \Var(\bar{\vec{X}}) - \Cov(\bar{\vec{X}}, \vec{X}_i) - \Cov(\vec{X}_i, \bar{\vec{X}}). &&(**)
+        \end{align*}
+        
+        What is $\Cov(\vec{X}_i, \bar{\vec{X}})$?
+
+        \begin{align*}
+            \Cov(\vec{x}_i, \bar{\vec{x}}) &= \Cov\left(\vec{x}_i, \frac{1}{n}\sum_{i = 1}^{n}\vec{x}_i\right) \\
+            &= \frac{1}{n}\sum_{j = 1}^{n}\Cov(\vec{x}_i, \vec{x}_j)
+            \intertext{due to independence $\Cov(\vec{x}_i, \vec{x}_j) = 0$ for all $j \neq j$}
+            &= \frac{1}{n}\Cov(\vec{x}_i, \vec{x}_i) \\
+            &= \frac{1}{n}\Var(\vec{x}_i) = \frac{1}{n}\sigma.
+        \end{align*}
+
+        Finally,
+        \[
+        \Cov(\bar{\vec{X}}, \vec{X}_i) = \Cov(\vec{X}_i, \bar{\vec{X}}) ^ T = \left(\frac{1}{n}\Sigma\right) ^ T = \frac{1}{n}\Sigma\qquad\text{(by symmetry of $\Sigma$)}.
+        \]
+
+        Back to $(**)$:
+        \begin{align*}
+            \E((\vec{X}_i - \bar{\vec{X}})(\vec{X}_i - \bar{\vec{X}}) ^ T) &= \Sigma + \frac{1}{n}\Sigma - \frac{1}{n}\Sigma - \frac{1}{n}\Sigma \\
+            &= \Sigma - \frac{1}{n}\Sigma = \frac{n - 1}{n}\Sigma.
+        \end{align*}
+        
+        \begin{align*}
+            \E(S_X) &= \frac{1}{n - 1}\sum_{i = 1}^{n}\E((\vec{X}_i - \bar{\vec{X}})(\vec{X}_i - \bar{\vec{X}}) ^ T) \\
+            &= \frac{1}{n - 1}\times n \times \frac{n - 1}{n}\Sigma = \Sigma.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+An obvious corollary to this is then:
+\textit{Following from $a, b$ and $c$}
+\begin{proposition}[d]
+    $\frac{1}{n}S_{X}$ is an unbiased estimator for $\Var(\bar{\vec{X}})$.
+
+    \begin{proof}
+        \[
+        \E\left(\frac{1}{n}S_{X}\right) = \frac{1}{n}\Sigma = \Var(\bar{\vec{X}}).
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Exam marks:
+    \[
+    \bar{\vec{x}} = \begin{bmatrix}
+        \bar{x}_S \\ \bar{x}_C \\ \bar{x}_A
+    \end{bmatrix} = \begin{bmatrix}
+        62.1 \\ 29.0 \\ 58.2
+    \end{bmatrix}, \qquad S_X = \begin{bmatrix}
+        S_S ^ 2 & S_{SC} & S_{SA} \\
+        S_{SC} & S_{C} ^ 2 & S_{CA} \\
+        S_{SA} & S_{CA} & S_{A} ^ 2
+    \end{bmatrix} = \begin{bmatrix}
+        522 & 484 & 437 \\
+        484 & 572 & 491 \\
+        437 & 491 & 507
+    \end{bmatrix}
+    \]
+    $\bar{x}$ and $S_X$ are unbiased estimators for $\vec{\mu}$ and $\Sigma$.
+    The variance of $\bar{X}$ can itself be estimated by
+    \[
+    \hat{\Var(\bar{\vec{X}})} = \frac{1}{n}S = \begin{bmatrix}
+        13.1 & 12.1 & 10.9 \\
+        12.1 & 14.3 & 12.3 \\
+        10.9 & 12.3 & 12.7
+    \end{bmatrix}
+    \]
+    $\mathrm{SE}(\bar{X}_S) = \sqrt{13.1} \approx 3.61$,
+    $\mathrm{SE}(\bar{X}_C) = \sqrt{14.3} \approx 3.78$,
+    $\mathrm{SE}(\bar{X}_A) = \sqrt{12.7} \approx 3.56$.
+    
+    Estimating $\vec{\mu}$ by $\bar{X}$ would have an accuracy of $\approx 2.3\mathrm{SE}(\bar{X}) \approx 7-10\text{ marks}$.
+\end{example}
+To say anything further about the quality of our estimates,
+we will need to find their probability distributions.
 
 
 
