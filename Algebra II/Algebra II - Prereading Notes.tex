@@ -388,7 +388,7 @@ Then we have the following basic properties for all $f(x), g(x) \in F[x]$:
     \deg(f + g) &\leq \max\{\deg{f}, \deg{g}\}.
 \end{align*}
 
-\begin{proposition}
+\begin{proposition}\label{pre:algII:prop:expolywithdeg}
     Let $f(x), g(x) \in F[x]$ with $g(x) \neq 0$.
     Then there exist polynomials $q(x), r(x) \in F[x]$ with $\deg{r} < \deg{g}$ such that
     \[
@@ -625,7 +625,67 @@ so $ab$ is a unit.
     if every non-zero non-unit element of $R$ can be written as a product of irreducible elements and this product is unique up to order of the factors and multiplication by units.
 \end{definition}
 
+\newpage
 
+\section{Factorisation of polynomials}
+Let $F$ be a field.
+
+\subsection{Irreducible polynomials in \texorpdfstring{$F(x)$}{},
+$F$ a field}
+Let $F$ be a field and $f(x) \in F[x]$.
+When $\deg{f} \leq 4$ there are some useful methods to see if $f(x)$ is irreducible.
+\begin{proposition}\phantom{}
+    \begin{enumerate}[label = \roman*)]
+        \item If $\deg{f} = 1$,
+        then $f(x)$ is irreducible;
+
+        \item If $\deg{f} = 2$ or $3$,
+        then $f(x)$ is irreducible if and only if it has no roots in $F$.
+
+        \item If $\deg{f} = 4$,
+        then $f(x)$ is irreducible if and only if it has no roots in $F$ and it is not the product of two quadratic polynomials.
+    \end{enumerate}
+
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = \roman*)]
+            \item 
+
+            \item Let $\alpha \in F$ be a root of $f(x)$.
+            Write $f(x) = q(x)(x - \alpha) + r(x)$ with $\deg{r} < 1$,
+            using \autoref{pre:algII:prop:expolywithdeg}.
+            Thus $r(x)$ is a constant.
+            Then $0 = f(\alpha) = r(\alpha)$,
+            but $r(x)$ is constant,
+            so $f(x) = q(x)(x - \alpha)$,
+            and so is not irreducible.
+            Conversely,
+            if $f(x)$ is not irreducible,
+            then $f(x) = g(x)h(x)$ with $\deg{g, h} \geq 1$.
+            But $\deg{f} = \deg{g} + \deg{h}$,
+            so if $\deg{f} = 2$ or $3$,
+            we must have either $\deg{g} = 1$ or $\deg{h} = 1$,
+            say it's $g$.
+            Then $g(x) = ax + b$,
+            for some $a, b \in F[x]$,
+            $a \neq 0$.
+            Thus
+            \[
+            0 = g(-b / a) = f(-b / a),
+            \]
+            so $f(x)$ has a root in $F$.
+
+            \item As in ii),
+            one shows that no roots implies no $\deg{1}$ factor,
+            and hence,
+            if $\deg{f} = 4$,
+            no $\deg{3}$ factor.
+            If,
+            in addition,
+            there are no $\deg{2}$ factor,
+            $f(x)$ must be irreducible.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
 
 
 
