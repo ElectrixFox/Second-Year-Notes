@@ -770,13 +770,322 @@ F[x] ^ {\times} = \{\text{non-zero constants}\} = F \setminus \{0\}
 because if $a(x) \in F[x]$ has an inverse $b(x)$ then $a(x)b(x) = 1$ implies $\deg{a} + \deg{b} = 0$,
 so the only possibility is $\deg{a} = 0$.
 
+Need an analogue of prime numbers in $F[x]$,
+A polynomial $f(x) \in F[x]$ is irreducible if it is non-constant and does not have a proper factorisation,
+i.e. $f(x)$ cannot be written as $f(x) = g(x)h(x)$,
+with $\deg{g} > 0$ and $\deg{h} > 0$.
+In general,
 
+\begin{definition}
+    Let $R$ be a ring.
+    An element $r \in R$ is called irreducible if it satisfies the following:
+    \begin{enumerate}[label = (\roman*)]
+        \item $r$ is not a unit.
 
+        \item If $r = ab$,
+        then either $a$ is a unit or $b$ is a unit.
+    \end{enumerate}
+\end{definition}
 
+\textit{Note $0$ is not irreducible
+($0 = 0 \cdot 0$,
+where each factor is not a unit).}
 
+By this definition,
+prime numbers in $\Z$ are irreducible,
+but also $-p$ for $p$ a prime are irreducible.
 
+The crucial fact we need about irreducible elements in $\Z$ and $F[x]$ is:
+\begin{lemma}\label{algII:lem:genirrediff}
+    Let $R$
+    (a ring)
+    be $\Z$ or $F[x]$,
+    $F$ a field.
+    If $p \in R$ is irreducible and $p \mid ab$,
+    $a, b \in R$,
+    then $p \mid a$ or $p \mid b$.
 
+    \begin{proof}
+        Suppose $p$ is irreducible and $p \mid ab$.
+        If $\gcd(p, a) \neq 1$,
+        then there is an $m \in R$ such that $m \mid p$ and $m \mid a$ and $m$ is not a unit
+        (if the only common divisors are units,
+        then the greatest is $1$
+        (for $\Z$)
+        or can be rescaled to $1$
+        (for $F[x]$))
 
+        Since $m \mid p$,
+        $p = mu$,
+        $u \in R$.
+        But $p$ is irreducible
+        (by the hypothesis),
+        so as $m$ is not a unit,
+        $u$ must be a unit.
+        Since $m \mid a$,
+        $a = mx$,
+        $x \in R$,
+        so $a = u ^ {-1}(mu)x$,
+        hence $mu \mid a$,
+        i.e. $p \mid a$.
+
+        On the other hand,
+        if $\gcd(p, a) = 1$,
+        then by the Euclidean Algorithm,
+        $\exists \alpha, \beta$ such that
+        \[
+        \alpha p + \beta a = 1.
+        \]
+        Multiplying by $b$
+        \[
+        \alpha pb + \beta \underbrace{ab}_{p \mid ab} = b
+        \]
+        Since $p \mid ab$,
+        $p$ divides the LHS,
+        hence $p \mid b$.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}
+    Let $R$ be $\Z$ or $F[x]$,
+    $F$ a field,
+    and let $a \in R$ be a non-zero element.
+    Then $a$ can be factorised uniquely into a product of irreducible elements,
+    up to order of the factors and units.
+
+    \begin{proof}
+        (Existence of factorisation)
+
+        Induction on $d(a)$
+        ($d$ degree function)
+        Notice that the units $R ^ {\times} = \{a \in R \mid d(a) = d(1)\}$ and that $d(1)$ is the smallest value of $d$.
+
+        Base case:
+        If $d(a) = d(1) + 1$,
+        then $a$ is either $\pm 2$
+        (for $\Z$)
+        or a linear,
+        non-constant polynomial
+        (for $F[x]$),
+        hence is irreducible.
+
+        Induction hypothesis:
+        Assume that we have a factorisation into irreducibles for all $x \in R$ such that
+        \[
+        d(1) < d(x) < d(a).
+        \]
+
+        If $a$ is irreducible,
+        we have finished.
+
+        If not $a = bc$,
+        $b, c \in R$ such that $d(a) > d(1)$,
+        $d(b) > d(1)$.
+        By assumption
+        (since $d(b), d(c) < d(a)$)
+        $b$ and $c$ have factorisations into irreducibles and putting these together,
+        we get a factorisation of $a$.
+
+        (Uniqueness)
+        Suppose that
+        \[
+        a = p_1\cdot p_2\cdots p_m = q_1\cdot q_2 \cdots q_n,
+        \]
+        where all $p_i, q_i$ are irreducible without loss of generality,
+        $m \geq n$.
+        Then $p_1 \mid q_1 \dotsi q_n$,
+        so $p_1$ divides one of the factors $q_2$ by \autoref{algII:lem:genirrediff}.
+        By rearranging,
+        we can assume that $p_1 \mid q_1$,
+        i.e.,
+        $q_1 = p_1 u_1$,
+        $u_1 \in R$.
+        But $p_1$ and $q_1$ are both irreducible.
+        $u_1$ must be a unit.
+        Thus
+        \[
+        p_1p_2\cdots p_m = p_1uq_2\cdots q_n,
+        \]
+        after cancelling
+        \[
+        p_2\cdots p_m = uq_2\cdots q_n.
+        \]
+        Repeating the argument with $p_2, \dotsc, p_m$,
+        we obtain $p_{n + 1} \dotsi p_m = u_1\dotsi u_n$.
+        This implies that $p_{n + 1}$ divides one of the units $u_i$.
+        This is impossible,
+        as it implies that $u_i = p_{n + 1}x$,
+        for some $x \in R$,
+        which implies that also $p_{n + 1}$ is a unit
+        (which it is not).
+        The only possibility is therefore that $m = n$,
+        which means that up to reordering and multiplication by units $u_i$,
+        the factorisations are the same.
+    \end{proof}
+\end{theorem}
+
+\newpage
+
+\section{Units,
+zero divisors and integral domains}
+Units in $\Z$ $\pm 1$,
+units in $F[x]$ $F \setminus \{0\} = F ^ {\times}$.
+
+What about units in other rings?
+$R ^ {\times}$ actually forms a group under multiplication in $R$
+\[
+a, b \in R ^ {\times} \implies ab \in R ^ {\times}
+\]
+because $(ab)(b ^ {-1}a ^ {-1}) = 1$.
+
+\begin{example}
+    If $R = M_n(F)$,
+    $F$ field,
+    then $R ^ {\times} = \{X \in M_n(F) \mid \det(x) \neq 0\}$.
+    This group is denoted $\mathrm{GL}_n(F)$
+    (general linear group).
+\end{example}
+
+Units in $\Z / n$.
+\begin{proposition}
+    An element $\bar{a} \in \Z / n$ is a unit if and only if $\gcd(a, n) = 1$.
+
+    \begin{proof}
+        Let $d = \gcd(a, n)$.
+        Then $d \mid a$ and $d \mid n$.
+        First suppose that $\bar{a}$ is a unit.
+        Let $\bar{b} = \bar{a} ^ {-1}$.
+        Then $\bar{a}\bar{b} = \bar{1}$,
+        which means that
+        \[
+        ab \equiv 1 \pmod{n}.
+        \]
+        This in turn is equivalent to $ab - 1 = nx$,
+        for some $x \in \Z$.
+        Thus $1 = ab - nx$,
+        and since $d \mid a$ and $d \mid n$,
+        $d \mid \text{RHS}$ so $d \mid 1$,
+        implying $d = 1$.
+
+        Conversely,
+        assume that $d = 1$.
+        The Euclidean algorithm shows that $\exists x, y \in X$ such that
+        \[
+        xa + ny = 1.
+        \]
+        This implies that $xa \equiv 1 \pmod{n}$,
+        which in turn implies that $\overline{xa} = \bar{1}$ in $\Z / n$.
+        Hence $\bar{a}$ is a unit.
+    \end{proof}
+\end{proposition}
+This proposition can be formulated as
+\[
+(\Z / n) ^ {\times} = \{\bar{a} \in \Z / n \mid \gcd(a, n) = 1\}.
+\]
+As a consequence,
+we also get:
+
+\begin{corollary}
+    $\Z / p$ is a field if and only if $p$ is a prime.
+
+    \begin{proof}
+        We prove here that if $p$ is a prime,
+        then $\Z / p$ is a field.
+
+        If $p$ is a prime,
+        then by the previous,
+        every element $\bar{1}, \bar{2}, \dotsc, \overline{p - 1}$ is a unit,
+        so all elements in $\Z / p$,
+        except $\bar{0}$,
+        are units.
+
+        The converse implication will be shown later.
+    \end{proof}
+\end{corollary}
+
+\subsection{Zero divisors and integral domains}
+In a field,
+if $ab = 0$,
+then $a = 0$ or $b = 0$
+(because if $a \neq 0$,
+then $a ^ {-1}ab = a ^ {-1}0 = 0 \implies b = 0$)
+This is not true for general rings,
+e.g.
+\[
+\begin{pmatrix}
+    0 & 1 \\ 0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+    0 & 1 \\ 0 & 0
+\end{pmatrix} =
+\begin{pmatrix}
+    0 & 0 \\ 0 & 0
+\end{pmatrix} \in M_{2}(\Q).
+\]
+
+\begin{definition}
+    Let $R$ be a ring.
+    If $a \in R$ is such that $ab = 0$ for some $b \neq 0$,
+    then $a$ is called a zero divisor.
+\end{definition}
+An example is $\bar{2} \in \Z / 6$,
+where $\bar{2} \cdot \bar{3} = \bar{0}$.
+
+We want a name for the "nice" rings that don't have non-zero zero divisors.
+\begin{definition}
+    A ring $R$ which is commutative,
+    has at least two elements
+    ($0 \neq 1$)
+    and does not have any zero divisors apart from $0$,
+    is called an integral domain.
+\end{definition}
+
+The essential property of an integral domain is cancellation,
+i.e.
+\[
+ax = bx,\qquad x \neq 0 \implies a = b.
+\]
+\textit{Note:
+this may hold even if $x$ is not invertible,
+so it is not about dividing by $x$.}
+
+E.g.
+$\Z$ is an integral domain,
+as is any field.
+Any subring of a field is an integral domain.
+
+\begin{example}
+    Is $\Z / 3$ an integral domain?
+
+    Yes,
+    it is a field even
+    (but you can also see this from the multiplication table).
+
+    Is $\Z / 4$ an integral domain?
+    No,
+    $\bar{2} \cdot \bar{2} = \bar{0}$.
+\end{example}
+
+We can say exactly when $\Z / n$ is an integral domain.
+\begin{lemma}
+    $\Z / n$ is an integral domain if and only if $n$ is a prime.
+
+    \begin{proof}
+        Suppose $\Z / n$ is an integral domain and that $n$ is not prime.
+        Then $n = ab$,
+        $a, b \in \Z$,
+        $2 \leq a, b \leq n - 1$.
+        Thus
+        \[
+        \bar{a}\bar{b} = \bar{n} = \bar{0} \in \Z / n,
+        \]
+        so $\bar{a}$ and $\bar{b}$ are zero divisors.
+        Contradiction.
+
+        Conversely,
+        
+    \end{proof}
+\end{lemma}
 
 
 
