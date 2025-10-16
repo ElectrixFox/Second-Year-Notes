@@ -756,19 +756,206 @@ the area element $\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv$ is 
     $|J|$ is the Jacobian for the change of coordinates in the plane.
 \end{remark}
 
+\subsection{Surface Integrals of Vector Fields}
 
+If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a vector field and $\mathcal{S}$ is an oriented surface with unit normal $\hvec{n}$,
+we define the surface integral
+(or flux)
+of $\vec{f}$ through $\mathcal{S}$ as
+\[
+\int_{\mathcal{S}}\vec{f}\cdot\hvec{n}\,d\mathcal{S} = \int_{U}\vec{f}(\vec{x}(u, v))\cdot\hvec{n}\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv = \int_{U}\vec{f}(\vec{x}(u, v))\cdot\left(\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right)\,dudv.
+\]
+\textit{Note:
+sometimes see the notation $\hvec{n}\,d\mathcal{S} = d\vec{\mathcal{S}}$.
+Unlike a scalar surface integral,
+the flux also depends on the sign of $\hvec{n}$.
+A non-zero flux requires a component of $\vec{f}$
+"through"
+the surface.}
 
+\begin{example}
+    Calculate the outward flux of $\vec{f}(\vec{x}) = \cos ^ 7(\theta)\vec{e}_r$
+    [in spherical coordinates]
+    through the hemisphere $r = a$,
+    $z \geq 0$.
 
+    \begin{solution}
+        Parametrise in spherical coordinates:
+        $\vec{x}(\theta, \phi)$.
+        Recall:
+        $\hvec{n} = \vec{e}_r$ and $\left|\pd[\vec{x}]{\theta} \times \pd[\vec{x}]{\phi}\right| = h_{\theta}h_{\phi} = a ^ 2\sin{\theta}$.
 
+        So
+        \begin{align*}
+            \int_{\mathcal{S}}\vec{f}\cdot\hvec{n}\,d\mathcal{S} &= \int_{0}^{2\pi}\left(\int_{0}^{\pi / 2}\vec{f}\cdot\hvec{n}\left|\pd[\vec{x}]{\theta}\times\pd[\vec{x}]{\theta}\right|\,d\theta\right)\,d\phi \\
+            &= \int_{0}^{2\pi}\left(\int_{0}^{\pi / 2}(\cos ^ 7(\theta)\vec{e}_r)\cdot\vec{e}_r a ^ 2\sin(\theta)\,d\theta\right)\,d\phi \\
+            &= a ^ 2\int_{0}^{2\pi}\left(\int_{0}^{\pi / 2}(\cos ^ 7(\theta)\sin(\theta)\,d\theta\right)\,d\phi \\
+            &= a ^ 2\int_{0}^{2\pi}\left[-\frac{1}{8}\cos ^ 8(\theta)\right]_{0}^{\pi / 2}\,d\phi \\
+            &= \frac{a ^ 2}{8}\int_{0}^{2\pi}\,d\phi = \frac{\pi a ^ 2}{4}
+        \end{align*}
+    \end{solution}
+\end{example}
 
+If the surface is closed,
+we write $\int_{\mathcal{S}}\vec{f}\cdot\hvec{n}\,d\mathcal{S} = \oint_{S}\vec{f}\cdot\hvec{n}\,d\mathcal{S}$.
 
+\begin{example}
+    Repeat the previous example for the full sphere.
 
+    \begin{solution}
+        Now $\theta \in [0, \pi]$.
+        But $\vec{f} = \cos ^ 7(\theta)\vec{e}_r$ which is anti-symmetric about the equator $\theta = \pi / 2$ therefore $\oint_{\mathcal{S}}\vec{f}\cdot\hvec{n}\,d\mathcal{S} = 0$.
+    \end{solution}
+\end{example}
 
+We will also meet vector-valued surface integrals of the form:
+\[
+\int_{\mathcal{S}}\vec{f}\,d\mathcal{S}
+\]
+for some vector field $\vec{f} : \R ^ 3 \to \R ^ 3$.
 
+\begin{example}
+    Evaluate $\int_{\mathcal{S}}\vec{e}_r\,d\mathcal{S}$ where $\mathcal{S}$ is the hemisphere $r = a$,
+    $z \geq 0$ and $\vec{e}_r$ is the spherical basis vector.
 
+    \begin{solution}
+        Important -
+        $\vec{e}_r$ is not constant over $\mathcal{S}$ because its direction varies which means that it cannot be taken out of the integral.
 
+        Instead,
+        write it in the Cartesian basis:
+        \[
+        \vec{e}_r = \sin(\theta)\cos(\phi)\vec{e}_1 + \sin(\theta)\sin(\phi)\vec{e}_2 + \cos(\theta)\vec{e}_3.
+        \]
+        So
+        \begin{align*}
+            \int_{\mathcal{S}}\vec{e}_r\,d\mathcal{S} &= \vec{e}_1\int_{\mathcal{S}}\sin(\theta)\cos(\phi)\,d\mathcal{S} + \vec{e}_2\int_{\mathcal{S}}\sin(\theta)\sin(\phi)\,d\mathcal{S} + \vec{e}_3\int_{\mathcal{S}}\cos(\theta)\,d\mathcal{S} \\
+            &= 0 + 0 + \vec{e}_3\int_{\mathcal{S}}\cos(\theta)\,d\mathcal{S} \\
+            &= \vec{e}_3\int_{0}^{2\pi}\left(\int_{0}^{\pi / 2}\cos(\theta)\left|\pd[\vec{x}]{\theta}\times\pd[\vec{x}]{\phi}\right|\,d\theta\right)\,d\phi \\
+            &= a ^ 2\vec{e}_3\int_{0}^{2\pi}\left(\int_{0}^{\pi / 2}\cos(\theta)\sin(\theta)\,d\theta\right)\,d\phi \\
+            &= a ^ 2\vec{e}_3\int_{0}^{2\pi}\left[\frac{1}{2}\sin ^ 2(\theta)\right]_{0}^{\pi / 2}\,d\phi \\
+            &= \frac{a ^ 2}{2}\vec{e}_3\int_{0}^{2\pi}\,d\phi = \pi a ^ 2\vec{e}_3.
+        \end{align*}
+    \end{solution}
+\end{example}
 
+\textit{Note:
+This is not the same as $\vec{e}_r\int_{\mathcal{S}}\,d\mathcal{S} = \vec{e}_r|S| = 2\pi a ^ 2\vec{e}_r$.
+Can think of $\frac{1}{|\mathcal{S}|}\int_{\mathcal{S}}\vec{e}_r\,d\mathcal{S}$ as the
+"average"
+of $\vec{e}_r$ over $\mathcal{S}$.
+}
 
+\subsection{Volume Integrals}
+The volume integral of a scalar field $f : \R ^ 3 \to \R$ over a $3$D subregion $\mathcal{V} \subset \R ^ 3$ is
+\[
+\int_{V}f\,dV = \int_{U}f(\vec{x}(u, v, w))\left|\pd[\vec{x}]{u}\cdot\left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right|\,dudvdw.
+\]
+The "volume element" $\left|\pd[\vec{x}]{u} \cdot\left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right|\,dudvdw$ is the volume of an infinitesimal parallelepiped.
+
+Scalar tripple product:
+\[
+\begin{vmatrix}
+    \pd[x]{u} & \pd[x]{v} & \pd[x]{w} \\
+    \pd[y]{u} & \pd[y]{v} & \pd[y]{w} \\
+    \pd[z]{u} & \pd[z]{v} & \pd[z]{w}
+\end{vmatrix}.
+\]
+
+\begin{proposition}
+    If $(u, v, w)$ are orthogonal curvilinear coordinates,
+    then
+    \[
+    \left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{r} \times \pd[\vec{x}]{w}\right)\right| = h_uh_vh_w.
+    \]
+
+    \begin{proof}
+        Recall $\left|\pd[\vec{x}]{u}\right| = h_u$ which implies $\pd[\vec{x}]{u} = h_u\vec{e}_u$.
+        Similarly $\pd[\vec{x}]{v} = h_v\vec{e}_v$,
+        $\pd[\vec{x}]{w} = h_w\vec{e}_w$.
+        \[
+        \left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right| = |h_uh_vh_w\vec{e}_u \cdot(\vec{e}_r \times \vec{e}_w)| = |\pm h_uh_vh_w| = h_uh_vh_w.
+        \]
+    \end{proof}
+\end{proposition}
+The volume of $V$ is $|V| = \int_{V}\,dV$.
+
+\begin{example}
+    Find the volume of the sphere $x ^ 2 + y ^ 2 + z ^ 2 = a ^ 2$.
+
+    \begin{solution}
+        Recall spherical coordinates:
+        $\vec{x}(r, \theta, \phi) = r\sin(\theta)\cos(\phi)\vec{e}_1 + r\sin(\theta)\sin(\phi)\vec{e}_2 + r\cos(\theta)\vec{e}_3$.
+        Using the previous proposition
+        \[
+        \left|\pd[\vec{x}]{u}\cdot\left(\pd[\vec{x}]{v} \times \pd[\vec{x}]{w}\right)\right| = h_rh_{\theta}h_{\phi} = (1)(r)(r\sin{\theta}) = r ^ 2\sin(\theta)
+        \]
+        so
+        \begin{align*}
+            |V| &= \int_{0}^{2\pi}\left(\int_{0}^{\pi}\left(\int_{0}^{a}(1)r ^ 2\sin(\theta)\,dr\right)\,d\theta\right)\,d\phi \\
+            &= \int_{0}^{2\pi}\left(\int_{0}^{\pi}\left[\frac{r ^ 3}{3}\sin(\theta)\right]_{0}^{a}\,d\theta\right)\,d\phi \\
+            &= \frac{a ^ 3}{3}\int_{0}^{2\pi}\left[-\cos(\theta)\right]_{0}^{\pi}\,d\phi \\
+            &= \frac{2a ^ 3}{3}\int_{0}^{2\pi}\,d\phi = \frac{4\pi a ^ 3}{3}.
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\begin{remark}
+    Finding the correct limits can be tricky,
+    always draw a diagram.
+\end{remark}
+
+\begin{example}
+    Let $V$ be the region bounded by the planes $x = 0$,
+    $y = 0$,
+    $z = 2$ and the surface $z = x ^ 2 + y ^ 2$ for $x, y \geq 0$.
+    Calculate $\int_{V}x\,dV$.
+
+    \begin{solution}
+        Note $z = x ^ 2 + y ^ 2$ is a paraboloid:
+        The region $V$ is a quarter of the paraboloid.
+        Due to rotational symmetry,
+        the integral will be easiest to evaluate in cylindrical coordinates:
+        \[
+        \vec{x}(r, \theta, z) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2 + z\vec{e}_3.
+        \]
+        Using the previous proposition
+        \[
+        \left|\pd[\vec{x}]{r} \cdot \left(\pd[\vec{x}]{\theta}\times\pd[\vec{x}]{z}\right)\right| = h_rh_{\theta}h_z = r.
+        \]
+        Limits:
+        $y = 0 \iff \theta = 0$,
+        $x = 0 \iff \theta = \pi / 2$,
+        $r ^ 2 = x ^ 2 + y ^ 2 = z \iff r = \sqrt{z}$,
+        so
+        \begin{align*}
+            \int_{V}x\,dV &= \int_{0}^{2}\left(\int_{0}^{\pi / 2}\left(\int_{0}^{\sqrt{z}}xr\,dr\right)\,d\theta\right)\,dz \\
+            \int_{V}x\,dV &= \int_{0}^{2}\left(\int_{0}^{\pi / 2}\left(\int_{0}^{\sqrt{z}}r ^ 2\cos(\theta)\,dr\right)\,d\theta\right)\,dz \\
+            &= \int_{0}^{2}\left(\int_{0}^{\pi / 2}\left[\frac{r ^ 3}{3}\right]_{0}^{\sqrt{z}}\cos(\theta)\,d\theta\right)\,dz \\
+            &= \int_{0}^{2}\left(\int_{0}^{\pi / 2}\frac{z ^ {3 / 2}}{3}\cos(\theta)\,d\theta\right)\,dz \\
+            &= \frac{1}{3}\int_{0}^{2}z ^ {3 / 2}\left[\sin(\theta)\right]_{0}^{\pi / 2}\,dz \\
+            &= \frac{1}{3}\int_{0}^{2}z ^ {3 / 2}\,dz \\
+            &= \frac{1}{3}\left[\frac{2}{5}z ^ {5 / 2}\right]_{0}^{2} \\
+            &= \frac{8\sqrt{2}}{15}.
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\begin{proposition}
+    The volume integral of a scalar field is independent of the choice of parameterisation/coordinates.
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{proposition}
+
+\begin{remark}
+    Can also have a vector-valued volume integral $\int_{V}\vec{f}\,dV$.
+    Evaluate by changing to Cartesians:
+    \[
+    \int_{V}\vec{f}\,dV = \vec{e}_1\int_{V}f_1\,dV + \vec{e}_2\int_{V}f_2\,dV + \vec{e}_3\int_{V}f_3\,dV.
+    \]
+\end{remark}
 
 
 
