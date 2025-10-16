@@ -1124,19 +1124,329 @@ An obvious corollary to this is then:
 To say anything further about the quality of our estimates,
 we will need to find their probability distributions.
 
+\newpage
+
+\section{Sampling Distributions}
+\begin{definition}
+    The probability distribution of a statistic,
+    $S(\vec{X})$,
+    over all possible samples $\vec{X}$ is known as the sampling distribution of $S(\vec{X})$.
+\end{definition}
+
+What use is a sampling distribution?
+\begin{enumerate}[label = (\roman*)]
+    \item Probability questions.
+    
+    \item Confidence intervals.
+    
+    \item Hypothesis Tests.
+\end{enumerate}
+
+\begin{proposition}
+    For $X_1, \dotsc, X_n$ IID with mean $\mu$ and variance $\sigma ^ 2 > 0$ known,
+    \begin{enumerate}[label = (\roman*)]
+        \item If $X_i \sim \mathcal{N}(\mu, \sigma ^ 2)$,
+        then $\bar{X}$ is exactly $\mathcal{N}\left(\mu, \frac{\sigma ^ 2}{n}\right)$.
+
+        \item
+        Otherwise,
+        for $n$ large,
+        CLT implies that $\bar{X} \to \mathcal{N}\left(\mu, \frac{\sigma ^ 2}{n}\right)$ as $n \to \infty$
+        (usually for $n > 40$).
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Confidence Intervals}
+So far,
+all of the estimates $\hvec{\theta}$ of $\vec{\theta}$ have been a single value/vector -
+point estimates.
+Instead,
+suppose we seek a range of plausible values -
+an interval estimate.
+
+\begin{definition}
+    ($1$D case)
+    Let $\vec{X} = (X_1, \dotsc, X_n)$ be a random sample from a distribution with some parameter $\theta$
+    (scalar),
+    and define the statistics $L(\vec{X}) \leq U(\vec{X})$.
+    Then the random interval $\mathcal{C} = [L(\vec{X}, U(\vec{X})]$ is a confidence interval for $\theta$ with confidence level of $1 - \alpha$
+    (or $100(1 - \alpha)\%$)
+    if:
+    \[
+    \P(L(\vec{X}) \leq \theta \leq U(\vec{X})) = 1 - \alpha
+    \]
+    or
+    \[
+    \P(\mathcal{C}(\vec{X}) \ni \theta) = 1 - \alpha.
+    \]
+\end{definition}
+\textit{Note:
+This is a statement about $\mathcal{C}(\vec{X})$,
+not about $\theta$.}
+The frequentist approach implies $\theta$ must be constant.
+Given observations,
+$\vec{x}$,
+we can evaluate $[\ell(\vec{x}), u(\vec{x})]$ as a realisation of $\mathcal{C}(\vec{X}) = [L(\vec{X}), U(\vec{X})]$.
+$[\ell(\vec{x}, u(\vec{x})]$ is now constant,
+so statements like $\P[\ell(\vec{x}) \leq \theta \leq u(\vec{x})] = 1 - \alpha$ are nonsense.
 
 
+\begin{example}
+    $n = 26$ independent observations of rainfall from a random sample of clouds.
+    $X = \text{measurement of rainfall}$.
+    See $\vec{x} = 5.134$,
+    $\sigma = 1.5$ known.
 
+    Assume $X \sim \mathcal{N}(\mu, \sigma ^ 2)$.
 
+    A $100(1 - \alpha)\%$ confidence interval for $\mu$:
+    $\bar{x} \pm Z_{\alpha / 2}^{*}\sigma / \sqrt{n}$.
+    At $95\%$,
+    \[
+    5.134 \pm 1.96 \cdot \frac{1.5}{\sqrt{26}} = [4.557, 5.711].
+    \]
+    Interpretation:
+    \textbf{Not}
+    "$\mu$ lies in $[4.557, 5.711]$ with probability $0.95$".
+    \textbf{Instead}:
+    If we were to take many different samples and find $95\%$ confidence interval,
+    then $95\%$ of those confidence intervals would contain $\mu$.
+    But we cannot tell whether this confidence interval contains $\mu$ or not.
+\end{example}
 
+The confidence level is a statement about the general process,
+not a specific confidence interval.
 
+So,
+how do we find a confidence interval for a parameter $\theta$?
+One approach uses pivotal statistics.
 
+\begin{definition}
+    A pivotal statistic
+    (or pivot)
+    is a statistic/function
+    of the data $\vec{X}$ and parameter $\vec{\theta}$,
+    $G = G(\vec{x}, \vec{\theta})$,
+    such the distribution of $G$ does not involve $\vec{\theta}$.
+\end{definition}
 
+For example:
+Given $\bar{X} \sim \mathcal{N}\left(\mu, \sigma ^ 2 / n\right)$ with $\sigma ^ 2 > 0$ known,
+we know that
+\[
+Z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \sim \mathcal{N}(0, 1)
+\]
+which is a function of $\bar{X}$ and $\mu$,
+but $f_{Z}(z)$ does not depend on $\mu$
+(pivotal).
 
+If $G$ is pivotal with pdf $f_{G}(g)$,
+then we can find an interval $[a, b]$ such that
+\[
+\P(a \leq G(x; \theta) \leq b) = 1 - \alpha
+\]
+without needing $\theta$!
+We can then find a confidence interval for $\theta$ by rearranging the inequality.
 
+\begin{example}
+    $\bar{X} \sim \mathcal{N}\left(\mu, \frac{\sigma ^ 2}{n}\right)$ and $Z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \sim \mathcal{N}(0, 1)$.
+    \begin{align*}
+        1 - \alpha &= \P(a \leq Z \leq b) \\
+        &= \P(Z_{1 - \alpha / 2}^{*} \leq Z \leq Z_{\alpha / 2}^{*}) \\
+        &= \P\left(-Z_{\alpha / 2}^{*} \leq \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \leq Z_{\alpha / 2}^{*}\right) \\
+        &= \P\left(\bar{X} - Z_{\alpha / 2}^{*}\frac{\sigma}{\sqrt{n}} \leq \mu \leq \bar{X} + Z_{\alpha / 2}^{*}\frac{\sigma}{\sqrt{n}}\right).
+    \end{align*}
+    Hence:
+    $\bar{X} \pm Z_{\alpha / 2}^{*}\frac{\sigma}{\sqrt{n}}$ is a $100(1 - \alpha)\%$ confidence interval for $\mu$ when $\sigma$ is known and $X$ is normal.
+\end{example}
 
+Suppose now that $X$ is not Normal,
+and that $\sigma$ is unknown.
 
+Data:
+$s = 1.60$ -
+what can we say about $\mu$ now?
+\begin{enumerate}[label = (\roman*)]
+    \item For $n$ large,
+    CLT implies $\bar{X} \sim \mathcal{N}\left(\mu, \frac{\sigma ^ 2}{n}\right)$
+    
+    \item For $n$ very large,
+    the law of large numbers implies $S \to \sigma$ as $n \to \infty$.
+\end{enumerate}
 
+Can we say:
+\[
+\bar{x} \pm Z_{\alpha / 2}^{*}\frac{s}{\sqrt{n}} = [4.519, 5.741]
+\]
+is a $95\%$ confidence interval for $\mu$?
+
+No as $n = 26$ is too small for CLT which implies it is not Normal,
+wrong distribution.
+Also $n$ is too small for the law of large numbers so $\sigma \neq S$,
+wrong variance.
+
+$S$ is a function of $\vec{X}$,
+so is random too,
+and $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ is not Normal.
+
+\newpage
+
+\section{Distributions in Normal sampling}
+
+\subsection{A Distribution for \texorpdfstring{$S ^ 2$}{}}
+Still assuming $X_1, \dotsc, X_n$ are IID $\mathcal{N}(\mu, \sigma ^ 2)$.
+To find the distribution of $S ^ 2$ we need intermediate results.
+
+\begin{proposition}
+    For $X_1, \dotsc, X_n$ IID $\mathcal{N}(\mu, \sigma ^ 2)$ then $\bar{X} = \frac{1}{n}\sum_{i = 1}^{n}X_i$ is independent from the random variables
+    \[
+    (X_1 - \bar{X}), (X_2 - \bar{X}), \dotsc, (X_n - \bar{X}).
+    \]
+\end{proposition}
+
+Consequently,
+$\bar{X}$ is independent from $S ^ 2 = \frac{1}{n - 1}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2$.
+
+\begin{proposition}
+    For $X_1, \dotsc, X_n$ IID $\mathcal{N}(\mu, \sigma ^ 2)$,
+    the sample variance,
+    $S ^ 2$,
+    has distribution:
+    \[
+    \frac{(n - 1)}{\sigma ^ 2}S ^ 2 \sim X_{n - 1}^{2}.
+    \]
+
+    \begin{proof}
+        Consider
+        \begin{equation}\label{statsinfII:eq:2}\tag{*}
+            \sum_{i = 1}^{n}\left(\frac{X_i - \mu}{\sigma}\right) ^ 2 = \sum_{i = 1}^{n}Z_i ^ 2 = \sum_{i = 1}^{n}\underbrace{U_i}_{\chi_{1}^{2}} \sim \chi_{n}^{2}.
+        \end{equation}
+        Expand the sum:
+        \begin{align*}
+            \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(X_i - \mu) ^ 2 &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}\left((X_i - \bar{X}) + (\bar{X} - \mu)\right) ^ 2 \\
+            &= \frac{1}{\sigma ^ 2}\left[\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2 + \sum_{i = 1}^{n}(\bar{X} - \mu) ^ 2 + 2\sum_{i}(X_i - \bar{X})(\bar{X} - \mu)\right] \\
+            &= \frac{1}{\sigma ^ 2}\left[\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2 + n(\bar{X} - \mu) ^ 2 + 2(\bar{X} - \mu)\sum_{i = 1}^{n}(X_i - \bar{X})\right] \\
+            &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2 + \frac{n}{\sigma ^ 2}(\bar{X} - \mu) ^ 2.
+        \end{align*}
+
+        \[
+        \underbrace{\sum_{i = 1}^{n}\left(\frac{X_i - \mu}{\sigma}\right) ^ 2}_{\chi_{n}^{2}} = \frac{n - 1}{\sigma ^ 2}\overbrace{\left[\frac{1}{n - 1}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2\right]}^{S ^ 2} + \underbrace{\left(\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}\right) ^ 2}_{\chi_{1}^{2}}.
+        \]
+        The terms on the RHS are independent
+        (by proposition),
+        and $\chi ^ 2$ properties imply the unknown term must be
+        \[
+        \frac{(n - 1)}{\sigma ^ 2}S ^ 2 \sim \chi_{n - 1}^{2}.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    What is the probability that we over-estimate $\sigma ^ 2$ by at least $50\%$?
+
+    \begin{align*}
+        \P(S ^ 2 > 1.5\sigma ^ 2) &= \P\left(\frac{S ^ 2}{\sigma ^ 2} > 1.5\right) \\
+        &= \P\left(\frac{(n - 1)S ^ 2}{\sigma ^ 2} > 1.5(n - 1)\right) \\
+        &= \P\left(\chi_{n - 1}^{2} > 37.5\right) \\
+        &= 0.0517.
+    \end{align*}
+\end{example}
+
+A confidence interval for $S ^ 2$:
+\begin{proposition}
+    \begin{align*}
+        1 - \alpha &= \P\left(\chi_{1 - \alpha / 2}^{*} \leq \frac{(n - 1)S ^ 2}{\sigma ^ 2} \leq \chi_{\alpha / 2}^{*}\right) \\
+        &= \P\left(\frac{1}{\chi_{\alpha / 2}^{*}} \leq \frac{\sigma ^ 2}{(n - 1)S ^ 2} \leq \frac{1}{\chi_{1 - \alpha / 2}^{*}}\right) \\
+        &= \P\left(\frac{(n - 1)S ^ 2}{\chi_{\alpha / 2}^{*}} \leq \sigma ^ 2 \leq \frac{(n - 1)S ^ 2}{\chi_{n - 1, t ^ {\alpha / 2}}^{*}}\right).
+    \end{align*}
+    $\left[\frac{(n - 1)S ^ 2}{\chi_{\alpha / 2}^{*}}, \frac{(n - 1)S ^ 2}{\chi_{n - 1, t ^ {\alpha / 2}}^{*}}\right]$ is a $100(1 - \alpha)\%$ confidence interval for $\sigma ^ 2$,
+    where $\chi_{k / \alpha}^{*}$ is the critical value of $\chi_{k}^{2}$ such that $\P(\chi_{k}^{2} > \chi_{k / \alpha}^{*}) = \alpha$.
+\end{proposition}
+
+Example:
+$95\%$ confidence interval
+\begin{align*}
+    (n - 1)S ^ 2\left[\frac{1}{\chi_{25, 0.025}^{*}}, \frac{1}{\chi_{25, 0.975}^{*}}\right] &= 25 \times 1.6 ^ 2\left[\frac{1}{40 \cdot 646}, \frac{1}{13 \cdot 120}\right] \\
+    &= [1.57, 4.88].
+\end{align*}
+Quite uncertain about $\sigma ^ 2$ -
+Assuming $s ^ 2 \approx \sigma ^ 2$ is a bad idea.
+
+\subsection{A Distribution for \texorpdfstring{$\bar{X}$}{},
+when \texorpdfstring{$\sigma ^ 2$}{} is unknown}
+
+\begin{definition}
+    If $Z \sim \mathcal{N}(0, 1)$,
+    $U \sim \chi_{k}^{2}$ and $Z \independent U$,
+    then
+    \[
+    T = \frac{Z}{\sqrt{U / k}} \sim t_{k}
+    \]
+    where $t_{k}$ is the
+    (student's)
+    $t$-distribution with $k$ degrees of freedom.
+\end{definition}
+
+\textbf{Comments}
+\begin{enumerate}[label = (\roman*)]
+    \item See problem sheet for the pdf.
+
+    \item $t_k$ is similar to $\mathcal{N}(0, 1)$ -
+    symmetric about $0$,
+    $\E(T_k) = 0$,
+    but $\Var(T_k) \geq 1$.
+
+    \item As $k \to \infty$,
+    $t_k \to \mathcal{N}(0, 1)$.
+\end{enumerate}
+
+\begin{proposition}
+    For $X_1, \dotsc, X_n$ IID $\mathcal{N}(\mu, \sigma ^ 2)$
+    \[
+    T = \frac{\bar{X} - \mu}{S / \sqrt{n}} \sim t_{n - 1}.
+    \]
+
+    \begin{proof}
+        Show $T$ has the form in the definition above:
+        \begin{align*}
+            T &= \frac{(\bar{X} - \mu)}{S / \sqrt{n}} \\
+            &= \frac{\overbrace{(\bar{X} - \mu) / (\sigma / \sqrt{n})}^{= \mathcal{N}(0, 1) = Z}}{\underbrace{(S / \sqrt{n}) / (\sigma / \sqrt{n})}_{= W}} \\
+            W &= \frac{S / \sqrt{n}}{\sigma / \sqrt{n}} \\
+            &= \frac{S}{\sigma} \\
+            &= \sqrt{\frac{S ^ 2}{\sigma ^ 2}} \\
+            &= \sqrt{\frac{(n - 1)S ^ 2}{\sigma ^ 2}\cdot\frac{1}{n - 1}} \\
+            &= \sqrt{\frac{U_k}{k}}.
+        \end{align*}
+        So from proposition,
+        $\bar{X} \independent S ^ 2$,
+        so $Z \independent W$ and we have $\frac{\mathcal{N}(0, 1)}{\sqrt{\chi_{k}^{2} / S}} \sim t_{k = n - 1}$ by definition.
+    \end{proof}
+\end{proposition}
+
+A confidence interval for $\mu$ when $\sigma ^ 2$ is unknown:
+\begin{proposition}
+    First,
+    note that $T = \frac{(\bar{X} - \mu)}{S / \sqrt{n}}$ is pivotal since $t_{n - 1}$ doesn't involve $\mu$ or $\sigma ^ 2$.
+    So:
+    \begin{align*}
+        1 - \alpha &= \P\left(t_{n - 1, 1 - \alpha / 2}^{*} \leq \frac{\bar{X} - \mu}{S / \sqrt{n}} \leq t_{n - 1, \alpha / 2}^{*}\right) \\
+        &= \P\left(-t_{n - 1, \alpha / 2}^{*} \leq \frac{\bar{X} - \mu}{S / \sqrt{n}} \leq t_{n - 1, \alpha / 2}^{*}\right)  \\
+        &= \P\left(\bar{X} - t_{n - 1, \alpha / 2}^{*}\frac{S}{\sqrt{n}} \leq \mu \leq \bar{X} + t_{n - 1, \alpha / 2}^{*}\frac{S}{\sqrt{n}}\right).
+    \end{align*}
+    Therefore $\bar{X} \pm t_{n - 1, \alpha / 2}^{*}\frac{S}{\sqrt{n}}$ is a $100(1 - \alpha)\%$ confidence interval for $\mu$ when $\sigma ^ 2$ is unknown.
+\end{proposition}
+
+\begin{example}
+    $n = 26$ so $t_{n - 1, 0.025}^{*} = t_{25, 0.025}^{*} = 2.06$
+    ($Z_{0.025}^{*} = 1.96$)
+    which implies $95\%$ CI for $\mu$
+    \[
+    5.134 \pm 2.06 \cdot \frac{1.6}{\sqrt{26}} = [4.488, 5.780].
+    \]
+    Vs Normal interval $[4.519, 5.749]$.
+
+    The $t$ CI is wider since $t ^ {*} > Z ^ {*}$ to reflect the extra uncertainty from estimating $\sigma ^ 2$.
+\end{example}
 
 
 

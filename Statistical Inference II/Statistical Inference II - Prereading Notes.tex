@@ -398,16 +398,219 @@ This is where the standard error measures the average distance of the estimator 
     \]
 \end{proposition}
 
+\begin{definition}[Standard error]
+    The standard error of an estimator $\hat{\Theta}$ is the standard deviation of $\hat{\Theta}$.
+    \[
+    \mathrm{SE}(\hat{\Theta}) = \mathrm{sd}(\hat{\Theta}) = \sqrt{\Var(\hat{\Theta})}.
+    \]
+\end{definition}
 
+\begin{definition}[Mean-square error
+    (MSE)]
+    The mean-square error
+    (MSE)
+    of an estimator $\hat{\Theta}$ for the parameter $\theta$ is
+    \[
+    \mathrm{MSE}(\hat{\Theta}, \theta) = \E((\hat{\Theta} - \theta) ^ 2) = \Var(\hat{\Theta}) + \bias(\hat{\Theta}, \theta) ^ 2.
+    \]
+\end{definition}
 
+When $\E(\hat{\Theta}) = \theta$ the estimator is unbiased.
 
+\subsection{The method of moments}
 
+Suppose we have a sample of observations $x_1, \dotsc, x_n$ from a distribution $f(x; \vec{\theta})$ -
+how can we find a suitable estimate $\hvec{\theta}$ or $\theta$?
 
+\begin{definition}[Central moments]
+    The $k$th central moment of $X$ is:
+    \[
+    \mathbb{c}_k(\theta) = \begin{cases}
+        \E(X) = \mu & k = 1 \\
+        \E((X - \mu) ^ 2) = \Var(X) = \sigma ^ 2 & k = 2 \\
+        \E((X - \mu) ^ k) & k = 3, 4, \dotsc
+    \end{cases}
+    \]
+    The $k$th sample central moment of $X$ is:
+    \[
+    \hat{c}_k(\theta) = \begin{cases}
+        \frac{1}{n}\sum_{i = 1}^{n}x_i = \bar{x} & k = 1 \\
+        \frac{1}{n}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ k & k = 2, 3, \dotsc
+    \end{cases}
+    \]
+\end{definition}
 
+\begin{definition}
+    If $f(x; \theta)$ has $p$ parameters,
+    $\vec{\theta} \in \R ^ p$,
+    the method of moments
+    (MoM)
+    estimators of $\vec{\theta}$ are obtained by equating:
+    \[
+    \mathbb{c}_k(\hvec{\theta}) = \hat{c}_{\vec{X}}(,)
+    \]
+    for $k = 1, \dotsc, p$,
+    and solving for $\hvec{\theta}$.
+\end{definition}
 
+\newpage
 
+\section{Estimating means and variances}
 
+\subsection{Properties of the sample mean and variance}
 
+\begin{proposition}[(a) Unbiasedness of the sample mean vector]
+    Suppose $\vec{X}_i \sim [\vec{\mu}, \vec{\Sigma}]$ are $n$ independent realisations of a multivariate random $p$-vector,
+    with $\vec{\mu}$ and $\vec{\Sigma}$ finite,
+    then the sample mean vector $\bar{\vec{X}}$ is unbiased for $\vec{\mu}$:
+    \[
+    \E(\bar{\vec{X}}) = \vec{\mu}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \E(\bar{X}) &= \E\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right) \\
+            &= \frac{1}{n}\sum_{i = 1}^{n}\E(X_i) \\
+            &= \frac{1}{n}\sum_{i = 1}^{n}\mu = \mu.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[(b) Variance of the sample mean]
+    For $\vec{X}_i$ as above
+    \[
+    \Var(\bar{\vec{X}}) = \frac{1}{n}\vec{\Sigma}.
+    \]
+
+    \begin{proof}
+        \[
+        \Var(\bar{X}) = \Var\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right).
+        \]
+        Since the $X_i$ are all independent:
+        \begin{align*}
+            \Var(\bar{X}) &= \frac{1}{n ^ 2}\sum_{i = 1}^{n}\Var(X_i) \\
+            &= \frac{1}{n ^ 2}n\vec{\Sigma} \\
+            &= \frac{1}{n}\vec{\Sigma}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[(c) Unbiasedness of the sample variance matrix]
+    For $\vec{X}_i$ as above
+    \[
+    \E(\vec{S}_X) = \vec{\Sigma}.
+    \]
+    
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{proposition}
+
+\newpage
+
+\section{Sampling distributions and confidence intervals}
+
+\subsection{Sampling distributions}
+
+\begin{definition}[Sampling distribution]
+    The probability for a statistic $S(\vec{X})$ over all possible sample $\vec{X}$ is known as its sampling distribution,
+    $f(s)$,
+    and depends on the functional form of $S$,
+    the distribution of $\vec{X}$,
+    and the method of sampling.
+\end{definition}
+
+\begin{proposition}[Sampling Distribution for $\bar{X}$]
+    Let $X_1, \dotsc, X_n$ be an IID sample with mean $\mu$ and variance $\sigma ^ 2 > 0$ known.
+    Then for $n \geq 1$:
+    \begin{enumerate}[label = (\roman*)]
+        \item If $n$ is large,
+        then by CLT $\bar{X} \sum \mathcal{N}(\mu, \sigma ^ 2 / n)$.
+
+        \item If $X_i$ are IID $\mathcal{N}(\mu, \sigma ^ 2)$,
+        then $\bar{X} \sim \mathcal{N}(\mu, \sigma ^ 2 / n)$ exactly regardless of $n$.
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Confidence intervals}
+\begin{definition}[Confidence interval]
+    Let $\vec{X} = [X_1, \dotsc, X_n] ^ T$ be a random sample from a probability distribution $f_{X}(\vec{x}; \theta)$ with parameter $\theta$.
+
+    A $100(1 - \alpha)\%$ confidence interval for $\theta$ is a random interval,
+    $\mathcal{C}(\vec{X}) = [\mathcal{L}(\vec{X}), \mathcal{U}(\vec{X})]$,
+    formed from a random sample,
+    $\vec{X}$.
+    via the random variables $\mathcal{L}(\vec{X})$ and $\mathcal{U}(\vec{X})$ such that
+    \begin{align*}
+        \P(\mathcal{L}(\vec{X}) < \theta < \mathcal{U}(\vec{X})) &= 1 - \alpha \\
+        \P(\mathcal{C}(\vec{X}) \ni \theta) &= 1 - \alpha.
+    \end{align*}
+    The probability $(1 - \alpha)$ is known as the confidence level,
+    and is typically chosen to be close to $1$.
+\end{definition}
+
+\subsection{Pivotal statistics}
+
+\begin{definition}[Pivotal statistic]
+    A pivotal statistic,
+    pivot,
+    or pivotal quantity is a function of the data and parameters $G = G(\vec{X}, \vec{\theta})$ such that the distribution of $g$ does not depend on the parameters $\vec{\theta}$.
+\end{definition}
+
+Given a pivotal statistic $G(\vec{X}, \vec{\theta})$,
+with sampling density function $f_{G}(g)$ we can simply write down the following probability statement
+\[
+\P(a \leq G(\vec{X}, \vec{\theta}) \leq b) = 1 - \alpha,
+\]
+use $f_{G}(g)$ to find the constants $a$ and $b$ for a given level of confidence,
+then rearrange the inequalities inside the probability statement so that $\theta$ is sandwiched between an upper and lower limit.
+
+\newpage
+
+\section{Distributions in Normal sampling}
+
+\subsection{A distribution for $S ^ 2$}
+
+\begin{proposition}
+    For an IID sample $X_1, \dotsc, X_n$ from a Normal population,
+    the random variable $\bar{X} = \frac{1}{n}\sum_{i}X_i$ and the vector of random variables $(X_1 - \bar{X}, \dotsc, X_n - \bar{X})$ are independent.
+
+    Consequently,
+    the random variables $\bar{X}$ and $S ^ 2 = \frac{1}{n - 1}\sum_{i}(X_i - \bar{X}) ^ 2$ are also independent.
+\end{proposition}
+
+\begin{proposition}[Sampling distribution for $S ^ 2$]
+    Let $X_1, \dotsc, X_n$ be an IID sample from a Normal population $\mathcal{N}(\mu, \sigma ^ 2)$ with $n > 1$ and $\sigma > 0$ then:
+    \[
+    \frac{(n - 1)S ^ 2}{\sigma ^ 2} \sim \chi_{n - 1}^{2}.
+    \]
+
+    \begin{proof}
+        First note that since the sample values $X_i$ are IID $\mathcal{N}(\mu, \sigma ^ 2)$ for $i = 1, \dotsc, n$,
+        then we have that $(X_i - \mu) / \sigma \sim \mathcal{N}(0, 1)$.
+        Consequently,
+        from the definition of a $\chi_{1}^{2}$ distribution,
+        we also have that
+        \[
+        \mathcal{U}_i = \left[\frac{X_i - \mu}{\sigma}\right] ^ 2 \sim \chi_{1}^{2}.
+        \]
+        Since all the $X_i$ are independent of each other,
+        then the $\mathcal{U}_i$ are also independent of each other.
+        Thus
+        \[
+        \sum_{i = 1}^{n}\left(\frac{X_i - \mu}{\sigma}\right) ^ 2 = \sum_{i = 1}^{n}\mathcal{U}_i \sim \chi_{n}^{2}
+        \]
+        from the definition of the $\chi_{n}^{2}$ distribution.
+
+        We re-write this sum in terms of $S ^ 2$,
+        which will allow us to deduce a distribution:
+        \begin{align*}
+            \sum_{i = 1}^{n}\left(\frac{X_i - \mu}{\sigma}\right) ^ 2 &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(X_i - \mu) ^ 2 \\
+            &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}\left[(X_i - \bar{X}) + (\bar{X} - \mu)\right] ^ 2 \\
+            &= \frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2 + n\left(\frac{\bar{X} - \mu}{\sigma}\right) + \frac{1}{\sigma}\left(\frac{\bar{X} - \mu}{\sigma}\right)\sum_{i = 1}(X_i - \bar{X})
+        \end{align*}
+    \end{proof}
+\end{proposition}
 
 
 
