@@ -137,4 +137,151 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$2$}{}}
+
+\begin{problem}[$2013$ question $5$]
+    Compute the surface integral $\int_{S}\vec{f}\cdot\hvec{n}\,dS$ of vector field $\vec{f} = (y, -x, x)$ over the surface $z = xy - \cos{x}$ for $x \in [0, 1]$,
+    $y \in [0, 1]$,
+    with upward normal.
+
+    \begin{solution}
+        \[
+        \vec{f}(\vec{x}) = y\vec{e}_1 + x\vec{e}_2 + x\vec{e}_3.
+        \]
+
+        \begin{align*}
+            \int_{S}\vec{f}\cdot\hvec{n}\,dS &= \int_{U}\vec{f}(\vec{x}(u, v)\cdot\hvec{n}\left|\pd[\vec{x}]{u}\times \pd[\vec{x}]{v}\right|\,dudv \\
+            &= \int_{U}\vec{f}(\vec{x}(u, v)\cdot\left(\pd[\vec{x}]{u}\times \pd[\vec{x}]{v}\right)\,dudv.
+        \end{align*}
+        Parametrise the surface:
+        \[
+        z = xy - \cos{x}
+        \]
+        \[
+        \vec{x}(x, y) = x\vec{e}_1 + y\vec{e}_2 + (xy - \cos{x})\vec{e}_3
+        \]
+        $x \in [0, 1]$,
+        $y \in [0, 1]$.
+        So
+        \begin{align*}
+            \pd[\vec{x}]{x} &= \vec{e}_1 + (y + \sin{x})\vec{e}_3 \\
+            \pd[\vec{x}]{y} &= \vec{e}_2 + x\vec{e}_3
+        \end{align*}
+        \[
+        \pd[\vec{x}]{x} \times \pd[\vec{x}]{y} = -(y + \sin{x})\vec{e}_1 + -x\vec{e}_2 + \vec{e}_3.
+        \]
+        Then
+        \begin{align*}
+            \int_{S}\vec{f}\cdot\hvec{n}\,dS &= \int_{0}^{1}\int_{0}^{1}(y\vec{e}_1 - x\vec{e}_2 + x\vec{e}_3)\cdot(-(y + \sin{x})\vec{e}_1 - x\vec{e}_2 + \vec{e}_3)\,dxdy \\
+            &= \int_{0}^{1}\int_{0}^{1}(-y ^ 2 -y\sin{x} + x ^ 2 + x)\,dxdy \\
+            &= \int_{0}^{1}\left[-y ^ 2x + y\cos{x} + \frac{1}{3}x ^ 3 + \frac{1}{2}x ^ 2\right]_{0}^{1}\,dy \\
+            &= \int_{0}^{1}-y ^ 2 + y\cos(1) + \frac{5}{6} - y)\,dy \\
+            &= \int_{0}^{1}-y ^ 2 + y(\cos(1) - 1) + \frac{5}{6})\,dy \\
+            &= \left[-\frac{1}{3}y ^ 3 + \frac{1}{2}y ^ 2(\cos(1) - 1) + \frac{5}{6}y\right]_{0}^{1} \\
+            &= -\frac{1}{3} + \frac{1}{2}\cos(1) + \frac{5}{6} - \frac{1}{2} = \frac{1}{2}\cos(1).
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2020$ question $5$(a)]
+    Calculate the surface integral $\oint_{S}\vec{f}\cdot\hvec{n}\,dS$ where $\vec{f}(\vec{x}) = \vec{x}$ and $S$ is the surface of the solid cylinder $\{x ^ 2 + y ^ 2 \leq 1, 0 \leq z \leq 4\}$,
+    with outward normal.
+
+    \begin{solution}
+        \[
+        \vec{f}(\vec{x}) = \vec{x} = x\vec{e}_1 + y\vec{e}_2 + z\vec{e}_3.
+        \]
+
+        $S$ is not smooth so divide into three pieces.
+        $S_1$ -
+        top,
+        $S_2$ -
+        bottom,
+        $S_3$ -
+        curved surface.
+
+        Parametrise in cylindrical coordinates:
+        \[
+        \vec{x}(r, \theta, z) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2 + z\vec{e}_3.
+        \]
+        $S_1$:
+        \[
+        \vec{x}(r, \theta) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2 + 4\vec{e}_3\qquad\text{for } r \in [0, 1], \theta \in [0, 2\pi].
+        \]
+        \begin{align*}
+            \int_{S_1}\vec{f}\cdot\hvec{n}\,dS &= \int_{S_1}\vec{f}\cdot\vec{e}_3\,dS \\
+            &= \int_{0}^{2\pi}\int_{0}^{1}\vec{x}\cdot\vec{e}_3\left|\pd[\vec{x}]{r}\times\pd[\vec{x}]{\theta}\right|\,drd\theta \\
+            &= \int_{0}^{2\pi}\int_{0}^{1}zr\,drd\theta \\
+            &= 4\int_{0}^{2\pi}\int_{0}^{1}r\,drd\theta \\
+            &= 4\pi.
+        \end{align*}
+
+        $S_2$:
+        \[
+        \vec{x}(r, \theta) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2\qquad\text{for } r \in [0, 1], \theta \in [0, 2\pi].
+        \]
+        \begin{align*}
+            \int_{S_2}\vec{f}\cdot\hvec{n}\,dS &= \int_{S_2}\vec{f}\cdot(-\vec{e}_3)\,dS \\
+            &= \int_{0}^{2\pi}\int_{0}^{1}-zr\,drd\theta \\
+            &= 0 &&(\text{z = 0}).
+        \end{align*}
+
+
+        $S_3$:
+        \[
+        \vec{x}(\theta, z) = \cos(\theta)\vec{e}_1 + \sin(\theta)\vec{e}_2 + z\vec{e}_3\quad\text{for } \theta \in [0, 2\pi], z \in [0, 4].
+        \]
+        \begin{align*}
+            \int_{S_3}\vec{f}\cdot\hvec{n}\,dS &= \int_{S_3}\vec{f}\cdot\vec{e}_r\,dS
+            \intertext{Either convert $\vec{e}_r$ to Cartesian or $\vec{f}$ to cylindrical}
+            &= \int_{S_3}(r\vec{e}_r + z\vec{e}_z) \cdot \vec{e}_r\,dS \\
+            &= \int_{0}^{4}\int_{0}^{2\pi}r\,d\theta dz \\
+            &= 8\pi.
+        \end{align*}
+        So overall,
+        \[
+        \oint_{S}\vec{f}\cdot\hvec{n}\,dS = \int_{S_1}\vec{f}\cdot\hvec{n}\,dS + \int_{S_2}\vec{f}\cdot\hvec{n}\,dS + \int_{S_3}\vec{f}\cdot\hvec{n}\,dS = 12\pi
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}[August $2025$ question $2$(b)]
+    Compute the volume of a solid chocolate egg given by
+    \[
+    \{r < a\cos ^ 3{\theta},\quad\theta \in [0, \pi / 2]\}
+    \]
+    in spherical coordinates,
+    where $a > 0$ is constant.
+
+    \begin{solution}
+        Parametrise in spherical coordinates
+        \[
+        \vec{x}(r, \theta, \phi) = r\sin(\theta)\cos(\phi)\vec{e}_1 + r\sin(\theta)\sin(\phi)\vec{e}_2 + r\cos(\theta)\vec{e}_2
+        \]
+
+        \begin{align*}
+            |V| &= \int_{V}\,dV \\
+            &= \int_{0}^{2\pi}\int_{0}^{\pi / 2}\int_{0}^{a\cos ^ 3\theta}h_rh_{\theta}h_{\phi}\,drd\theta d\phi \\
+            &= \int_{0}^{2\pi}\int_{0}^{\pi / 2}\int_{0}^{a\cos ^ 3\theta}r ^ 2\sin(\theta)\,drd\theta d\phi \\
+            &= \int_{0}^{2\pi}\int_{0}^{\pi / 2}\left[\frac{1}{3}r ^ 3\sin(\theta)\right]_{0}^{a\cos ^ 3\theta}\,d\theta d\phi \\
+            &= \frac{a ^ 3}{3}\int_{0}^{2\pi}\int_{0}^{\pi / 2}\cos ^ 9(\theta)\sin(\theta)\,d\theta d\phi \\
+            &= \frac{a ^ 3}{3}\int_{0}^{2\pi}\left[-\frac{1}{10}\cos ^ {10}(\theta)\right]_{0}^{\pi / 2}\,d\phi \\
+            &= \frac{a ^ 3}{30}\int_{0}^{2\pi}\,d\phi = \frac{\pi a ^ 3}{15}.
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
