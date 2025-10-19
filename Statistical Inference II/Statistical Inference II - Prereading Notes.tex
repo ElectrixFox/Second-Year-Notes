@@ -612,6 +612,155 @@ then rearrange the inequalities inside the probability statement so that $\theta
     \end{proof}
 \end{proposition}
 
+\newpage
+
+\section{Maximum likelihood estimation}
+
+\subsection{Likelihood}
+
+\begin{definition}[Likelihood function]
+    Suppose the data $\vec{X} = [X_1, \dotsc, X_n) ^ T$ have a joint density $f(x_1, \dotsc, x_n; \theta)$ parameterised by a fixed and unknown parameter $\theta$.
+    The likelihood function,
+    $\ell(\theta)$,
+    is the probability
+    (density)
+    of the observed data considered as a function of $\theta$:
+    \[
+    \ell(\theta) = f(\vec{x}; \theta),
+    \]
+    and the log-likelihood function is its logarithm:
+    \[
+    \mathcal{L}(\theta) = \log{\ell(\theta)} = \log{f(\vec{x}; \theta)}.
+    \]
+\end{definition}
+
+\subsection{Maximum likelihood estimation}
+\begin{definition}
+    The maximum likelihood estimate
+    (MLE),
+    $\hat{\theta}_{\text{MLE}}$,
+    for $\theta$ given the data $\vec{x}$is the value of $\theta$ which maximises the likelihood
+    \[
+    \hat{\theta}_{\text{MLE}} = \argmax_{\theta \in \Omega}{\ell(\theta)} = \argmax_{\theta \in \Omega}\mathcal{L}(\theta).
+    \]
+\end{definition}
+
+\begin{proposition}[Properties of the MLE]
+    \begin{enumerate}[label = \arabic*.]
+        \item The MLE obtained from $\ell(\theta)$ is the same as the MLE obtained from $\mathcal{L}(\theta)$,
+        since $\log$ is just a monotone transformation.
+
+        \item Similarly,
+        if $\ell(\theta) = a \times g(\theta) + b$ where $a > 0$,
+        and $b$ are constants,
+        then the $\hat{\theta}$ which maximises $g(\theta)$ also maximises $\ell(\theta)$.
+        Multiplicative and additive constants can be ignored when seeking the MLE.
+
+        \item If $X_1, \dotsc, X_n$ are IID then
+        \begin{align*}
+            \ell(\theta) &= f(x_1, \dotsc, x_n; \theta) = \prod_{i = 1}^{n}f(x_i; \theta), \\
+            \mathcal{L}(\theta) &= \log\prod_{i = 1}^{n}f(x_i; \theta) = \sum_{i = 1}^{n}\log f(x_i; \theta).
+        \end{align*}
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[MLEs for parameters of standard distributions]
+    \begin{enumerate}[label = (\roman*)]
+        \item For $X \sim \Bin(n, \pi)$ where we observe $X = x$ successes,
+        then
+        \[
+        \hat{\pi} = \frac{X}{n}.
+        \]
+
+        \item For $X \sim \Po(\lambda)$ where we observe IID counts $X_1, \dotsc, X_n$,
+        then
+        \[
+        \hat{\lambda} = \bar{X}.
+        \]
+
+        \item For $X \sim \mathcal{N}(\mu, \sigma ^ 2)$ with $\sigma ^ 2$ known and where we observe IID values $X_1, \dotsc, X_n$,
+        then
+        \[
+        \hat{\mu} = \bar{X}.
+        \]
+
+        \item For $X \sim \mathcal{N}(\mu, \sigma ^ 2)$ with $\sigma ^ 2$ unknown and where we observe IID values $X_1, \dotsc, X_n$,
+        then
+        \[
+        \hat{\mu} = \bar{X}, \hat{\sigma} ^ 2 = \frac{1}{n}\sum_{i = 1}^{n}(X_i - \bar{X}) ^ 2 = \frac{n - 1}{n}S ^ 2.
+        \]
+    \end{enumerate}
+\end{proposition}
+
+\newpage
+
+\section{Multiparameter Likelihood}
+
+\subsection{Multiparameter likelihood}
+
+\begin{definition}[Likelihood equation,
+    score function]
+    If $\ell(\theta)$ is differentiable in $\theta \in \Omega$,
+    then we define the score function to be the first derivative of the log-likelihood:
+    \[
+    S(\theta) = \pd{\theta}\mathcal{L}(\theta).
+    \]
+    Then the MLE,
+    $\hat{\theta}$,
+    either lies on the boundary of $\Omega$ or is a solution to the likelihood equation formed by equating the score function with zero:
+    \[
+    S(\hat{\theta}) = \pd{\theta}\mathcal{L}(\theta)\,\biggr|_{\theta = \hat{\theta}} = 0.
+    \]
+\end{definition}
+
+\subsection{Multiparameter maximisation}
+We can define a procedure for maximising multiparameter likelihood,
+this goes as follows.
+For $\vec{\theta} = [\theta_1, \theta_p] ^ T$,
+the likelihood $\ell(\vec{\theta})$ is a function of $p$ parameters with domain $\vec{\theta} \in \Omega$.
+
+Assuming that $\ell(\vec{\theta})$ is continuous and differentiable and has a maximum not on the boundary of $\Omega$,
+then:
+\begin{enumerate}[label = \arabic*.]
+    \item The score function is now a gradient vector
+    \[
+    S(\vec{\theta}) = \pd{\vec{\theta}}\mathcal{L}(\vec{\theta}) = \nabla\mathcal{L}(\vec{\theta}) = \begin{bmatrix}
+        \pd[\mathcal{L}]{\theta_1} \\ \vdots \\ \pd[\mathcal{L}]{\theta_p}
+    \end{bmatrix}.
+    \]
+
+    \item The MLE $\hvec{\theta}$ simultaneously satisfies all $p$ likelihood equations:
+    \[
+    S_{\theta_1}(\vec{\theta}) = \pd{\theta_1}\mathcal{L}(\vec{\theta}) = 0,\quad\dotsc, S_{\theta_p}(\vec{\theta}) = \pd{\theta_p}\mathcal{L}(\vec{\theta}) = 0
+    \]
+    and more compactly
+    \[
+    S(\vec{\theta}) = \pd{\vec{\theta}}\mathcal{L}(\vec{\theta}) = \nabla\mathcal{L}(\vec{\theta}) = \begin{bmatrix}
+        \pd[\mathcal{L}]{\theta_1} \\ \vdots \\ \pd[\mathcal{L}]{\theta_p}
+    \end{bmatrix} = \vec{0}.
+    \]
+
+    \item To verify that $\hvec{\theta}$ is a maximum,
+    we must find the Hessian matrix $\vec{H}$ of second-order partial derivatives
+    \[
+    \vec{H} = \begin{bmatrix}
+        \frac{\partial ^ 2\mathcal{L}}{\partial \theta_1 ^ 2} & \frac{\partial ^ 2\mathcal{L}}{\partial \theta_1\theta_2} & \dotsi & \frac{\partial ^ 2\mathcal{L}}{\partial \theta_1\theta_p} \\
+        \frac{\partial ^ 2\mathcal{L}}{\partial \theta_2\partial\theta_1} & \frac{\partial ^ 2\mathcal{L}}{\partial \theta_2 ^ 2} & \dotsi & \frac{\partial ^ 2\mathcal{L}}{\partial \theta_2\theta_p} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial ^ 2\mathcal{L}}{\partial \theta_p\partial\theta_1} & \frac{\partial ^ 2\mathcal{L}}{\partial \theta_p\partial\theta_2} & \dotsi & \frac{\partial ^ 2\mathcal{L}}{\partial \theta_p ^ 2} = \left[\frac{\partial ^ 2\mathcal{L}}{\partial\theta_i\partial\theta_j}\right]_{ij}
+    \end{bmatrix}
+    \]
+    and determine whether it is negative definite.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
 
 
 
