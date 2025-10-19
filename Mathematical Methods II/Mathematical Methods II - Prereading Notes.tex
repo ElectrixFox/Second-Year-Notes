@@ -318,5 +318,332 @@ The factor $\left|\pd[\vec{x}]{u} \cdot \left(\pd[\vec{x}]{v} \times \pd[\vec{x}
     \end{proof}
 \end{proposition}
 
+\newpage
+
+\section{Differential operators}
+
+\subsection{Differentiating scalar fields}
+
+The gradient of a scalar field $f : \R ^ 3 \to \R$ is the operator
+\[
+\bnabla f \biggr|_{x} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hvec{n}\,dS,
+\]
+where $S$ is a closed surface around $\vec{x}$ with an outward normal $\hvec{n}$,
+enclosed volume $|V|$,
+and diameter $d(S) = \sup_{x, y \in S}|\vec{x} - \vec{y}|$.
+
+\begin{proposition}\label{pre:mathmethII:prop:gradincart}
+    In Cartesian coordinates,
+    \[
+    \bnabla f = \pd[f]{x}\vec{e}_1 + \pd[f]{y}\vec{e}_2 + \pd[f]{z}\vec{e}_3.
+    \]
+\end{proposition}
+
+\begin{lemma}[Mean value theorem for double integrals]
+    If a scalar field $f : \R ^ 2 \to \R$ is continuous on a closed,
+    bounded and connected domain $A \subset \R ^ 2$ then there exists $\vec{x}_{*} \in A$ such that
+    \[
+    \int_{A}f\,dS = |A|f(\vec{x}_{*}).
+    \]
+
+    \begin{proof}
+        Under the given conditions,
+        we know that $f$ attains both its maximum and minimum on $A$,
+        say at some points $\vec{x}_{\text{max}}, \vec{x}_{\text{min}}$.
+        We also know that
+        \begin{equation}\label{pre:mathmethII:eq:eq1}\tag{$\dagger$}
+            |A|f(\vec{x}_{\text{min}}) \leq \int_{A}f\,dS \leq |A|f(\vec{x}_{\text{max}}).
+        \end{equation}
+        Now let $\vec{x}(t)$ parametrise a curve in $A$ such that $\vec{x}(t_0) = \vec{x}_{\text{min}}$ and $\vec{x}(t_1) = \vec{x}_{\text{max}}$,
+        and consider the function
+        \[
+        g(t) = |A|f(\vec{x}(t)).
+        \]
+        This is continuous with $g(t_0) = |A|f(\vec{x}_{\text{min}})$ and $g(t_1) = |A|f(\vec{x}_{\text{max}})$,
+        so by the intermediate value theorem and \eqref{pre:mathmethII:eq:eq1} there exists $t_{*}$ with
+        \[
+        g(t_{*}) = \int_{A}f\,dS.
+        \]
+        Then at $\vec{x}_{*} = \vec{x}(t_{*})$ we have $|A|f(\vec{x}_{*}) = \int_{A}f\,dS$,
+        as required.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}[continues pre:mathmathII:prop:gradincart]
+    \begin{proof}
+        To find the $\vec{e}_1$ component of $\bnabla f$,
+        let $V$ be a small cylinder of radius $\epsilon$ and length $h$,
+        whose axis is the unit vector $\vec{e}_1$.
+        The volume of the cylinder is $|V| = \pi\epsilon ^ 2h$.
+
+        Then
+        \begin{align*}
+            \vec{e}_1 \cdot \bnabla f &= \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\vec{e}_1\cdot\hvec{n}\,dS \\
+            &= \lim_{\epsilon, h \to 0}\frac{1}{\pi\epsilon ^ 2h}\left[\int_{S_1}f\,dS - \int_{S_0}f\,dS\right] &&(\text{since $\vec{e}_1 \cdot \hvec{n} = 0$ on the curved surface}) \\
+            &= \lim_{\epsilon, h \to 0}\frac{1}{\pi\epsilon ^ 2h}\left[\pi \epsilon ^ 2f(\vec{x}_1) - \pi\epsilon ^ 2f(\vec{x}_0)\right]
+        \end{align*}
+        for some $\vec{x}_1 \in S_1$ and $\vec{x}_0 \in S_0$,
+        by the mean value theorem for double integrals.
+        Taking the $\varepsilon$ limit,
+        these points tend to the centre of their faces by the squeezing theorem,
+        so
+        \[
+        \vec{e}_1 \cdot \bnabla f = \lim_{h \to 0}\frac{f(\vec{x} + h\vec{e}_1) - f(\vec{x})}{h} = \pd[f]{x}.
+        \]
+        The other components are obtained analogously.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    In curvilinear coordinates $(u, v, w)$,
+    the gradient has the expression
+    \[
+    \bnabla f = \frac{1}{h_u}\pd[f]{u}\vec{e}_u + \frac{1}{h_v}\pd[f]{v}\vec{e}_v + \frac{1}{h_w}\pd[f]{w}\vec{e}_w.
+    \]
+
+    \begin{proof}
+        This is a consequence of the previous proposition.
+        Note that
+        \[
+        \vec{e}_u \cdot \bnabla f = \left(\frac{1}{h_u}\pd[x]{u}\right) \cdot\bnabla f = \frac{1}{h_u}\left(\pd[x]{u}\pd[f]{x} + \pd[y]{u}\pd[f]{y} + \pd[z]{u}\pd[f]{z}\right) = \frac{1}{h_u}\pd[f]{u},
+        \]
+        where the last step used the chain rule.
+        The $\vec{e}_v$ and $\vec{e}_w$ components are analogous.
+    \end{proof}
+\end{proposition}
+
+\subsection{Differentiating vector fields}
+There are two standard ways to differentiate a vector field $\vec{f} : \R ^ 3 \to \R ^ 3$,
+defined in a similar way to the gradient as follows.
+
+$S$ is a closed surface enclosing $\vec{x}$ with outward normal $\hvec{n}$,
+enclosed volume $|V|$,
+and diameter $d(S)$.
+
+\begin{enumerate}[label = \arabic*.]
+    \item The \textbf{divergence} of $\vec{f}$ is the scalar field
+    \[
+    \bnabla \cdot \vec{f}\,\biggr|_{\vec{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n} \cdot \vec{f}\,dS.
+    \]
+
+    \item The \textbf{curl} of $\vec{f}$ is the vector field
+    \[
+    \bnabla \times \vec{f}\,\biggr|_{\vec{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n} \times \vec{f}\,dS.
+    \]
+\end{enumerate}
+
+Divergence measures whether
+(on average)
+the vector field is pointing outward
+($\bnabla \cdot \vec{f} > 0$)
+or inward
+($\bnabla \cdot \vec{f} < 0$)
+at a particular point.
+
+Curl measures how much
+(on average)
+the vector field at a particular point is rotating around any given axis.
+$\vec{e}_3 \cdot \bnabla \times \vec{f} > 0$ for an anti-clockwise rotation and $\vec{e}_3 \cdot \bnabla \times \vec{f} < 0$ for a clockwise rotation.
+
+\begin{lemma}\label{pre:mathmethII:lem:gradscfldprods}
+    If $\vec{a} \in \R ^ 3$ is a constant vector and $f : \R ^ 3 \to \R$ is a $C ^ {1}$ scalar field,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\bnabla \cdot (f\vec{a}) = (\bnabla f)\cdot \vec{a}$,
+        
+        \item $\bnabla \times (f\vec{a}) = (\bnabla f)\times \vec{a}$.
+    \end{enumerate}
+
+    \begin{proof}
+        These formulae follow from the integral definitions of $\bnabla \cdot \vec{f}$ and $\bnabla \times \vec{f}$.
+        In particular,
+        \[
+        \bnabla \cdot (f\vec{a}) = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}\cdot(f\vec{a})\,dS = \left(\lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hvec{n}\,dS\right) \cdot \vec{a} = (\bnabla f)\cdot\vec{a},
+        \]
+        and
+        \[
+        \bnabla \times (f\vec{a}) = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}\times(f\vec{a})\,dS = \left(\lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hvec{n}\,dS\right) \times \vec{a} = (\bnabla f)\times\vec{a}.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    In Cartesian coordinates,
+    divergence and curl are given by
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \bnabla \cdot \vec{f} = \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}.
+        \]
+
+        \item
+        \[
+        \bnabla \times \vec{f} = \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            \pd{x} & \pd{y} & \pd{z} \\
+            f_1 & f_2 & f_3
+        \end{vmatrix} = \left(\pd[f_3]{y} - \pd[f_2]{z}\right)\vec{e}_1 + \left(\pd[f_1]{z} - \pd[f_3]{x}\right)\vec{e}_2 + \left(\pd[f_2]{x} - \pd[f_1]{y}\right)\vec{e}_3.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Using the previous lemma,
+        we have
+        \begin{align*}
+            \bnabla \cdot \vec{f} &= \bnabla \cdot (f_1\vec{e}_1 + f_2\vec{e}_2 + f_3\vec{e}_3) \\
+            &= \bnabla \cdot (f_1\vec{e}_1) + \bnabla \cdot (f_2\vec{e}_2) + \bnabla \cdot (f_3\vec{e}_3) &&(\text{since the divergence is clearly linear}) \\
+            &= (\bnabla f_1)\vec{e}_1 + (\bnabla f_2)\vec{e}_2 + (\bnabla f_3)\vec{e}_3 \\
+            &= \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z} &&(\text{from definition of the gradient}).
+        \end{align*}
+
+        Using the previous lemma again,
+        we have that
+        \[
+        \bnabla \times (f_1\vec{e}_1) = (\bnabla f_1) \times \vec{e}_1 = \pd[f_1]{y}\vec{e}_2 \times \vec{e}_1 + \pd[f_1]{z}\vec{e}_3 \times \vec{e}_1 = -\pd[f_1]{y}\vec{e}_3 + \pd[f_1]{z}\vec{e}_2.
+        \]
+        The other terms are obtained similarly.
+    \end{proof}
+\end{proposition}
+
+\subsection{Product rules}
+A consequence is that instead of the single product rule from single-variable calculus,
+\begin{proposition}[Product rules]
+    If $f, g : \R ^ 3 \to \R$ are scalar fields,
+    and $\vec{f}, \vec{g} : \R ^ 3 \to \R ^ 3$ are vector fields,
+    all $C ^ {1}$,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\bnabla (fg) \equiv g\bnabla f + f\bnabla g$,
+        
+        \item $\bnabla \cdot (g\vec{f}) \equiv (\bnabla g) \cdot f + g \bnabla \cdot \vec{f}$,
+        
+        \item $\bnabla \cdot (\vec{f} \times \vec{g}) \equiv \vec{g} \cdot (\bnabla \times \vec{f}) - \vec{f}\cdot(\bnabla \times \vec{g})$,
+        
+        \item $\bnabla \cdot (g\vec{f}) \equiv g(\bnabla \times \vec{f}) + (\bnabla g) \times \vec{f}$,
+
+        \item $\bnabla \times (\vec{f} \times \vec{g}) \equiv (\vec{g} \cdot \bnabla)\vec{f} - (\vec{f} \cdot \bnabla)\vec{g} + \vec{f}(\bnabla \cdot \vec{g}) - \vec{g}(\bnabla \cdot \vec{f})$.
+
+        \item $\bnabla (\vec{f} \cdot \vec{g}) \equiv (\vec{g} \cdot \bnabla)\vec{f} + (\vec{f} \cdot \bnabla)\vec{g} + \vec{f} \times (\bnabla \times \vec{g}) + \vec{g} \times (\bnabla \times \vec{f})$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item We use the regular
+            (single-variable)
+            product rule to obtain
+            \begin{align*}
+                \bnabla (fg) &= \pd{x}(fg)\vec{e}_1 + \pd{y}(fg)\vec{e}_2 + \pd{z}(fg)\vec{e}_3 \\
+                &= \left(\pd[f]{x}g + f\pd[g]{x}\right)\vec{e}_1 + \left(\pd[f]{y}g + f\pd[g]{y}\right)\vec{e}_2 + \left(\pd[f]{z}g + f\pd[g]{z}\right)\vec{e}_3 \\
+                &= \left(\pd[f]{x}\vec{e}_1 + \pd[f]{y}\vec{e}_2 + \pd[f]{z}\vec{e}_3\right)g + f\left(\pd[g]{x}\vec{e}_1 + \pd[g]{y}\vec{e}_2 + \pd[g]{z}\vec{e}_3\right) \\
+                &= g\bnabla f + f\bnabla g.
+            \end{align*}
+
+            \item By \autoref{pre:mathmethII:lem:gradscfldprods} we have
+            \begin{align*}
+                \bnabla \cdot (g\vec{f}) &= \bnabla \cdot (gf_1\vec{e}_1 + gf_2\vec{e}_2 + gf_3\vec{e}_3) \\
+                &= \bnabla (gf_1)\cdot\vec{e}_1 + \bnabla (gf_2)\cdot\vec{e}_2 + \bnabla(gf_3)\cdot\vec{e}_3 \\
+                &= f_1\bnabla g \cdot \vec{e}_1 + g\bnabla f_1 \cdot \vec{e}_1 + f_2\bnabla g \cdot \vec{e}_2 + g\bnabla f_2 \cdot \vec{e}_2 + f_3\bnabla g \cdot \vec{e}_3 + g\bnabla f_3 \cdot \vec{e}_3 \\
+                &= (\bnabla g)\cdot(f_1\vec{e}_1 + f_2\vec{e}_2 + f_3\vec{e}_3) + g\left(\pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}\right) \\
+                &= (\bnabla g)\cdot\vec{f} + g\bnabla\cdot\vec{f}.
+            \end{align*}
+
+            \item Evaluating the cross product first gives
+            \begin{align*}
+                \bnabla \cdot (\vec{f} \times \vec{g}) &= \bnabla \cdot \begin{vmatrix}
+                    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                    f_1 & f_2 & f_3 \\
+                    g_1 & g_2 & g_3
+                \end{vmatrix} \\
+                &= \pd{x}(f_2g_3 - f_3g_2) + \pd{y}(f_3g_1 - f_1g_3) + \pd{z}(f_1g_2 - f_2g_1) \\
+                &= g_1\left(\pd[f_3]{y} - \pd[f_2]{z}\right) + g_2\left(\pd[f_1]{z} - \pd[f_3]{z}\right) + g_3\left(\pd[f_2]{x} - \pd[f_1]{y}\right) \\
+                &+ f_1\left(\pd[g_2]{z} - \pd[g_3]{y}\right) + f_2\left(\pd[g_3]{x} - \pd[g_1]{z}\right) + f_3\left(\pd[g_1]{y} - \pd[g_2]{x}\right) \\
+                &= \vec{g}\cdot(\bnabla \times \vec{f}) - \vec{f}\cdot(\bnabla \times \vec{g}).
+            \end{align*}
+
+            \item By \autoref{pre:mathmethII:lem:gradscfldprods},
+            we have
+            \begin{align*}
+                \bnabla \times (g\vec{f}) &= \bnabla \times (gf_1\vec{e}_1 + gf_2\vec{e}_2 + gf_3\vec{e}_3) \\
+                &= \bnabla(gf_1) \times \vec{e}_1 + \bnabla (gf_2) \times \vec{e}_2 + \bnabla(gf_3)\times \vec{e}_3 \\
+                &= \pd{y}(gf_1)\vec{e}_2 \times \vec{e}_1 + \pd{z}(gf_1)\vec{e}_3 \times \vec{e}_1 + \pd{x}(gf_2)\vec{e}_1 \times \vec{e}_2 + \pd{z}(gf_2)\vec{e}_3 \times \vec{e}_2 \\
+                &+ \pd{x}(gf_3)\vec{e}_1 \times \vec{e}_3 + \pd{y}(gf_3)\vec{e}_2 \times \vec{e}_3 \\
+                &= -\pd{y}(gf_1)\vec{e}_3 + \pd{z}(gf_1)\vec{e}_2 + \pd{x}(gf_2)\vec{e}_3 - \pd{z}(gf_2)\vec{e}_1 - \pd{x}(gf_3)\vec{e}_2 + \pd{y}(gf_3)\vec{e}_1 \\
+                &= g\left[\left(\pd[f_3]{y} - \pd[f_2]{z}\right)\vec{e}_1 + \left(\pd[f_1]{z} - \pd[f_3]{x}\right)\vec{e}_2 + \left(\pd[f_2]{x} - \pd[f_1]{y}\right)\vec{e}_3\right] \\
+                &\left(\pd[g]{y}f_3 - \pd[g]{z}f_2\right)\vec{e}_1 + \left(\pd[g]{z}f_1 - \pd[g]{x}f_3\right)\vec{e}_2 + \left(\pd[g]{x}f_2 - \pd[g]{y}f_1\right)\vec{e}_3 \\
+                &= g(\bnabla \times \vec{f}) + (\bnabla g) \times \vec{f}.
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\subsection{Divergence and curl in curvilinear coordinates}
+
+\begin{proposition}
+    In orthogonal curvilinear coordinates $(u, v, w)$,
+    the divergence and curl are given by
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \bnabla \cdot \vec{f} = \frac{1}{h_uh_vh_w}\left[\pd{u}(h_vh_wf_u) + \pd{v}(h_uh_wf_v) + \pd{w}(h_uh_vf_w)\right].
+        \]
+        
+        \item
+        \[
+        \bnabla \times \vec{f} = \frac{1}{h_uh_vh_w}\begin{vmatrix}
+            h_u\vec{e}_u & h_v\vec{e}_v & h_w\vec{e}_w \\
+            \pd{u} & \pd{v} & \pd{w} \\
+            h_uf_u & h_vf_v & h_wf_w
+        \end{vmatrix}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        First,
+        note from \autoref{pre:mathmethII:lem:gradscfldprods} that $\bnabla v = \frac{1}{h_v}\vec{e}_v$,
+        so $\vec{e}_v = h_v\bnabla v$,
+        and similarly $\vec{e}_w = h_w\bnabla w$.
+
+        For the first part,
+        note using orthogonality followed by the product rules,
+        we get
+        \begin{align*}
+            \bnabla \cdot (f_u\vec{e}_u) &= \bnabla \cdot (f_u\vec{e}_v \times \vec{e}_w) \\
+            &= \bnabla \cdot (f_uh_vh_w \bnabla v \times \bnabla w) \\
+            &= \bnabla \cdot (f_uh_vh_w) \cdot \bnabla v \times \bnabla w + f_uh_vh_w\bnabla \cdot (\bnabla v \times \bnabla w) \\
+            &= \bnabla \cdot (f_uh_vh_w) \cdot \bnabla v \times \bnabla w + f_uh_vh_w\bnabla \cdot (v \bnabla w]) \\
+            &= \bnabla \cdot (f_uh_vh_w) \cdot \bnabla v \times \bnabla w \\
+            &= \bnabla \cdot (f_uh_vh_w) \cdot \frac{\vec{e}_v \times \vec{e}_w}{h_vh_w} \\
+            &= \frac{1}{h_vh_w}\vec{e}_u \cdot \bnabla(f_uh_vh_w) \\
+            &= \frac{1}{h_uh_vh_w}\pd{u}(h_vh_wf_u).
+        \end{align*}
+        The other components are similar.
+
+        For the second part,
+        we use $\vec{e}_u = h_u\bnabla u$ and the product rules to find
+        \begin{align*}
+            \bnabla \times (f_u\vec{e}_u) &= \bnabla \times (f_uh_u \bnabla u) \\
+            &= \bnabla(f_uh_u) \times \bnabla u + f_uh_u\bnabla \times \bnabla u \\
+            &= \bnabla (f_uh_u) \times \bnabla u \\
+            &= \frac{1}{h_u}\bnabla(f_uh_u) \times \vec{e}_u \\
+            &= \frac{1}{h_u}\bnabla(f_uh_u) \times (\vec{e}_v \times \vec{e}_w) \\
+            &= \frac{1}{h_u}\vec{e}_v[\vec{e}_w \cot \bnabla(f_uh_u)] - \vec{e}_w(\vec{e}_v \times \bnabla(f_uh_u) \\
+            &= \frac{1}{h_uh_w}\pd{w}(h_uf_u)\vec{e}_v - \frac{1}{h_uh_v}\pd{v}(h_uf_u)\vec{e}_w.
+        \end{align*}
+        The penultimate step used the vector triple product identity.
+        The other components are similar.
+    \end{proof}
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
