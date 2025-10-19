@@ -687,7 +687,130 @@ When $\deg{f} \leq 4$ there are some useful methods to see if $f(x)$ is irreduci
     \end{proof}
 \end{proposition}
 
+\subsection{Irreducible polynomials in \texorpdfstring{$\Q[x]$}{} and \texorpdfstring{$\Z[x]$}{}}
 
+\begin{proposition}
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$ with $\deg{f} \geq 1$.
+    If $f(p / q) = 0$,
+    where $p, q \in \Z$ and $\gcd(p, q) = 1$,
+    then
+    \[
+    p \mid a_0\quad\text{and}\quad q \mid a_n.
+    \]
+
+    \begin{proof}
+        We have
+        \[
+        f(p / q) = a_0 + a_1(p / q) + \dotsi + a_n(p / q) ^ n = 0.
+        \]
+        Multiply both sides by $q ^ n$ and take out a factor of $p$:
+        \[
+        p(a_1q ^ {n - 1} + a_npq ^ {n - 2} +  \dotsi + a_np ^ {n - 1}) = -a_0q ^ n.
+        \]
+        Thus $p \mid (a_0q ^ n)$,
+        but $\gcd(p, q) = 1$,
+        so $p \mid a_0$.
+
+        Now shift the leading term of $f(p / q)$ to the RHS and multiply by $q ^ n$,
+        we get
+        \[
+        q(a_0q ^ {n - 1} + \dotsi + a_{n - 1}p ^ {n - 1}) = -a_np ^ n.
+        \]
+        Thus $q \mid (a_np ^ n)$,
+        and so $q \mid a_n$.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[Gauss's lemma]
+    Let $f(x) \in \Z[x]$ with $\deg{f} \geq 1$ be such that the GCD of all its coefficients is $1$.
+    Then $f(x)$ is irreducible in $\Z[x]$ if and only if it is irreducible in $\Q[x]$.
+
+    \begin{proof}
+        $\impliedby$:
+        Assume that $f(x)$ is irreducible in $\Q[x]$.
+        Let $f(x) = g(x)h(x)$ for some $g(x), h(x) \in \Z[x]$.
+        If $\deg{g} \geq 1$ and $\deg{h} \geq 1$,
+        then we would also have a proper factorisation in $\Q[x]$,
+        violating irreducibility.
+        Thus either $\deg{g} = 0$ or $\deg{h} = 0$;
+        say it's $g$.
+        Then $g(x) \in \Z$.
+        If $g(x) \neq \pm 1$,
+        then there will exist a prime number $p \in \Z$ dividing $g(x)$ and thus $f(x)$.
+        But then $p$ divides all the coefficients of $f(x)$,
+        violating that the GCD is $1$.
+        Thus $g(x) = \pm 1$
+        (a unit in $\Z[x]$),
+        so that $f(x)$ is irreducible in $\Z[x]$.
+
+        $\implies$:
+        We prove the contrapositive,
+        assume that $f(x)$ is reducible in $\Q[x]$ and want to prove that it is reducible in $\Z[x]$.
+        Assume thus that $f(x) = g(x)h(x)$ for some $g(x), h(x) \in \Q[x]$ with $\deg{g} \geq 1$ and $\deg{h} \geq 1$.
+
+        By clearing denominators in $g(x)$ and $h(x)$,
+        we get
+        \[
+        df(x) = g_1(x)h_1(x),
+        \]
+        for some $d \in \Z$ and $g_1(x), h_1(x) \in \Z[x]$.
+        Let $a$ be the GCD of all the coefficients of $g_1(x)$ and $b$ the GCD of all the coefficients of $h_1(x)$.
+        Then
+        \[
+        g_1(x) = a\tilde{g}_1(x),\quad\text{and}\quad h_1(x) = b\tilde{h}_1(x),
+        \]
+        where $\tilde{g}_1(x) \in \Z[x]$ has GCD of its coefficients equal to $1$ and similarly for $\tilde{h}_1(x)$.
+        Then
+        \begin{equation}\label{pre:algII:eq:eq1}\tag{*}
+            df(x) = ab\cdot\tilde{g}_1(x)\tilde{h}_1(x)
+        \end{equation}
+        where $\deg{\tilde{g}_1}, \tilde{h}_1 \geq 1$.
+
+        The idea now is to show that $d \mid ab$ so that,
+        after cancelling,
+        $f(x) = c\tilde{g}_1(x)\tilde{h}_1(x)$ for some $c \in \Z$ and hence that $f(x)$ is reducible in $\Z[x]$.
+        We do this by showing:
+
+        \textit{Claim}.
+        There is no prime $p$ that divides every coefficient of $\tilde{g}_1(x)\tilde{h}_1(x)$.
+        Assume towards contradiction that there is such a $p$.
+        Write
+        \[
+        \tilde{g}_1(x) = a_0 + a_1x + \dotsi + a_mx ^ m\quad\text{and}\quad\tilde{h}_1(x) = b_0 + b_1x + \dotsi + b_nx ^ n.
+        \]
+        As no prime divides all the coefficients of $\tilde{g}_1(x)$,
+        there exists a coefficient that is not divisible by $p$.
+        Let $a_i$ the first such,
+        that is,
+        with minimal $i$,
+        so that $p \nmid a_i$ but $p \mid a_k$ for $k < i$.
+        Similarly,
+        pick $b_j$ so that $p \nmid b_j$ but $p \mid b_k$ for $k < j$.
+
+        The coefficient of $x ^ {i + j}$ in the expansion of $\tilde{g}_1(x)\tilde{h}_1(x)$ is
+        \[
+        a_0b_{i + j} + a_1b_{i + j - 1} + \dotsi + a_{j - 1}b_{j + 1} + a_ib_j + a_{i + 1}b_{j - 1} + \dotsi + a_{i + j}b_0.
+        \]
+        By our choice of $i$ and $j$,
+        $p$ divides every term in the sum except $a_ib_j$.
+        Thus $p$ does not divide the coefficient of $x ^ {i + j}$;
+        contradiction.
+
+        Now let $q$ be a prime dividing $d$ in \eqref{pre:algII:eq:eq1}.
+        By the above claim there is a coefficient $c_i$ of $\tilde{g}_1(x)\tilde{h}_1(x)$ that is not divisible by $q$.
+        By \eqref{pre:algII:eq:eq1},
+        $q \mid abc_i$ since $q \mid d$.
+        Thus $q \mid ab$.
+        We can then cancel $q$ on both sides of \eqref{pre:algII:eq:eq1} since $\Z[x]$ is an integral domain.
+        By repeating the process finitely many times,
+        we can cancel all the prime factors of $d$ so that \eqref{pre:algII:eq:eq1} becomes
+        \[
+        \pm f(x) = c\tilde{g}_1(x)\tilde{h}_1(x),
+        \]
+        for some $c \in \Z$.
+        This means that $f(x)$ is not irreducible in $\Z[x]$.
+    \end{proof}
+\end{theorem}
 
 
 
