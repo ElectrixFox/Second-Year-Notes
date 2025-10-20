@@ -846,7 +846,7 @@ The crucial fact we need about irreducible elements in $\Z$ and $F[x]$ is:
     \end{proof}
 \end{lemma}
 
-\begin{theorem}
+\begin{theorem}\label{algII:thm:existfactorisation}
     Let $R$ be $\Z$ or $F[x]$,
     $F$ a field,
     and let $a \in R$ be a non-zero element.
@@ -1083,12 +1083,266 @@ We can say exactly when $\Z / n$ is an integral domain.
         Contradiction.
 
         Conversely,
-        
+        suppose $n$ is a prime and that $\bar{a} \in \Z / n$ is a zero divisor.
+        Then $\exists \bar{b} \neq \bar{0}$ such that $\bar{a}\bar{b} = \bar{0}$.
+        Thus $n \mid ab$,
+        so $n \mid a$ or $n \mid b$
+        (as $n$ is a prime).
+        In other words,
+        $\bar{a} = \bar{0}$ or $\bar{b} = \bar{0}$.
+        Hence $\bar{a} = \bar{0}$ because $\bar{b} \neq \bar{0}$.
+        Thus $\bar{0}$ is the only zero divisor,
+        so $\Z / n$ is an integral domain.
     \end{proof}
 \end{lemma}
 
+\begin{proposition}
+    If $R$ is an integral domain,
+    then $R[x]$ is also an integral domain.
 
+    \begin{proof}
+        $R[x]$ is commutative and $1 \neq 0$,
+        by definition.
+        Need to show that $R[x]$ has no non-zero divisors.
+        Assume opposite,
+        i.e. $\exists f(x), g(x) \in R[x]$,
+        $f(x) \neq 0$,
+        $g(x) \neq 0$ such that $f(x)g(x) = 0$.
+        Write
+        \begin{align*}
+            f(x) &= a_0 + \dotsi + a_mx ^ m, && m = \deg{f}, && a_m \neq 0 \\
+            g(x) &= b_0 + \dotsi + b_nx ^ n, && n = \deg{g}, && b_n \neq 0.
+        \end{align*}
+        If we expand $f(x)g(x)$,
+        the leading term
+        (of degree $n + m$)
+        is $a_mb_nx ^ {n + m}$.
+        $f(x)g(x) = 0 \implies a_mb_n = 0$,
+        but $a_m \neq 0$ and $b_n \neq 0$ and $R$ an integral domain gives a contradiction.
+    \end{proof}
+\end{proposition}
 
+\subsection{Prime elements and Unique Factorisation Domains
+    (UFDs)}
+The property captured in \autoref{algII:lem:genirrediff} has its own definition:
+
+\begin{definition}
+    Let $R$ be a commutative ring.
+    An element $x \in R$ is called prime
+    (or a prime element)
+    if:
+    \begin{enumerate}[label = (\roman*)]
+        \item $x \neq 0$ and $x \notin R ^ {\times}$
+        (not a unit).
+
+        \item If $x \mid ab$,
+        $a, b \in R$,
+        then $x \mid a$ or $x \mid b$.
+    \end{enumerate}
+\end{definition}
+
+The usual definition of a prime number in $\Z$ is a positive irreducible element.
+By \autoref{algII:lem:genirrediff},
+an irreducible element in $\Z$ or $F[x]$ is prime.
+For the other direction,
+we have something more general:
+
+\begin{lemma}\label{algII:lem:integthenprimeirred}
+    Let $R$ be an integral domain and $x \in R$ a prime element.
+    Then $x$ is irreducible.
+
+    \begin{proof}
+        Note that $x \neq 0$ and not a unit,
+        by definition.
+        Assume $x = ab$,
+        $a, b \in R$.
+
+        Need:
+        $a$ is a unit or $b$ is a unit.
+        By definition,
+        since $x \mid ab$,
+        $x \mid a$ or $x \mid b$.
+        Without loss of generality,
+        assume $x \mid a$.
+        Then,
+        $a = rx$,
+        for some $r \in R$ and so
+        \[
+        x = rxb = xrb.
+        \]
+        Since $R$ is an integral domain,
+        we can cancel $x$ on both sides.
+        $1 = rb$.
+        So $b$ is a unit and $x = ab$ is not a proper factorisation.
+    \end{proof}
+\end{lemma}
+
+\begin{example}\label{algII:examp:irrednotprime}
+    Consider the ring $\Z[\sqrt{-5}] = \{a + b\sqrt{-5} \mid a, b \in \Z\}$.
+    We have a function:
+    \[
+    N : \Z[\sqrt{-5}] \to \Z,\quad N(a + b\sqrt{-5}) = a ^ 2 + 5b ^ 2.
+    \]
+    Thus $N(xy) = (xy)(\overline{xy}) = x\bar{x}y\bar{y} = N(x)N(y)$.
+
+    We show that $2$ is irreducible.
+    If $2 = (x + y\sqrt{-5})(z + w\sqrt{-5})$,
+    $x, y, z, w \in \Z$ then
+    \[
+    N(2) = 4 = N(x + y\sqrt{-5})N(z + w\sqrt{-5}),
+    \]
+    so $N(x + y\sqrt{-5}) = x ^ 2 + 5y ^ 2$ divides $4$,
+    hence equals $1, 2$ or $4$
+    (it cannot be less than $0$).
+    If $x ^ 2 + 5y ^ 2 = 1$,
+    $y = 0$
+    (if $y \neq 0$,
+    then $|y| \geq 1$,
+    so $|x ^ 2 + 5y ^ 2| > 1$)
+    $x = \pm 1$,
+    $x + y\sqrt{-5} = \pm 1$ is a unit.
+
+    $x ^ 2 + 5y ^ 2$,
+    $y = 0$,
+    $x ^ 2 = 2$,
+    impossible as $x \in \Z$.
+
+    $x ^ 2 + 5y ^ 2 = 4$,
+    $y = 0$,
+    $x ^ 2 = 4$,
+    so $x = \pm 2$
+    \[
+    2 = \pm 2(z + w\sqrt{-5}) \implies 1 = \underbrace{\pm(z + w\sqrt{-5})}_{\text{is a unit}}.
+    \]
+    Hence $2$ is irreducible.
+    But $2$ is not a prime element,
+    as $2 \mid (1 - \sqrt{-5})(1 + \sqrt{-5})$,
+    but $2 \nmid 1 \pm \sqrt{-5}$,
+    because if it did $1 \pm \sqrt{-5} = 2(a + b\sqrt{-5}) = 2a + 2b\sqrt{-5}$ which would imply $1 = 2a$,
+    $a \in \Z$,
+    impossible.
+    
+    In a sense,
+    the failure of irreducible elements being prime is due to the fact that $\Z[\sqrt{-5}]$ lacks unique factorisation:
+    \[
+    (1 + \sqrt{-5})(1 - \sqrt{-5}) = 6 = 2 \cdot 3.
+    \]
+    To show that these are two genuinely different factorisations,
+    we also need none of the irreducible factors is a unit times another.
+\end{example}
+
+\begin{definition}
+    An integral domain $R$ is called a Unique Factorisation Domain
+    (UFD)
+    if every non-zero non-unit can be written as a product of irreducible elements and this product is unique up to order of the factor and units.
+\end{definition}
+
+Examples of UFDs $\Z$ and $F[x]$ by \autoref{algII:thm:existfactorisation}.
+Looking carefully at the proof of \autoref{algII:thm:existfactorisation},
+we see that the essential ingredient has the degree function $d$,
+such that we have division with remainder \autoref{algII:prop:genremdiv}.
+
+Integral domains possessing such a degree function are called Euclidean domains.
+Examples include:
+$\Z[i]$
+(the Gaussian integers)
+or $\Z[\pm\sqrt{2}]$.
+
+Thus every Euclidean Domain
+(ED)
+is a UFD.
+
+We have seen that $\Z[\sqrt{-5}]$ is not a UFD,
+hence is not an ED.
+
+In an integral domain,
+prime implies irreducible \autoref{algII:lem:integthenprimeirred}.
+By \autoref{algII:examp:irrednotprime} the converse is not true.
+However,
+in a question on a problem sheet we will show that in a UFD,
+then the converse is true,
+i.e.,
+for a UFD prime is equivalent to irreducible.
+
+\newpage
+
+\section{Factorisation of polynomials}
+Let $F$ be a field.
+We have seen in a previous section that non-constant polynomials in $F[x]$ factor uniquely into irreducibles,
+i.e.,
+$F[x]$ is a UFD.
+
+Just like factoring integers into prime numbers has many applications to pure Maths and cryptography,
+factoring polynomials has applications,
+both in e.g.
+Galois Theory,
+Algebraic geometry,
+Coding,
+polynomials equations and eigenvalues of matrices,
+etc.
+
+Note $x ^ 2 + 1 \in \R[x]$ is irreducible but $x ^ 2 + 1 \in \C[x]$,
+is not irreducible,
+so it is important to say in which ring an element is irreducible.
+
+\subsection{Irreducible polynomials in \texorpdfstring{$F[x]$}{},
+\texorpdfstring{$F$}{} a field}
+If $f(x) \in F[x]$ such that $\deg{f} \leq 4$,
+then there are useful ways of deciding whether $f(x)$ is irreducible.
+
+\begin{proposition}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item If $\deg{f} = 1$,
+        then $f(x)$ is irreducible.
+
+        \item If $\deg{f} = 2$ or $3$,
+        then $f(x)$ is irreducible if and only if $f(x)$ has no roots in $F$.
+
+        \item If $\deg{f} = 4$ then $f(x)$ is irreducible if and only if it has no roots in $F$ and it is not a product of two quadratic polynomials
+        (i.e.,
+        of degree $2$).
+    \end{enumerate}
+
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item \phantom{}
+
+            \item Let $\alpha \in F$ be a root of $f(x)$.
+            Write
+            \[
+            f(x) = q(x)(x - \alpha) + r(x),\qquad \deg{r} < 1.
+            \]
+            Setting $x = \alpha$:
+            $0 = r(\alpha)$.
+            But $r$ is a constant,
+            hence $r(x) = 0$.
+            Thus $x - \alpha$ is a factor of $f(x)$,
+            so $f(x)$ is not irreducible.
+
+            Conversely,
+            if $f(x)$ is not irreducible,
+            then $f(x) = g(x)h(x)$,
+            $\deg{g} \geq 1$,
+            $\deg{h} \geq 1$.
+            But then,
+            $\deg{f} = \deg{g} + \deg{h}$,
+            so we must have either $\deg{g} = 1$ or $\deg{h} = 1$.
+            Without loss of generality,
+            say $\deg{g} = 1$,
+            so $g(x) = ax + b$,
+            $a \neq 0$.
+            Hence,
+            \[
+            g(-b / a) = 0 \implies f(-b / a) = 0
+            \]
+            so $f(x)$ has the root $-b / a \in F$.
+
+            \item As in (ii),
+            but no roots implies no degree $1$ factor and so if the degree is $4$,
+            there is no degree $3$ factor.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
 
 
 
