@@ -812,6 +812,82 @@ When $\deg{f} \leq 4$ there are some useful methods to see if $f(x)$ is irreduci
     \end{proof}
 \end{theorem}
 
+\begin{lemma}\label{pre:algII:lem:xirreduunituxirred}
+    Let $R$ be a commutative ring,
+    let $x \in R$ be irreducible and $u \in R ^ {\times}$ a unit.
+    Then $ux$ is irreducible.
+
+    \begin{proof}
+        To prove $ux$ is irreducible we need to show it is not a unit.
+        If it were,
+        then there would exist a $v \in R$ such that $vux = 1$,
+        but then $x$ would be a unit,
+        which it is not.
+        Secondly,
+        we need to show that if $ux = ab$ for some $a, b \in R$,
+        then $a$ or $b$ is a unit.
+        If $ux = ab$,
+        then $x = a(bu ^ {-1})$,
+        so either $a$ or $bu ^ {-1}$ is a unit.
+        If $bu ^ {-1}$ is a unit,
+        then $b$ is a unit,
+        so either $a$ or $b$ is a unit,
+        and so $ux$ is irreducible.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}[Eisenstein's criterion]
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$,
+    and let $p \in \Z$ be a prime such that $p \mid a_0, p \mid a_1, \dotsc, p \mid a_{n - 1}$ and $p \nmid a_n$ and $p ^ 2 \nmid a_0$.
+    Then $f(x)$ is irreducible in $\Q[x]$.
+
+    \begin{proof}
+        If $d = \gcd(a_0, \dotsc, a_n) \neq 1$,
+        let $b_i \coloneqq a_i / d$.
+        Then
+        \[
+        \tilde{f}(x) \coloneqq f(x) / d = b_0 + \dotsc + b_nx ^ n \in \Z[x],
+        \]
+        and $\gcd(b_0, \dotsc, b_n) = 1$.
+        If we can show that $\tilde{f}(x)$ is irreducible in $\Q[x]$,
+        then \autoref{pre:algII:lem:xirreduunituxirred} implies that $f(x)$ is irreducible.
+        Note that since $p \nmid a_n$,
+        we have $p \nmid d$,
+        so $p \mid b_0, p \mid b_1, \dotsc, p \mid b_{n - 1}$ and $p \nmid b_n$ and $p ^ 2 \nmid b_0$.
+
+        Assume that $\tilde{f}(x)$ is not irreducible in $\Q[x]$.
+        Then,
+        by Gauss's lemma,
+        $\tilde{f}(x) = g(x)h(x)$,
+        for some $g(x), h(x) \in \Z[x]$ with $\deg{g}, \deg{h} \geq 1$.
+        Now reduce both sides modulo $p$.
+        We have
+        \[
+        \overline{\tilde{f}(x)} = \bar{g}(x)\bar{h}(x) = \bar{b}_0 + \dotsi + \bar{b}_nx ^ n = \bar{b}_nx ^ n,
+        \]
+        since $\bar{b}_0 = \dotsi = \bar{b}_{n - 1} = \bar{0}$.
+        Write
+        \begin{align*}
+            \bar{g}(x) &= \bar{\alpha}_0 + \dotsi + \bar{\alpha}_mx ^ m, && m = \deg{\bar{g}}, &&\bar{\alpha}_m \neq 0, \\
+            \bar{h}(x) &= \bar{\beta}_0 + \dotsi + \bar{\beta}_kx ^ k, && k = \deg{\bar{h}}, &&\bar{\beta}_k \neq 0.
+            \intertext{Then}
+            \bar{g}(x)\bar{h}(x) &= \bar{\alpha}_0\bar{\beta}_0 + \bar{\alpha}_0\bar{\beta}_kx ^ k + \bar{\beta}_0\bar{\alpha}_mx ^ m + \dotsi + \bar{\alpha}_m\bar{\beta}_kx ^ {m + k} \\
+            &= \bar{b}_nx ^ n.
+        \end{align*}
+        Comparing terms,
+        we get $\bar{\alpha}_0\bar{\beta}_0 = \bar{0}$.
+        Since $\Z / p$ is a field,
+        either $\bar{\alpha}_0 = \bar{0}$ or $\bar{\beta}_0 = \bar{0}$,
+        say it's $\bar{\alpha}_0$.
+        Then we also get $\bar{\beta}_0\bar{\alpha}_m = \bar{0}$.
+        But $\bar{\alpha}_m \neq 0$,
+        so $\bar{\beta}_0 = \bar{0}$.
+        This means that $p \mid \alpha_0$ and $p \mid \beta_0$,
+        so that $p ^ 2 \mid \alpha_0\beta_0$.
+        But $b_0 = \alpha_0\beta_0$ and $p ^ 2 \nmid b_0$;
+        a contradiction.
+    \end{proof}
+\end{proposition}
 
 
 
