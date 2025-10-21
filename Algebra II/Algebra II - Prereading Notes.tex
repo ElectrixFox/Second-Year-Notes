@@ -889,11 +889,171 @@ When $\deg{f} \leq 4$ there are some useful methods to see if $f(x)$ is irreduci
     \end{proof}
 \end{proposition}
 
+\newpage
 
+\section{Homomorphisms}
 
+\subsection{Examples and definition}
 
+\begin{definition}
+    If $R$ and $S$ are rings,
+    a function $f : R \to S$ is called a homomorphism if for all $a, b \in R$ we have:
+    \begin{enumerate}[label = (\roman*)]
+        \item $f(1) = 1$
+        (i.e.,
+        the identity in $R$ is mapped to the one in $S$)
 
+        \item $f(a + b) = f(a) + f(b)$,
 
+        \item $f(ab) = f(a)f(b)$.
+    \end{enumerate}
+\end{definition}
+
+The kernel is defined as
+\[
+\ker{f} \coloneqq \{a \in R\mid f(a) = 0\} \subseteq R,
+\]
+the image is
+\[
+\Im{f} \coloneqq \{f(a) \mid a \in R\} \subseteq S.
+\]
+
+\begin{lemma}
+    Let $f : R \to S$ be a homomorphism of rings.
+    Then
+    \begin{enumerate}[label = (\roman*)]
+        \item $f(0) = 0$.
+
+        \item For all $a \in R$ we have $f(-a) = -f(a)$.
+    \end{enumerate}
+
+    \begin{proof}
+        We have
+        \[
+        f(0) = f(0 + 0) = f(0) + f(0),
+        \]
+        cancelling $f(0)$ on both sides gives us $f(0) = 0$.
+
+        The next claim is equivalent to $f(-a) + f(a) = 0$.
+        By the additive property of $f$,
+        this is equivalent to
+        \[
+        f(-a + a) = f(0) = 0.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Let
+    \[
+    S = \left\{\begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix}\,\middle|\,a, b \in \R\right\}.
+    \]
+    This is a subring of $M_2(\R)$:
+    Clearly $0, 1 \in S$ and $S$ is closed under addition and negatives.
+    For multiplication,
+    we have
+    \[
+    \begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix}\begin{pmatrix}
+        c & -d \\ d & c
+    \end{pmatrix} = \begin{pmatrix}
+        ac - bd & -ad - bc \\ ad + bc & ac - bd
+    \end{pmatrix} \in S.
+    \]
+    It is also easy to see that $S$ is commutative.
+    We link $S$ with the ring of complex numbers by means of a homomorphism.
+    Define a map $f : \C \to S$ by
+    \[
+    f(a + bi) = \begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix},\qquad\text{for any } a, b \in \R.
+    \]
+    Let's show that $f$ is a homomorphism.
+    Identity:
+    \[
+    f(1) = \begin{pmatrix}
+        1 & 0 \\ 0 & 1
+    \end{pmatrix}.
+    \]
+    Additivity:
+    \begin{align*}
+        f((a + bi) + (c + di)) &= f(a + c + (b + d)i) \\
+        &= \begin{pmatrix}
+            a + c & -b - d \\ b + d & a + c
+        \end{pmatrix} = \begin{pmatrix}
+            a & -b \\ b & a
+        \end{pmatrix} + \begin{pmatrix}
+            c & -d \\ d & c
+        \end{pmatrix} \\
+        &= f(a + bi) + f(c + di).
+    \end{align*}
+    Multiplicativity:
+    \begin{align*}
+        f((a + bi)(c + di)) &= f(ac - bd + (ad + bc)i) \\
+        &= \begin{pmatrix}
+            ac - bd & -ad - bc \\ ad + bc & ac - bd
+        \end{pmatrix},
+        \intertext{and}
+        f(a + bi)f(c + di) = \begin{pmatrix}
+            a & -b \\ b & a
+        \end{pmatrix}\begin{pmatrix}
+            c & -d \\ d & c
+        \end{pmatrix},
+    \end{align*}
+    which we calculated above,
+    and it equals $f((a + bi)(c + di))$.
+    Now,
+    it happens that  $f$ is bijective.
+    This can be shown by finding an inverse $f ^ {-1}$ of $f$.
+    In this case,
+    it is clear:
+    \[
+    f ^ {-1}\begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix} = a + bi.
+    \]
+\end{example}
+
+\begin{definition}
+    We say that two rings $R$ and $S$ are isomorphic if there exists a bijective homomorphism
+    (called an isomorphism)
+    between them and we then write $R \cong S$.
+\end{definition}
+
+\begin{lemma}
+    A homomorphism $f : R \to S$ is injective if and only if $\ker{f} = 0$.
+
+    \begin{proof}
+        Assume $f$ is injective.
+        This means $f(x) = f(y) \implies x = y$,
+        for all $x, y \in R$.
+        Choosing $y = 0$,
+        we obtain $f(x) = 0 \implies x = 0$,
+        which means that if $x \in \ker(f)$ then $x = 0$,
+        that is,
+        $\ker{f} = 0$.
+        On the other hand,
+        if $\ker(f) = 0$,
+        then $f(x) = f(y) \implies f(x) - f(y) = f(x - y) = 0 \implies x - y = 0 \implies x = y$,
+        so $f$ is injective.
+    \end{proof}
+\end{lemma}
+
+\subsection{Products of rings and projections}
+If we have two rings $R$ and $S$ we can construct a new ring called the
+(direct)
+product of $R$ and $S$.
+Denoted $R \times S$ because as a set it is the Cartesian product of $R$ and $S$.
+Its binary operations are defined as follows:
+\begin{align*}
+    (r, s) + (r', s') &\coloneqq (r + r', s + s'), \\
+    (r, s)(r', s') &\coloneqq (rr', ss').
+\end{align*}
+It is clear that $(1, 1) \in R \times S$ is the identity element.
+The other conditions for being a ring follow immediately from those for $R$ and $S$.
 
 
 
