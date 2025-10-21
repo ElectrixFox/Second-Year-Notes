@@ -1448,14 +1448,340 @@ A confidence interval for $\mu$ when $\sigma ^ 2$ is unknown:
     The $t$ CI is wider since $t ^ {*} > Z ^ {*}$ to reflect the extra uncertainty from estimating $\sigma ^ 2$.
 \end{example}
 
+\newpage
 
+\section{Likelihood}
+Goal:
+Find a general method to find estimates
+(and confidence intervals)
+in arbitrary problems.
 
+\subsection{Likelihood}
+\begin{example}
+    Toss a coin $3$ times.
+    \[
+    \P(\text{Heads}) = \pi
+    \]
+    unknown -
+    but either $\pi = \frac{1}{3}$ or $\pi = \frac{2}{3}$.
+    Observe $X = \text{Number of heads}$,
+    $X \sim \Bin(3, \pi)$.
+    See $x = 2$ heads -
+    what can we say about $\pi$?
+    $\pi \neq 0$,
+    $\pi \neq 1$.
 
+    $\pi > \frac{1}{2}$ seems more plausible than $\pi < \frac{1}{2}$ favour $\pi = \frac{2}{3}$?
 
+    More rigorously:
+    Once observed,
+    the data are constant.
+    So,
+    consider the probability
+    (density)
+    of the sample as a function of the parameter
+    \[
+    \P(X = 2; \pi) = \left(\frac{3}{2}\right)\pi ^ 2(1 - \pi).
+    \]
+    Compare:
+    \[
+    \P(X = 2; \pi = 1 / 3) = \frac{2}{9}\quad\text{vs}\quad\P(X = 2, \pi = 2 / 3) = \frac{4}{9}
+    \]
+    implies we prefer $\pi = \frac{2}{3}$.
+\end{example}
 
+\begin{definition}
+    Let $X_1, \dotsc, X_n$ have a joint pdf/pmf,
+    $f$,
+    with same parameter $\theta \in \Omega$.
+    Given observations $x_1, \dotsc, x_n$ we define the likelihood function of $\theta$ as:
+    \[
+    \ell(\theta) = f(x_1, \dotsc, x_n; \theta)
+    \]
+    and the log-likelihood function:
+    \[
+    \mathcal{L}(\theta) = \log{\ell(\theta)}.
+    \]
+\end{definition}
 
+\subsection{Maximum Likelihood Estimation}
+Key idea:
+Use $\ell(\theta)$ or $\mathcal{L}(\theta)$ to compare values of $\theta$,
+and find the "best" value of $\theta$ that makes the observed data "most likely".
 
+\begin{definition}
+    The $\theta$ which maximises $\ell(\theta)$ over $\Omega$ is the maximum likelihood estimate
+    (MLE)
+    $\hat{\theta}$:
+    \[
+    \hat{\theta} = \hat{\theta}(x_1, \dotsc, x_n) = \argmax{\ell(\theta)}_{\theta \in \Omega}\footnotemark.
+    \]
+    \footnotetext{The argument which maximises $\theta$.}
+\end{definition}
 
+$\hat{\theta}$ is a maximum
+(turning point)
+of $\ell$ in $\Omega$.
+or it lies on the boundary of $\Omega$.
+
+This gives us a general method to find estimators for any distribution.
+
+\begin{proposition}[Properties of the MLE]\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item The maximising $\hat{\theta}$ for $\ell(\theta)$ is the same $\hat{\theta}$ which maximises $\mathcal{L}(\theta)$.
+
+        \item Similarly,
+        the $\hat{\theta}$ for $\ell(\theta)$ is the same $\hat{\theta}$ as for $a + b\ell(\theta)$,
+        $b > 0$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}
+    General binomial MLE:
+    $X \sim \Bin(n, \pi)$,
+    observe $X = x$ successes in $n$ trials.
+    \[
+    \ell(\pi) = \binom{n}{x}\pi ^ x(1 - \pi) ^ {n - x}.
+    \]
+    Need to maximise for $\pi$.
+
+    Use log-likelihood
+    \begin{align*}
+        \mathcal{L}(\pi) &= \log\binom{n}{x} + x\log{\pi} + (n - x)\log(1 - \pi) \\
+        \mathcal{L}'(\pi) &= \pd[\mathcal{L}]{\pi} = \frac{x}{\pi} - \frac{n - x}{1 - \pi}.
+        \intertext{At $\pi = \hat{\pi}$:}
+        0 &= \mathcal{L}'(\hat{\pi}) = \frac{x}{\hat{\pi}} - \frac{n - x}{1 - \hat{\pi}} \iff (n - x)\hat{\pi} = x(1 - \hat{\pi)} \\
+        &\iff n\hat{\pi} = x \\
+        &\iff \hat{\pi} = \frac{x}{n}.
+    \end{align*}
+    Check maximum:
+    $\mathcal{L}''(\hat{\pi}) = -\frac{x}{\hat{\pi} ^ 2} - \frac{n - x}{(1 - \hat{\pi}) ^ 2} < 0$,
+    so maximum.
+
+    We can also find:
+    \[
+    \E(\hat{\pi}) = \E\left(\frac{x}{n}\right) = \frac{\E(X)}{n} = \frac{n\pi}{n} = \pi
+    \]
+    so unbiased.
+
+    \[
+    \Var(\hat{\pi}) = \frac{1}{n ^ 2}\Var(X) = \frac{1}{n ^ 2}n\pi(1 - \pi) = \frac{\pi(1 - \pi)}{n} \to 0\text{ as } n \to \infty
+    \]
+    it is consistent.
+
+    The MLE has good statistical properties.
+\end{example}
+
+When the data are an IID sample,
+$\ell(\theta)$ and $\mathcal{L}(\theta)$ simplify
+\begin{align*}
+    \ell(\theta) &= f(x_1, \dotsc, x_n; \theta) = \prod_{i = 1}^{n}f(x_i; \theta). \\
+    \mathcal{L}(\theta) &= \log{f(x_1, \dotsc, x_n; \theta)} = \sum_{i = 1}^{n}\log{f(x_i; \theta)}.
+\end{align*}
+
+\begin{example}
+    Let $Y_1, \dotsc, Y_n$ be an IID sample form $\Po(\lambda)$,
+    it is an IID sample so
+    \begin{align*}
+        \ell(\lambda) &= \prod_{i = 1}^{n}\P(Y_i = y_i; \lambda) \\
+        &= \prod_{i = 1}^{n}\frac{e ^ {\lambda}\lambda ^ {y_i}}{y_i!} \\
+        &= \frac{e ^ {-n\lambda}\lambda ^ {\sum_i y_i}}{\prod_{i = 1}^{n}y_i!}
+        \intertext{Use $\mathcal{L}(\lambda)$}
+        \mathcal{L}(\lambda) &= \log{e ^ {-n\lambda}} + \log{\lambda ^ {\sum_i y_i}} - \log\left(\prod_{i = 1}^{n}y_i!\right) \\
+        &= -n\lambda + \left(\sum_i y_i\right)\log{\lambda} - \log\left(\prod_{i = 1}^{n}y_i!\right) \\
+        \mathcal{L}'(\lambda) &= -n + \frac{\sum_i y_i}{\lambda}
+        \intertext{At $\lambda = \hat{\lambda}$}
+        0 &= \mathcal{L}'(\hat{\lambda}) \\
+        &= -n + \frac{\sum_i y_i}{\lambda} \implies \hat{\lambda} = \frac{\sum_i y_i}{n} = \bar{y}.
+    \end{align*}
+    (check maximum:
+    $\mathcal{L}''(\hat{\lambda}) = -\frac{n\bar{y}}{\lambda ^ 2} < 0$)
+    \begin{align*}
+        \E(\hat{\lambda}) &= \E(\hat{Y}) = \lambda \\
+        \Var(\hat{\lambda}) &= \Var(\bar{Y}) = \frac{\lambda}{n}.
+    \end{align*}
+\end{example}
+
+\begin{example}
+    Data $X_1, \dotsc, X_n$ IID $N(\mu, \sigma ^ 2)$.
+    Suppose $\sigma ^ 2 > 0$ known -
+    find MLE $\hat{\mu}$.
+    \begin{align*}
+        \ell(\mu) &= \prod_{i = 1}^{n}\frac{1}{\sqrt{2\pi \sigma ^ 2}}\exp\left\{-\frac{1}{2\sigma ^ 2}(x_i - \mu) ^ 2\right\} \\
+        &= (2\pi\sigma ^ 2) ^ {-n / 2}\exp\left\{-\frac{1}{2\sigma ^ 2}\sum_{i = 1}^{n}(x_i - \mu) ^ 2\right\} \\
+        \mathcal{L}(\mu) &= \log{\ell(\mu)} \\
+        &= \text{constant} -\frac{1}{2\sigma ^ 2}\sum_{i = 1}^{n}(x_i - \mu) ^ 2 \\
+        \intertext{$\hat{\mu}$ maximises $\mathcal{L}(\mu)$ for $\mu \in \R$},
+        \mathcal{L}'(\mu) &= -\frac{1}{\sigma ^ 2}\sum_{i = 1}^{n}(x_i - \mu) \\
+        &= \frac{1}{\sigma ^ 2}(n\bar{x} - n\mu)
+    \end{align*}
+    Setting $\mathcal{L}'(\mu) = 0$ implies $\hat{\mu} = \bar{x}$
+    (check $\mathcal{L}''(\hat{\mu}) = -n / \sigma ^ 2 < 0$)
+\end{example}
+
+\begin{proposition}[Standard MLEs]
+    $X \sim \Bin(n, \pi)$,
+    observed $X = x$,
+    $\hat{\pi} = \frac{x}{n}$.
+
+    $X \sim \Po(\lambda)$,
+    observed IID $X_1 = x_1, \dotsc, X_n = x_n$:
+    $\hat{\lambda} = \bar{x}$.
+
+    $X \sim N(\mu, \sigma ^ 2)$,
+    observed IID $x_1, \dotsc, x_n$:
+    $\hat{\mu} = \bar{x}$,
+    $\hat{\sigma} ^ 2 = \frac{(n - 1)}{n}S ^ 2$
+\end{proposition}
+
+\textit{Note:
+in general the MLE is not guaranteed to exist or be unique,
+e.g. $\ell(\theta)$ could be flat,
+or have many maxima.}
+
+\newpage
+
+\section{Multi-parameter likelihood}
+With $p > 1$ parameters,
+$\vec{\theta}$ becomes a vector and $\ell(\vec{\theta})$ is now a function of $p$ parameters.
+
+Question:
+$X \sim N(\mu, \sigma ^ 2)$ -
+how do we find $\hat{\mu}$ and $\hat{\sigma} ^ 2$?
+
+To do this:
+re-phrase the problem.
+
+\begin{definition}
+    For $\ell(\theta)$ continuous and differentiable with $\vec{\theta} \in \Omega$,
+    the score function is the first derivative of $\mathcal{L}(\theta)$ with respect to $\theta$:
+    \[
+    S(\theta) = \pd{\theta}\mathcal{L}(\theta).
+    \]
+\end{definition}
+
+The MLE $\hat{\theta}$ either lies on the boundary of $\Omega$,
+or is a solution to the likelihood equation:
+\[
+S(\hat{\theta}) = \pd{\theta}\mathcal{L}(\theta)\,\biggr|_{\theta = \hat{\theta}} = 0.
+\]
+
+This has been our approach so far,
+but when $\theta$ is a vector we get a set of $p$ likelihood equations
+(one per parameter):
+\begin{align*}
+    S_{\theta_1}(\hvec{\theta}) &= \pd{\theta_1}\mathcal{L}(\hat{\theta}) = 0 \\
+    &\vdots \\
+    S_{\theta_p}(\hvec{\theta}) &= \pd{\theta_p}\mathcal{L}(\hat{\theta}) = 0
+\end{align*}
+$\vec{S}(\vec{\theta}) = \nabla f(\hvec{\theta}) = \vec{0}$.
+
+The MLE $\hvec{\theta}$ must satisfy all of the likelihood equations simultaneously.
+To verify $\hat{\theta}$ is a maximum,
+we need the Hessian matrix of second partial derivatives:
+\[
+H(\vec{\theta}) = \left[\frac{\partial ^ 2\mathcal{L}}{\partial \theta_i\partial\theta_j}\right]_{ij}
+\]
+to be negative definite at $\hvec{\theta}$.
+$(\vec{x} ^ TH\vec{x} < 0$ for all $\vec{x}$,
+i.e. all the eigenvalues are less than zero).
+
+\begin{example}[Opinion polling for elections]
+    Suppose data can fall into one of $k$ mutually exclusive classes $C_1, \dotsc, C_k$,
+    with constant probabilities $p_1, \dotsc, p_k$.
+
+    In a sample size $n$,
+    observe $Y_1, \dotsc, Y_k$ counts for classes $C_1, \dotsc, C_k$.
+    \[
+    \vec{Y} = [Y_1, \dotsc, Y_k] ^ T \sim \mathrm{Multinomial}\left(n, \vec{p} = [p_1, \dotsc, p_k] ^ T\right).
+    \]
+    $p_i \in [0, 1]$,
+    $\sum p_i = 1$,
+    $\sum Y_i = n$.
+
+    \[
+    \P(\vec{Y} = \vec{y}) = \frac{n!}{y_1!y_2!\dotsi y_k!}p_1 ^ {y_1}p_2 ^ {y_2} \dotsi p_k ^ {y_k}\qquad k = 2 \to \Bin(n, p).
+    \]
+    Find $\hvec{p}$!
+    Note $\sum_{i = 1}^{k}p_i = 1$,
+    so we want
+    \begin{equation}\label{statsinfII:eq:eq3}\tag{*}
+        \sum_{i = 1}^{n}\hat{p}_i = 1
+    \end{equation}
+    this implies only $(k - 1)$ free parameters.
+    So,
+    let $p_k = 1 - p_1 - p_2 - \dotsc - p_{k - 1}$.
+    \begin{align*}
+        \ell(\vec{p}) &= kp_1 ^ {y_1} \dotsi p_k ^ {y_k} \\
+        \mathcal{L}(\vec{p}) &= \log{k} + y_1\log{p_1} + \dotsc + y_k\log{p_k} \\
+        &= \log{k} + \sum_{i = 1}^{k - 1}y_i\log{p_i} + y_k\log(\underbrace{1 - p_1 - \dotsc - p_{k - 1}}_{p_k})
+    \end{align*}
+    $(k - 1)$ parameters implies $k - 1$ derivatives/likelihood equations:
+    \[
+    \pd[\mathcal{L}]{p_i} = \frac{y_i}{p_i} - \frac{y_k}{p_k}\qquad\text{for } i = 1, \dotsc, k - 1.
+    \]
+    Set to $0$ and solve:
+    \begin{equation}\label{statsinfII:eq:eq4}\tag{**}
+        \frac{y_i}{\hat{p}_i} = \frac{y_k}{\hat{p}_k} \implies \hat{p}_i = \frac{y_i}{y_k}\hat{p}_k\qquad i = 1, \dotsc, k - 1.
+    \end{equation}
+    Now what?
+    Use \eqref{statsinfII:eq:eq3}
+    \[
+    \sum_{i = 1}^{k}\hat{p}_i = 1.
+    \]
+    \begin{align*}
+        1 &= \hat{p}_1 + \dotsc + \hat{p}_{k - 1} + \hat{p}_k \\
+        1 - \hat{p}_k &= \hat{p}_1 + \dotsc + \hat{p}_{k - 1} \\
+        &= \sum_{i = 1}^{k - 1}\frac{y_i}{y_k}\hat{p}_k \\
+        &= \frac{\hat{p}_k}{y_k}\sum_{i = 1}^{k - 1}y_i \\
+        &= \frac{\hat{p}_k}{y_k}(n - y_k) \\
+        y_k - \hat{p}_ky_k &= \hat{p}_kn - \hat{p}_ky_k \\
+        \hat{p}_k &= \frac{y_k}{n}.
+        \intertext{Back to \eqref{statsinfII:eq:eq4}}
+        \hat{p}_i &= \hat{p}_k\frac{y_i}{y_k} \\
+        &= \frac{y_k}{n}\frac{y_i}{y_k} \\
+        &= \frac{y_i}{n}.
+    \end{align*}
+    Compare to $Y \sim \Bin(n, \pi)$ and $\hat{\pi} = \frac{y}{n}$.
+\end{example}
+
+\begin{example}
+    Normal $\vec{\theta} = \begin{bmatrix}
+        \mu \\ v = \sigma ^ 2
+    \end{bmatrix}$ unknown.
+
+    \begin{align*}
+        \ell(\vec{\theta}) = \ell(\mu, v) &= \frac{1}{(2\pi v) ^ {n / 2}}\exp\left\{-\frac{1}{2v}\sum_{i = 1}^{n}(x_i - \mu) ^ 2\right\} \\ \\
+        \mathcal{L}(\vec{\theta}) &= -\frac{n}{2}\log(2\pi v) - \frac{1}{2v}\sum_{i = 1}^{n}(x_i - \mu) ^ 2 \\
+        &= -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log{v} - \frac{1}{2v}\sum_{i}(x_i - \mu) ^ 2.
+    \end{align*}
+    Derivatives
+    \begin{align*}
+        \pd[\mathcal{L}]{\mu} &= \frac{n}{v}(\bar{x} - \mu) \\
+        \pd[\mathcal{L}]{v} &= -\frac{n}{2v} - \frac{1}{2v ^ 2}\sum_{i}(x_i - \mu) ^ 2.
+    \end{align*}
+    Solve simultaneously:
+    \[
+    \frac{n}{\hat{v}}(\bar{x} - \hat{\mu}) = 0\qquad\text{and}\qquad -\frac{n}{2\hat{v}} - \frac{1}{2\hat{v} ^ 2}\sum_{i = 1}^{n}(x_i - \hat{\mu}) ^ 2 = 0
+    \]
+    \[
+    \sigma ^ 2 = v > 0 \implies \hat{v} > 0 \implies \hat{\mu} = \bar{x}.
+    \]
+    \begin{align*}
+        -\frac{n}{2\hat{v}} + \frac{1}{2\hat{v} ^ 2}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ 2 &= 0 \\
+        - n\hat{v} + \sum_{i}(x_i - \bar{x}) ^ 2 & = 0 \\
+        \hat{v} &= \frac{1}{n}\sum_{i}(x_i - \bar{x}) ^ 2 = \frac{(n - 1)}{n}S ^ 2.
+    \end{align*}
+    Biased estimator for $\sigma ^ 2$.
+    Check maximum:
+    \[
+    H = \begin{bmatrix}
+        -\frac{n}{\hat{v}} & 0 \\
+        0 & -\frac{n}{2\hat{v} ^ 2}
+    \end{bmatrix}
+    \]
+    which is negative definite and $\hat{\theta}$ is maximum.
+\end{example}
 
 
 
