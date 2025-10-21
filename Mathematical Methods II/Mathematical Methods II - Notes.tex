@@ -957,11 +957,310 @@ The volume of $V$ is $|V| = \int_{V}\,dV$.
     \]
 \end{remark}
 
+\newpage
 
+\section{Differential Operators}
 
+\subsection{Differentiating Scalar Fields}
 
+The gradient of a scalar field $f : \R ^ 3 \to \R$ is the operator
+\[
+\bnabla f\,\biggr|_{\vec{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\hvec{n}\,dS
+\]
+where $S$ is a closed surface around $\vec{x}$ with outward normal $\hvec{n}$,
+enclosed volume $|V|$ and diameter $d(S) = \sup_{\vec{x}, \vec{y} \in S}|\vec{x} - \vec{y}|$.
 
+Note:
+\begin{enumerate}[label = (\roman*)]
+    \item $\bnabla f$ is a vector field $\R ^ 3 \to \R ^ 3$.
 
+    \item $\bnabla f$ points in the direction of fastest increase of $f$,
+    and $|\bnabla f|$ tells you the maximum rate of increase.
 
+    \item To ensure the limit exists,
+    usually $f$ is continuously differentiable
+    ($C ^ {1}$)
+    meaning $\pd[f]{x}$,
+    $\pd[f]{y}$,
+    $\pd[f]{z}$ all exist and are continuous.
+\end{enumerate}
+
+\begin{proposition}\label{mathmethII:prop:gradincart}
+    In Cartesian coordinates,
+    $\bnabla f = \pd[f]{x}\vec{e}_1 + \pd[f]{y}\vec{e}_2 + \pd[f]{z}\vec{e}_3$.
+\end{proposition}
+
+\begin{example}
+    Calculate the gradient of $f(\vec{x}) = y + x ^ 2$.
+    \[
+    \bnabla f = \pd{x}(y + x ^ 2)\vec{e}_1 + \pd{y}(y + x ^ 2)\vec{e}_2 + \pd{z}(y + x ^ 2)\vec{e}_2 = 2x\vec{e}_1 + \vec{e}_2.
+    \]
+\end{example}
+
+\begin{lemma}[Mean Value Theorem for Double Integrals]
+    If $f : \R ^ 3 \to \R$ is a continuous scalar field on a closed,
+    bounded and connected domain $A \subset \R ^ 2$ then there exists $\vec{x}_{*} \in A$ such that
+    \[
+    \int_{A}f\,dS = |A|f(\vec{x}_{*}).
+    \]
+
+    \begin{proof}
+        Under the given conditions,
+        we know that $f$ attains its maximum and minimum on $A$,
+        say at $\vec{x}_{\text{max}}$ and $\vec{x}_{\text{min}}$.
+        Also
+        \[
+        |A|f(\vec{x}_{\text{min}}) \leq \int_{A}f\,dS \leq |A|f(\vec{x}_{\text{max}}).
+        \]
+        Now let $\vec{x}(t)$ for $t \in [t_0, t_1]$ be a curve in $A$ such that
+        \[
+        \vec{x}(t_0) = \vec{x}_{\text{min}},\quad\vec{x}(t_1) = \vec{x}_{\text{max}}.
+        \]
+        Let $g(t) = |A|f(\vec{x}(t))$ so $g(t_0) = |A|f(\vec{x}_{\text{min}})$,
+        $g(t_1) = |A|f(\vec{x}_{\text{max}})$.
+        Since $g$ is continuous,
+        the Intermediate Value Theorem shows that there exists $t_{*} \in [t_0, t_1]$ such that $g(t_{*}) = \int_{A}f\,dS$.
+
+        Then at $\vec{x}_{*} = \vec{x}(t_{*})$ we have $|A|f(\vec{x}_{*}) = \int_{A}f\,dS$.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}[continues = mathmethII:prop:gradincart]
+    \begin{proof}
+        We derive the $\vec{e}_1$ component.
+        Let $S$ be a small cylinder radius $\epsilon$,
+        length $h$,
+        axis $\vec{e}_1$.
+
+        \begin{align*}
+            \vec{e}_1 \cdot \bnabla f &= \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}f\vec{e}_1\cdot\hvec{n}\,dS \\
+            &= \lim_{\epsilon, h \to 0}\frac{1}{\pi \epsilon ^ 2h}\left[\int_{S_1}f\,dS + \int_{S_0}f(-1)\,dS\right]&&(\text{no contribution on curved surface $(\vec{e}_1 \cdot \hvec{n} = 0$)}) \\
+            &= \lim_{\epsilon, h \to 0}\frac{1}{\pi \epsilon ^ 2 h}\left[\pi\epsilon ^ 2 f(\vec{x}_1) - \pi\epsilon ^ 2f(\vec{x}_0)\right] &&(\text{by the mean value theorem}) \\
+            &= \lim_{\epsilon, h \to 0}\frac{1}{h}\left[f(\vec{x}_1) - f(\vec{x}_0)\right].
+        \end{align*}
+        Taking limit $\epsilon \to 0$,
+        we find $\vec{x}_0 \to \vec{x}$ and $\vec{x}_1 \to \vec{x} + h\vec{e}_1$.
+        So
+        \begin{align*}
+            \vec{e}_1 \cdot \bnabla f &= \lim{h \to 0}\frac{1}{h}\left[f(\vec{x} + h\vec{e}_1) - f(\vec{x})\right] = \pd[f]{x}\,\biggr|_{\vec{x}}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    In curvilinear coordinates $(u, v, w)$,
+    \[
+    \bnabla f = \frac{1}{h_u}\pd[f]{u}\vec{e}_u + \frac{1}{h_v}\pd[f]{v}\vec{e}_v + \frac{1}{h_w}\pd[f]{w}\vec{e}_w.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \vec{e}_u \cdot \bnabla f &= \left(\frac{1}{h_u}\pd[\vec{x}]{u}\right)\cdot\bnabla f \\
+            &= \frac{1}{h_u}\left(\pd[x]{u}\vec{e}_1 + \pd[y]{u}\vec{e}_2 + \pd[z]{u}\vec{e}_3\right)\cdot\left(\pd[f]{x}\vec{e}_1 + \pd[f]{y}\vec{e}_2 + \pd[f]{z}\vec{e}_3\right) \\
+            &= \frac{1}{h_u}\left(\pd[x]{u}\pd[f]{x} + \pd[y]{u}\pd[f]{y} + \pd[z]{u}\pd[f]{z}\right) \\
+            &= \frac{1}{h_u}\pd[f]{u}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Compute $\bnabla z$ in both Cartesian and spherical coordinates.
+
+    \begin{solution}
+        In Cartesian coordinates:
+        \[
+        \bnabla z = \pd[z]{x}\vec{e}_1 + \pd[z]{y}\vec{e}_2 + \pd[z]{z}\vec{e}_3 = \vec{e}_3.
+        \]
+
+        In spherical coordinates:
+        recall $z = r\cos{\theta}$,
+        so
+        \[
+        \bnabla(r\cos{\theta}) = \frac{1}{h_r}\pd{r}(r\cos{\theta})\vec{e}_r + \frac{1}{h_{\theta}}\pd{\theta}(r\cos{\theta})\vec{e}_{\theta} + \frac{1}{h_{\phi}}\pd{\phi}(r\cos{\theta})\vec{e}_{\phi} = \cos(\theta)\vec{e}_r - \sin(\theta)\vec{e}_{\theta}\footnotemark.
+        \]
+        \footnotetext{This is the same as $\vec{e}_3$ in spherical coordinates.}
+    \end{solution}
+\end{example}
+
+\begin{remark}
+    $\bnabla f$ extends the scalar fields in any $\R ^ n$,
+    always giving a vector in $\R ^ n$.
+\end{remark}
+
+\subsection{Differentiating Vector Fields}
+There are two standard ways to differentiate a vector field $\vec{f} : \R ^ 3 \to \R ^ 3$
+($\vec{f}$ assumed $C ^ {1}$):
+
+\begin{enumerate}[label = (\roman*)]
+    \item Divergence
+    (scalar field)
+    \[
+    \bnabla \cdot \vec{f}\,\biggr|_{\vec{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}\cdot \vec{f}\,dS.
+    \]
+
+    \item Curl
+    (vector field)
+    \[
+    \bnabla \times \vec{f}\,\biggr|_{\vec{x}} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n} \times \vec{f}\,dS
+    \]
+\end{enumerate}
+$S$ is a closed surface around $\vec{x}$ with outward normal $\hvec{n}$,
+enclosed volume $|V|$ and diameter $d(S)$.
+
+Intuition for divergence -
+measures how much $\vec{f}$ points outward/inward
+(on average):
+$\bnabla \vec{f} > 0$,
+$\vec{f}$ is pointing away from $\vec{x}$.
+$\bnabla \vec{f} < 0$,
+$\vec{f}$ is pointing towards $\vec{x}$.
+
+Intuition for curl -
+measures how much $\vec{f}$ rotates around each axis:
+$\vec{e}_3 \cdot (\bnabla \times \vec{f}) > 0$,
+$\vec{f}$ is rotating anti-clockwise,
+$\vec{e}_3 \cdot (\bnabla \times \vec{f}) < 0$,
+$\vec{f}$ is rotating clockwise.
+
+\begin{lemma}\label{mathmethII:lem:ctcrssscalareq}
+    If $\vec{a} \in \R ^ 3$ is a constant vector and $f : \R ^ 3 \to \R$ is a $C ^ {1}$ scalar field,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\bnabla \cdot (f\vec{a}) = (\bnabla f)\cdot \vec{a}$.
+
+        \item $\bnabla \times (f\vec{a}) = (\bnabla f)\times \vec{a}$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \begin{align*}
+                \bnabla \cdot (f\vec{a}) &= \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}\cdot(f\vec{a})\,dS \\
+                &= \left(\lim_{d(S) \to 0}\frac{1}{|V|}\hvec{n}f\,dS\right)\cdot \vec{a} \\
+                &= (\bnabla f) \cdot\vec{a}.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \bnabla \times (f\vec{a}) &= \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}\times (f\vec{a})\,dS \\
+                &= \left(\lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}f\,dS\right) \times \vec{a} \\
+                &= (\bnabla f)\times\vec{a}.
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    In Cartesian coordinates,
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \bnabla \cdot \vec{f} = \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}.
+        \]
+
+        \item
+        \[
+        \bnabla \times \vec{f} = \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            \pd{x} & \pd{y} & \pd{z} \\
+            f_1 & f_2 & f_3
+        \end{vmatrix} = \left(\pd[f_3]{y} - \pd[f_2]{z}\right)\vec{e}_1 + \left(\pd[f_1]{z} - \pd[f_3]{x}\right)\vec{e}_2 +\left(\pd[f_2]{x} - \pd[f_1]{y}\right)\vec{e}_3.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \begin{align*}
+                \bnabla \cdot \vec{f} &= \bnabla \cdot (f_1\vec{e}_1 + f_2\vec{e}_2 + f_3\vec{e}_3) \\
+                &= \bnabla \cdot (f_1\vec{e}_1) + \bnabla \cdot (f_2\vec{e}_2) + \bnabla \cdot (f_3\vec{e}_3) \\
+                &= (\bnabla f_1) \cdot \vec{e}_1 + (\bnabla f_2) \cdot \vec{e}_2 + (\bnabla f_3)\cdot \vec{e}_3 \\
+                &= \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \bnabla \times (f_1\vec{e}_1) &= (\bnabla f_1)\times \vec{e}_1 \\
+                &= \left(\pd[f_1]{x}\vec{e}_1 + \pd[f_1]{y}\vec{e}_2 + \pd[f_1]{z}\vec{e}_3\right) \times \vec{e}_1 \\
+                &= \pd[f_1]{x}\vec{e}_1 \times \vec{e}_1 + \pd[f_1]{y}\vec{e}_2 \times \vec{e}_1 + \pd[f_1]{z}\vec{e}_3 \times \vec{e}_1 \\
+                &= -\pd[f_1]{y}\vec{e}_3 + \pd[f_1]{z}\vec{e}_2
+            \end{align*}
+            (similar for $f_2\vec{e}_2$ and $f_3\vec{e}_3$).
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+Note:
+\begin{enumerate}[label = (\roman*)]
+    \item The above shows that divergence and curl are differential operators.
+
+    \item Justifies dot and cross notation,
+    thinking of $\bnabla\  \text{"$=$"}\  \vec{e}_1\pd{x} + \vec{e}_2\pd{y} + \vec{e}_3\pd{z}$
+\end{enumerate}
+
+\begin{example}
+    Compute the divergence and curl of the vector fields $\vec{f}(\vec{x}) = -\vec{x}$ and $\vec{g}(\vec{x}) = (y - x)\vec{e}_1 - (x + y)\vec{e}_2$.
+
+    \begin{solution}
+        Using a previous proposition
+        \begin{align*}
+            \bnabla \cdot \vec{f} &= \pd{x}(-x) + \pd{y}(-y) + \pd{z}(-z) = -3. \\
+            \bnabla \cdot \vec{g} &= \pd{x}(y - x) + \pd{y}(-x - y) + \pd{z}(0) = -2.
+            \intertext{They are both inward pointing.}
+            \bnabla \times \vec{f} &= \begin{vmatrix}
+                \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                \pd{x} & \pd{y} & \pd{z} \\
+                -x & -y & -x
+            \end{vmatrix} = \left[\pd{y}(-z) - \pd{z}(-y)\right]\vec{e}_1 + \left[\pd{z}(-x) - \pd{x}(-z)\right]\vec{e}_2 + \left[\pd{x}(-y) - \pd{y}(-x)\right]\vec{e}_3 = \vec{0}. \\
+            \bnabla \times \vec{g} &= \begin{vmatrix}
+                \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                \pd{x} & \pd{y} & \pd{z} \\
+                y - x & -x - y & 0
+            \end{vmatrix} = \left[\pd{y}(0) - \pd{z}(-x - y)\right]\vec{e}_1 + \left[\pd{z}(y - x) - \pd{x}(0)\right]\vec{e}_2 + \left[\pd{x}(-x - y) - \pd{y}(y - x)\right]\vec{e}_3 = -2\vec{e}_3.
+        \end{align*}
+        So $\vec{f}$ has no rotation and $\vec{g}$ has clockwise rotation around the $\vec{e}_3$ axis.
+    \end{solution}
+\end{example}
+
+Note:
+\begin{enumerate}[label = (\roman*)]
+    \item If a vector field is $2$D
+    (only $\vec{e}_2$ and $\vec{e}_2$ components and independent of $z$),
+    then it never has $\vec{e}_1$ or $\vec{e}_2$ components of curl.
+
+    \item In general,
+    for non-linear vector fields,
+    divergence and curl will not be constant in space.
+\end{enumerate}
+
+\begin{corollary}
+    If $f : \R ^ 3 \to \R$ is a scalar field and $\vec{f} : \R ^ 3 \to \R ^ 3$ is a vector field,
+    both with continuous second
+    (partial)
+    derivatives,
+    then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\bnabla \cdot (\bnabla \times \vec{f}) = 0$.
+
+        \item $\bnabla \times (\bnabla f) = \vec{0}$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \begin{align*}
+                \bnabla \cdot (\bnabla \times \vec{f}) &= \pd{x}\left(\pd[f_3]{y} - \pd[f_2]{z}\right) + \pd{y}\left(\pd[f_1]{z} - \pd[f_3]{x}\right) + \pd{z}\left(\pd[f_2]{x} - \pd[f_1]{y}\right) \\
+                &= \frac{\partial ^ 2f_3}{\partial x\partial y} - \frac{\partial ^ 2f_2}{\partial x\partial z} + \frac{\partial ^ 2f_1}{\partial y\partial z} - \frac{\partial ^ 2f_3}{\partial y\partial x} + \frac{\partial ^ 2f_2}{\partial z\partial x} - \frac{\partial ^ 2f_1}{\partial z\partial y} \\
+                &= 0.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \bnabla \times (\bnabla f) &= \left(\frac{\partial ^ 2f}{\partial y\partial z} - \frac{\partial ^ 2f}{\partial z\partial y}\right)\vec{e}_1 + \left(\frac{\partial ^ 2f}{\partial z\partial x} - \frac{\partial ^ 2f}{\partial x\partial z}\right)\vec{e}_2 + \left(\frac{\partial ^ 2f}{\partial x\partial y} - \frac{\partial ^ 2f}{\partial y\partial x}\right)\vec{e}_3 \\
+                &= \vec{0}.
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{corollary}
 
 \end{document}
