@@ -423,7 +423,7 @@ which we will do later in a general setting including also $F[x]$,
 $F$ a field,
 one needs an important property of primes:
 
-\begin{lemma}
+\begin{lemma}\label{algII:lem:primedivmultthendivfacts}
     If $p$ is a prime and $p \mid ab$,
     $a, b \in \Z$,
     then $p \mid a$ or $p \mid b$
@@ -1344,15 +1344,275 @@ then there are useful ways of deciding whether $f(x)$ is irreducible.
     \end{proof}
 \end{proposition}
 
+\subsection{Irreducible polynomials in \texorpdfstring{$\Q[x]$}{} and \texorpdfstring{$\Z[x]$}{}}
+First,
+note that to check whether $f(x) \in \Q[x]$ is irreducible has a root $\alpha \in \Q$ such that $f(\alpha) = 0$,
+then it is enough to clear the denominators,
+i.e.,
+multiply $f(x)$ by some $d \in \Z$
+(e.g. the product of all the denominators of coefficients of $f(x)$)
+and check whether $df(x) \in \Z[x]$ has a root.
 
+\begin{proposition}[The rational root test]
+    Let $f(x) = a_0 + a_1x + \dotsc + a_nx ^ n \in \Z[x]$ with $\deg{f} \geq 1$.
+    If $f(p / q) = 0$,
+    $p, q \in \Z$,
+    $\gcd(p, q) = 1$,
+    then $p \mid a_0$ and $q \mid a_n$.
 
+    \begin{proof}
+        We have
+        \begin{equation}\label{algII:eq:eq2}\tag{*}
+            f(p / q) = a_0 + a_1\frac{p}{q} + \dotsc + a_n\left(\frac{p}{q}\right) ^ n = 0.
+        \end{equation}
+        Multiply by $q ^ n$ and take out a factor of $p$:
+        \[
+        p(a_1q ^ {n - 1} + a_2pq ^ {n - 2} + \dotsc + a_np ^ {n - 1}) = -a_0q ^ n.
+        \]
+        Thus $p \mid a_0q ^ n$,
+        hence $p\nmid q ^ n$
+        (as $\gcd(p, q) = 1$),
+        $p \mid a_0$.
 
+        Now shift the leading term of \eqref{algII:eq:eq2} to the RHS and multiply by $q ^ n$,
+        \[
+        q(a_0q ^ {n - 1} + \dotsc + a_{n - 1}p ^ {n - 1}) = -a_np ^ n.
+        \]
+        Thus $q \mid a_np ^ n$,
+        hence
+        (since $\gcd(p, q) = 1$),
+        $q \mid a_n$.
+    \end{proof}
+\end{proposition}
+Careful $2x + 2$ is irreducible in $\Q[x]$,
+but not in $\Z[x]$
+(not irreducible in $\Z[x]$ because $2x + 2 = 2(x + 1)$ and $2$ is not a unit in $\Z$).
 
+\begin{theorem}[Gauss' lemma]
+    Let $f(x) \in \Z[x]$,
+    $\deg{f} \geq 1$ such that the GCD of all its coefficients is $1$.
+    Then $f(x)$ is irreducible in $\Z[x]$ if and only if it is irreducible in $\Q[x]$.
 
+    \begin{proof}
+        "$\impliedby$"
+        Assume that $f(x)$ is irreducible in $\Q[x]$.
+        Let $f(x) = g(x)h(x)$,
+        for some $g(x), h(x) \in \Z[x]$.
+        Assume that the factorisation is proper,
+        i.e.,
+        $\deg{g} \geq 1$ and $\deg{h} \geq 1$.
+        Then $f(x) = g(x)h(x)$ is also a proper factorisation in $\Q[x]$,
+        contradicting irreducibility in $\Q[x]$.
+        Thus $\deg{g} = 0$ or $\deg{h} = 0$,
+        say $\deg{g} = 0$.
+        Thus $g(x) \in \Z$ is a constant.
+        If $g(x) \neq \pm 1$,
+        then there will exist a prime number $p \in \Z$ dividing $g(x)$,
+        hence dividing $f(x)$,
+        hence dividing every coefficient of $f(x)$,
+        violating the assumption that GCD of the coefficients of $f(x)$ is $1$.
+        Thus $g(x) = \pm 1$,
+        a unit in $\Z[x]$,
+        so $f(x)$ has no proper factorisation in $\Z[x]$,
+        so $f(x)$ is irreducible in $\Z[x]$.
 
+        "$\implies$" is omitted.
+    \end{proof}
+\end{theorem}
 
+\begin{lemma}\label{algII:lem:irredmulunitirred}
+    Let $R$ be a commutative ring,
+    let $x \in R$ be irreducible and $u \in R ^ {\times}$ a unit.
+    Then $ux$ is also irreducible.
 
+    \begin{proof}
+        To prove that $ux$ is irreducible,
+        first show that $ux$ is not a unit.
+        If it were,
+        then $\exists v \in R$ such that $vux = 1$.
+        But then $x$ would be a unit,
+        which it isn't.
 
+        Now,
+        we need to show that if $ux = ab$,
+        $a, b \in R$,
+        then $a \in R ^ {\times}$ or $b \in R ^ {\times}$
+        \[
+        ux = ab \implies x= u ^ {-1}ab = (u ^ {-1}a)b,
+        \]
+        so either $u ^ {-1}a \in R ^ {\times}$ or $b \in R ^ {\times}$.
+        If $u ^ {-1}a \in R ^ {\times}$,
+        then $a \in R ^ {\times}$.
+        So either $a \in R ^ {\times}$ or $b \in R ^ {\times}$.
+
+        Hence $ux$ is irreducible.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}[Eisenstein's criterion]
+    Let $f(x) = a_0 + a_1x + \dotsi + a_nx ^ n \in \Z[x]$ and let $p \in \Z$ be a prime such that $p \mid a_0, p \mid a_1, \dotsc, p \mid a_{n - 1}$ and $p \nmid a_n$ and $p ^ 2 \nmid a_0$.
+    Then $f(x)$ is irreducible in $\Q[x]$.
+
+    \begin{proof}
+        If $d = \gcd(a_0, \dotsc, a_n) \neq 1$,
+        let $\tilde{a}_i \coloneqq a_i / d$.
+        Then
+        \[
+        \tilde{f}(x) = f(x) / d = \tilde{a}_0 + \dotsc + \tilde{a}_nx ^ n \in \Z[x]
+        \]
+        and $\gcd(\tilde{a}_0, \dotsc, \tilde{a}_n) = 1$.
+        If we show that $\tilde{f}(x)$ is irreducible in $\Q[x]$ then so is $f(x)$ by \autoref{algII:lem:irredmulunitirred}.
+        Thus we can now without loss of generality assume that $\gcd(a_0, \dotsc, a_n) = 1$.
+        Assume that $f(x)$ is not irreducible in $\Q[x]$.
+        By Gauss' lemma,
+        $f(x)$ is not irreducible in $\Z[x]$.
+        Thus $f(x)$ can be factorised in $\Z[x]$ as
+        \[
+        f(x) = (b_0 + b_1x + \dotsc + b_rx ^ r)(c_0 + c_1x + \dotsc + c_sx ^ s),
+        \]
+        $b_i, c_j \in \Z$,
+        $r \geq 1$,
+        $s \geq 1$.
+        Note $r, s < n$.
+        Comparing constant terms
+        \[
+        a_0 = b_0c_0.
+        \]
+        By hypothesis $p \mid a_0$,
+        so $p \mid b_0$ or $p \mid c_0$ by \autoref{algII:lem:primedivmultthendivfacts}.
+
+        Without loss of generality,
+        $p \mid b_0$.
+        Since $p ^ 2 \nmid a_0$,
+        we must have $p \nmid c_0$.
+        Comparing leading terms $a_n = b_rc_s$.
+        Thus $p \nmid b_r$
+        (as $p \nmid a_n$).
+        Let $k$ be the least integer $0 < k \leq r$ such that $p \nmid b_k$,
+        i.e.,
+        $p \mid b_i$ for $i < k$ and $p \nmid b_k$.
+        Expanding the above product,
+        we get
+        \[
+        \underbrace{a_k}_{\text{divisible by $p$}} = \underbrace{b_0c_k + b_1c_{k - 1} + \dotsc + b_{k - 1}c_1}_{\text{divisible by $p$}} + b_kc_0.
+        \]
+        This implies that $p \mid b_kc_0$.
+        By \autoref{algII:lem:primedivmultthendivfacts} $p \mid b_k$ or $p \mid c_0$.
+        But $p \nmid c_0$,
+        so $p \mid b_k$.
+        Contradiction.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Prove that $f(x) = x ^ 7 + 48x - 24$ is irreducible in $\Q[x]$.
+
+    \begin{solution}
+        $48 = 3 \cdot 2 ^ 4$ and $24 = 3 \cdot 2 ^ 3$,
+        so Eisenstein's criterion with $p = 3$ shows that $f(x)$ is irreducible.
+    \end{solution}
+\end{example}
+
+\newpage
+
+\section{Homomorphisms}
+
+\subsection{Examples and definition}
+
+\begin{itemize}
+    \item $f : \Z \to \Z / n$,
+    $f(a) = \bar{a}$.
+    This is additive and multiplicative by the definition of $\bar{a} + \bar{b} = \overline{a + b}$,
+    $\bar{a} \cdot \bar{b} = \overline{ab}$.
+
+    Also,
+    note $f(1) = \bar{1}$,
+    the identity in $\Z / n$.
+
+    \item Complex conjugation,
+    $\C \to \C$,
+    $x \mapsto \bar{x}$.
+    This is additive and multiplicative,
+    e.g. $\overline{x + y} = \bar{x} + \bar{y}$
+    (this was used to define the norm map,
+    $N : \Z[\sqrt{-5}] \to \Z$),
+    which itself if multiplicative but not additive).
+
+    \item $f : \Z[\sqrt{2}] \to \Z[\sqrt{2}]$,
+    $f(m + n\sqrt{2}) = m - n\sqrt{2}$.
+    This is similar,
+    but not the same,
+    as complex conjugation.
+    $f$ is additive and multiplicative.
+    Clearly,
+    $f(1) = 1$.
+\end{itemize}
+
+\begin{definition}
+    If $R$ and $S$ are two rings,
+    a function $f : R \to S$ is called a
+    (ring)
+    homomorphism if for all $a, b \in R$ we have:
+    \begin{enumerate}[label = (\roman*)]
+        \item $f(1) = 1$
+        (can also write this $f(1_{R}) = 1_{S}$).
+
+        \item $f(a + b) = f(a) + f(b)$.
+
+        \item $f(ab) = f(a)f(b)$.
+    \end{enumerate}
+\end{definition}
+
+Just like for linear maps,
+homomorphisms have kernels and images.
+The kernel is
+\[
+\ker{f} \coloneqq \{a \in R \mid f(a) = 0\} \subseteq R.
+\]
+The image is
+\[
+\Im(f) \coloneqq \{f(a) \mid a \in R\} \subseteq S.
+\]
+Basic facts:
+\begin{lemma}
+    Let $f : R \to S$ homomorphism of rings.
+    Then
+    \begin{enumerate}[label = (\roman*)]
+        \item $f(0) = 0$.
+
+        \item $\forall a \in R, f(-a) = -f(a)$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        f(0) = f(0 + 0) = f(0) + f(0) \implies 0 = f(0).
+        \]
+        
+        \item
+        \begin{align*}
+            f(-a) = -f(a) &\iff f(-a) + f(a) = 0 \\
+            &\iff f(-a + a) = 0 \\
+            &\iff f(0) = 0,
+        \end{align*}
+        true by (i).
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Let $S = \left\{\begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix}\,\middle|\, a, b \in \R\right\}$.
+    This is a subring of $M_2(\R)$,
+    $0, 1 \in S$.
+    Closed under addition,
+    multiplication and taking negatives is straightforward to check.
+    Actually,
+    $S$ is a commutative ring.
+    We will link $S$ with the ring of complex numbers $\C$ by means of a homomorphism.
+\end{example}
 
 
 
