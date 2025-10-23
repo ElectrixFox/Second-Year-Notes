@@ -1263,4 +1263,224 @@ Note:
     \end{proof}
 \end{corollary}
 
+\subsection{Product Rules}
+Scalar fields $g$,
+$\bnabla g$ takes $g$ to a vector field.
+
+There are six product rules:
+\begin{proposition}[Product rules]
+    If $f, g : \R ^ 3 \to \R$ are scalar fields and $\vec{f}, \vec{g} \in \R ^ 3 \to \R ^ 3$ are vector fields,
+    all $C ^ {(1)}$,
+    then
+    \begin{enumerate}[label = (\arabic*)]
+        \item
+        \[
+        \bnabla(fg) \equiv g\bnabla f + f\bnabla g.
+        \]
+
+        \item
+        \[
+        \bnabla \cdot (g\vec{f}) \equiv (\bnabla g) \cdot \vec{f} + g\bnabla \cdot \vec{f}.
+        \]
+
+        \item
+        \[
+        \bnabla \cdot (\vec{f} \times \vec{g}) \equiv \vec{g} \cdot (\bnabla \times \vec{f}) - \vec{f} \cdot (\bnabla \times \vec{g}).
+        \]
+
+        \item
+        \[
+        \bnabla \times (g\vec{f}) \equiv g(\bnabla \times \vec{f}) + (\bnabla g)\times \vec{f}.
+        \]
+
+        \item
+        \[
+        \bnabla (\vec{f} \times \vec{g}) \equiv (\vec{g} \cdot \bnabla)\vec{f} - (\vec{f}\cdot\bnabla)\vec{g} + \vec{f}(\bnabla \cdot\vec{g}) - \vec{g}(\bnabla \cdot \vec{f}).
+        \]
+
+        \item
+        \[
+        \bnabla(\vec{f} \cdot \vec{g}) \equiv (\vec{g}\cdot\bnabla)\vec{f} + (\vec{f}\cdot\bnabla)\vec{g} + \vec{f}\times(\bnabla \times \vec{g}) + \vec{g} \times (\bnabla \times \vec{f}).
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Since both sides are coordinates independent,
+        it suffices to prove them in Cartesian coordinates.
+        
+        \begin{enumerate}[label = (\arabic*)]
+            \item
+            \begin{align*}
+                \bnabla(fg) &= \pd{x}(fg)\vec{e}_1 + \pd{y}(fg)\vec{e}_2 + \pd{z}(fg)\vec{e}_3 \\
+                &= (f_xg + fg_x)\vec{e}_1 + (f_yg + fg_y)\vec{e}_2 + (f_zg + fg_z)\vec{e}_3 \\
+                &= (f_x\vec{e}_1 + f_y\vec{e}_2 + f_z\vec{e}_3)g + f(g_x\vec{e}_1 + g_y\vec{e}_2 + g_z\vec{e}_3) \\
+                &= g\bnabla f + f\bnabla g.
+            \end{align*}
+
+            \item 
+            \begin{align*}
+                \bnabla \cdot (g\vec{f}) &= \bnabla\cdot(gf_1\vec{e}_1 + gf_2\vec{e}_2 + gf_3\vec{e}_3) \\
+                &= \bnabla (gf_1)\cdot\vec{e}_1 + \bnabla(gf_2)\cdot\vec{e}_2 + \bnabla(gf_3)\cdot \vec{e}_3 \\
+                &= (g\bnabla f_1+ f_1\bnabla g) \cdot \vec{e}_1 + (g\bnabla f_2 + f_2\bnabla g) \cdot \vec{e}_2 + (g\bnabla f_3 + f_3\bnabla g)\cdot \vec{e}_3 \\
+                &= g(f_1)_x + f_1g_x + g(f_2)_y + f_2g_y + g(f_3)_z + f_3g_z \\
+                &= g((f_1)_x + (f_2)_y + (f_3)_z) + (f_1\vec{e}_1 f_2\vec{e}_2 + f_3\vec{e}_3) \cdot(g_x\vec{e}_1 + g_y\vec{e}_2 + g_z\vec{e}_3) \\
+                &= g\bnabla\vec{f} + \vec{f}\cdot(\bnabla g).
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \bnabla\cdot(\vec{f} \times \vec{g}) &= \bnabla \cdot \begin{vmatrix}
+                    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\ f_1 & f_2 & f_3 \\ g_1 & g_2 & g_3
+                \end{vmatrix} \\
+                &= \pd{x}(f_2g_3 - f_3g_2) + \pd{y}(f_3g_1 - f_1g_3) + \pd{z}(f_1g_2 - f_2g_1) \\
+                &= g_1((f_3)_y - (f_2)_z) + g_2((f_1)_z - (f_3)_x) + g_3((f_2)_x - (f_1)_y) \\
+                &+ f_1((g_2)_z - (g_3)_y) + f_2((g_3)_x - (g_1)_z) + f_3((g_1)_y - (g_2)_x) \\
+                &= \vec{g} \cdot(\bnabla \times \vec{f}) - \vec{f}(\bnabla \times \vec{g}).
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \bnabla \times (g\vec{f}) &= \bnabla \times (gf_1\vec{e}_1 + gf_2\vec{e}_2 + gf_3\vec{e}_3) \\
+                &= \bnabla(gf_1)\times\vec{e}_1 + \bnabla(gf_2)\times\vec{e}_2 + \bnabla(gf_3)\times\vec{e}_3 \\
+                &= \pd{y}(gf_1)\vec{e}_2 \times \vec{e}_1 + \pd{z}(gf_1)\vec{e}_3 \times \vec{e}_1 \\
+                &+ \pd{x}(gf_2)\vec{e}_1 \times \vec{e}_2 + \pd{z}(gf_2)\vec{e}_3 \times \vec{e}_2 \\
+                &+ \pd{x}(gf_3)\vec{e}_1 \times \vec{e}_3 + \pd{z}(gf_3)\vec{e}_2 \times \vec{e}_3 \\
+                &= g\left[((f_3)_y - (f_2)_z)\vec{e}_1 + ((f_1)_z - (f_3)_{x})\vec{e}_2 + ((f_2)_x - (f_1)_y)\vec{e}_3\right] + (g_yf_3 - g_zf_2)\vec{e}_1 + (g_zf_1 - g_xf_3)\vec{e}_2 + (g_xf_2 - g_yf_1)\vec{e}_3 \\
+                &= g(\bnabla\times\vec{f}) + (\bnabla g)\times \vec{f}.
+            \end{align*}
+
+            \item Omitted.
+            
+            \item Omitted.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    If $u, v : \R ^ 3 \to \R$ are scalar fields,
+    show that $\bnabla u \times \bnabla v = \bnabla \times (u \bnabla v)$.
+
+    \begin{solution}
+        \begin{align*}
+            \bnabla \times (u \bnabla v) &= u(\bnabla \times \bnabla v) + (\bnabla u) \times (\bnabla v) \\
+            &= 0 + (\bnabla u) \times (\bnabla v) \\
+            &= (\bnabla u) \times (\bnabla v).
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\subsection{Divergence and Curl in Curvilinear Coordinates}
+
+\begin{proposition}
+    In orthogonal curvilinear coordinates
+    $(u, v, w)$,
+    \begin{enumerate}[label = (\arabic*)]
+        \item
+        \[
+        \bnabla \cdot \vec{f} = \frac{1}{h_uh_vh_w}\left[\pd{u}(h_vh_wf_u) + \pd{v}(h_uh_wf_v) + \pd{w}(h_uh_vf_w)\right].
+        \]
+
+        \item
+        \[
+        \bnabla \times \vec{f} = \frac{1}{h_uh_vh_w}\begin{vmatrix}
+            h_u\vec{e}_u & h_v\vec{e}_v & h_w\vec{e}_w \\
+            \pd{u} & \pd{v} & \pd{w} \\
+            h_uf_u & h_vf_v & h_wf_w
+        \end{vmatrix}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Recall $\bnabla f = \frac{1}{h_u}f_u\vec{e}_u + \frac{1}{h_v}f_v\vec{e}_v + \frac{1}{h_w}f_w\vec{e}_w$,
+        \[
+        \bnabla u = \frac{1}{h_u}u_u\vec{e}_u + \frac{1}{h_v}u_v\vec{e}_v + \frac{1}{h_w}u_w\vec{e}_w \implies \vec{e}_u = h_u\bnabla u
+        \]
+        (similarly $\vec{e}_v = h_v\bnabla v$,
+        $\vec{e}_w = h_w\bnabla w$).
+        
+        \begin{enumerate}[label = (\arabic*)]
+            \item Consider the first component:
+            \begin{align*}
+                \bnabla \cdot (f_u\vec{e}_u) &= \bnabla \cdot (f_u\vec{e}_v \times \vec{e}_w). \\
+                &= \bnabla \cdot (f_u(h_v\bnabla v) \times (h_w\bnabla w)) \\
+                &= \bnabla \cdot (f_uh_vh_w (\bnabla v)\times(\bnabla w)) \\
+                &= \bnabla(f_uh_vh_w) \cdot ((\bnabla v) \times (\bnabla w)) + f_uh_vh_w\bnabla \cdot ((\bnabla v) \times (\bnabla w)) \\
+                &= \bnabla(f_uh_vh_w)\cdot\frac{\vec{e}_v \times \vec{e}_w}{h_vh_w} \\
+                &= \frac{1}{h_vh_w}\vec{e}_u\cdot\bnabla(f_uh_vh_w) \\
+                &= \frac{1}{h_uh_vh_w}\pd{u}(f_uh_vh_w)
+            \end{align*}
+            (the other components follow similarly).
+
+            \item
+            Again,
+            consider the first component:
+            \begin{align*}
+                \bnabla \times (f_u\vec{e}_u) &= \bnabla \times (f_uh_u \bnabla u) \\
+                &= f_uh_u\bnabla \times (\bnabla u) + \bnabla(f_uh_u) \times (\bnabla u) \\
+                &= \bnabla(f_uh_u) \times \left(\frac{1}{h_u}\vec{e}_u\right) \\
+                &= \frac{1}{h_u}\bnabla(f_uh_u) \times (\vec{e}_v \times \vec{e}_w)\footnotemark \\
+                &= \frac{1}{h_u}\vec{e}_v(\vec{e}_w\cdot\bnabla(f_uh_u)) - \frac{1}{h_u}\vec{e}_w(\vec{e}_v\cdot\bnabla(f_uh_u)) \\
+                &= \frac{1}{h_uh_w}\pd{w}(f_uh_u)\vec{e}_v - \frac{1}{h_uh_v}\pd{v}(f_uh_u)\vec{e}_w
+            \end{align*}
+            (the rest of the components follow similarly).
+            \footnotetext{$\vec{a} \times (\vec{b} \times \vec{c}) = \vec{b}(\vec{a} \cdot \vec{c}) - \vec{c}(\vec{a} \cdot \vec{b})$.}
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Calculate $\bnabla \times \vec{f}$ for $\vec{f}(\vec{x}) = r\sin(\theta)\vec{e}_{\phi}$ in spherical coordinates.
+
+    \begin{solution}
+        \begin{align*}
+            \bnabla \times \vec{f} &= \frac{1}{h_rh_{\theta}h_{\phi}}\begin{vmatrix}
+                h_r\vec{e}_r & h_{\theta}\vec{e}_{\theta} & h_{\phi}\vec{e}_{\phi} \\
+                \pd{r} & \pd{\theta} & \pd{\phi} \\
+                0 & 0 h_{\phi}f_{\phi}
+            \end{vmatrix} \\
+            &= \frac{1}{r ^ 2\sin{\theta}}\begin{vmatrix}
+                \vec{e}_r & r\vec{e}_{\theta} & r\sin(\theta)\vec{e}_{\phi} \\
+                \pd{r} & \pd{\theta} & \pd{\phi} \\
+                0 & 0 & r ^ 2\sin ^ 2(\theta)
+            \end{vmatrix} \\
+            &= \frac{1}{r ^ 2\sin(\theta)}\pd{\theta}(r ^ 2\sin ^ 2\theta)\vec{e}_r - \frac{r}{r ^ 2\sin{\theta}}\pd{r}(r ^ 2\sin ^ 2\theta)\vec{e}_{\theta} \\
+            &= 2\cos(\theta)\vec{e}_r - 2\sin(\theta)\vec{e}_{\theta}.
+        \end{align*}
+
+        Alternatively,
+        could convert $\vec{f}$ to Cartesian components first:
+        \[
+        \vec{f}(\vec{x}) = r\sin(\theta)\vec{e}_{\phi} = r\sin(\theta)(-\sin(\phi)\vec{e}_1 + \cos(\phi)\vec{e}_2) = -y\vec{e}_1 + x\vec{e}_2.
+        \]
+        Then
+        \[
+        \bnabla \times \vec{f} = \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            \pd{x} & \pd{y} & \pd{z} \\
+            -y  & x & 0
+        \end{vmatrix} = (x_x + y_y)\vec{e}_3 = 2\vec{e}_3 = 2(\cos(\theta)\vec{e}_r - \sin(\theta)\vec{e}_{\theta}
+        \]
+    \end{solution}
+\end{example}
+
+\textbf{Warning}:
+\[
+\bnabla \cdot \vec{f} \neq \frac{1}{h_u}(f_u)_u + \frac{1}{h_v}(f_v)_v + \frac{1}{h_w}(f_w)_w.
+\]
+Doesn't work because $\vec{e}_u, \vec{e}_v, \vec{e}_w$ are not constant vectors
+(direction varies).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
