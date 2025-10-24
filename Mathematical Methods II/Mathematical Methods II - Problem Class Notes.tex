@@ -1,6 +1,8 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage{preamble}
 
+\newcommand{\bnabla}[0]{\mbf{\nabla}}
+
 \title{Mathematical Methods II \\
     \large Problem Class}
 \author{Luke Phillips}
@@ -273,7 +275,161 @@
     \end{solution}
 \end{problem}
 
+\newpage
 
+\section{Problems Class \texorpdfstring{$3$}{}}
+
+\begin{problem}[$2007$ Question $1$]
+    Let $\vec{x}$ be the position vector in $\R ^ 3$.
+    Calculate
+    \begin{enumerate}[label = (\roman*)]
+        \item $\bnabla \cdot (3\vec{x})$.
+
+        \item $\bnabla (3\vec{x} \cdot \vec{x})$.
+        
+        \item $\bnabla \times (\vec{e}_3 \times \vec{x})$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \begin{align*}
+                \bnabla \cdot (3\vec{x}) &= \bnabla \cdot (3x\vec{e}_1 + 3y\vec{e}_2 + 3z\vec{e}_3) \\
+                &= \pd{x}(3x) + \pd{y}(3y) + \pd{z}(3z) \\
+                &= 3 + 3 + 3 \\
+                &= 9.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \bnabla (3\vec{x} \cdot \vec{x}) &= \bnabla(3(x ^ 2 + y ^ 2 + z ^ 2)) \\
+                &= \pd{x}(3(x ^ 2 + y ^ 2 + z ^ 2)\vec{e}_1 + \pd{y}(3(x ^ 2 + y ^ 2 + z ^ 2)\vec{e}_2 + \pd{z}(3(x ^ 2 + y ^ 2 + z ^ 2)\vec{e}_3 \\
+                &= 6x\vec{e}_1 + 6y\vec{e}_2 + 6z\vec{e}_3 \\
+                &= 6\vec{x}.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                \vec{e}_3 \times \vec{x} &= \begin{vmatrix}
+                    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                    0 & 0 & 1 \\
+                    x & y & z
+                \end{vmatrix} \\
+                &= ((0)z - (1)(y))\vec{e}_1 + ((1)(x) - (0)(z))\vec{e}_2 + ((0)(y) - (0)(x))\vec{e}_3 \\
+                &= -y\vec{e}_1 + x\vec{e}_2 \\
+                \bnabla \times (\vec{e}_3 \times \vec{x}) &= \begin{vmatrix}
+                    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                    \pd{x} & \pd{y} & \pd{z} \\
+                    -y & x & 0
+                \end{vmatrix} \\
+                &= \left(\pd{y}(0) - \pd{z}(x)\right)\vec{e}_1 + \left(\pd{z}(-y) - \pd{x}(0)\right)\vec{e}_2 + \left(\pd{x}(x) - \pd{y}(-y)\right)\vec{e}_3 \\
+                &= 2\vec{e}_3.
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2004$ Question $1$]
+    Calculate the divergence of the vector field
+    \[
+    \vec{f}(r, \theta, z) = r\vec{e}_r + \cos(\theta)\vec{e}_{\theta} + \vec{e}_z.
+    \]
+
+    \textit{Recall}:
+    $\vec{e}_r = \cos(\theta)\vec{e}_1 + \sin(\theta)\vec{e}_2$,
+    $\vec{e}_{\theta} = -\sin(\theta)\vec{e}_1 + \cos(\theta)\vec{e}_2$,
+    $\vec{e}_z = \vec{e}_3$.
+
+    \begin{solution}
+        $\vec{f}$ is in cylindrical coordinates,
+        use formula for divergence in orthogonal curvilinear coordinates:
+        \[
+        \bnabla \cdot \vec{f} = \frac{1}{h_uh_vh_w}\left(\pd{u}(h_vh_wf_u) + \pd{v}(h_uh_wf_v) + \pd{w}(h_uh_vf_w)\right).
+        \]
+        Here $(u, v, w) = (r, \theta, z)$,
+        $h_r = 1$,
+        $h_{\theta} = r$,
+        $h_z = 1$.
+
+        So
+        \begin{align*}
+            \bnabla \cdot \vec{f} &= \frac{1}{r}\left[\pd{r}(rf_r) + \pd{\theta}(f_{\theta}) + \pd{z}(rf_z)\right] \\
+            &= \frac{1}{r}\left[\pd{r}(r ^ 2) + \pd{\theta}(\cos{\theta}) + \pd{z}(r)\right] \\
+            &= \frac{1}{r}(2r - \sin{\theta}) = 2 - \frac{\sin{\theta}}{r}
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2024$ August Question $5$]
+    Let $\vec{f}(\vec{x})$ be the vector field
+    \[
+    \vec{f}(\vec{x}) = x ^ 2e ^ {5z}\vec{e}_1 + x\cos(y)\vec{e}_2 + 3y\vec{e}_3
+    \]
+    and let $S$ be the disk bounded by the circle $C$ with parameterisation
+    \[
+    \vec{x}(t) = (2 + 2\cos(t))\vec{e}_2 + (2 + 2\sin(t))\vec{e}_3,\qquad t \in [0, 2\pi].
+    \]
+
+    \begin{enumerate}[label = (\alph*)]
+        \item Compute $\bnabla \times \vec{f}$.
+
+        \item By evaluating an appropriate surface integral,
+        calculate the flux of $\bnabla \times \vec{f}$ through $S$,
+        taking the surface normal to be the positive $x$-direction.
+
+        \item Evaluate the circulation of $\vec{f}$ around $C$,
+        in the direction of the parameterisation.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            \begin{align*}
+                \bnabla \times \vec{f} &= \begin{vmatrix}
+                    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                    \pd{x} & \pd{y} & \pd{z} \\
+                    x ^ 2e ^ {5z} & x\cos{y} & 3y
+                \end{vmatrix} \\
+                &= \left[\pd{y}(3y) - \pd{z}(x\cos{y})\right]\vec{e}_1 + \left[\pd{z}(x ^ 2e ^ {5z}) - \pd{x}(3y)\right]\vec{e}_2 + \left[\pd{x}(x\cos{y}) - \pd{y}(x ^ 2e ^ {5z})\right]\vec{e}_3 \\
+                &= 3\vec{e}_1 + 5x ^ 2e ^ {5z}\vec{e}_2 + \cos(y)\vec{e}_3.
+            \end{align*}
+
+            \item
+            $C$ has centre at $(2, 2)$,
+            radius $2$,
+            in $(y, z)$-plane
+            (from the parameterisation)
+
+            Parametrise $S$ with polar coordinates in $(y, z)$ plane with centre at $(2, 2)$:
+            \[
+            \vec{x}(u, v) = (2 + u\cos(v))\vec{e}_2 + (2 + u\sin(v))\vec{e}_3\qquad\text{for } u \in [0, 2], v \in [0, 2\pi].
+            \]
+            Want to calculate
+            \begin{align*}
+                \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS &= \int_{0}^{2\pi}\int_{0}^{2}(\bnabla \times \vec{f}) \cdot \hvec{n}\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,dudv \\
+                &= \int_{0}^{2\pi}\int_{0}^{2}(\bnabla \times \vec{f}) \cdot \left(\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right)\,dudv \\
+                \pd[\vec{x}]{u} \times \pd[\vec{x}]{v} &= \begin{vmatrix}
+                    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                    0 & \cos{v} & \sin{v} \\
+                    0 & -u\sin{v} & u\cos{v}
+                \end{vmatrix} \\
+                &= \vec{e}_1(u\cos ^ 2v + u\sin ^ 2v) = u\vec{e}_1 \\
+                \int_{0}^{2\pi}\int_{0}^{2}(\bnabla \times \vec{f}) \cdot \left(\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right)\,dudv &= \int_{0}^{2\pi}\int_{0}^{2}(3\vec{e}_1 + 5x ^ 2e ^ {5z}\vec{e}_2 + \cos(y)\vec{e}_3) \cdot (u\vec{e}_1)\,dudv \\
+                &= \int_{0}^{2\pi}\int_{0}^{2}3u\,dudv \\
+                &= \int_{0}^{2\pi}\left[\frac{3u ^ 2}{2}\right]_{0}^{2}\,dv \\
+                &= 6\int_{0}^{2\pi}\,dv = 12\pi.
+            \end{align*}
+
+            \item
+            Circulation:
+            \begin{align*}
+                \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{0}^{2\pi}\left(x ^ 2e ^ {5z}\vec{e}_1 + x\cos(y)\vec{e}_2 + 3y\vec{e}_3\right)\cdot\frac{d\vec{x}}{dt}\,dt \\
+                &= \int_{0}^{2\pi}-2\sin(t)(2 + 2\cos(t))\cos(2 + 2\sin(t)) + 6\cos(t)(2 + 2\sin(t))\,dt
+            \end{align*}
+            will see how to do this a different way next week.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 
 
