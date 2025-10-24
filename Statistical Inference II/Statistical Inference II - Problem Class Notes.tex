@@ -1,0 +1,233 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Statistical Inference II \\
+    \large Problem Class}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Problems Class \texorpdfstring{$1$}{}}
+
+\begin{problem}[Sheet $1$ Question $3$]
+    Suppose that $Y$ and $Z$ are independent random variables,
+    where $Y$ has a chi-square distribution with $n$ df,
+    and $Z$ has a standard normal distribution:
+    \[
+    f_Z(z) = \frac{1}{\sqrt{2\pi}}e ^ {-\frac{1}{2}z ^ 2}\qquad 
+    f_Y(y) = \frac{1}{2 ^ {n / 2}\Gamma(n / 2)}y ^ {n / 2 - 1}e ^ {-y / 2}.
+    \]
+    Let $X = \frac{Z}{\sqrt{\frac{Y}{n}}}$ and $W = Y$.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item Find the joint pdf of $W$ and $X$.
+
+        \item From its definition above,
+        $X$ should have a $t$ distribution with $n$ degrees of freedom.
+        By marginalising the joint distribution in part (a),
+        deduce the pdf of the $t_n$ distribution is
+        \[
+        f_{X}(x) = \frac{\Gamma((n + 1) / 2)}{\sqrt{n\pi}\Gamma(n / 2)}\left(1 + \frac{x ^ 2}{n}\right) ^ {-(n + 1) / 2}
+        \]
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            $2$D change of variables:
+            Inverses:
+            $W = Y$,
+            $y = w$
+            \[
+            x = \frac{z}{\sqrt{y / n}} = \frac{z}{\sqrt{w / n}}
+            \]
+            \[
+            z = x\sqrt{w / n}
+            \]
+            for $w > 0$,
+            $x \in \R$.
+
+            \[
+            J = \begin{bmatrix}
+                \pd[y]{x} & \pd[y]{w} \\ \pd[z]{x} & \pd[z]{w}
+            \end{bmatrix} = \begin{bmatrix}
+                0 & 1 \\ \sqrt{w / n} & \frac{x}{2n\sqrt{w / n}}
+            \end{bmatrix}.
+            \]
+            So $\det{J} = -\sqrt{w / n}$,
+            $|\det{J}| = \sqrt{w / n}$.
+
+            Apply result:
+            \[
+            f_{Y, Z}(y, z) = f_{Y}(y)f_{Z}(z)
+            \]
+            \begin{align*}
+                f_{X, W}(x, w) &= f_{Y, Z}(y(x, w), z(x, w))|\det{J}| \\
+                &= f_{Y}(y(x, w))f_{Z}(z(x, w))|\det{J}| \\
+                &= \frac{1}{2 ^ {n / 2}\Gamma(n / 2)}w ^ {n / 2 - 1}e ^ {-w / 2}\times \frac{1}{\sqrt{2\pi}}e ^ {-1 / 2(x_n\sqrt{w / n}) ^ 2}\times \sqrt{\frac{w}{n}} \\
+                &= \underbrace{\frac{1}{2 ^ {(n + 1) / 2}\Gamma(n / 2)\sqrt{n\pi}}}_{c}w ^ {(n + 1) / 2 - 1}e ^ {-\frac{1}{2}(w + x ^ 2w / n)} \\
+                &= cw ^ {\frac{n + 1}{2} - 1}e ^ {-\frac{w}{2}\left(1 + \frac{x ^ 2}{n}\right)} && w > 0, x \in \R.
+            \end{align*}
+
+            \item Marginalise:
+            \begin{align*}
+                f_{X}(x) &= \int_{-\infty}^{\infty}f(x, w)\,dw \\
+                &= \int_{0}^{\infty}w ^ {(n + 1) / 2 - 1}e ^ {-w\times\overbrace{\frac{1}{2}(1 + x ^ 2 / n)}^{g(x)}}\,dw \\
+                &= c\int_{0}^{\infty}w ^ {\frac{n + 1}{2} - 1}e ^ {-wg(x)}\,dw.
+            \end{align*}
+            Honesty condition:
+            recall the gamma pdf,
+            $V \sim \mathrm{Ga}(\alpha, \beta)$
+            \[
+            f_{V}(v) = \frac{\beta ^ {\alpha}}{\Gamma(\alpha)}v ^ {\alpha - 1}e ^ {-\beta v}.
+            \]
+            After marginalisation,
+            the integrand looks like $W \sim \mathrm{Ga}\left(\overbrace{\frac{n + 1}{2}}^{= \alpha}, \overbrace{g(x)}^{= \beta}\right)$
+            \begin{align*}
+                f_{X}(x) &= c\int_{0}^{w}w ^ {\alpha - 1}e ^ {-\beta w}\,dw \\
+                &= c\frac{\Gamma(\alpha)}{\beta ^ {\alpha}}\int_{0}^{\infty}\underbrace{\frac{\beta ^ {\alpha}}{\Gamma(\alpha)}w ^ {\alpha - 1}e ^ {-\beta w}}_{= 1}\,dw \\
+                &= c\frac{\Gamma(\alpha)}{\beta ^ {\alpha}} \\
+                &= \frac{1}{2 ^ {\frac{n + 1}{2}}\Gamma(n / 2)\sqrt{n\pi}} \times \frac{\Gamma((n + 1) / 2)}{\left(\frac{1}{2}(1 + x / n)\right) ^ {\frac{n + 1}{2}}} \\
+                &= \frac{1}{\sqrt{n\pi}}\frac{\Gamma\left(\frac{n + 1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)}\frac{1}{2 ^ {\frac{n + 1}{2}}}\left(\frac{1}{2}\right) ^ {\frac{n + 1}{2}}\left(1 + \frac{x ^ 2}{n}\right) ^ {-\frac{n + 1}{2}} \\
+                &= \frac{1}{\sqrt{n\pi}}\frac{\Gamma\left(\frac{n + 1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)}\left(1 + \frac{x ^ 2}{n}\right) ^ {-\frac{n + 1}{2}},\qquad x \in \R.
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Sheet $3$ Question $4$]
+    In a cohort study on the incidence of ischaemic heard disease
+    (IHD)
+    $337$ male candidates were enrolled.
+    Each man was categorised as non-exposed
+    (group $1$)
+    or exposed
+    (group $2$)
+    based on their daily energy consumption to summarise his average level of physical activity.
+    
+    For each group,
+    the number of person years were $Y_1 = 2768.9$ and $Y_2 = 1857.5$,
+    and the number of IHD cases $D_1 = 17$ and $D_2 = 28$ was registered thereafter.
+
+    Given $Y_i$,
+    we assume that the $D_i$ are IID $\Po(\lambda_i, Y_i$,
+    $i = 1, 2$,
+    where $\lambda > 0$ is the group-specific incidence rate.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item Separately for each group,
+        derive the MLE $\hat{\lambda}_i$,
+        find the observed information,
+        and evaluate the estimates given the data.
+
+        \item In order to analyse whether $\lambda_1 = \lambda_2$,
+        we re-parametrise the model with $\lambda = \lambda_1$ and $\theta = \frac{\lambda_2}{\lambda_1}$.
+        Show that the joint log-likelihood of $\lambda$ and $\theta$ has the following form:
+        \[
+        \mathcal{L}(\lambda, \theta) = c + D\log{\lambda} + D_2\log{\theta} - \lambda Y_1 - \theta\lambda Y_2,
+        \]
+        where $D = D_1 + D_2$ and $c$ is a constant.
+
+        \item Compute the multivariate MLE $[\hat{\lambda}, \hat{\theta}]$,
+        and the observed information matrix $I(\hat{\lambda}, \hat{\theta})$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item Represent $D_i \sim \Po(\lambda_i, Y_i)$,
+            $i = 1, 2$,
+            $D_i$ increases as $Y_i$ increases,
+            or $\lambda_i$ increases.
+
+            \begin{align*}
+                \ell(\lambda_i) &= \frac{(y_i\lambda_i) ^ {d_i}e ^ {-\lambda_i y_i}}{d_i!}\footnotemark \\
+                &= c_i\lambda_i ^ {d_i}e ^ {-\lambda_i y_i} \\
+                \mathcal{L}(\lambda) &= \text{const} + d_i\log{\lambda_i} - \lambda_iy_i \\
+                \mathcal{L};(\lambda) &= \frac{d_i}{\lambda_i} - y_i
+                \intertext{At MLE,
+                $\lambda_i = \hat{\lambda}_i$}
+                0 &= \frac{d_i}{\hat{\lambda}_i} - y_i \iff \hat{\lambda}_i = \frac{d_i}{y_i}
+            \end{align*}
+            \footnotetext{Each sample is a Poisson data point.}
+            \[
+            \hat{\lambda}_1 = \frac{17}{2768.9} = 0.00614,\qquad \hat{\lambda}_2 = \frac{28}{1857.5} = 0.0151.
+            \]
+
+            Observed information:
+            \[
+            I(\hat{\lambda}_1) = -\mathcal{L}''(\hat{\lambda}_i) = -\left(-\frac{d_i}{\hat{\lambda}_i ^ 2}\right) = \frac{d_i}{(d_i / y_i) ^ 2} = \frac{y_i ^ 2}{d_i}.
+            \]
+
+            \item
+            $\lambda = \lambda_1$ baseline rate $\theta = \frac{\lambda_2}{\lambda_1}$ multiplier to adjust for group $2$ which implies $\lambda_2 = \theta\lambda$.
+            $\lambda = 1$ implies $\lambda_1 = \lambda_2$ the same,
+            $\theta > 1$ implies $\lambda_2 > \lambda_1$ higher rate in group $2$.
+
+            \[
+            D_1 \sim \Po(\lambda y_i)\qquad D_2 \sim \Po(\theta\lambda y_2).
+            \]
+
+            \begin{align*}
+                \ell(\lambda_1, \lambda_2) &= \frac{(\lambda_1 y_1) ^ {d_1}e ^ {-\lambda_1 y_1}}{d_1!} \times \frac{(\lambda_2y_2) ^ {d_2}e ^ {-\lambda_2y_2}}{d_2!} \\
+                \ell(\lambda, \theta) &= \frac{(\lambda y_1) ^ {d_1}e ^ {-\lambda y_1}}{d_1!} \frac{(\theta\lambda y_2) ^ {d_2}e ^ {-\theta\lambda y_2)}}{d_2!} \\
+                \mathcal{L}(\lambda, \theta) &= d_1\log(\lambda y_1) - \lambda y_1 - \log(d_1!) + d_2\log(\theta\lambda y_2) - \theta\lambda y_2 - \log(d_2!) \\
+                &= \text{const} + d_1\log(\lambda) - \lambda y_1 + d_2\log(\theta) + d_2\log(\lambda) - \theta\lambda y_2 \\
+                &= \text{const} + (d_1 + d_2)\log(\lambda) - \lambda y_1 - \theta\lambda y_2 + d_2\log(\theta).
+            \end{align*}
+
+            \item
+            Find $\begin{bmatrix}
+                \hat{\lambda} \\ \hat{\theta}
+            \end{bmatrix}$.
+            For $\hat{\lambda}$:
+            \[
+            \pd{\mathcal{L}}{\lambda} = \frac{d}{\lambda} - y_1 - \theta y_2\qquad\pd[\mathcal{L}]{\theta} = -\lambda y_2 + \frac{d_2}{\theta}.
+            \]
+            At MLE:
+            \[
+            \frac{d_2}{\hat{\theta}} = \hat{\lambda} y_2 \implies \hat{\lambda} = \frac{d_2}{\hat{\theta}y_2}
+            \]
+            \begin{align*}
+                0 &= \frac{d}{\hat{\lambda}} - y_1 - \hat{\theta}y_2 \\
+                &= \frac{d}{(d_2 / (\hat{\theta}y_2))} - y_1 - \hat{\theta}y_2 \\
+                &= \frac{d\hat{\theta}y_2}{d_2} - y_1 - \hat{\theta}y_2 \\
+                y_1 &= \hat{\theta}(((dy_2) / d_2) - y_2) \\
+                \hat{\theta} &= \frac{y_1}{\frac{dy_2}{d_2} - y_2} = \dotsi = \frac{d_2 / y_2}{d_1 / y_1} = \frac{\hat{\lambda}_2}{\hat{\lambda}_1}
+            \end{align*}
+            ratio of group rates.
+            \[
+            \hat{\lambda} = \frac{d_2}{\hat{\theta}y_2} = \frac{d_2}{y_2}\frac{y_2d_1}{y_1d_2} = \frac{d_1}{d_1} = \hat{\lambda}_1.
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
