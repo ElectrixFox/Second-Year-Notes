@@ -1574,7 +1574,7 @@ The image is
 \Im(f) \coloneqq \{f(a) \mid a \in R\} \subseteq S.
 \]
 Basic facts:
-\begin{lemma}
+\begin{lemma}\label{algII:lem:homobasicfacts}
     Let $f : R \to S$ homomorphism of rings.
     Then
     \begin{enumerate}[label = (\roman*)]
@@ -1612,9 +1612,252 @@ Basic facts:
     Actually,
     $S$ is a commutative ring.
     We will link $S$ with the ring of complex numbers $\C$ by means of a homomorphism.
+
+    Define a map $\C \to S$,
+    \[
+    f(a + bi) = \begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix}.
+    \]
+    $f$ is a homomorphism.
+    Indeed,
+    additivity:
+    \begin{align*}
+        f(a + bi + c + di) &= f((a + c) + (a + d)i) \\
+        &= \begin{pmatrix}
+            a + c & -(b + d) \\ b + d & a + c
+        \end{pmatrix} \\
+        &= \begin{pmatrix}
+            a & -b \\ b & a
+        \end{pmatrix} + \begin{pmatrix}
+            c & -d \\ d & c
+        \end{pmatrix} \\
+        &= f(a + bi) + f(c + di)
+    \end{align*}
+    multiplicativity
+    \begin{align*}
+        f((a + bi)(c + di)) &= f((ac - bd) + (ad + bc)i) \\
+        &= \begin{pmatrix}
+            ac - bd & -(ad + bc) \\
+            ad + bc & ac - bd
+        \end{pmatrix} \\
+        &= f(a + bi)f(c + di).
+    \end{align*}
+    $f(1) = \begin{pmatrix}
+        1 & 0 \\ 0 & 1
+    \end{pmatrix}$.
+    It happens that $f$ is bijective.
+    This can be shown by finding $f ^ {-1}$ of $f$.
+    In this case $f ^ {-1}\begin{pmatrix}
+        a & -b \\ b & a
+    \end{pmatrix} = a + bi$.
+    Thus,
+    $f$ is a $1$-$1$ map between $\C$ and $S$ such that $f$ preserves the binary operations.
 \end{example}
 
+\begin{definition}
+    We say that two rings $R$ and $S$ are isomorphic if there exists a bijective homomorphism
+    (called an isomorphism)
+    between them and we write $R \cong S$.
+\end{definition}
 
+Thus the previous examples shows that $\C \cong S$
+(as rings).
+Since $\C$ is a field,
+this implies that $S$ is also a field.
+
+\begin{lemma}
+    A homomorphism $f : R \to S$ is injective if and only if $\ker{f} = \{0\}$
+    (we will often write $0$ for $\{0\}$).
+
+    \begin{proof}
+        Assume $f$ is injective.
+        This means that $f(x) = f(y) \implies x = y$,
+        $\forall x, y \in R$.
+        Choosing $y = 0$,
+        we get $f(x) = 0 \implies x = 0$,
+        i.e.,
+        $x \in \ker{f} \implies x = 0$,
+        i.e. $\ker{f} = 0$.
+
+        Conversely,
+        if $\ker{f} = 0$,
+        then
+        \[
+        f(x) = f(y) \implies f(x - y) = 0 \implies x - y \in \ker{f} \implies x - y = 0 \iff x = y.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Recall the subset $R = \{\bar{0}, \bar{2}, \bar{4}\}$ of $\Z / 6$.
+    $R$ not a subring but a ring in its own right.
+    Actually,
+    $R \cong \Z / 3$.
+    Indeed,
+    set up a bijective map
+    \[
+    R \to \Z / 3.
+    \]
+    \begin{align*}
+        R \ni \bar{0} = [0]_{6} &\mapsto [0]_3 \in \Z / 3 \\
+        [2]_{6} &\mapsto [2]_3 \\
+        [4]_{6} &\mapsto [1]_3.
+    \end{align*}
+    It is additive and multiplicative.
+    Check directly,
+    e.g.
+    \[
+    [2]_6 + [2]_6 = [4]_6 \mapsto [1]_3 = [2]_3 + [2]_3 = [4]_3 = [1]_3.
+    \]
+    \[
+    [2]_6 \cdot [4]_6 = [8]_6 = [2]_6 = [2]_3 \cdot [1]_3 = [2]_3.
+    \]
+    Thus our map is a homomorphism.
+    It is a $1$-$1$ map
+    (i.e.,
+    bijection)
+    by definition.
+    Thus $R \cong \Z / 3$.
+\end{example}
+
+\subsection{Products of rings and projections}
+If $R$ and $S$ are rings,
+we come from the
+(direct)
+product $R \times S = \{(r, s) \mid r \in R, s \in S\}$ addition and multiplication in $R \times S$ are defined to be
+\begin{align*}
+    (r, s) + (r', s') &= (r + r', s + s') \\
+    (r, s)\cdot (r', s') &= (rr', ss')
+\end{align*}
+$(1, 1) \in R \times S$ is the identity,
+$(0, 0)$ is the additive identity.
+
+\begin{example}
+    We have two specific homomorphisms
+    (surjective)
+    $P_1 : R \times S \to R$,
+    $(r, s) \mapsto r$,
+    $P_2 : R \times S \to S$,
+    $(r, s) \mapsto s$,
+
+    \[
+    \ker{P_1} = \{(0, s) \mid s \in S\},\qquad \ker{P_2} = \{(r, 0) \mid r \in R\}
+    \]
+    we can think of $\ker{P_1}$ as a ring in its own right with identity element $(0, 1)$.
+    In fact,
+    $\ker{P_1} \cong S$ via the map $(0, s) \mapsto s$.
+    Similarly,
+    $\ker{P_2} \cong R$ and $\ker{P_1} \times \ker{P_2} \cong R \times S$.
+    Note $\ker{P_1}$ and $\ker{P_2}$ are not subrings of $R \times S$.
+\end{example}
+
+\newpage
+
+\section{Ideals and quotients}
+Let $f : R \to S$ be a homomorphism of rings.
+The image $\Im{f}$ is always a subring of $S$:
+Identity $f(1) \in S$,
+closed under addition/multiplication $x, y \in \Im{f}$ implies $f(a) = x$,
+for some $a \in R$ and $f(b) = y$,
+for some $b \in R$ which implies $f(a + b) = f(a) + f(b) \in \Im{f}$.
+Same for multiplication.
+Negations:
+$x \in \Im{f}$ implies $f(a) = x$ which implies $f(-a) = -x$ by \autoref{algII:lem:homobasicfacts} implies $-x \in \Im{f}$.
+
+However,
+the kernel,
+$\ker{f}$,
+is almost never a subring of $R$ because it usually doesn't contain the identity of $R$.
+Kernels are still rather special subsets.
+They satisfy:
+closure under addition:
+$x, y \in \ker{f}$ implies $f(x + y) = f(x) + f(y) = 0 + 0 = 0$,
+so $x + y \in \ker{f}$.
+Closure under multiplication from $R$
+(absorption property)
+$r \in R$,
+$x \in \ker{f}$ implies $rx \in \ker{f}$.
+Indeed,
+$f(rx) = f(r)f(x) = f(r)\cdot 0 = 0$ so $rx \in \ker{f}$.
+
+\begin{definition}
+    A subset $I$ of a ring $R$ is called an ideal if it is closed under addition and satisfies the
+    (left and right)
+    absorption property,
+    i.e.,
+    \[
+    \forall r \in R, x \in I, rx \in I \text{ and } xr \in I.
+    \]
+\end{definition}
+
+\textit{Note that absorption implies that an ideal $I$ is closed under taking negatives:
+$x \in I \implies -x = (-1)\cdot x \in I$.}
+
+In any ring $R$,
+we have the zero ideal $0 \coloneqq \{0\}$ and $R$ itself.
+
+\begin{example}
+    Let $R$ be a commutative ring:
+    \begin{itemize}
+        \item Let $a \in R$.
+        Then $(a) \coloneqq \{ra \mid r \in R\}$ is an ideal of $R$ it is called the principle ideal generated by $a$.
+        The ideal $(n)$,
+        $n \in \Z$ in $\Z$ is just $n\Z$,
+        the set of multiples of $n$.
+        Thus $n\Z = (n)$.
+
+        \item Let $a_1, \dotsc, a_n \in R$.
+        Then
+        \[
+        (a_1, a_2, \dotsc, a_n) \coloneqq \{r_1a_1 + r_2a_2 + \dotsi + r_na_n \mid r_i \in R\}.
+        \]
+        This is called the ideal generated by $a_1, \dotsc, a_n$.
+
+        \item Consider the "evaluation map" $\varphi : \Q[x] \to \Q$ given by $\varphi(f(x)) = f(0)$.
+        This is a homomorphism
+        (see the problem sheets).
+        It is surjective:
+        $\forall a \in \Q$,
+        take $f(x) = x + a$.
+        Then $\varphi(f(x)) = f(0) = a$.
+        \[
+        \ker{\varphi} = \{f(x) \in \Q[x]\mid f(0) = 0\} = \{xg(x) \mid g(x) \in \Q[x]\} = (x).
+        \]
+    \end{itemize}
+\end{example}
+
+For non-commutative rings,
+we have left/right ideals
+(left/right absorption).
+Ideals defined as above are then sometimes called two-sided ideals.
+For example,
+$R = M_n(\C)$,
+$a \in R$.
+Then
+\[
+Ra = \{Pa \mid P \in R\},\qquad aR = \{aP \mid P \in R\},\qquad RaR = \{PaQ \mid P, Q \in R\}
+\]
+$Ra$ is a left ideal,
+$aR$ is a right ideal,
+$RaR$ is a
+(two-sided)
+ideal.
+
+Let $R$ be any ring.
+Let $I \subseteq R$ be an ideal and suppose that $I$ contains a unit $u \in R ^ {\times}$.
+Then,
+by absorption,
+\[
+1 = u ^ {-1}u \in I,
+\]
+hence $r \cdot 1 = r \in I$,
+$\forall r \in R$.
+Then $I = R$.
+In particular,
+when $R$ is a field every non-zero element is a unit,
+so we only have the zero ideal  and $R$ itself
+(no other ideals).
 
 
 
