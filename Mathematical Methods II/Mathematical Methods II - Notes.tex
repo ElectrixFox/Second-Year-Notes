@@ -1,7 +1,7 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage{preamble}
 
-\newcommand{\bnabla}[0]{\mbf{\nabla}}
+\newcommand{\bnabla}[0]{\mathbf{\nabla}}
 
 \title{Mathematical Methods II}
 \author{Luke Phillips}
@@ -1470,13 +1470,236 @@ There are six product rules:
 Doesn't work because $\vec{e}_u, \vec{e}_v, \vec{e}_w$ are not constant vectors
 (direction varies).
 
+\newpage
 
+\section{Integral Theorems}
 
+\subsection{Fundamental Theorem of Line Integrals}
 
+\begin{theorem}[Fundamental Theorem of Calculus]
+    If $f'(x)$ is continuous on $[a, b]$,
+    then
+    \[
+    \int_{a}^{b}f'(t)\,dt = f(b) - f(a).
+    \]
+\end{theorem}
+There are several generalisation to vector calculus.
 
+\begin{theorem}[Fundamental Theorem of Line Integrals]
+    If $f : \R ^ n \to \R$ is a $C ^ {1}$ scalar field and $C$ is an oriented curve with parameterisation $\vec{x}(t)$ for $t \in [t_0, t_1]$,
+    then
+    \[
+    \int_{C}\bnabla f\cdot \hvec{t}\,d\ell = f(\vec{x}(t_1)) - f(\vec{x}(t_0)).
+    \]
 
+    \begin{proof}
+        (For $n = 3$)
+        \begin{align*}
+            \int_{C}\bnabla f \cdot \hvec{t}\,d\ell &= \int_{t_0}^{t_1}\bnabla f \cdot \frac{d\vec{x}}{dt}\,dt \\
+            &= \int_{t_0}^{t_1}\left(f_x\frac{d\vec{x}}{dt} + f_y\frac{d\vec{y}}{dt} + f_z\frac{d\vec{z}}{dt}\right)\,dt &&(\text{by chain rule}) \\
+            &= \int_{t_0}^{t_1}\frac{df}{dt}\,dt = f(\vec{x}(t_1)) - f(\vec{x}(t_0)) &&(\text{by FTOC})
+        \end{align*}
+    \end{proof}
+\end{theorem}
 
+\textit{Note:
+if $n = 1$,
+then $C$ is just $[t_0, t_1]$ and $\bnabla f = f'\vec{e}_1$,
+$\hvec{t} = \vec{e}_1$ reduces to the fundamental theorem of calculus.}
 
+A vector field $\vec{f} : \R ^ n \to \R ^ n$ is conservative if it can be written as $\vec{f} = \bnabla g$ for some $C ^ {1}$ scalar field $g : \R ^ n \to \R$,
+called a
+(scalar)
+potential.
+
+\begin{example}
+    Show that $\vec{f}(\vec{x}) = -\vec{x}$ in $\R ^ 2$ is conservative by finding a suitable potential.
+
+    \begin{solution}
+        Need 
+        \begin{align}
+            g_x &= -x \\
+            g_y &= -y.
+        \end{align}
+        Integrating
+        ($1$)
+        with respect to $x$ gives $g(x, y) = -\frac{x ^ 2}{2} + h(y)$.
+        Then
+        ($2$)
+        \[
+        h'(y) = -y \implies h(y) = -\frac{y ^ 2}{2} + C.
+        \]
+        So
+        \[
+        g(x, y) = -\frac{x ^ 2 + y ^ 2}{2} + C.
+        \]
+        (\textit{Note:
+        $\vec{f} = \bnabla g$ only defines $g$ up to a constant,
+        $c$,
+        because $\bnabla c = \vec{0}$.})
+    \end{solution}
+\end{example}
+
+\begin{proposition}[Path Independence]
+    A vector field is conservative if and only if it has path independent line integrals between each pair of points.
+
+    \begin{proof}
+        "$\implies$".
+        Assume $\vec{f}$ conservative,
+        i.e. $\vec{f} = \bnabla g$.
+
+        Let $C_1, C_2$ be any two curves sharing both endpoints $\vec{x}_a, \vec{x}_b$.
+        Then
+        \[
+        \int_{C_1}\vec{f}\cdot\hvec{t}\,d\ell = \int_{C_1}\bnabla g \cdot \hvec{t}\,d\ell = g(\vec{x}_b) - g(\vec{x}_a)
+        \]
+        but also
+        \[
+        \int_{C_2}\vec{f}\cdot\hvec{t}\,d\ell = \int_{C_2}\bnabla g \cdot \hvec{t}\,d\ell = g(\vec{x}_b) - g(\vec{x}_a)
+        \]
+        which implies
+        \[
+        \int_{C_1}\vec{f}\cdot\hvec{t}\,d\ell = \int_{C_2}\vec{f}\cdot\hvec{t}\,d\ell.
+        \]
+
+        "$\impliedby$".
+        Assume $\vec{f}$ has path independent line integrals.
+        Claim:
+        \[
+        g(\vec{x}) = \int_{C(\vec{x})}\vec{f}\cdot\hvec{t}\,d\ell\text{ satisfies } \bnabla g = \vec{f}.
+        \]
+        where $C(\vec{x})$ is any curve connecting $\vec{0}$ to $\vec{x}$.
+
+        We have
+        \begin{align*}
+            g_x &= \lim_{\delta \to 0}\frac{1}{\delta}\left[\int_{C(\vec{x} + \delta\vec{e}_1)}\vec{f}\cdot\hvec{t}\,d\ell - \int_{C(\vec{x})}\vec{f}\cdot\hvec{t}\,d\ell\right] \\
+            &= \lim_{\delta \to 0}\frac{1}{\delta}\left[\int_{C_1}\vec{f}\cdot\hvec{t}\,d\ell\right] &&(\text{by path independence})
+            \intertext{where $C_1$ has $\vec{x}(t) = \vec{x} + t\vec{e}_1$ for $t \in [0, \delta]$}
+            &= \lim_{\delta \to 0}\frac{1}{\delta}\int_{0}^{\delta}f_1(\vec{x} + t\vec{e}_1)\,dt \\
+            &= \lim_{\delta \to 0}\frac{1}{\delta}\delta f_1(\vec{x} + t_{*}\vec{e}_1) &&(\text{by mean value theorem for integrals})
+            \intertext{for some $t_{*} \in [0, \delta]$}
+            &= f_1(\vec{x}) &&(\text{by squeezing})
+        \end{align*}
+        (Similarly for other components).
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Compute $\int_{C}\vec{f}\cdot\hvec{t}\,d\ell$ where $\vec{f} = -\vec{x}$ and $C$ is the straight line from $(1, 0)$ to $(2, 0)$.
+
+    \begin{solution}
+        \[
+        \vec{f} = -\bnabla\left(\frac{x ^ 2 + y ^ 2}{2}\right).
+        \]
+        So FTLI implies
+        \[
+        \int_{C}\vec{f}\cdot\hvec{t}\,d\ell = -\left(\frac{x ^ 2 + y ^ 2}{2}\right)\biggr|_{(2, 0)} + \left(\frac{x ^ 2 + y ^ 2}{2}\right)\biggr|_{(1, 0)} = -2 + \frac{1}{2} = -\frac{3}{2}.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{remark}
+    The name "conservative" comes from the fact that integrating along a closed path doesn't change $f$:
+    $\vec{x}_a = \vec{x}_b$,
+    \[
+    \oint_{C}\bnabla f \cdot \hvec{t}\,d\ell = f(\vec{x}_a) - f(\vec{x}_a) = 0.
+    \]
+    E.g. gravitational force.
+\end{remark}
+
+\subsection{Divergence Theorem}
+(Another generalisation of FTOC)
+
+\begin{theorem}[Divergence/Gauss Theorem]
+    If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field and $S$ is a closed surface with outward normal $\hvec{n}$,
+    bounding a region $V$,
+    then
+    \[
+    \oint_{S}\vec{f}\cdot\hvec{n}\,dS = \int_{V}\bnabla \cdot \vec{f}\,dV.
+    \]
+
+    \begin{proof}
+        Idea:
+        subdivide $V$ into a disjoint union of small domains $V_i$ for $i = 1, \dotsc, m$
+        whose boundaries $S_i$ have unit normals $\hvec{n}_i$.
+
+        Each interior segment of $S_i$ is shared by a neighbouring subdomain $V_j$ with equal and opposite normal $\hvec{n}_j = -\hvec{n}_i$.
+        So
+        \begin{align*}
+            \oint_{S}\vec{f}\cdot\hvec{n}\,dS &= \sum_{i = 1}^{m}\oint_{S_i}\vec{f}\cdot\hvec{n}_i\,dS &&(\text{only contributions from global boundary survive}) \\
+            &= \sum_{i = 1}^{m}\left(\frac{1}{|V_i|}\oint_{S_i}\vec{f}\cdot\hvec{n}_i\,dS\right)|V_i| \\
+            &= \lim_{m \to \infty}\sum_{i = 1}^{m}\left(\frac{1}{|V_i|}\oint_{S_i}\vec{f}\cdot\hvec{n}_i\,dS\right)|V_i| \\
+            &= \int_{V}\bnabla\cdot\vec{f}\,dV &&(\text{need $\vec{f} \in C ^ {1}$ for this to work})
+        \end{align*}
+        \[
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{remark}\phantom{}
+    \begin{enumerate}[label = (\arabic*)]
+        \item Generalises to $V \subset \R ^ n$
+        ($n \neq 3$)
+        with boundary $S$ and $(n - 1)$D hypersurface.
+
+        \item For $n = 1$,
+        we have $V = [a, b]$,
+        $S = \{a, b\}$,
+        $\hvec{n} = \begin{cases}
+            -\vec{e}_1, &x = a \\
+            \vec{e}_1, &x = b
+        \end{cases}$,
+        $\vec{f} = f(x)\vec{e}_1$,
+        $\bnabla \cdot \vec{f} = f'(x)$.
+        So the theorem reduces to $f(b) - f(a) = \int_{a}^{b}f'(x)\,dx$
+        (FTOC).
+    \end{enumerate}
+\end{remark}
+
+\begin{example}
+    Verify the divergence theorem by computing both sides for $\vec{f} = r ^ 2\cos ^ 2(\theta)\vec{e}_r$ in spherical coordinates where $S$ is the sphere $x ^ 2 + y ^ 2 + z ^ 2 = a ^ 2$.
+
+    \begin{enumerate}[label = (\arabic*)]
+        \item Surface integral/flux
+        \begin{align*}
+            \oint_{S}\vec{f}\cdot\hvec{n}\,dS &= \int_{0}^{2\pi}\int_{0}^{\pi}\vec{f}\cdot\vec{e}_rh_{\theta}h_{\phi}\,d\theta\,d\phi  \\
+            &= \int_{0}^{2\pi}\int_{0}^{\pi}a ^ 2\cos ^ 2(\theta)a ^ 2\sin ^ (\theta)\,d\theta\,d\phi \\
+            &= a ^ 4\int_{0}^{2\pi}\int_{0}^{\pi}\cos ^ 2(\theta)\sin(\theta)\,d\theta\,d\phi \\
+            &= a ^ 4\int_{0}^{2\pi}\left[-\frac{\cos ^ 3\theta}{3}\right]_{0}^{\pi}\,d\phi \\
+            &= \frac{2a ^ 4}{3}\int_{0}^{2\pi}\,d\phi \\
+            &= \frac{4}{3}\pi a ^ 4.
+        \end{align*}
+
+        \item Volume integral of $\bnabla \cdot \vec{f}$.
+        First compute
+        \begin{align*}
+            \bnabla \cdot \vec{f} &= \frac{1}{h_rh_{\theta}h_{\phi}}\left[\pd{r}(h_{\theta}h_{\phi}f_r) + \pd{\theta}(h_rh_{\phi}f_{\theta}) + \pd{\phi}(h_rh_{\theta}f_{\phi})\right] \\
+            &= \frac{1}{r ^ 2\sin(\theta)}\pd{r}(r ^ 2\sin(\theta)r ^ 2\cos ^ 2(\theta) \\
+            &= \frac{\cos ^ 2(\theta)}{r ^ 2}\pd{r}(r ^ 4) \\
+            &= 4r\cos ^ 2(\theta).
+        \end{align*}
+        So
+        \begin{align*}
+            \int_{V}\bnabla\cdot\vec{f}\,dV &= \int_{0}^{2\pi}\int_{0}^{\pi}\int_{0}^{a}4r\cos ^ 2(\theta)h_rh_{\theta}h_{\phi}\,dr\,d\theta\,d\phi \\
+            &= \int_{0}^{2\pi}\int_{0}^{\pi}\int_{0}^{a}4r ^ 3\cos ^ 2(\theta)\sin(\theta)\,dr\,d\theta\,d\phi \\
+            &= \int_{0}^{2\pi}\int_{0}^{\pi}\left[r ^ 4\cos ^ 2(\theta)\sin(\theta)\right]_{0}^{a}\,d\theta\,d\phi \\
+            &= a ^ 4\int_{0}^{2\pi}\int_{0}^{\pi}\cos ^ 2(\theta)\sin(\theta)\,d\theta\,d\phi \\
+            &= \frac{4}{3}\pi a ^ 4.
+        \end{align*}
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    \begin{enumerate}[label = (\arabic*)]
+        \item The divergence theorem applies even when the boundary surface $S$ is not connected.
+        E.g. two concentric spheres $S = S_0 \cup S_1$.
+        \[
+        \oint_{S_1}\vec{f}\cdot\hvec{n}_1\,dS + \oint_{S_1}\vec{f}\cdot\hvec{n}_2\,dS = \int_{V}\bnabla\cdot\vec{f}\,dV.
+        \]
+
+        \item The divergence theorem plays a fundamental role in connecting integral and differential forms of conservation laws.
+    \end{enumerate}
+\end{remark}
 
 
 
