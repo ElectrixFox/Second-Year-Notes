@@ -2072,8 +2072,289 @@ No.
 While it is an intuitive connection between information and variance,
 the relationship isn't always this clear.
 
+\begin{proposition}[Cramér-Rao]
+    Under certain regularity conditions on $f(x, \theta)$,
+    if a statistic $T$ is an unbiased for $\vec{\theta}$ from a sample size $n$,
+    then
+    \[
+    \Var(T) \geq \frac{1}{\mathbb{I}_n(\vec{\theta})}\footnotemark
+    \]
+    \footnotetext{Cramér-Rao lower bound
+    (CRLB).}
+\end{proposition}
 
+If a statistic $T$ is unbiased and achieves the lower bound,
+then we call it an efficient statistic
+(or estimate).
 
+If $\Var(T) \to \text{CRLB}$,
+then we call it asymptotically efficient.
+
+Key point:
+Of all the possible unbiased estimates we cannot find any that have a smaller variance than $\frac{1}{\mathbb{I}_n(\theta)}$.
+
+\begin{example}
+    $X_1, \dotsc, X_n$ IID $N(\mu, \sigma ^ 2)$,
+    $\mu$ known,
+    $\sigma ^ 2$ unknown.
+
+    Single observation:
+    $\sigma ^ 2 = \theta$
+    \[
+    f(x; \theta) = \frac{1}{\sqrt{2\pi\theta}}\exp\left\{-\frac{1}{2\theta}(x - \mu) ^ 2\right\} = \ell(\theta)
+    \]
+    \begin{align*}
+        \mathcal{L}(\theta) &= \frac{1}{2}\log(2\pi) - \frac{1}{2}\log(\theta) - \frac{1}{2\theta}(x - \mu) ^ 2 \\
+        \mathcal{L}'(\theta) &= -\frac{1}{2\theta} + \frac{(x - \mu) ^ 2}{2\theta ^ 2} \\
+        \mathcal{L}''(\theta) &= \frac{1}{2\theta ^ 2} - \frac{(x - \mu) ^ 2}{\theta ^ 3} = -I(\theta) \\
+        \mathbb{I}_1(\theta) &= -\E_{X}\left(\frac{1}{2\theta ^ 2} - \frac{(X - \mu) ^ 2}{\theta ^ 3}\right) \\
+        &= -\frac{1}{2\theta ^ 2} + \E((X - \mu) ^ 2 / \theta ^ 3) \\
+        &= -\frac{1}{2\theta ^ 2} + \Var(X) / \theta ^ 3 \\
+        &= -\frac{1}{2\theta ^ 2} + \frac{\theta}{\theta ^ 3} \\
+        &= \frac{1}{2\theta ^ 2} \\
+        \mathbb{I}_n(\theta) &= n\mathbb{I}_1(\theta) = \frac{n}{2\theta ^ 2} \\
+        \implies \text{CRLB} &= \frac{1}{\mathbb{I}_n(\theta)} = \frac{2\theta a^ 2}{n}.
+    \end{align*}
+
+    Consider $S ^ 2$ unbiased for $\sigma ^ 2$.
+    Is it efficient?
+    \[
+    \frac{(n - 1)}{\sigma ^ 2}S ^ 2 \sim \chi_{n - 1}^{2},\qquad \Var(\chi_{k}^{2}) = 2k
+    \]
+    so
+    \[
+    \Var(S ^ 2) = \frac{2\theta ^ 2}{n - 1} \geq \frac{2\theta ^ 2}{n} = \text{CRLB}.
+    \]
+\end{example}
+
+\newpage
+\section{Large-sample properties of the MLE}
+Restrict focus to a class of "regular" problems
+
+\begin{definition}
+    For a sample size $n$ from $f(x, \theta)$,
+    we say we have a regular likelihood if
+    \begin{enumerate}[label = (\roman*)]
+        \item $f$ is smooth and at least $3$ times differentiable.
+
+        \item $\theta$ does not determine where $f > 0$
+        (support of $X$).
+
+        \item $\mathbb{I}_n$ exists,
+        is finite,
+        and greater than $0$.
+
+        In other words:
+        $\mathcal{L}(\theta)$ can be quadratically approximated at $\hat{\theta}$ and doesn't do anything weird.
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    For an IID sample from a regular likelihood,
+    the sample distribution of the MLE $\hat{\theta}$ for $\theta$ is such that for $n \to \infty$
+    \[
+    \hvec{\theta} \to N_p(\vec{\theta}, \mathbb{I}_n(\vec{\theta}) ^ {-1}).
+    \]
+\end{proposition}
+For large samples,
+the MLE is
+\begin{itemize}
+    \item Asymptotically unbiased -
+    $\E(\hat{\Theta}) \to \theta$.
+
+    \item Asymptotically efficient:
+    $\Var(\theta) \to \mathbb{I}_n(\theta) ^ {-1} = \text{CRLB}$.
+
+    \item Asymptotically Normal.
+\end{itemize}
+
+\begin{example}
+    $X \sim \Bin(n, \pi)$,
+    $\E(X) = n\pi$,
+    $\Var(X) = n\pi(1 - \pi)$.
+    \[
+    \ell(\pi) = \binom{n}{x}\pi ^ x(1 - \pi) ^ {n - x}.
+    \]
+    $\hat{\pi} = \frac{x}{n}$.
+    Expected info
+    \[
+    \mathbb{I}_n(\pi) = \frac{n}{\pi(1 - \pi)}
+    \]
+    we have $\hat{\pi} \to N\left(\pi, \frac{\pi(1 - \pi)}{n}\right)$ for $n$ large.
+
+    Alternatively:
+    \[
+    \E(\hat{\pi}) = \E\left(\frac{X}{n}\right) = \pi
+    \]
+    unbiased,
+    \[
+    \Var(\hat{\pi}) = \Var\left(\frac{X}{n}\right) = \frac{\pi(1 - \pi)}{n}
+    \]
+    efficient.
+
+    CLT/Normal approximation
+    \[
+    \hat{\pi} = N\left(\pi, \frac{\pi(1 - \pi)}{n}\right).
+    \]
+\end{example}
+
+\begin{example}
+    The Pareto distribution.
+    \[
+    f(x; \alpha, \beta) = \begin{cases}
+        \alpha\beta ^ {\alpha}x ^ {-\alpha - 1}, &x \geq \beta, \alpha, \beta > 0, \\
+        0, &\text{otherwise}.
+    \end{cases}
+    \]
+    Suppose $\beta > 0$ known,
+    $X_1, \dotsc, X_n$ IID sample.
+    For $n = 1$:
+    \begin{align*}
+        \mathcal{L}(\alpha) &= \log(\alpha) + \alpha\log(\beta) - (\alpha + 1)\log(x) \\
+        \mathcal{L}'(\alpha) &= \frac{1}{\alpha} + \log(\beta) - \log(x).
+        \intertext{At MLE $\hat{\alpha}$:}
+        0 &= \frac{1}{\hat{\alpha}} + \log(\beta) - \log(x) \\
+        \hat{\alpha} &= \frac{1}{\log(x) - \log(\beta)} \\
+        &= \frac{1}{\log(x / \beta)}.
+    \end{align*}
+    \[
+    \mathcal{L}''(\alpha) = -\frac{1}{\alpha ^ 2}.
+    \]
+    So
+    \[
+    \mathbb{I}_n(\alpha) = n\mathbb{I}_1(\alpha) = n\E\left(\frac{1}{\alpha ^ 2}\right) = \frac{n}{\alpha ^ 2}.
+    \]
+    For $n$ large $\hat{\alpha} \sim N\left(\alpha, \frac{1}{\mathbb{I}_n(\alpha)} = \frac{\alpha ^ 2}{n}\right)$.
+\end{example}
+
+\begin{example}
+    Suppose $X_1, \dotsc, X_n$ are IID $N(\mu, \sigma ^ 2)$,
+    $\vec{\theta} = [\mu, \sigma ^ 2] ^ T$ unknown.
+
+    \[
+    \hvec{\theta} = \begin{bmatrix}
+        \bar{x} \\
+        \frac{(n - 1)}{n}S ^ 2
+    \end{bmatrix}
+    \]
+    and
+    \[
+    \mathcal{L}''(\vec{\theta}) = \begin{bmatrix}
+        \frac{n}{\sigma ^ 2} & 0 \\ 0 & \frac{n}{2\sigma ^ 4}
+    \end{bmatrix}.
+    \]
+    Expected information:
+    \[
+    \mathbb{I}_n(\vec{\theta}) = \E_{X}(-\mathcal{L}''(\vec{\theta})) = \begin{bmatrix}
+        \frac{n}{\sigma ^ 2} & 0 \\ 0 & \frac{n}{2\sigma ^ 4}
+    \end{bmatrix}.
+    \]
+    Normal is a regular likelihood,
+    so for $n$ large.
+    \[
+    \hvec{\theta} \sim N(\vec{\theta}, \mathbb{I}_n(\vec{\theta}) ^ {-1}).
+    \]
+    \[
+    \begin{bmatrix}
+        \bar{x} \\ \frac{(n - 1)}{n}S ^ 2
+    \end{bmatrix} \sim N_2\left(\begin{bmatrix}
+        \mu \\ S ^ 2
+    \end{bmatrix}, \begin{bmatrix}
+        \frac{\sigma ^ 2}{n} & 0 \\ 0 & \frac{2\sigma ^ 4}{n}
+    \end{bmatrix}\right).
+    \]
+\end{example}
+
+If we only care about $\mu$,
+$\sigma ^ 2$ is a nuisance parameter.
+As $\hvec{\theta}$ is approximately Normal,
+we can marginalise away nuisance parameters.
+By MVN properties
+\[
+\bar{X} \sim N(\mu, \sigma ^ 2 / n)
+\]
+\[
+\frac{(n - 1)S ^ 2}{n} \sim N\left(\sigma ^ 2, \frac{2\sigma ^ 4}{n}\right).
+\]
+We can use this large-sample distribution to get an approximate large-sample CI for $\theta$:
+\[
+\hvec{\theta} \pm z_{\alpha / 2}^{*} / \sqrt{\mathbb{I}_n(\vec{\theta})}.
+\]
+Problem:
+this involves the unknown parameter.
+Solution:
+Estimate.
+
+\begin{proposition}
+    For an IID sample from regular likelihood,
+    \begin{enumerate}[label = (\roman*)]
+        \item $I(\hat{\theta}) \to \mathbb{I}_n(\theta)$,
+        as $n \to \infty$.
+
+        \item Similarly for large $n$,
+        \[
+        I(\hat{\theta}) \approx \mathbb{I}_n(\theta) \approx \mathbb{I}_n(\hat{\theta})
+        \]
+        since $\hat{\theta} \to \theta$.
+    \end{enumerate}
+\end{proposition}
+
+\newpage
+
+\section{Likelihood Inference}
+
+\begin{proposition}[Wald confidence intervals]
+    Under the conditions of the large sample approximation result,
+    an approximate $100(1 - \alpha)\%$ CI for scalar $\theta$ using the MLE is the Wald interval
+    \[
+    \hat{\theta} \pm z_{\alpha / 2}^{*} / \sqrt{I(\hat{\theta})}\qquad\text{or}\qquad \hat{\theta} \pm z_{\alpha / 2}^{*} / \sqrt{\mathbb{I}_n(\hat{\theta})}.
+    \]
+\end{proposition}
+
+\begin{example}
+    The $\mathrm{Pareto}(\alpha, \beta)$,
+    from before
+    \[
+    \hat{\alpha} \sim N\left(\alpha, \frac{1}{\mathbb{I}_n(\hat{\alpha})} = \frac{\hat{\alpha} ^ 2}{n}\right)
+    \]
+    $95\%$ CI for $\alpha$:
+    \[
+    \hat{\alpha} \pm 1.96\frac{\hat{\alpha} ^ 2}{n} = \frac{n}{\sum_{i}\log\left(\frac{x_i}{\beta}\right)} \pm 1.96\frac{n}{\left(\sum_{i}\log\left(\frac{x_i}{\beta}\right)\right) ^ 2}.
+    \]
+\end{example}
+
+\begin{example}
+    A drug trial $n = 10$ independent individuals,
+    with an unknown probability of improvement,
+    $\pi$.
+    Observe $x = 8$ improvements.
+    From previous examples $X \sim \Bin(n, \pi)$
+    \[
+    \hat{\pi} = \frac{x}{n},\quad \mathcal{L}''(\pi) = -\frac{x}{\pi ^ 2} - \frac{(n - x)}{(1 - \pi) ^ 2}.
+    \]
+    Observed information:
+    \[
+    I(\hat{\pi}) = -\mathcal{L}''(\hat{\pi}) = \frac{x}{(x / n) ^ 2} + \frac{n - x}{(1 - x / n) ^ 2} = \frac{n ^ 2}{x} + \frac{n ^ 2}{n - x} = \frac{n ^ 3}{x(n - x)}.
+    \]
+    For our data:
+    $\hat{\pi} = \frac{8}{10} = 0.8$ and $I(\hat{\pi}) = 62.5$,
+    we have approximately
+    \[
+    \mathrm{sd}(\hat{\pi}) \approx \frac{1}{\sqrt{I(\hat{\pi})}} = 0.127.
+    \]
+    So a $90\%$ Wald CI  for $\pi$:
+    $0.8 \pm 1.645 \times 0.127 = [0.59, 1.091]$,
+    $95\%$ is $0.8 \pm 1.96 \times 0.127 = [0.55, 1.05]$.
+
+    The large sample Normal approximation is not any good for $n = 10$.
+    Particularly,
+    this is problematic since $\theta$ is close to the edge of $[0, 1] \in \Omega$.
+    If we had seen $n = 100$ and $x = 90$ $95\%$ CI:
+    $[0.72, 0.88]$.
+\end{example}
+
+Question for next time:
+How can we fix this problem?
 
 
 
