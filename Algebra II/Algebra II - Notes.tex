@@ -1859,11 +1859,287 @@ when $R$ is a field every non-zero element is a unit,
 so we only have the zero ideal  and $R$ itself
 (no other ideals).
 
+Recap Ideals:
+$I \subseteq R$ such that $I$ is closed under addition,
+$r \in R$,
+$x \in I$ implies $rx \in I$.
+$\ker{f}$,
+$f$ a homomorphism is always an ideal.
 
+\subsection{Equivalence classes defined by an ideal}
+Have seen an example,
+mainly $\Z / n$,
+which is actually the quotient of $\Z$ modulo the ideal $(n) = n\Z = \Z n$.
 
+\begin{example}
+    $\Z$ with the ideal $n\Z$.
+    We say that $x, y \in \Z$ are equivalent
+    (or congruent)
+    if $x \equiv y\pmod{n}$,
+    i.e.,
+    \[
+    n \mid (x - y)
+    \]
+    i.e. if $x - y \in n\Z$.
+    We have denoted elements of $\Z / n$ by $\bar{a}$,
+    but these elements are really defined as equivalence classes,
+    i.e.,
+    the set of all $x \in \Z$ which are equivalent to $a$.
+    E.g. $\bar{0} \in \Z / n$ is $\bar{0} = \{x \in \Z \mid x - 0 \in n\Z\}$.
+    Similarly,
+    $\bar{1} = \{x \in \Z \mid x - 1 \in n\Z\} = \{1 + ny \mid y \in \Z\} = 1 + n\Z$.
+\end{example}
 
+\begin{example}
+    Consider $\Q[x]$ with the ideal $I = (x ^ 2 + x + 1)$.
+    Again,
+    define two elements $a, b \in \Q[x]$ to be equivalent/congruent mod $I$ if $a - b \in I$ and denote the equivalence class of $a$ by $\bar{a}$.
+    Also define,
+    \[
+    \bar{a} + \bar{b} \coloneqq \overline{a + b},\quad \bar{a} \cdot \bar{b} \coloneqq \overline{ab}.
+    \]
+    Then,
+    e.g.,
+    $\overline{x ^ 2 + x + 1} = \bar{0}$
+    ($x ^ 2 + x + 1 - 0 \in (x ^ 2 + x + 1)$),
+    so
+    \[
+    \bar{x} ^ 2 = \overline{-x - 1}.
+    \]
+    Now,
+    if $p(x) \in \Q[x]$,
+    we can write
+    \[
+    p(x) = q(x)(x ^ 2 + x + 1) + r(x),\qquad\deg{r} < 2.
+    \]
+    Then
+    \[
+    p(x) - r(x) \in (x ^ 2 + x + 1) = I,
+    \]
+    i.e.,
+    $p(x)$ is equivalent to $r(x)$.
+    This means that any polynomial in $\Q[x]$ is equivalent to one of degree less than $2$.
+    Hence $\overline{p(x)} = \overline{r(x)}$.
 
+    Here,
+    $r(x)$ is said to be a representative of $\overline{p(x)}$
+    (of degree less than $2$).
+    If $p(x) = x ^ 4 - 3x ^ 2 + 2$,
+    using $\overline{x ^ 2} = \overline{-x - 1}$,
+    rewrite as
+    \begin{align*}
+        \overline{x ^ 4} &= \left(\overline{x ^ 2}\right) ^ 2 \\
+        &= \left(\overline{-x - 1}\right) ^ 2 \\
+        &= \overline{(-x - 1) ^ 2} \\
+        &= \overline{x ^ 2 + 2x + 1} \\
+        &= \overline{x ^ 2 + x + 1} + \bar{x} \\
+        &= \bar{0} + \bar{x} \\
+        &= \bar{x}.
+    \end{align*}
+    This means that
+    \[
+    \overline{p(x)} = \bar{x} - \overline{3(-x - 1)} + \bar{2} = \overline{4x + 5}.
+    \]
+    Here $4x + 5$ is a representative for $p(x) = x ^ 4 - 3x ^ 2 + 2$.
+\end{example}
 
+Now,
+we will generalise this to arbitrary rings and ideals:
+
+\begin{definition}
+    Let $R$ be a ring and $I \subseteq R$ and ideal.
+    Two elements $x, y \in R$ are equivalent/congruent if
+    \[
+    x - y \in I.
+    \]
+    We sometimes write this as $x \equiv y \mod{I}$.
+    Moreover,
+    for any $x \in R$,
+    the coset of $x$ modulo $I$,
+    is
+    \[
+    \bar{x} = \{x + r \mid r \in I\} = \{y \in R \mid x - y \in I\} = x + I.
+    \]
+    $x$ is said to be a representative of $\bar{x}$
+    (in fact,
+    any element in $\bar{x}$ is a representative).
+\end{definition}
+
+\textit{Note:
+$\bar{x}$ is precisely the set of all $y \in R$ such that $x \equiv y\mod{I}$.
+Indeed,
+if $y \in x + I = \bar{x}$,
+then $y = x + r$,
+some $r \in I$.
+Thus $x - y = -r \in I$.
+Conversely,
+if $x - y \in I$,
+then $\exists r \in I$ such that $x - y = r$,
+so $y = x - r \in x + I$.}
+
+\begin{lemma}
+    The cosets modulo $I$ form a partition of $R$.
+
+    \begin{proof}
+        We need:
+        \begin{enumerate}[label = \arabic*)]
+            \item Every coset is non-empty.
+
+            \item Two cosets are either disjoint or equal.
+
+            \item The union of all cosets is $R$.
+        \end{enumerate}
+
+        
+        \begin{enumerate}[label = \arabic*)]
+            \item Clear because $x$ is always in $\bar{x} = x + I$.
+
+            \item Let $x, y \in R$ and suppose that $z \in (x + I) \cap (y + I)$.
+            Then $x - z \in I$ and $y - z \in I$,
+            hence $(x - z) - (y - z) = x - y \in I$,
+            so that $x + I = y + I$.
+
+            \item The union of all cosets clearly lies inside $R$ and conversely every element $x \in R$ lies in some coset,
+            namely $\bar{x} = x + I$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\subsection{The quotient ring}
+We will construct
+"$R\mod{I}$",
+denoted $R / I$.
+It consists of all cosets of elements of $R\mod{I}$.
+
+We need to be able to add/multiply cosets.
+We define
+\begin{align*}
+    (x + I) + (y + I) &\coloneqq (x + y) + I \\
+    (x + I) \cdot (y + I) &\coloneqq xy + I.
+\end{align*}
+Not yet clear that these are well-defined,
+i.e.
+that the choice of representatives do not change the result of addition/multiplication
+(Recall this was encountered for addition/multiplication for $\Z / n$).
+
+Suppose we have two representatives $x, x' \in R$ for $x + I$ and $y, y' \in R$ for $y + I$.
+This means,
+\[
+x + I = x' + I\qquad\text{and}\qquad y + I = y' + I.
+\]
+Addition is well-defined
+\[
+(x + y) + I = (x' + y') + I.
+\]
+Indeed,
+$x - x' + y - y' = (x + y) - (x' + y') \in I$.
+Thus $(x + y) + I = (x' + y') + I$.
+Multiplication is well-defined.
+We need $xy + I = x'y' + I$.
+Again,
+$x - x' \in I$ and $y - y' \in I$,
+so
+\[
+(x - x')y \in I\qquad\text{and}\qquad x' \cdot (y - y') \in I
+\]
+by absorption.
+Add these two relations
+(using that $I$ is closed under $+$)
+\[
+xy - x'y' \in I.
+\]
+Now $R / I$
+(the set of all cosets)
+with $+$ and $\cdot$ as above is a ring because it inherits all the properties like associativity/distributivity etc from $R$.
+Similarly,
+if $R$ is commutative,
+so is $R / I$.
+
+\begin{definition}
+    The ring $R / I$ is called the quotient of $R$ by $I$.
+    Its elements $x + I$,
+    $x \in R$ are called cosets,
+    also written $\bar{x}$.
+
+    \begin{itemize}
+        \item If $I = (1) = R$,
+        then $R / R = 0 = \{\bar{0}\}$.
+
+        \item If $I = 0$,
+        then $R / 0 \cong R$ because $x, y \in R$ are equivalent mod $0$ if $x - y \in \{0\}$,
+        i.e. $x = y$.
+    \end{itemize}
+\end{definition}
+
+\subsection{The quotient map and the First Isomorphism Theorem
+    (FIT)}
+Note that we always have a homomorphism:
+\[
+R \to R / I,\quad r \mapsto \bar{r} = r + I.
+\]
+This is the quotient map or the canonical map.
+
+We have seen that every kernel is an ideal.
+Is every ideal the kernel of some homomorphism?
+Yes,
+the kernel of the quotient map is precisely $I$:
+\[
+\ker{f} = \{r \in R \mid \bar{r} = \bar{0}\} = \{r \in R \mid r \in I\} = I.
+\]
+
+\begin{proposition}
+    Every ideal is a kernel.
+
+    \begin{proof}
+        The proof is as above.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[FIT]
+    Let $\varphi : R \to S$ be a ring homomorphism.
+    Then the map $\bar{\varphi} : R / \ker{\varphi} \to \Im{\varphi}$,
+    $\bar{x} \mapsto \varphi(x)$ is a well-defined isomorphism,
+    i.e.,
+    $R / \ker{\varphi} \cong \Im{S}$.
+
+    \begin{proof}
+        $\bar{\varphi}$ is well-defined.
+        Let $x, x' \in R$ be two equivalent elements,
+        i.e.,
+        $\bar{x} = \bar{x'}$
+        ($x \equiv x' \mod{\ker{\varphi}}$).
+        Then $x - x' \in \ker{\varphi}$,
+        so $\varphi(x - x') = \varphi(x) - \varphi(x') = 0$ so $\varphi(x) = \varphi(x')$,
+        hence $\bar{\varphi}(\bar{x}) = \varphi(x) = \varphi(x') =  \bar{\varphi}(\bar{x'})$ so $\bar{\varphi}$ is well-defined.
+
+        $\bar{\varphi}$ is a homomorphism
+        (easy check).
+        Claim:
+        $\ker{\bar{\varphi}} = 0$.
+        Indeed,
+        \[
+        \bar{x} \in \ker{\bar{\varphi}} \iff \bar{\varphi}(\bar{x}) = 0 \iff \varphi(x) = 0 \iff x \in \ker{\varphi} \iff \bar{x} = \bar{0}.
+        \]
+        Thus $\bar{\varphi}$ is injective.
+        Finally,
+        $\bar{\varphi}$ is surjective because for all $y \in \Im{\varphi}, \exists x \in R$ such that $\varphi(x) = y$,
+        so
+        \[
+        \bar{\varphi}(\bar{x}) = y.
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Let $\varphi : \R[x] \to \C$,
+    $\varphi(f(x)) = f(i)$,
+    $i ^ 2 = -1$.
+    If $f(i) = 0$,
+    then $i$ is a root,
+    so its conjugate $-i$ is also a root of $f(x)$ then $f(x)$ has a factor $(x - i)(x + i) = x ^ 2 + 1$.
+    Thus $\ker{\varphi} = (x ^ 2 + 1)$.
+    By FIT $\R[x] / (x ^ 2 + 1)  \cong \Im{\varphi} = \C$.
+\end{example}
 
 
 
