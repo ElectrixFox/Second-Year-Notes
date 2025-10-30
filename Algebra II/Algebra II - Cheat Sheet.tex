@@ -1,0 +1,131 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Algebra II \\
+    \large Cheat Sheet}
+\author{Luke Phillips}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Rings,
+    subrings and fields}
+
+\begin{definition}
+    A ring $R$ is a set with two binary operations $+, \cdot$ such that $+$ makes $R$ into an abelian group and such that
+    \begin{enumerate}[label = (\roman*)]
+        \item (Identity)
+        \[
+        \exists 1 \in R, 1 \cdot x = x \cdot 1 = x,\quad\forall x \in R.
+        \]
+
+        \item (Associativity)
+        \[
+        x(yz) = (xy)z,\quad\forall x, y, z \in R.
+        \]
+
+        \item (Distributivity)
+        \[
+        x(y + z) = xy + xz\text{ and } (y + z)x = yx + zx,\quad\forall x, y, z \in R.
+        \]
+    \end{enumerate}
+\end{definition}
+
+The \textbf{modulo notation} for the set of integers modulo $n$ is denoted $\Z / n$ called the residue class.
+
+\begin{definition}
+    A subring $S$ of a ring $(R, +, \cdot)$ is a set $S \subseteq R$ such that
+    \begin{enumerate}[label = (\roman*)]
+        \item $0 \in S, 1 \in S$.
+
+        \item $a, b \in S \implies a + b \in S$.
+
+        \item $a, b \in S \implies ab \in S$.
+
+        \item $a \in S \implies -a \in S$.
+    \end{enumerate}
+\end{definition}
+\textit{Note:
+a subring is something that has $0$ and $1$,
+and that you can add or multiply any elements in it together to get something still in it
+(as well as negation).}
+
+\begin{definition}
+    A ring $(R, +, \cdot)$ is a field if
+    \begin{enumerate}[label = (\roman*)]
+        \item $R$ is commutative.
+
+        \item $1 \neq 0$
+        ($R$ has at least two elements).
+
+        \item For every $a \in R$,
+        such that $a \neq 0, \exists b \in R$ such that $ab = 1$
+        (i.e. for every $a$ there is an inverse $b = a ^ {-1}$).
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    Inverses are \textbf{unique},
+    so if you want to prove something about an inverse this could be a good place to start.
+\end{remark}
+
+\vspace{1em}
+
+\begin{lemma}[Well-Ordering Principle
+    (WOP)]
+    Let $S$ be a non-empty subset of $\N_0 = \N \cup \{0\}$.
+    Then $S$ has a smallest element.
+\end{lemma}
+
+\vspace{0.5em}
+
+\begin{remark}
+    The \textbf{above} could be used in a proof if we need the \textbf{smallest} $m$ in a finite set that satisfies a condition.
+\end{remark}
+
+\vspace{1em}
+
+\begin{proposition}
+    Let $a, b \in \Z$,
+    $b \neq 0$.
+    Then there exist $q, r \in \Z$ such that 
+    \[
+    a = q \cdot b + r\qquad\text{and}\qquad 0 \leq r < |b|.
+    \]
+\end{proposition}
+
+\begin{remark}
+    This means that for $a \in \Z$ we can always split it up into something with a multiple that we choose and a remainder,
+    quite useful in \textbf{modulo arithmetic}.
+\end{remark}
+
+\begin{theorem}
+    Let $a, b \in \Z$,
+    not both $0$.
+    Then $\gcd(a, b)$ exists and can be calculated by the Euclidean algorithm.
+    Moreover,
+    if $d = \gcd(a, b)$ then $\exists x, y \in \Z$ such that
+    \[
+    ax + by = d.
+    \]
+\end{theorem}
+
+\begin{lemma}
+    If $p$ prime and $p \mid ab$,
+    $a, b \in \Z$,
+    $p \mid a$ or $p \mid b$.
+\end{lemma}
+
+
+
+
+
+\end{document}
