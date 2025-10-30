@@ -1701,6 +1701,217 @@ potential.
     \end{enumerate}
 \end{remark}
 
+\subsection{Stokes' Theorem}
+(Third generalisation of FTOC)
+
+\begin{theorem}[Stokes' Theorem]\label{mathmethII:thm:stokesthm}
+    If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field and $C$ is an oriented closed curve bounding a surface $S$,
+    then
+    \[
+    \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS
+    \]
+    where $\hvec{n}$ is chosen such that $\hvec{t} \times \hvec{n}$ is outward.
+\end{theorem}
+
+Notes:
+\begin{enumerate}[label = (\arabic*)]
+    \item $S$ is sometimes called a capping surface for $C$.
+
+    \item Stokes' theorem says that the flux of $\bnabla \times \vec{f}$ is the same for every possible $S$ sharing the boundary $C$.
+
+    \item Remember the correct orientation by the
+    "right-hand rule".
+\end{enumerate}
+
+\begin{example}
+    Verify Stokes' theorem by computing both sides for $\vec{f}(\vec{x}) = z\vec{e}_1 + x\vec{e}_2 - x\vec{e}_3$ with $S$ the unit disk $\{x ^ 2 + y ^ 2 \leq 1, z = 0\}$.
+
+    LHS
+    (circulation)
+    Parametrise $C$ as $\vec{x}(t) = \cos(t)\vec{e}_1 + \sin(t)\vec{e}_2$ for $t \in [0, 2\pi]$.
+    So
+    \begin{align*}
+        \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{0}^{2\pi}\vec{f}\cdot\frac{d\vec{x}}{dt}\,dt \\
+        &= \int_{0}^{2\pi}(\cos(t)\vec{e}_2 - \cos(t)\vec{e}_3)\cdot(-\sin(t)\vec{e}_1 + \cos(t)\vec{e}_2)\,dt \\
+        &= \int_{0}^{2\pi}\cos ^ 2(t)\,dt \\
+        &= \pi.
+    \end{align*}
+
+    RHS
+    (flux of $\bnabla \times \vec{f}$)
+    \[
+    \bnabla \times \vec{f} = \begin{vmatrix}
+        \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+        \pd{x} & \pd{y} & \pd{z} \\
+        z & x & -x
+    \end{vmatrix} = 2\vec{e}_2 + \vec{e}_3.
+    \]
+    Unit normal is $\hvec{n} = \vec{e}_3$,
+    so
+    \begin{align*}
+        \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS &= \int_{S}(2\vec{e}_2 + \vec{e}_3)\cdot\vec{e}_3\,dS \\
+        &= \int_{S}\,dS \\
+        &= \pi(1) ^ 2 = \pi = \text{LHS}.
+    \end{align*}
+\end{example}
+
+\begin{example}
+    Repeat the surface integral in the previous example but with $S$ the hemisphere $\{x ^ 2 + y ^ 2 + z ^ 2 = 1, z \geq 0\}$.
+    (Stokes' theorem says that the answer is still $\pi$).
+
+    Now $\hvec{n} = \vec{e}_r$
+    (spherical coordinates),
+    so
+    \begin{align*}
+        \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS &= \int_{S}(2\vec{e}_2 + \vec{e}_3)\cdot\vec{e}_r\,dS \\
+        &= \int_{S}(2\vec{e}_2 + \vec{e}_3)\cdot\left(\frac{x}{r}\vec{e}_1 + \frac{y}{r}\vec{e}_2 + \frac{z}{r}\vec{e}_3\right)\,dS \\
+        &= \int_{S}\frac{2y}{r} + \frac{z}{r}\,dS \\
+        &= \int_{S}2\sin(\theta)\sin(\phi) + \cos(\theta)\,dS \\
+        &= \int_{0}^{2\pi}\int_{0}^{\pi / 2}(2\sin(\theta)\sin(\phi) + \cos(\theta))\sin(\theta)\,d\theta\,d\phi &&(\substack{\text{parametrise with} \\\text{spherical coordinates}}) \\
+        &= \int_{0}^{2\pi}\int_{0}^{\pi / 2}2\sin ^ 2(\theta)\sin(\phi) + \cos(\theta)\sin(\theta)\,d\theta\,d\phi \\
+        &= \int_{0}^{2\pi}\left[-\cos ^ 2(\theta) / 2\right]_{0}^{\pi / 2}\,d\phi \\
+        &= \int_{0}^{2\pi}\frac{1}{2}\,d\phi = \pi.
+    \end{align*}
+    Same as before.
+\end{example}
+
+The special case where $S \subset \R ^ 2$ has a name:
+\begin{corollary}[Green's Theorem]
+    If $\vec{f} : \R ^ 2 \to \R ^ 2$ is a $C ^ {1}$ vector field and $C$ is a closed curve in $\R ^ 2$ oriented anti-clockwise,
+    then
+    \[
+    \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{A}\left(\pd[f_2]{x} - \pd[f_1]{y}\right)\,dx\,dy.
+    \]
+\end{corollary}
+
+\begin{corollary}
+    If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field with $\bnabla \times \vec{f} = \vec{0}$ throughout some simply-connected region $V \subset \R ^ 3$,
+    then $\vec{f}$ is conservative in $V$.
+
+    \begin{proof}
+        Recall that $\vec{f} = \bnabla g$ if and only if $\vec{f}$ has path independent line integrals.
+        So consider two arbitrary curves $C_1, C_2$ between $\vec{x}_a, \vec{x}_b \in V$:
+        Define $C = C_1 - C_2$.
+        Since $V$ is simply-connected
+        (by assumption),
+        $\exists$ a capping surface $S \subset V$ for $C$.
+        Stokes' theorem says
+        \[
+        \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{S}(\overbrace{\bnabla \times \vec{f}}^{= 0}) \cdot \hvec{n}\,dS = 0.
+        \]
+        Which implies
+        \[
+        \int_{C_1}\vec{f}\cdot\hvec{t}\,d\ell = \int_{C_2}\vec{f}\cdot\hvec{t}\,d\ell
+        \]
+        i.e. path independence holds so $\vec{f}$ is conservative.
+    \end{proof}
+\end{corollary}
+A domain is simply-connected if any curve can be shrunk to a point within the domain.
+
+\subsection{Proof of Stokes' Theorem}
+
+\begin{lemma}
+    Let $C$ be a planar curve in a plane with unit normal $\hvec{n}$,
+    with diameter $d(C)$,
+    enclosed area $|A|$ and containing the point $\vec{x}$.
+
+    For any vector field $\vec{f} : \R ^ 3 \to \R ^ 3$,
+    \[
+    \hvec{n} \cdot (\bnabla \times \vec{f})\,\biggr|_{\vec{x}} = \lim_{d(C) \to 0}\frac{1}{|A|}\oint_{C}\vec{f}\cdot\hvec{t}\,d\ell
+    \]
+    where $C$ is oriented with $\hvec{t} = \hvec{n} \times \hvec{n}_{C}\footnotemark$.
+    \footnotetext{Outward normal to the curve.}
+
+    \begin{proof}
+        "Extrude"
+        $C$ by a small distance $h$ in the $\hvec{n}$-direction to form a thin
+        "pill"
+        surface $S$,
+        with normal $\hvec{n}_{S}$.
+        By the definition of curl,
+        \begin{align*}
+            \hvec{n}\cdot(\bnabla \times \vec{f})\,\biggr|_{\vec{x}} &= \hvec{n}\cdot\left[\lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}_{S}\times \vec{f}\,dS\right] \\
+            &= \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\hvec{n}\cdot(\hvec{n}_S\times\vec{f})\,dS \\
+            &= \lim_{d(S) \to 0}\frac{1}{|A|h}\oint_{S}\vec{f}\cdot(\hvec{n}\times\hvec{n}_{S})\,dS \\
+            \intertext{$\hvec{n} \times \hvec{n}_{S}$ vanishes on top and bottom since $\hvec{n}_{S} = \pm \hvec{n}$.}
+            &= \lim_{|A|, d(S) \to 0}\frac{1}{|A|h}\int_{\tilde{S}}\vec{f}\cdot(\hvec{n}\times\hvec{n}_{C})\,dS \\
+            \intertext{$\tilde{S}$ is the curved surface}
+        \end{align*}
+        Parametrise $\tilde{S}$ by $\tilde{x}(t, v) = \vec{x}_{C}(t) + t\hvec{n}$ for $v \in [0, h]$,
+        $t \in [t_0, t_1]$,
+        $\vec{x}_{C}$ is a parametrisation of $C$.
+        \[
+        \left|\pd[\tilde{\vec{x}}]{t} \times \pd[\tilde{\vec{x}}]{v}\right| = \left|\frac{d\vec{x}_{C}}{dt}\times\hvec{n}\right| = \left|\frac{d\vec{x}_{C}}{dt}\right||\hvec{n}| = \left|\frac{d\vec{x}_{C}}{dt}\right|.
+        \]
+        So
+        \begin{align*}
+            \int_{\tilde{S}}\vec{f}\cdot(\hvec{n}\times\hvec{n}_{C})\,dS &= \int_{t_0}^{t_1}\int_{0}^{h}\vec{f}\cdot(\hvec{n}\times\hvec{n}_{C})\left|\frac{d\vec{x}_{C}}{dt}\right|\,dv\,dt \\
+            &= \int_{t_0}^{t_1}(\hvec{n}\times\hvec{n}_{C})\cdot\left(\int_{0}^{h}\vec{f}\,dv\right)\left|\frac{d\vec{x}_{C}}{dt}\right|\,dt \\
+            \intertext{$\int_{0}^{h}\vec{f}\,dv = h\vec{f}(t, v_{*}(t))$ for some $v_{*}(t) \in [0, h]$ by the mean value theorem for integrals}
+            &= h\int_{t_0}^{t_1}(\hvec{n} \times \hvec{n}_{C})\cdot\vec{f}(t, v_{*}(t))\left|\frac{d\vec{x}_{C}}{dt}\right|\,dt.
+        \end{align*}
+        In the limit $h \to 0$,
+        we have $v_{*}(t) \to 0$ for all $t$
+        (squeezing theorem)
+        so
+        \begin{align*}
+            \hvec{n}\cdot(\bnabla \times \vec{f})\,\biggr|_{\vec{x}} &= \lim_{|A| \to 0}\frac{1}{|A|}\int_{t_0}^{t_1}\underbrace{(\hvec{n}\times\hvec{n}_{C})}_{=\hvec{t}}\cdot\vec{f}(t, 0)\left|\frac{d\vec{x}_{C}}{dt}\right|\,dt \\
+            &= \lim_{|A| \to 0}\frac{1}{|A|}\oint_{C}\vec{f}\cdot\hvec{t}\,d\ell.
+        \end{align*}
+        \[
+        \]
+        
+    \end{proof}
+\end{lemma}
+I.e. projecting $\bnabla \times \vec{f}$ in some fixed direction $\hvec{n}$ gives
+"circulation per unit area"
+around that axis.
+
+\begin{theorem}[continues = mathmethII:thm:stokesthm]
+    \begin{proof}
+        (Similar to divergence theorem)
+
+        Subdivide $S$ into a disjoint union of smaller regions $S_i$ for $i = 1, \dotsc, m$ whose boundary curves have unit tangent vectors $\hvec{t}_i$.
+
+        Observe that each boundary segment is shared by two neighbouring regions with equal and opposite tangents.
+
+        So
+        \begin{align*}
+            \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \sum_{i = 1}^{m}\oint_{C_i}\vec{f}\cdot\hvec{t}_i\,d\ell \\
+            &= \sum_{i = 1}^{m}\left(\frac{1}{|A_i|}\oint_{C_i}\vec{f}\cdot\hvec{t}_i\,d\ell\right)|A_i| \\
+            &= \lim_{m \to \infty}\sum_{i = 1}^{m}\left(\frac{1}{|A_i|}\oint_{C_i}\vec{f}\cdot\hvec{t}_i\,d\ell\right)|A_i| \\
+            &= \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{remark}
+    There is a much more general form of
+    "Stokes' theorem"
+    in differential geometry,
+    written elegantly as
+    \[
+    \int_{\Omega}d\omega = \int_{\partial\Omega}\omega.
+    \]
+\end{remark}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
