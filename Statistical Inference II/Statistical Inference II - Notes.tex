@@ -2319,7 +2319,7 @@ Estimate.
     \]
     $95\%$ CI for $\alpha$:
     \[
-    \hat{\alpha} \pm 1.96\frac{\hat{\alpha} ^ 2}{n} = \frac{n}{\sum_{i}\log\left(\frac{x_i}{\beta}\right)} \pm 1.96\frac{n}{\left(\sum_{i}\log\left(\frac{x_i}{\beta}\right)\right) ^ 2}.
+    \hat{\alpha} \pm 1.96\frac{\hat{\alpha} ^ 2}{n} = \sqrt{\frac{n}{\sum_{i}\log\left(\frac{x_i}{\beta}\right)} }\pm 1.96\sqrt{\frac{n}{\left(\sum_{i}\log\left(\frac{x_i}{\beta}\right)\right) ^ 2}}.
     \]
 \end{example}
 
@@ -2356,9 +2356,318 @@ Estimate.
 Question for next time:
 How can we fix this problem?
 
+\subsection{The Delta Method}
+When $\hat{\theta}$ is close to the boundary of the parameter space,
+$\Omega$,
+the Wald confidence interval will potentially include nonsense values because Normal is a poor approximation.
+Solution:
+transform $\theta \to \phi(\theta)$,
+where $\phi$ is far from any boundaries
+(or has none).
+
+\begin{proposition}[The Delta Method]
+    Suppose $\phi = \phi(\theta)$ is a collection of functions,
+    $\phi : \R ^ p \to \R ^ q$,
+    continuous and differentiable with $q \leq p$.
+    Then $\hat{\phi} = \phi(\hat{\theta})$
+    (invariance property)
+    and
+    \[
+    \hat{\theta} \sim N(\theta, \mathrm{se}(\hat{\theta}) ^ 2) \implies \hat{\phi} \sim N\left(\phi, \mathrm{se}(\hat{\phi}) ^ 2 = \mathrm{se}(\hat{\theta})\left|\frac{d\phi}{d\theta}\right|_{\theta = \hat{\theta}}^{2}\right)
+    \]
+    ($\mathrm{se}(\hat{\theta}) = \sqrt{I(\hat{\theta}) ^ {-1}}$ or $\sqrt{\mathbb{I}_n(\hat{\theta}) ^ {-1}}$).
+    Provided $\frac{d\phi}{d\theta} \neq 0$ at $\theta$,
+    we can use this to get a CI for $\phi$:
+    \[
+    \hat{\phi} \pm z_{\alpha / 2}^{*}\mathrm{se}(\hat{\phi}) = \phi(\hat{\theta}) \pm z_{\alpha / 2}^{*}\mathrm{se}(\hat{\theta})\left|\frac{d\phi}{d\theta}\right|_{\theta = \hat{\theta}} = [L, u].
+    \]
+    If the transformation is invertible,
+    we can apply $\phi ^ {-1}$ to the limits of the CI,
+    and back-transform the interval to $\theta$.
+    So for $\phi$ increasing then
+    \[
+    L \leq \phi \leq u \implies \phi ^ {-1}(L) \leq \theta \leq \phi ^ {-1}(u)
+    \]
+    giving $[\phi ^ {-1}(L), \phi ^ {-1}(u)]$ as a $100(1 - \alpha)\%$ CI for $\theta$.
+    Note if $\phi$ decreases,
+    reverse endpoints.
+\end{proposition}
+
+\begin{example}
+    Binomial $X \sim \Bin(n, \pi)$
+    ($n = 10$),
+    observe $x = 8$ improvements.
+    A common transformation of $\pi$ is the $\log$ odds or logit
+    \[
+    \phi = \log\left(\frac{\pi}{1 - \pi}\right)
+    \]
+    with inverse
+    \[
+    \pi = \frac{1}{1 + e ^ {-\phi}} = \frac{e ^ {\phi}}{1 + e ^ {\phi}}
+    \]
+    (logistic function).
+    $\phi = \infty \implies \pi = 1$,
+    $\phi = -\infty \implies \pi = 0$,
+    $\phi = 0 \implies \pi = 1 / 2$.
+    While $\pi \in [0, 1]$,
+    $\phi \in \R$.
+    Given $\hat{\pi} = \frac{x}{n} = 0.8$ and $\mathrm{se}(\hat{\pi}) = \sqrt{I(\hat{\pi}) ^ {-1}} = \sqrt{\frac{\hat{\pi}(1 - \hat{\pi})}{n}}$
+    \[
+    \hat{\phi} = \log\left(\frac{\hat{\pi}}{1 - \hat{\pi}}\right) = 1.3863
+    \]
+    (invariance of MLE).
+    \[
+    \frac{d\phi}{d\pi} = \frac{1}{\pi} - \frac{1}{1 - \pi} = \frac{1}{\pi(1 - \pi)}.
+    \]
+    Delta method:
+    \[
+    \mathrm{se}(\hat{\phi}) = \sqrt{I(\hat{\pi}) ^ {-1}}\left|\frac{d\phi}{d\pi}\right|_{\pi = \hat{\pi}} = \sqrt{\frac{\hat{\pi}(1 - \hat{\pi})}{n}}\cdot\frac{1}{\hat{\pi}(1 - \hat{\pi})} = \frac{1}{\sqrt{n\hat{\pi}(1 - \hat{\pi})}} = \sqrt{\frac{n}{x(n - x)}}
+    \]
+    since $\hat{\pi} = \frac{x}{n}$.
+    $95\%$ Wald CI for $\phi$:
+    \[
+    1.3863 \pm 1.96 \times 0.7905 = [-0.1632, 2.9358]
+    \]
+    implies $95\%$ CI for $\theta$:
+    \[
+    [\phi ^ {-1}(-0.1632), \phi ^ {-1}(2.9358)] = [0.4593, 0.9496]
+    \]
+    now respects boundary of $\pi$ vs $[0.55, 1.05]$ from last time.
+\end{example}
+
+\subsection{Prediction}
+So far,
+we observed $\vec{x}$ and made inferences for unknown parameter $\theta$.
+
+Question:
+What about inference for future unobserved data,
+$X ^ {*}$?
+Prediction.
+
+Given $X_1, \dotsc, X_n$ IID $f_{X}(x; \vec{\theta})$ predict $X ^ {*} = X_{n + 1}$
+(also from $f(x; \theta)$).
+How?
+
+Plug-in prediction:
+
+Use $f_{X}(x; \theta)$,
+but replace unknown $\theta$ by MLE $\hat{\theta}$.
+Unknown $X ^ {*}$ is then described by plug-in predictive distribution
+\[
+f(x ^ {*}) = f_{X}(x; \theta = \hat{\theta}).
+\]
+Quick and simple -
+but ignores uncertainty on $\hat{\theta}$,
+by treating $\hat{\theta}$ as if it were true $\theta$.
 
 
+A variance correction:
+Plug-in prediction under-states uncertainty -
+correct for it.
 
+\begin{proposition}[Predictive variance correction]
+    For $X_1, \dotsc, X_n$ IID $f_{X}(x; \theta)$ with MLE $\hat{\theta}$,
+    and future observation $X ^ {*} = X_{n + 1}$.
+    Let
+    \[
+    m(\theta) = \E(X ^ {*}; \theta),\qquad v(\theta) = \Var(X ^ {*}; \theta),
+    \]
+    then
+    \[
+    X ^ {*} \mid \vec{x} \sim N\left(m(\hat{\theta}), v(\hat{\theta}) + (m'(\hat{\theta})) ^ 2\hat{\Var}(\hat{\theta})\right),
+    \]
+    where $\hat{\Var}(\hat{\theta}) = I(\hat{\theta}) ^ {-1}$ or $\mathbb{I}_n(\hat{\theta}) ^ {-1}$.
+\end{proposition}
+
+\begin{example}
+    $X_i \sim N(\mu, \sigma ^ 2)$ are daily mean pollution concentrations in $\mu g/m ^ 3$.
+    $\mu$ unknown,
+    $\sigma ^ 2$ known.
+    Observe $n = 20$ days,
+    $\bar{x} = 32.5\ \mu g/m ^ 3$,
+    $\sigma ^ 2 = 16$.
+    Want to predict $X ^ {*} = X_{21}$.
+
+    \begin{solution}
+        \begin{enumerate}[label = (\arabic*)]
+            \item (Plug-in)
+            Act as though $\mu = \hat{\mu} = \bar{x}$
+            \[
+            X ^ {*} \mid \vec{x} \sim N(\hat{\mu}, \sigma ^ 2) = N(32.5, 16)
+            \]
+            so a $95\%$ prediction interval is:
+            \[
+            \hat{\mu} \pm z_{0.025}^{*}\sigma = [24.7, 40.3].
+            \]
+
+            \item (Variance correction)
+            $m(\mu) = \E(X ^ {*}; \mu) = \mu$,
+            $v(\mu) = \Var(X ^ {*}; \mu) = \sigma ^ 2$,
+            $m'(\mu) = 1$,
+            $\Var(\hat{\mu}) = \Var(\bar{x}) = \frac{\sigma ^ 2}{n}$ which gives
+            \[
+            X ^ {*} \mid \vec{x} \sim N\left(\hat{\mu} = \bar{x}, \sigma ^ 2 + \frac{\sigma ^ 2}{n}\right).
+            \]
+            Giving an interval of
+            \[
+            \hat{\mu} \pm z_{\alpha / 2}^{*}\sigma\sqrt{1 + \frac{1}{n}} = [24.2, 40.8].
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{example}
+
+\newpage
+
+\section{The Exponential Family}
+
+\begin{definition}
+    A pdf $f(\vec{x}; \theta)$ belongs to the exponential family of distribution if the support of $\vec{x}$ does not depend on $\theta$,
+    and it can be written as:
+    \[
+    f(x; \theta) = b(x)\exp\{\phi(\theta)t(x) - a(\theta)\}
+    \]
+    where
+    $\phi(\theta)$ is the natural parameter,
+    a twice differentiable function of $\vec{\theta}$.
+    $t(x)$ is the natural statistic,
+    a function of data.
+    $a(\theta)$ is the cumulant function,
+    a finite and differentiable function of $\theta$
+    (or $\phi$).
+    $b(x)$ is the base measure,
+    a function greater than $0$ of the data and constants
+    (but not $\theta$).
+\end{definition}
+Note:
+we change $\theta \to \phi$ and $x \to t$.
+
+\begin{example}
+    $Y \sim \mathrm{Bernoulli}(\pi)$:
+    \begin{align*}
+    f(y; \pi) &= \begin{cases}
+        \pi & y = 1 \\
+        1 - \pi & y = 0
+    \end{cases} \\
+    &= \pi ^ {y}(1 - \pi) ^ {1 - y} \\
+    &= \exp\left\{\log(\pi ^ y(1 - \pi) ^ {1 - y})\right\} \\
+    &= \exp\left\{y\log{\pi} + (1 - y)\log(1 - \pi)\right\} \\
+    &= 1\cdot\exp\left\{y\log{\frac{\pi}{1 - \pi}} - (-\log(1 - \pi))\right\}
+    \end{align*}
+    $1 = b(x)$,
+    $t(y) = y$,
+    $p(\pi) = \log{\frac{\pi}{1 - \pi}}$,
+    $a(\pi) = -\log(1 - \pi)$.
+    So Bernoulli is in the exponential family.
+\end{example}
+
+The definition generalises to vectors of parameters and data:
+\[
+f(\vec{x}; \vec{\theta}) = b(\vec{x})\exp\left\{\underbrace{\vec{\phi}(\vec{\theta}) ^ T\vec{t}(\vec{x})}_{=\sum_{i}\phi_i(\vec{\theta})t_i(\vec{x})} - a(\vec{\theta})\right\}.
+\]
+
+\begin{example}
+    $X \sim N(\mu, \sigma ^ 2)$,
+    $\theta = \begin{bmatrix}
+        \mu \\ \sigma ^ 2
+    \end{bmatrix}$
+    \begin{align*}
+        f(x; \mu, \sigma ^ 2) &= \frac{1}{\sqrt{2\pi\sigma ^ 2}}\exp\left\{-\frac{1}{2\sigma ^ 2}(x - \mu) ^ 2\right\} \\
+        &= (2\pi) ^ {-1 / 2}\frac{1}{\sigma}\exp\left\{-\frac{x ^ 2}{2\sigma ^ 2} + \frac{x\mu}{\sigma ^ 2} - \frac{\mu ^ 2}{2\sigma ^ 2}\right\} \\
+        &= (2\pi) ^ {-1 / 2}\exp\left\{-\frac{x ^ 2}{2\sigma ^ 2} + \frac{\mu x}{\sigma ^ 2} - \frac{\mu ^ 2}{2\sigma ^ 2} + \log\left(\frac{1}{\sigma}\right)\right\} \\
+        &= \underbrace{(2\pi) ^ {-1 / 2}}_{b(\vec{x})}\exp\left\{\underbrace{\left[\frac{\mu}{\sigma ^ 2}, -\frac{1}{2\sigma ^ 2}\right]}_{\phi(\mu, \sigma ^ 2)}\underbrace{\begin{bmatrix}
+            x \\ x ^ 2
+        \end{bmatrix}}_{t(x)} - \underbrace{\left(\frac{\mu ^ 2}{2\sigma ^ 2} + \log{\sigma}\right)}_{a(\vec{\theta})}\right\}.
+    \end{align*}
+    Therefore $N(\mu, \sigma ^ 2)$ is in the $2$-parameter exponential family.
+\end{example}
+
+\subsection{Properties of the exponential family}
+
+\begin{proposition}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item If $X_i \sim f(x; \theta)$ IID and $f \in \Exp$ family ,
+        then $\ell(\theta) \in \Exp$ family.
+        \begin{align*}
+            \ell(\theta) &= \prod_{i = 1}^{n}b(x_i)\exp\left\{\phi t(x_i) - a(\theta)\right\} \\
+            &= \underbrace{\left[\prod_{i = 1}^{n}b(x_i)\right]}_{b_n(\vec{x})}\exp\left\{\phi\underbrace{\sum_{i = 1}^{n}t(x_i)}_{t_n(\vec{x})} - \underbrace{n(a(\theta))}_{a_n(\theta)}\right\}.
+        \end{align*}
+
+        \item The natural statistic $t(\vec{x})$ is sufficient for $\vec{\theta}$.
+        \begin{align*}
+            \ell(\theta) &= f(x; \theta) \\
+            &= b_n(\vec{x})\exp\left\{\phi(\theta)t_n(\vec{x}) - a_n(\theta)\right\} \\
+            &= h(x)g(t(\vec{x}), \theta).
+        \end{align*}
+        By factorisation theorem.
+        All exponential family distributions have a sufficient statistic,
+        $t(X)$.
+
+        \item Let $a(\phi)$ be the result of re-expressing $a(\cdot)$ as a function of $\phi$
+        (not $\theta$),
+        then the first few derivatives of $a(\phi)$ with respect to $\phi$ are the central moments of $t(\vec{x})$.
+        \[
+        \pd[a]{\phi} = \E(\overbrace{t(x)}^{T}) = \mathbb{c}_1(T)\qquad \frac{\partial ^ 2a}{\partial \phi ^ 2} = \Var(t(x)) = \mathbb{c}_2(T).
+        \]
+
+        \item The MLE exists and is unique
+        (if $t(x)$ is inside the boundary of its possible values).
+        \begin{align*}
+            \ell(\phi) &= b_n(x)\exp\left\{\phi t_n(x) - a_n(\phi)\right\} \\
+            \mathcal{L}(\phi) &= \log{b_n(x)} + \phi t_n(x) - a_n(\phi) \\
+            \mathcal{L}'(\phi) &= t_n(x) - \pd{\phi}a_n(\phi)
+            \intertext{By (iii)}
+            &= t_n(x) - n\pd{\phi}a(\phi) \\
+            &= t_n(x) - n\E(t(x)) &&\text{function of $\phi$}
+            \intertext{At the MLE}
+            \frac{t_n(\vec{x})}{n} &= \E(t(X))\biggr|_{\phi = \hat{\phi}}
+        \end{align*}
+        compare method of moments.
+        This exists if we can solve the final equation.
+        If $\mathcal{L}$ is convex in $\phi$,
+        then it is also unique:
+        \[
+        \mathcal{L}''(\phi) = -\frac{\partial ^ 2a}{\partial \phi ^ 2} = -\Var(T) < 0
+        \]
+        so convex,
+        thus the MLE is unique.
+
+        \item The likelihood is regular,
+        guaranteeing asymptotic unbiasedness,
+        efficiency,
+        Normality.
+        (i)
+        $f$ is smooth and differentiable,
+        (ii)
+        $\theta$ doesn't determine support of $X$,
+        (iii)
+        $\mathbb{I}_n$ exists,
+        $> 0$,
+        and finite
+        \[
+        \mathbb{I}_n(\phi) = \E_{X}(-\mathcal{L}''(\phi)] = \Var(T).
+        \]
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}
+    Observe $X \sim \Bin(n, \pi)$
+    ($\approx$ a sample of $Y_1, \dotsc, Y_n \sim \mathrm{Bernoulli}(x)$)
+    \[
+    \ell(\pi) = f(y; \pi) = \binom{n}{x}\pi ^ x(1 - \pi) ^ {n - x} = \binom{n}{x}\exp\left\{x\log\frac{\pi}{1 - \pi} - (-n\log(1 - \pi))\right\}
+    \]
+\end{example}
+
+\begin{example}
+    $\Bin(n, \pi)$,
+    \[
+    \phi = \log{\frac{\pi}{1 - \pi}} \iff \pi = \frac{e ^ {\phi}}{1 + e ^ {\phi}},
+    \]
+    $a_n(\phi) = n\log(1 + e ^ {\phi})$,
+    \[
+    \pd[a_n]{\phi} = n\frac{e ^ {\phi}}{1 + e ^ {\phi}} = n\pi = \E(t(X)) = \E(X)
+    \]
+    $X \sim \Bin(n, \pi)$.
+\end{example}
 
 
 \end{document}
