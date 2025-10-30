@@ -12,12 +12,7 @@
 
 \newpage
 
-\tableofcontents
-
-\newpage
-
-\section{Rings,
-    subrings and fields}
+\section{Cheat Sheet}
 
 \begin{definition}
     A ring $R$ is a set with two binary operations $+, \cdot$ such that $+$ makes $R$ into an abelian group and such that
@@ -124,8 +119,119 @@ and that you can add or multiply any elements in it together to get something st
     $p \mid a$ or $p \mid b$.
 \end{lemma}
 
+\begin{definition}
+    Let $R$ be a ring.
+    An element $a \in R$ is a unit
+    (invertible)
+    if $\exists b \in R$ such that $ab = ba = 1$.
+\end{definition}
 
+The \textbf{set of units} of $R$ is denoted $R ^ {\times}$.
 
+\begin{definition}
+    Let $R$ be a ring.
+    $r \in R$ is irreducible if it satisfies the following:
+    \begin{enumerate}[label = (\roman*)]
+        \item $r$ is not a unit.
+
+        \item If $r = ab$,
+        either $a$ or $b$ is a unit.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $R$
+    (a ring)
+    be $\Z$ or $F[x]$,
+    $F$ a field.
+    If $p \in R$ is irreducible and $p \mid ab$,
+    $a, b \in \R$,
+    then $p \mid a$ or $p \mid b$.
+\end{lemma}
+
+\begin{proposition}
+    An element $\bar{a} \in \Z / n$ is a unit if and only if $\gcd(a, n) = 1$.
+\end{proposition}
+
+\begin{corollary}
+    $\Z / p$ is a field if and only if $p$ is prime.
+\end{corollary}
+
+\begin{definition}
+    Let $R$ be a ring.
+    If $a \in R$ is such that $\exists b \neq 0, ab = 0$ then $a$ is a zero divisor.
+\end{definition}
+
+\begin{definition}
+    Let $R$ be a commutative ring with $0 \neq 1$,
+    and no zero divisors apart from $0$,
+    it is called an integral domain.
+\end{definition}
+
+The \textbf{essential property} of integral domains is cancellation:
+\[
+ax = bx,\qquad x \neq 0 \implies a = b.
+\]
+
+\begin{lemma}
+    $\Z / n$ is an integral domain if and only if $n$ is a prime
+\end{lemma}
+
+\vspace{0.5em}
+
+\begin{remark}
+    From the above
+    (and a previous corollary)
+    we can see that $\Z / p$ is an integral domain and a field if and only if $p$ is a prime.
+\end{remark}
+
+\vspace{1em}
+
+\begin{proposition}
+    If $R$ is an integral domain,
+    then $R[x]$ is an integral domain.
+\end{proposition}
+
+\begin{definition}
+    Let $R$ be a commutative ring.
+    $x \in R$ is called prime if:
+    \begin{enumerate}[label = (\roman*)]
+        \item $x \neq 0$ and $x \notin R ^ {\times}$.
+
+        \item If $x \mid ab$,
+        $a, b \in R$,
+        then $x \mid a$ or $x \mid b$.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $R$ be an integral domain and $x \in R$ a prime.
+    Then $x$ is irreducible.
+\end{lemma}
+
+\begin{definition}
+    An integral domain $R$ is called a unique factorisation domain
+    (UFD)
+    if every non-zero non-unit can be written as a product of irreducible elements and this product is unique up to order of the factor and units.
+\end{definition}
+
+\begin{proposition}
+    Let $F$ be a field and $f(x) \in F[x]$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item If $\deg{f} = 1$,
+        $f(x)$ is irreducible.
+
+        \item If $\deg{f} = 2$ or $3$,
+        $f(x)$ is irreducible if and only if $f(x)$ has no roots in $F$.
+
+        \item If $\deg{f} = 4$ then $f(x)$ is irreducible if and only if it has no roots in $F$ and is not the product of two quadratic polynomials.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[Rational root test]
+    
+\end{proposition}
 
 
 \end{document}
