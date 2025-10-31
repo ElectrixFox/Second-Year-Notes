@@ -431,8 +431,205 @@
     \end{solution}
 \end{problem}
 
+\newpage
 
+\section{Problems Class \texorpdfstring{$4$}{}}
 
+\begin{problem}[$2019$ Question $3$]\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item Let $\vec{f}(\vec{x})$ be the vector field in $\R ^ 3$ defined by
+        \[
+        f(x, y, z) = 2xy\sin(z)\vec{e}_1 + (x ^ 2 + 2y)\sin(z)\vec{e}_2 + (x ^ 2y + y ^ 2)\cos(z)\vec{e}_3.
+        \]
+        Find a scalar field $g(x, y, z)$ such that $\vec{f} = \bnabla g$.
+
+        \item Using your answer to part
+        (a)
+        or otherwise,
+        compute the line integral
+        \[
+        \int_{C}\vec{f}\cdot\hvec{t}\,d\ell
+        \]
+        where $C$ is the straight line running from the origin to the point $(2, 3, 3\pi / 2)$.
+
+        \item Now let $\vec{v}(\vec{x})$ be the vector field
+        \[
+        \vec{v}(x, y, z) = 2xy\sin(z)\vec{e}_1 + 2xy\sin(z)\vec{e}_2 + x ^ 2y\cos(z)\vec{e}_3.
+        \]
+        Is it possible to write $\vec{v}$ as $\vec{v} = \bnabla k$ for some scalar field $k(x, y, z)$?
+        Justify your answer.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            We need
+            \[
+            \pd[g]{x} = \underbrace{2xy\sin(z)}_{f_1}\qquad\pd[g]{y} = \underbrace{(x ^ 2 + 2y)\sin(z)}_{f_2}\qquad\pd[g]{z} = \underbrace{(x ^ 2y + y ^ 2)\cos(z)}_{f_3}.
+            \]
+            Integrate $\pd[g]{x}$ with respect to $x$:
+            \[
+            g = x ^ 2y\sin{z} + h(y, z).
+            \]
+            Then $\pd[g]{y}$ implies
+            \begin{align*}
+                x ^ 2\sin{z} + \pd[h]{y} = (x ^ 2 + 2y)\sin{z} &\implies \pd[h]{y} = 2y\sin{z} \\
+                &\implies h = y ^ 2\sin{z} + m(z).
+            \end{align*}
+            Then $\pd[g]{z}$ implies
+            \begin{align*}
+                x ^ 2y\cos{z} + y ^ 2\cos{z} + m'(z) = (x ^ 2y + y ^ 2)\cos{z} &\implies m'(z) = 0 \\
+                &\implies m = \text{constant}.
+            \end{align*}
+            So
+            \[
+            g(x, y, z) = x ^ 2y\sin{z} + y ^ 2\sin{z} + \text{constant}.
+            \]
+
+            \item
+            \[
+            \int_{C}\vec{f}\cdot\hvec{t}\,d\ell.
+            \]
+            Need to parametrise $C$:
+            \[
+            \vec{x}(t) = 2t\vec{e}_1 + 3t\vec{e}_2 + \frac{3\pi}{2}t\vec{e}_3\qquad\text{for } t \in [0, 1].
+            \]
+            So
+            \begin{align*}
+                \int_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{0}^{1}\vec{f}\cdot\frac{d\vec{x}}{dt}\,d\ell \\
+                &= \int_{0}^{1}\vec{f}\cdot\left(2\vec{e}_1 + 3\vec{e}_2 + \frac{3\pi}{2}\vec{e}_3\right)\,dt \\
+                &= \int_{0}^{1}\left[4(2t)(3t)\sin\left(\frac{3\pi}{2}t\right) + 3((2t) ^ 2 + 2(3t))\sin\left(\frac{3\pi}{2}t\right) + \frac{3\pi}{2}\left[(2t) ^ 2(3t) + (3t) ^ 2\right]\cos\left(\frac{3\pi}{2}t\right)\right]\,dt.
+            \end{align*}
+            Simpler method:
+            Use the fact that $\vec{f} = \bnabla g$ so that the fundamental theorem of line integrals gives
+            \begin{align*}
+                \int_{C}\vec{f}\cdot\hvec{t}\,d\ell &= \int_{C}\bnabla g\cdot\hvec{t}\,d\ell \\
+                &= g(\vec{x}(t_1)) - g(\vec{x}(t_0)) \\
+                &= g(2, 3, 3\pi / 2) - g(0, 0, 0) \\
+                &= 12\sin{\frac{3\pi}{2}} + 9\sin{\frac{3\pi}{2}} + \text{constant} - 0 - 0 - \text{constant} \\
+                &= 12(-1) + 9(-1) = -21.
+            \end{align*}
+
+            \item
+            Recall
+            \[
+            \vec{v} = \bnabla k \implies \bnabla \times \vec{v} = \vec{0}.
+            \]
+            Here
+            \[
+            \bnabla \times \vec{v} = \begin{vmatrix}
+                \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+                \pd{x} & \pd{y} & \pd{z} \\
+                2xy\sin{z} & 2xy\sin{z} & x ^ 2y\cos{z}
+            \end{vmatrix} = \vec{e}_1\underbrace{(x ^ 2\cos{z} - 2xy\cos{z})}_{\neq 0} + \dotsi
+            \]
+            so $\bnabla \times \vec{v} \neq \vec{0}$ so $\vec{v}$ is not conservative.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2016$ Question $5$]\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item State the Divergence Theorem.
+
+        \item Use it to calculate $\oint_{S}\vec{f}\cdot\hvec{n}\,dS$ where $\vec{f}(x, y, z) = xy\vec{e}_1 - \frac{1}{2}y ^ 2\vec{e}_2 + z\vec{e}_3$ and $S$ is the boundary of the volume enclosed by $z = 4 - 3x ^ 2 - 3y ^ 2$ on the top,
+        and $z = 0$ on the bottom.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ {1}$ vector field and $S$ is a closed surface with outward normal $\hvec{n}$ bounding a region $V$,
+            then
+            \[
+            \oint_{S}\vec{f}\cdot\hvec{n}\,dS = \int_{V}(\bnabla \cdot \vec{f})\,dV.
+            \]
+
+            \item Need to calculate $\int_{V}(\bnabla \cdot \vec{f})\,dV$.
+            \begin{align*}
+                \bnabla \cdot \vec{f} &= \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z} \\
+                &= \pd{x}(xy) + \pd{y}\left(-\frac{y ^ 2}{2}\right) + \pd{z}(z)  \\
+                &= y - y + 1 = 1.
+            \end{align*}
+            Top:
+            \[
+            z = 4 - 3x ^ 2 - 3y ^ 2 = 4 - 3(x ^ 2 + y ^ 2) \underset{\mathclap{\text{Cylindrical coordinates}}}{=} 4 -3r ^ 2
+            \]
+            Bottom:
+            \[
+            z = 0.
+            \]
+            So
+            \begin{align*}
+                \int_{V}(\bnabla \cdot \vec{f})\,dV &= \int_{V}\,dV \\
+                &= \int_{0}^{4}\int_{0}^{2\pi}\int_{0}^{\sqrt{\frac{4 - z}{3}}}r\,dr\,d\theta\,dz \\
+                &= \int_{0}^{4}\int_{0}^{2\pi}\left[\frac{r ^ 2}{2}\right]_{0}^{\sqrt{\frac{4 - z}{3}}}\,d\theta\,dz \\
+                &= \int_{0}^{4}\int_{0}^{2\pi}\frac{4 - z}{6}\,d\theta\,dz \\
+                &= \frac{\pi}{3}\int_{0}^{4}4 - z\,dz \\
+                &= \frac{\pi}{3}\left[4z - \frac{z ^ 2}{2}\right]_{0}^{4} \\
+                &= \frac{\pi}{3}(16 - 16 / 2) = \frac{16}{6}\pi = \frac{8}{3}\pi.
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2014$ Question $9$]\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item For any closed surface $S$,
+        show that
+        \[
+        \oint_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS = 0
+        \]
+        by (i) the Divergence Theorem,
+        and (ii) Stokes' Theorem.
+        Show all your working.
+
+        \item Calculate
+        \[
+        \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS
+        \]
+        for $f(x, y, z) = xz\vec{e}_1 + x ^ 2y ^ 2z\vec{e}_2 + xyz\vec{e}_3$,
+        where $S$ is the open surface given by the cylinder
+        (with no ends)
+        of radius $a$,
+        centred on the $x$-axis with equation $y ^ 2 + z ^ 2 = a ^ 2$ and $0 \leq x \leq 5$.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item \phantom{}
+            \begin{enumerate}[label = (\roman*)]
+                \item By Divergence Theorem
+                \[
+                \oint_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS = \int_{V}\bnabla\cdot(\bnabla \times \vec{f})\,dV = 0.
+                \]
+    
+                \item
+                Recall:
+                Stokes' Theorem
+                \[
+                \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS.
+                \]
+                Split $S$ into $S_1 \cup S_2$;
+                with boundary curve $C$ between them.
+                Then
+                \begin{align*}
+                    \oint_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS &= \int_{S_1}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS + \int_{S_2}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS \\
+                    &= \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell - \oint_{C}\vec{f}\cdot\hvec{t}\,d\ell = 0. &&(\text{Stokes' Theorem})
+                \end{align*}
+            \end{enumerate}
+
+            \item
+            Either:
+            evaluate directly.
+            Alternatively:
+            \[
+            \int_{S}(\bnabla \tiems \vec{f})\cdot\hvec{n}\,dS = \oint_{C_1}\vec{f}\cdot\hvec{t}\,d\ell - \oint_{C_2}\vec{f}\cdot\hvec{t}\,d\ell
+            \]
+            with $C_1, C_2$ the boundary curves.
+            
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 
 
