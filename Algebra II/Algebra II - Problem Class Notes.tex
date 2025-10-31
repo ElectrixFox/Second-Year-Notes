@@ -441,5 +441,117 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$4$}{}}
+
+\begin{problem}[Question $12$ Problem Sheet $3$]
+    Show that the map
+    \[
+    \varphi : \Z / 6 \to \Z / 2 \times \Z / 3,\qquad\varphi(\bar{a}) = (\bar{a}, \bar{a})
+    \]
+    is an isomorphism of rings.
+
+    \begin{solution}
+        $\Z / 6$ has a subset $A = \{\bar{0}, \bar{2}, \bar{4}\}$ a ring,
+        and also another subset $B = \{\bar{0}, \bar{3}\}$ a ring.
+
+        Every element in $\Z / 6$ is uniquely build from element in $A$ and $B$:
+        \[
+        \bar{0} = \bar{0} + \bar{0},\quad \bar{1} = \bar{4} + \bar{3},\quad \dotsc,\quad \bar{5} = \bar{2} + \bar{3}.
+        \]
+        $A \cong \Z / 3$,
+        $B \cong \Z / 2$.
+
+        Now consider $\varphi$.
+        First check $\varphi$ is well-defined,
+        i.e.,
+        independent of the choices of representatives.
+        Assume that $[a]_{6} = [a']_{6}$ for some $a, a' \in \Z$.
+        $\varphi([a]_{6}) = ([a]_{2}, [a]_{3})$,
+        $\varphi([a']_{6}) = ([a']_{2}, [a']_{3})$
+        \begin{align*}
+            [a]_{6} = [a']_{6} &\iff a \equiv a'\pmod{6} \\
+            &\iff 6 \mid (a - a') \\
+            &\iff \begin{cases}
+                2 \mid (a - a') \iff [a]_{2} = [a']_{2} \\
+                3 \mid (a - a') \iff [a]_{3} = [a']_{3}.
+            \end{cases}
+        \end{align*}
+        Homomorphism:
+        $\varphi(\bar{1}) = (\bar{1}, \bar{1})$ identity in $\Z / 2 \times \Z / 3$,
+        \[
+        \varphi(\bar{a} + \bar{b}) = (\bar{a} + \bar{b}, \bar{a} + \bar{b}) = (\bar{a}, \bar{a}) + (\bar{b} + \bar{b}) = \varphi(\bar{a}) + \varphi(\bar{b}).
+        \]
+        Injectivity:
+        \begin{align*}
+            \ker{\varphi} &= \{[a]_{6} \in \Z / 6 \mid ([a]_{2}, [a]_{3}) = (\bar{0}, \bar{0})\} \\
+            &= \{[a]_{6} \mid \underbrace{a \equiv 0\pmod{2} \text{ and } a \equiv 0\pmod{3}}_{\iff 2 \mid a\text{ and } 3 \mid a \iff 6 \mid a}\} \\
+            &= \{[a]_{6} \mid 6 \mid a\} = \{[\bar{0}]_{6}\}
+        \end{align*}
+        ($a = 2x = 3y$).
+
+        Surjectivity:
+        Note that $|\Z / 6| = 6 = |\Z / 2 \times \Z / 3|$.
+        So $\varphi$ is an injective function from a $6$-element set to another $6$-element set.
+        Thus $\varphi$ is an isomorphism.
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Question $13$ Problem Sheet $4$]
+    Let $R = \Z[i]$ be the Gaussian integers and consider the ideal $I = (2)$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item Show that $R / I$ has exactly four elements:
+        $\bar{0}$,
+        $\bar{1}$,
+        $\bar{i}$ and $\overline{1 + i}$.
+
+        \item Give the tables for addition and multiplication in $R / I$.
+
+        \item Is $R / I$ isomorphic to $\Z / 2 \times \Z / 2$ or $\Z / 4$ as a ring?
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            Let $\alpha = a + bi \in \Z[i]$,
+            and write $a = 2k + a'$,
+            $a' \in \{0, 1\}$,
+            some $k \in \Z$.
+            $b = 2l + b'$,
+            $b' \in \{0, 1\}$,
+            some $l \in \Z$.
+
+            Then
+            \[
+            \bar{\alpha} = \overline{a + bi} = \overline{2k + a'} + \overline{(2l + b')}i = \overline{2k} + \bar{a'} + \overline{2li} + \bar{b'i} = \bar{a'} + \bar{b'i}.
+            \]
+            Thus there are at most $4$ possible elements in $R / I$.
+
+            Exactly $4$:
+            show $\bar{0}, \bar{1}, \bar{i}, \overline{1 + i}$ are distinct.
+            \[
+            \bar{0} = \bar{1}, \bar{i}, \overline{1 + i}
+            \]
+            is not true as none of the latter lie in $I$.
+            If $\bar{1} = \bar{i}$,
+            then $1 - i \in I$ which is not true,
+            $\bar{1} = \overline{1 + i}$,
+            then $\bar{i} \in I$ which it doesn't.
+            If $\bar{i} = \overline{1 + i}$,
+            then $\bar{i} \in I$ which is false.
+
+            \item
+
+            \item In $\Z / 4$,
+            $\bar{x} + \bar{x}$ is not always $\bar{0}$.
+            Thus $R / I$ is not isomorphic to $\Z / 4$.
+            This argument is not enough for $\Z / 2 \times \Z / 2$.
+            In this direct product $x ^ 2 = x$,
+            for all $x \in \Z / 2 \times \Z / 2$ but this doesn't hold for $R / I$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 \end{document}
