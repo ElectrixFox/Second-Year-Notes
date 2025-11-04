@@ -1895,8 +1895,235 @@ around that axis.
     \]
 \end{remark}
 
+\newpage
 
+\section{Index Notation}
 
+\subsection{Scalar Products}
+
+Index/suffix notation -
+a powerful method for simplifying vector equations.
+E.g. $\vec{c} = \vec{a} + \vec{b} \to c_i = a_i + b_i\footnotemark$ where it is understood that it holds for $i = 1, \dotsc, n$
+\footnotetext{$i$ would be $n$ for $\vec{a} \in \R ^ n$}.
+(i.e.
+any component in the Cartesian basis).
+
+\begin{remark}
+    In future courses may encounter "tensors" with more than one index.
+\end{remark}
+
+An index that appears once in each term is called a free index.
+The choice of letter is arbitrary,
+but all terms must have the same free index
+(or indices).
+
+In index notation,
+we write a scalar product as:
+\[
+\vec{a} \cdot \vec{b} = \sum_{j = 1}^{n}a_jb_j
+\]
+repeated index implies a sum from $1$ to $n$
+(called the Einstein summation convention).
+
+An index that appears exactly twice in the same term is called a dummy index,
+and always implies a summation.
+Again the choice of letter is arbitrary.
+
+\begin{example}
+    Express $(\vec{a} \cdot \vec{b})(\vec{c} \cdot \vec{d})$ in index notation.
+
+    Write $\vec{a} \cdot \vec{b} = a_jb_j$ and $\vec{c} \cdot \vec{d} = c_kd_k$
+    (cannot use $j$ again).
+    So
+    \[
+    (\vec{a}\cdot\vec{b})(\vec{c}\cdot\vec{d}) = a_jb_jc_kd_k.
+    \]
+\end{example}
+
+\begin{example}
+    Express $a_jb_ic_j$ in vector notation.
+
+    Here:
+    $i$ appears once so is a free index,
+    $j$ appears twice so is a dummy index.
+    Since the expression has one free index,
+    it is the $i$th component of a vector:
+    \[
+    a_jb_ic_j = [\vec{b}(\vec{a} \cdot \vec{c})]_i.
+    \]
+\end{example}
+
+\begin{example}
+    Express the equation $\vec{u} + (\vec{a} \cdot \vec{b})\vec{v} = |\vec{a}| ^ 2(\vec{b} \cdot \vec{v})\vec{a}$ in index notation.
+
+    Each side is a vector,
+    so we need to write an equation for the $i$th component:
+    \[
+    u_i + (\vec{a} \cdot \vec{b})v_i = |\vec{a}| ^ 2(\vec{b} \cdot \vec{v})a_i.
+    \]
+    Introduce dummy indices for scalar products
+    \[
+    u_i + a_jb_jv_i = a_ja_jb_kv_ka_i.
+    \]
+\end{example}
+
+Another way to think of $\vec{a} \cdot \vec{b}$ is as a quadratic form:
+\[
+\vec{a} \cdot \vec{b} = \begin{pmatrix}
+    a_1 & a_2 & a_3
+\end{pmatrix} \begin{pmatrix}
+    1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+\end{pmatrix}\begin{pmatrix}
+    b_1 \\ b_2 \\ b_3
+\end{pmatrix}.
+\]
+In index notation,
+\[
+\vec{a} \cdot \vec{b} = \delta_{ij}a_ib_j
+\]
+where $\delta_{ij} = \begin{cases}
+    1 & i = j \\
+    0 & i \neq j.
+\end{cases}$
+(Kronecker delta).
+
+\begin{proposition}
+    Multiplying an expression with free index $i$ by $\delta_{ij}$ is equivalent to replacing $i \to j$.
+
+    \begin{proof}
+        $a_i\delta_{ij}$,
+        $i$ becomes a dummy.
+        If $j = 1$,
+        \[
+        a_i\delta_{i1} = a_1\delta_{11} + a_2\delta_{21} + \dotsc + a_n\delta_{n1} = a_1.
+        \]
+        Similarly,
+        for any $j$,
+        we have $a_i\delta_{ij} = a_j$.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Simplify $\delta_{ij}\delta_{kj}$.
+
+    \begin{solution}
+        By the previous,
+        multiplying by $\delta_{jk}$ is equivalent to replacing $j \to k$ so
+        \[
+        \delta_{ij}\delta_{kj} = \delta_{ik}.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Simplify $\delta_{ij}\delta_{ji}$.
+
+    \begin{solution}
+        By the previous proposition,
+        multiplying by $\delta_{ij}$ is equivalent to replacing $j \to i$ so
+        \[
+        \delta_{ij}\delta_{ji} = \delta_{ii} = \sum_{r = 1}^{n}\delta_{rr} = \sum_{r = 1}^{n}1 = n.
+        \]
+    \end{solution}
+\end{example}
+
+\subsection{Vector Products}
+In $\R ^ 3$,
+we can write $\vec{a} \times \vec{b}$ in index notation by introducing the alternating tensor/Levi-Civita symbol
+\[
+\epsilon_{ijk} = \begin{cases}
+    0 &\text{if any $i, j, k$ are equal} \\
+    +1 &\text{if $(ijk) = (123), (231)$ or $(312)$} \\
+    -1 &\text{if $(ijk) = (132), (213)$ or $(321)$}
+\end{cases}
+\]
+with $+1$ the even permutations of $(123)$,
+$-1$ the odd permutations of $(123)$.
+It follows that
+\begin{align*}
+    \epsilon_{ijk} &= \epsilon_{jki} = \epsilon_{kij} \\
+    \epsilon_{ijk} &= -\epsilon_{jik}.
+\end{align*}
+So
+\[
+[\vec{a} \times \vec{b}]_i = \epsilon_{ijk}a_jb_k.
+\]
+
+For example,
+first component of right-hand side:
+\begin{align*}
+    \epsilon_{1jk}a_jb_k &= \epsilon_{11k}a_1b_k + \epsilon_{12k}a_1b_k + \epsilon_{13k}a_1b_k \\
+    &= \epsilon_{123}a_2b_3 + \epsilon_{132}a_3b_2 \\
+    &= a_2b_3 - a_3b_2 \\
+    &= (\vec{a} \times \vec{b})\cdot\vec{e}_1.
+\end{align*}
+
+\begin{example}
+    Use index notation to show that $\vec{a} \cdot(\vec{b} \times \vec{c}) = \vec{c} \cdot(\vec{a} \times \vec{b})$.
+
+    \begin{solution}
+        \begin{align*}
+            \vec{a} \cdot (\vec{b}\times\vec{c}) &= a_i[\vec{b} \times \vec{c}]_i \\
+            &= a_i\epsilon_{ijk}b_jc_k \\
+            &= \epsilon_{ijk}a_ib_jc_k \\
+            &= \epsilon_{ijk}c_ka_ib_j \\
+            &= \epsilon_{kij}c_ka_ib_j \\
+            &= c_k\epsilon_{kij}a_ib_j \\
+            &= c_k[\vec{a} \times \vec{b}]_k \\
+            &= \vec{c} \cdot (\vec{a} \times \vec{b}).
+        \end{align*}
+    \end{solution}
+\end{example}
+
+When simplifying more complicated expressions,
+there is a useful identity for the product of two $\epsilon$'s that share an index.
+
+\begin{proposition}
+    \[
+    \epsilon_{ijk}\epsilon_{klm} = \delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}.
+    \]
+
+    \begin{proof}
+        Left-hand side is
+        \[
+        \epsilon_{ijk}\epsilon_{klm} = \begin{cases}
+            +1 &\text{if $(klm)$ even permutation of $(ijk)$}, \\
+            -1 &\text{if $(klm)$ odd permutation of $(ijk)$}, \\
+            0 &\text{if $(klm)$ is not a permutation of $(ijk)$}.
+        \end{cases}
+        \]
+        So
+        ($(klm) = (ijk), (ikj), (kij), (jik), (jki), (kji)$)
+        \[
+        \]
+        \begin{align*}
+            \epsilon_{ijk}\epsilon_{klm} &= \delta_{ik}\delta_{jl}\delta_{km} - \delta_{ik}\delta_{kl}\delta_{jm} + \delta_{kk}\delta_{il}\delta_{jm} - \delta_{jk}\delta_{il}\delta_{km} + \delta_{jk}\delta_{kl}\delta_{im} - \delta_{kk}\delta_{jl}\delta_{im} \\
+            \intertext{for the first term $[]_k\delta_{km} = []_m$}
+            &= \delta_{im}\delta_{jl} - \delta_{il}\delta_{jm} + 3\delta_{il}\delta_{jm} - \delta_{jm}\delta_{il} + \delta_{jl}\delta_{im} - 3\delta_{jl}\delta_{im} \\
+            &= \delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Use index notation to prove that $\vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} - \vec{b})\vec{c}$.
+
+    \begin{solution}
+        The $i$th component of the left-hand side is
+        \begin{align*}
+            [\vec{a} \times (\vec{b} \times \vec{c})]_i &= \epsilon_{ijk}a_j[\vec{b} \times \vec{c}]_k \\
+            &= \epsilon_{ijk}a_j(\epsilon_{klm}b_lc_m) \\
+            &= \epsilon_{ijk}\epsilon_{klm}a_jb_lc_m \\
+            &= (\delta_{il}\delta_{jm} - \delta_{im}\delta_{jl})a_jb_lc_m \\
+            &= \delta_{il}\delta_{jm}a_jb_lc_m - \delta_{im}\delta_{jl}a_jb_lc_m \\
+            &= a_j(\delta_{il}b_l)(\delta_{jm}c_m) - a_j(\delta_{im}c_m)(\delta_{jl}b_l) \\
+            &= a_j(\delta_{il}b_l)(\delta_{jm}c_m) - a_j(\delta_{im}c_m)(\delta_{jl}b_l) \\
+            &= a_jb_ic_j - a_jc_ib_j \\
+            &= (a_jc_j)b_i - (a_jb_j)c_i \\
+            &= (\vec{a} \cdot \vec{c})\vec{b} - (\vec{a} \cdot \vec{b})\vec{c}.
+        \end{align*}
+    \end{solution}
+\end{example}
 
 
 
