@@ -2669,5 +2669,315 @@ f(\vec{x}; \vec{\theta}) = b(\vec{x})\exp\left\{\underbrace{\vec{\phi}(\vec{\the
     $X \sim \Bin(n, \pi)$.
 \end{example}
 
+\newpage
+
+\section{Hypothesis Tests}
+
+Question:
+How can I use the data to test whether the parameters have particular values?
+
+\begin{definition}
+    A hypothesis is a statement about the parameter $\theta$.
+    The null hypothesis,
+    $H_0$,
+    is a conservative hypothesis,
+    not to be rejected unless the evidence from the data is clear.
+    The alternative hypothesis,
+    $H_1$,
+    specifies a particular departure from $H_0$.
+    The hypothesis test is a procedure for deciding whether to reject $H_0$ or not.
+    A hypothesis can also be:
+    simple -
+    if it completely specifies $f(x; \theta)$ -
+    composite/compound otherwise.
+\end{definition}
+
+\begin{example}
+    $X_1, \dotsc, X_n$ IID $N(\mu, 10 ^ 2)$,
+    $\sigma = 10$ known.
+
+    Is $\mu = 0$?
+
+    Null hypothesis:
+    $H_0 : \mu = 0$.
+    
+    Alternative hypothesis:
+    $H_1 : \mu \neq 0$ or $H_1 : \mu < 0$.
+    (composite/compound hypothesis).
+
+    Under a sample $H_0 : \theta = \theta_0$,
+    the null parameter space,
+    $\Omega_0 = \{\theta_0\}$ single element.
+    Composite $H_1 : \theta < \theta_0$,
+    the alternative parameter space,
+    $\Omega_1 = \{\theta \mid \theta < \theta_0\}$.
+\end{example}
+
+How do we perform a test?
+\begin{example}
+    Suppose we see $x_1, \dotsc, x_{100}$ -
+    what would we have to see to reject $H_0 : \mu = 0$?
+
+    Seeing many values unlikely to occur under $N(0, 10 ^ 2)$,
+    e.g. outside of $[-20, 20]$.
+\end{example}
+
+\begin{definition}
+    Define a test by its critical/rejection region,
+    $\mathcal{R}$,
+    which partitions the sample space,
+    $\mathcal{X}$,
+    such that $\bar{x} \in \mathcal{R}$,
+    we reject $H_0$,
+    $\bar{x} \notin \mathcal{R}$,
+    we fail to reject $H_0$.
+\end{definition}
+
+\textit{Note:
+"Reject $H_0$" is not equal to "Accept $H_1$",
+"Fail to reject $H_0$" is not equal to "Accept $H_0$".}
+
+Question:
+What would be a good test?
+One with a low probability of error.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|c|c}
+         \phantom{} & $H_0$ true & $H_1$ true  \\
+         \hline
+         Reject $H_0$ & Type $I$ error (false positive) & Correct \\
+         Do not reject $H_0$ & Correct & Type $II$ error (False negative)
+    \end{tabular}
+\end{table}
+with Type $I$ error probability $\alpha$,
+Type $II$ error probability $\beta$.
+
+Type $I$ error is often more serious -
+try to control it.
+
+Question:
+How to construct a good test?
+I.e. find $\mathcal{R}$.
+Construct a test with rejection region $\mathcal{R}$ -
+what happens as we change "true" value of $\theta$?
+When $\theta \in \Omega_0$,
+error if $\vec{x} \in \mathcal{R}$ $\P(\text{Type I error}) = \P(\vec{x} \in \mathcal{R}; \theta)$.
+When $\theta \notin \Omega_0$,
+error if $\vec{x} \notin \mathcal{R}$,
+$\P(\text{Type II error}) = \P(\vec{x} \notin \mathcal{R}; \theta) = 1 - \P(\vec{x} \in \mathcal{R}; \theta)$.
+
+So given $\mathcal{R}$,
+all the information about test errors is contained in $\P(\vec{x} \in \mathcal{R}; \theta)$.
+
+\begin{definition}
+    The power function of a test with rejection region $\mathcal{R}$ is a function of $\theta$ such that:
+    \[
+    \pi(\theta) = \P(\vec{x} \in \mathcal{R}; \theta) = \begin{cases}
+        \P(\text{Type I}; \theta) = \alpha, & \theta \in \Omega_0 \\
+        1 - \P(\text{Type II}; \theta) = 1 - \beta, &\theta \notin\Omega_0.
+    \end{cases}
+    \]
+\end{definition}
+The ideal test would choose $\mathcal{R}$ to have $\pi(\theta) = 0$ when $\theta \in \Omega_0$
+(i.e. $\alpha = 0$)
+and $\pi(\theta) = 1$ when $\theta \notin \Omega_0$
+(i.e. $1 - \beta = 1$).
+Unrealistic/impossible in practice.
+
+\begin{example}
+    $X \sim \Bin(5, \theta)$.
+    Consider testing $H_0 : \theta < \frac{1}{2}$ vs $H_1 : \theta \geq \frac{1}{2}$.
+    Test $1$:
+    Reject if $X = 5$,
+    $\mathcal{R} = \{5\}$.
+    \[
+    \pi_1(\theta) = \P(X = 5; \theta) = \binom{5}{5}\theta ^ 5(1 - \theta) ^ 0 = \theta ^ 5.
+    \]
+    $\P(\text{Type I})$ small,
+    but $\P(\text{Type II})$ large.
+
+    Test $2$:
+    Reject for $x \in \{3, 4, 5\} = \mathcal{R}$
+    \[
+    \pi_2(\theta) = \P(X = 3; \theta) + \P(X = 4; \theta) + \P(X = 5; \theta) = \binom{5}{3}\theta ^ 3(1 - \theta) ^ 2 + \binom{5}{4}\theta ^ 4(1 - \theta) + \theta ^ 5.
+    \]
+    $\P(\text{Type II})$ smaller,
+    but $\P(\text{Type I})$ worse.
+    Cannot improve $\P(\text{Type I})$ without worsening $\P(\text{Type II})$.
+    It is a trade-off.
+\end{example}
+
+\begin{definition}
+    A level $\alpha_0$ test of $H_0 : \theta \in \Omega_0$ has
+    \[
+    \P(\text{Type I}) = \pi(\theta) \leq \alpha_0,\quad\forall \theta \in \Omega_0
+    \]
+    and $\alpha_0$ is the level of significance.
+
+    The size,
+    $\alpha$,
+    of a test is the maximum
+    (or least upper bound)
+    of the significance over $\theta \in \Omega_0$.
+    \[
+    \alpha = \sup_{\theta \in \Omega_0}\P(\text{Type I}) = \sup_{\theta \in \Omega_0}\pi(\theta).
+    \]
+\end{definition}
+A test is a level $\alpha_0$ test if and only if $\alpha \leq \alpha_0$.
+For simple $H_0 : \theta = \theta_0$,
+$\alpha = \alpha_0 = \P(\text{Type I}) = \pi(\theta_0)$.
+
+\begin{definition}
+    The
+    (statistical)
+    power of a test is
+    \[
+    \P(\text{reject } H_0 \mid H_1\text{ true}) = \gamma = 1 - \beta\qquad(\pi(\theta)\text{ when } \theta \notin \Omega_0)
+    \]
+    the probability of correct rejection of $H_0$.
+
+    For simple $H_1 : \theta = \theta_1$,
+    $\gamma = \P(\text{reject }H_0 \mid \theta = \theta_1) = 1 - \P(\text{Type II})$.
+    Otherwise:
+    power is $\pi(\theta)$,
+    depends on $\theta$ for $\theta \in \Omega_0$.
+\end{definition}
+
+Goal:
+Find a test with low significance and high power.
+
+Simplify by constructing a test statistic,
+$T$,
+from the data,
+$\vec{X}$,
+and define $\mathcal{R}$ in terms of $T : \mathcal{R} = \{\vec{x} \mid T(\vec{x}) \in \mathcal{T}\}$ for some set of values $\mathcal{T}$.
+
+To determine $\mathcal{T}$,
+consider the sampling distribution of $T(\vec{x})$ under $H_0$ -
+the null distribution -
+and define $R$/$\mathcal{T}$ as the set of $T$ values sufficiently unlikely to occur under $H_0$ to achieve a desired level of significance.
+
+\begin{example}
+    Coin tossing:
+    $X \sim \Bin(5, \theta)$.
+    Consider $H_0 : \theta = \frac{1}{2}$ vs $H_1 : \theta = \frac{3}{4}$.
+    Use $X$ as test statistic.
+    Large $X$ more probable under $H_1$ than $H_0$ implies reject for $X$ large e.g. $\mathcal{R} = \{4, 5\}$.
+    Significance:
+    $\alpha = \P(X \in \mathcal{R}\mid H_0) = 0.1875$,
+    power:
+    $\beta = \P(X \in \mathcal{R} \mid H_1) = 0.6328$.
+    Changing $\mathcal{R}$,
+    changes the test and $\alpha, \beta$.
+    If $\mathcal{R} = \{5\}$ gives $\alpha = 0.0312$,
+    $1 - \beta = 0.2373$,
+    improved significance but power is worse.
+\end{example}
+
+How to choose $\mathcal{R}$?
+Fix significance level $\alpha$ and find corresponding $\mathcal{R}(\alpha)$,
+e.g. at $5\%$ level $\mathcal{R} = \{5\}$.
+
+\begin{definition}
+    Given an observation $\vec{X} = \vec{x}$,
+    the $p$-value
+    (or observed significance)
+    is the smallest value of $\alpha$ for which we would reject $H_0$.
+
+    The $p$-value quantifies the extent to which $H_0$ appears to be violated given $\vec{x}$.
+    Note:
+    Reject $H_0$ for $X \in \mathcal{R}$ is equivalent to rejecting $H_0$ for $p < \alpha$.
+\end{definition}
+
+\begin{example}
+    Suppose we observe $x = 3$.
+    To reject for $\mathcal{R} = \{\vec{x} \mid x \geq 3\}$ would give
+    \[
+    p = \P(X \in \mathcal{R} \mid H_0) = \P(X \geq 3; \theta = 1 / 2) = 0.5
+    \]
+    significant at $50\%$ level.
+    Instead if $x = 5$:
+    $p = 0.0312 < 0.05$ reject at $5\%$ significance.
+\end{example}
+
+\begin{example}
+    Suppose $X_1, \dotsc, X_{100}$ IID $N(\mu, \sigma ^ 2 = 10 ^ 2)$.
+    Let $H_0 : \mu = 0$ and $H_1 : \mu > 0$.
+
+    Use $\bar{X}$ as test statistic,
+    and find $\bar{x} = 2$.
+    Under $H_0$,
+    $\bar{X} \sim N\left(0, \frac{10 ^ 2}{100} = 1\right)$.
+    Reject implies $\mu$ large.
+    Fix $\alpha = 0.05$:
+    $\mathcal{R} : \{\vec{x} \mid \bar{X} > a ^ {*}\}$ or $\mathcal{T} = \{\bar{x} \mid \bar{X} > a ^ {*}\}$ for $a ^ {*}$ such that $\P(\bar{X} > a ^ {*}\mid H_0) = 0.05$.
+    Here $a ^ {*} = 1.96$,
+    so since $\bar{x} > a ^ {*}$ reject $H_0$ at $5\%$ level.
+    Note:
+    this one-sided test can not reject $H_0$ if $\bar{X}$ is surprisingly small.
+
+    $p$-value:
+    $\P(\bar{X} > 2; \mu = 0) = 1 - \Phi((2 - 0) / 1) = 0.0228 < 0.05$ so reject $H_0$.
+
+    Change $H_1$ to $H_1 : \mu \neq 0$ leads to two tailed test,
+    reject $H_0$ if $\bar{X}$ too big or too small.
+    \[
+    \mathcal{R} = \{\vec{x} \mid \bar{X} > a ^ {*}\} \cup \{\vec{x} \mid \bar{X} < b ^ {*}\}.
+    \]
+    Symmetry implies $\P(\bar{X} > a ^ {*}) = \P(\bar{X} < b ^ {*}) = 0.025$,
+    so $a ^ {*} = 1.96 = -b ^ {*}$.
+    \[
+    \mathcal{R} = \{\vec{x} \mid |\bar{X}| > 1.96\}\text{ or }\mathcal{T} = \{\bar{x} \mid |\bar{X}| > 1.96\}.
+    \]
+    Again,
+    $|\bar{x}| > 1.96$ so reject $H_0$ at $5\%$ level.
+
+    $p$-value:
+    $\P(|\bar{X}| > 2; \mu = 0) = 2(1 - \Phi(2)) = 0.0455 < 0.05$ so reject $H_0$.
+\end{example}
+
+\begin{proposition}
+    For $X_1, \dotsc, X_n$ IID $N(\mu, \sigma ^ 2)$,
+    the test of $H_0 : \mu = \mu_0$ vs $H_1$ rejects $H_0$ at level $\alpha$ if:
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{c|c|c}
+            \phantom{}& $\sigma ^ 2$ known & $\sigma ^ 2$ unknown \\
+            \hline
+             $H_1 : \mu > \mu_0$ & $Z = \frac{\bar{X} - \mu_0}{\frac{\sigma}{\sqrt{n}}} > z_{\alpha} ^ {*}$ & $T = \frac{\bar{X} - \mu_0}{S / \sqrt{n}} > t_{n - 1, \alpha}^{*}$ \\
+             $H_1 : \mu \neq \mu_0$ & $|Z| > z_{\alpha / 2}^{*}$ & $|T| > t_{n - 1, \alpha / 2}^{*}$
+        \end{tabular}
+    \end{table}
+    Note:
+    $Z, T$ are both pivotal statistics,
+    their distribution does not involve $\mu_0$.
+
+    For $X \sim \Bin(n, \pi)$ for $n$ large,
+    an approximate test of $H_0 : \pi = \pi_0$ vs $H_1 : \pi \neq \pi_0$ rejected $H_0$ at level $\alpha$ if
+    \[
+    |Z| > z_{\alpha / 2}^{*}\qquad\text{where}\qquad Z = \frac{\hat{\pi} - \pi}{\sqrt{\pi_0(1 - \pi) / n}}\text{ and } \hat{\pi} = \frac{x}{n}.
+    \]
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
