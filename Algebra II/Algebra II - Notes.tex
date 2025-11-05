@@ -2511,12 +2511,103 @@ Recall that vector spaces can be defined over any field.
     \begin{proof}
         By the above discussion $F[x] / (f(x))$ is a field.
         It is a vector space over $F$,
-        as it is an abelian group with 
+        as it is an abelian group with scalar multiplication given by $\alpha \cdot (\overline{g(x)}) \coloneqq \overline{\alpha g(x)}$,
+        $\alpha \in F$.
+
+        The set $B$ spans $F[x] / (f(x))$:
+        By division with remainder,
+        any $g(x) \in F[x]$ with $\deg{g} \geq n$ can be written $g(x) = q(x)f(x) + r(x)$,
+        $\deg{r} < n$.
+
+        So $\overline{g(x)} = \bar{0} + \overline{r(x)}$.
+        Since the span of $B$ contains any polynomial in $\bar{X}$ of degree at most $n - 1$ it will contain $\overline{r}(x)$,
+        hence $\overline{g(x)}$.
+        $B$ is linearly independent:
+        This is equivalent to
+        \[
+        \sum_{i = 0}^{n - 1}a_i\bar{x} ^ i = \bar{0},
+        \]
+        then all $a_i$ should be zero.
+        If $\sum a_i\bar{x} ^ i = \bar{0}$,
+        then
+        \[
+        \sum a_i x ^ i \in I = (f(x)),
+        \]
+        so $f(x)$ divides $\sum_{i = 1}^{n - 1} a_ix ^ i$,
+        hence $\deg{f} = n \leq n - 1$,
+        contradiction,
+        unless $a_1 = a_2 = \dotsi = a_{n - 1} = 0$ $B$ is a basis.
     \end{proof}
 \end{theorem}
 
+\begin{example}\phantom{}
+    \begin{itemize}[label = -]
+        \item $\Q[x] / (x ^ 3 - 2)$ has basis $\{1, \bar{x}, \bar{x ^ 2}\}$,
+        dimension $3$
+        
+        \item $(\Z / 2)[x] / (x ^ 2 + x + \bar{1})$ has basis $\{1, \bar{x}\}$,
+        dimension $2$ over $\Z / 2$,
+        i.e.,
+        this field has $2 \cdot 2 = 4$ elements:
+        $\{\bar{0}, \bar{1}, \bar{x}, \overline{1 + x}\}$.
+        This field is denoted $\mathbb{F}_4$.
+    \end{itemize}
+\end{example}
 
+\subsection{Finite fields}
+We already know that $\Z / p$ is a field with $p$ elements,
+for each prime number,
+$p$.
+$\Z / n = \Z / (n) = \Z / n\Z$.
 
+Warning:
+$\Z / p ^ n$,
+$n > 1$ is not a field
+(it has zero divisors).
+Thus $\Z / 4 \ncong \mathbb{F}_4$
+
+\begin{theorem}
+    For any prime $p \in \Z$,
+    $n \in \N$,
+    there exists a polynomial $f(x) \in (\Z / p)[x] of degree $n,
+    that is irreducible.
+    Thus,
+    $(\Z / p)[x] / (f(x))$ is a field with $p ^ n$ elements.
+    Any two such fields
+    (with $p ^ n$ elements)
+    are isomorphic and we denote this by $\mathbb{F}_{p ^ n}$.
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Construct $\mathbb{F}_{27}$.
+    Find an irreducible polynomial in $(\Z / 3)[x]$ of degree $3$.
+    Can take
+    \[
+    f(x) = x ^ 3 + x ^ 2 + x + \bar{2}.
+    \]
+    Thus,
+    by a previous result,
+    we have $\mathbb{F}_{27} \cong (\Z / 3)[x] / (f(x))$ and its elements can be written as $\overline{ax ^ 2 + bx + c}$.
+    Calculating with elements in $\mathbb{F}_{27}$,
+    we need to remember
+    \[
+    \overline{x ^ 3 + x ^ 2 + x + \bar{2}} = \bar{0}.
+    \]
+    E.g.,
+    \begin{align*}
+        (\bar{2}x ^ 2 - \bar{x} + \bar{2})(\bar{x} ^ 2 + \bar{x} + \bar{1}) &= \bar{2}x ^ 4 + x ^ 3 + \bar{x} + \bar{2} \\
+        &= \bar{2}x ^ 4 - (\bar{x ^ 2} + \bar{x} + \bar{2}) + \bar{x} + \bar{2} \\
+        &= \bar{2}\bar{x}(-\bar{x ^ 2} - \bar{x} - \bar{2}) - \bar{x ^ 2} \\
+        &= \bar{x ^ 3} + \bar{x ^ 2} + \bar{2}\bar{x} - \bar{x ^ 2} \\
+        &= \bar{x ^ 3} + \bar{2}\bar{x} \\
+        &= -\bar{x ^ 2} - \bar{x} - \bar{2} + \bar{2}\bar{x} \\
+        &= \bar{2}\bar{x ^ 2} + \bar{x} + \bar{1}.
+    \end{align*}
+\end{example}
 
 
 
