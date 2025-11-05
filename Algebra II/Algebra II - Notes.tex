@@ -2609,6 +2609,58 @@ Thus $\Z / 4 \ncong \mathbb{F}_4$
     \end{align*}
 \end{example}
 
+\newpage
+
+\section{The Chinese Remainder Theorem
+    (CRT)}
+This is a generalisation of the isomorphism
+\[
+\Z / 6 \cong \Z / 2 \times \Z / 3.
+\]
+$\varphi : \Z / 6 \to \Z / 2 \times \Z / 3$
+$n \mapsto (\bar{n}, \bar{n})$
+($([n]_2, [n]_3)$).
+\[
+\ker{\varphi} = 6\Z = (6)
+\]
+by FIT:
+$\Z / (6) \cong \Z / 2 \times \Z / 3$.
+Injectivity implies surjectivity since the sizes of the finite set
+(domain)
+to the image
+(also a finite set)
+are equal.
+
+Similar for polynomials:
+$f(x) \in F[x]$,
+$f(x) = g(x)h(x)$ coprime factors.
+
+CRT for polynomials
+\[
+F[x] / (f(x)) \to F[x] / (g(x)) \times F[x] / (h(x))
+\]
+$p(x) + (f(x)) \to (p(x) + (g(x)), p(x) + (h(x)))$ an isomorphism.
+
+\begin{example}
+    $\Q[x] / (x ^ 2 - x) \cong \Q[x] / (x) \times \Q[x] / (x - 1)$.
+    But $\Q[x] / (x) \cong \Q$
+    (take the evaluation at $0$ map)
+    $\Q[x] / (x - 1) \cong \Q$
+    (take the evaluation at $1$ map).
+    Thus $\Q[x] / (x ^ 2 - x) \cong \Q \times \Q$.
+\end{example}
+
+\begin{theorem}[CRT for PIDs]
+    Let $R$ be a PID.
+    If $a_1, \dotsc, a_k \in R$ are pairwise coprime elements
+    (i.e. any $\gcd(a_i, a_j) = 1 \forall i \neq j$),
+    then the map
+    \begin{align*}
+        \varphi : R / (a_1 \dotsc a_k) &\to \R / (a_1) \times \dotsi \times R / (a_k) \\
+        r + (a_1 \dotsi a_k) &\mapsto (r + (a_1), \dotsc, r + (a_k))
+    \end{align*}
+    is an isomorphism.
+\end{theorem}
 
 
 
