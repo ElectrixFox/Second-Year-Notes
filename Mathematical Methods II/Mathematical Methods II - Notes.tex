@@ -1268,7 +1268,7 @@ Scalar fields $g$,
 $\bnabla g$ takes $g$ to a vector field.
 
 There are six product rules:
-\begin{proposition}[Product rules]
+\begin{proposition}[Product rules]\label{mathmethII:prop:prodrules}
     If $f, g : \R ^ 3 \to \R$ are scalar fields and $\vec{f}, \vec{g} \in \R ^ 3 \to \R ^ 3$ are vector fields,
     all $C ^ {(1)}$,
     then
@@ -2125,14 +2125,213 @@ there is a useful identity for the product of two $\epsilon$'s that share an ind
     \end{solution}
 \end{example}
 
+\subsection{Derivatives}
 
+Recall the Cartesian expressions:
+\[
+\bnabla g = \pd[g]{x}\vec{e}_1 + \pd[g]{y}\vec{e}_2 + \pd[g]{z}\vec{e}_3 \to [\bnabla g]_{i} = \pd[g]{x_i}.
+\]
+\[
+\bnabla \cdot \vec{f} = \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z} \to \bnabla \cdot \vec{f} = \pd[f_j]{x_j}.
+\]
+\[
+\bnabla \times \vec{f} = \begin{vmatrix}
+    \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+    \pd{x} & \pd{y} & \pd{z} \\
+    f_1 & f_2 & f_3
+\end{vmatrix} \to [\bnabla \times \vec{f}]_{i} = \epsilon_{ijk}\pd{x_j}f_k.
+\]
 
+\begin{example}
+    Use index notation to verify $\bnabla \cdot (\bnabla \times \vec{f}) = 0$.
 
+    \begin{solution}
+        \begin{align*}
+            \bnabla \cdot (\bnabla \times \vec{f}) &= \pd{x_j}[\bnabla \times \vec{f}]_j \\
+            &= \pd{x_j}\left(\epsilon_{jkl}\pd{x_k}f_l\right) \\
+            &= \epsilon_{jkl}\pd{x_j}\left(\pd[f_l]{x_k}\right) \\
+            &= \epsilon_{jkl}\pd{x_k}\left(\pd[f_l]{x_j}\right) \\
+            &= \epsilon_{kjl}\pd{x_j}\left(\pd[f_l]{x_k}\right) &&(\epsilon_{kjl} = -\epsilon_{jkl}). \\
+            &= -\epsilon_{jkl}\pd{x_j}\left(\pd[f_l]{x_k}\right) \\
+            &= -\pd{x_j}\left(\epsilon_{jkl}\pd[f_l]{x_k}\right).
+        \end{align*}
+        Since this expression equals minus itself,
+        it must be zero.
+    \end{solution}
+\end{example}
 
+Index notation gives us a neater way to complete the following proofs:
+\begin{proposition}[continues = mathmethII:prop:prodrules]\phantom{}
+    \begin{enumerate}[label = (\arabic*)]
+        \item[(5)]
+        \[
+        \bnabla (\vec{f} \times \vec{g}) \equiv (\vec{g} \cdot \bnabla)\vec{f} - (\vec{f}\cdot\bnabla)\vec{g} + \vec{f}(\bnabla \cdot\vec{g}) - \vec{g}(\bnabla \cdot \vec{f}).
+        \]
+    
+        \item[(6)]
+        \[
+        \bnabla(\vec{f} \cdot \vec{g}) \equiv (\vec{g}\cdot\bnabla)\vec{f} + (\vec{f}\cdot\bnabla)\vec{g} + \vec{f}\times(\bnabla \times \vec{g}) + \vec{g} \times (\bnabla \times \vec{f}).
+        \]
+    \end{enumerate}
 
+    \begin{proof}
+        \begin{enumerate}[label = (\arabic*)]
+            \item[(5)]
+            \begin{align*}
+                [\bnabla \times (\vec{f} \times \vec{g})]_i &= \epsilon_{ijk}\pd{x_j}[\vec{f} \times \vec{g}]_k \\
+                &= \epsilon_{ijk}\pd{x_j}(\epsilon_{klm}f_lg_m) \\
+                &= \epsilon_{ijk}\epsilon_{klm}\pd{x_j}(f_lg_m) \\
+                &= \epsilon_{ijk}\epsilon_{klm}\left(\pd[f_l]{x_j}g_m + f_l\pd[g_m]{x_j}\right) \\
+                &= (\delta_{il}\delta_{jm} - \delta_{im}\delta_{jl})\left(\pd[f_l]{x_j}g_m + f_l\pd[g_m]{x_j}\right) \\
+                &= \delta_{il}\delta_{jm}\pd[f_l]{x_j}g_m + \delta_{il}\delta_{jm}f_l\pd[g_m]{x_j} - \delta_{im}\delta_{jl}\pd[g_m]{x_j}f_l - \delta_{im}\delta_{jl}g_m\pd[f_l]{x_j} \\
+                &= \delta_{il}g_j\pd[f_l]{x_j} + \delta_{il}f_l\pd[g_j]{x_j} - \delta_{jl}\pd[g_i]{x_j}f_l - \delta_{jl}g_i\pd[f_l]{x_j} \\
+                &= g_j\pd[f_i]{x_j} + f_i\pd[g_j]{x_j} - \pd[g_i]{x_j}f_j - g_i\pd[f_j]{x_j} \\
+                &= [(\vec{g} \cdot \bnabla)\vec{f}]_i + [\vec{f}(\bnabla\cdot\vec{g})]_i - [(\vec{f}\cdot\bnabla)\vec{g}]_i - [(\bnabla \cdot \vec{f)\vec{g}}]_i.
+            \end{align*}
+            
+            \item[(6)]
+            Here the RHS has the triple products,
+            so start there:
+            \begin{align*}
+                 [\vec{f}\times(\bnabla \times \vec{g})]_i &= \epsilon_{ijk}f_j[\bnabla \times \vec{g}]_k \\
+                &= \epsilon_{ijk}f_j\epsilon_{klm}\pd{x_l}g_m \\
+                &= \epsilon_{ijk}\epsilon_{klm}f_j\pd{x_l}g_m \\
+                &= (\delta_{il}\delta_{jm} - \delta_{im}\delta_{jl})f_j\pd[g_m]{x_l} \\
+                &= \delta_{il}\delta_{jm}f_j\pd[g_m]{x_l} - \delta_{im}\delta_{jl}f_j\pd[g_m]{x_l} \\
+                &= \delta_{il}f_j\pd[g_j]{x_l} - \delta_{jl}f_j\pd[g_i]{x_l} \\
+                &= f_j\pd[g_j]{x_i} - f_j\pd[g_i]{x_j}
+            \end{align*}
+            so RHS of the original identity is
+            \begin{align*}
+                []_i &= g_j\pd[f_i]{x_j} + f_j\pd[g_i]{x_j} + f_j\pd[g_j]{x_i} - f_j\pd[g_i]{x_j} + g_j\pd[f_j]{x_i} - g_j\pd[f_i]{x_j} \\
+                &= f_j\pd[g_j]{x_i} + g_j\pd[f_j]{x_i} \\
+                &= \pd{x_i}(f_jg_j) \\
+                &= \pd{x_i}(\vec{f} \cdot \vec{g}) \\
+                &= \left[\bnabla(\vec{f} \cdot \vec{g})\right]_i.
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
 
+\begin{remark}
+    The operator $(\vec{g} \cdot \bnabla)\vec{f}$ has $i$th
+    (Cartesian)
+    component $g_j\pd[f_i]{x_j}$,
+    and can be defined as
+    \[
+    (\vec{g} \cdot \bnabla)\vec{f} = \lim_{d(S) \to 0}\frac{1}{|V|}\oint_{S}\vec{f}(\vec{g}\cdot\hvec{n})\,dS.
+    \]
+\end{remark}
 
+\subsection{Second Derivatives}
+Derivative operators:
+\begin{align*}
+    &\bnabla \cdot (\bnabla g) \\
+    &\bnabla \times (\bnabla g) = \vec{0} \\
+    &\bnabla(\bnabla \cdot \vec{f}) \\
+    &\bnabla \times (\bnabla \times \vec{f}) \\
+    &\bnabla \cdot (\bnabla \times \vec{f}) = 0.
+\end{align*}
 
+So there are three non-trivial second derivative operators for a scalar field $g : \R ^ 3 \to \R$ and a vector field $\vec{f} : \R ^ 3 \to \R ^ 3$:
+\begin{enumerate}[label = (\arabic*)]
+    \item $\bnabla \cdot (\bnabla g) : \R \to \R$.
+    
+    \item $\bnabla (\bnabla \cdot \vec{f}) : \R ^ 3 \to \R ^ 3$.
+
+    \item $\bnabla \times (\bnabla \times \vec{f}) : \R ^ 3 \to \R ^ 3$.
+\end{enumerate}
+Operator $1$ is called the Laplacian of a scalar field $\nabla ^ 2g$ or $\Delta g$.
+
+\begin{example}
+    Compute $\nabla ^ 2g$ for $g(\vec{x}) = x ^ 3 - 3xy ^ 2$.
+
+    In Cartesians,
+    \[
+    \nabla ^ 2g = \bnabla \cdot (\bnabla g) = \pd{x_j}[\bnabla g]_j = \pd{x_j}\pd[g]{x_j} = \frac{\partial ^ 2g}{\partial x ^ 2} + \frac{\partial ^ 2g}{\partial y ^ 2} + \frac{\partial ^ 2g}{\partial z ^ 2}.
+    \]
+    So
+    \[
+    \nabla ^ 2g = \pd{x}(3x ^ 2 - 3y ^ 2) + \pd{y}(-6xy) = 6x - 6x = 0.
+    \]
+\end{example}
+
+\begin{remark}
+    Scalar fields satisfying $\nabla ^ 2g = 0$ are called harmonic functions.
+\end{remark}
+
+\begin{proposition}
+    In orthogonal curvilinear coordinates $(u, v, w)$,
+    the Laplacian is given by
+    \[
+    \nabla ^ 2g = \frac{1}{h_uh_vh_w}\left[\pd{u}\left(\frac{h_vh_w}{h_u}\pd[g]{u}\right) + \pd{v}\left(\frac{h_uh_w}{h_v}\pd[g]{v}\right) + \pd{w}\left(\frac{h_uh_v}{h_w}\pd[g]{w}\right)\right].
+    \]
+
+    \begin{proof}
+        Recall:
+        $\bnabla g = \frac{1}{h_u}\pd[g]{u}\vec{e}_u + \frac{1}{h_v}\pd[g]{v}\vec{e}_v + \frac{1}{h_w}\pd[g]{w}\vec{e}_w$ and $\bnabla\cdot\vec{f} = \frac{1}{h_uh_vh_w}\left[\pd{u}(h_vh_wf_u) + \pd{v}(h_uh_wf_v) + \pd{w}(h_uh_vf_w)\right]$.
+        Simply let $\vec{f} = \bnabla g$.
+    \end{proof}
+\end{proposition}
+
+The operator $2$ $\bnabla(\bnabla \cdot \vec{f})$ has $i$th component $[\bnabla(\bnabla \cdot \vec{f})]_i = \pd{x_i}\left(\pd[f_j]{x_j}\right)$.
+
+The operator $3$ $\bnabla \times (\bnabla \times \vec{f})$ has $i$th component
+\begin{align*}
+    [\bnabla \times (\bnabla \times \vec{f})]_i &= \epsilon_{ijk}\pd{x_j}\left(\epsilon_{klm}\pd[f_m]{x_l}\right) \\
+    &= \epsilon_{ijk}\epsilon_{klm}\pd{x_j}\left(\pd[f_m]{x_l}\right) \\
+    &= (\delta_{il}\delta_{jm} - \delta_{im}\delta_{jl})\pd{x_j}\left(\pd[f_m]{x_l}\right) \\
+    &= \delta_{il}\delta_{jm}\pd{x_j}\left(\pd[f_m]{x_l}\right) - \delta_{im}\delta_{jl}\pd{x_j}\left(\pd[f_m]{x_l}\right) \\
+    &= \delta_{il}\pd{x_j}\left(\pd[f_j]{x_l}\right) - \delta_{jl}\pd{x_j}\left(\pd[f_i]{x_l}\right) \\
+    &= \pd{x_j}\left(\pd[f_j]{x_i}\right) - \pd{x_j}\left(\pd[f_i]{x_j}\right) \\
+    &= \pd{x_i}\left(\pd[f_j]{x_j}\right) - \frac{\partial ^ 2f_i}{\partial x_j\partial x_j} \\
+    &= [\bnabla \cdot(\bnabla \cdot \vec{f})]_i - \nabla ^ 2f_i.
+\end{align*}
+
+We define the vector Laplacian as the vector field with Cartesian components
+\[
+[\bnabla ^ 2\vec{f}]_i = \nabla ^ 2f_i
+\]
+so
+\[
+\bnabla \times (\bnabla \times \vec{f}) = \bnabla(\bnabla \cdot \vec{f}) - \bnabla ^ 2\vec{f}.
+\]
+
+\begin{example}
+    Verify this formula for the vector field $\vec{f}(\vec{x}) = x\vec{e}_1 + xy\vec{e}_2 + y ^ 3\vec{e}_3$.
+
+    \begin{align*}
+        \bnabla \cdot \vec{f} &= \pd{x}(x) + \pd{y}(xy) + \pd{z}(y ^ 3) = 1 + x. \\
+        &\implies \bnabla (\bnabla \cdot \vec{f}) = \bnabla(1 + x) = \vec{e}_1. \\
+        \bnabla\times\vec{f} &= \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+            \pd{x} & \pd{y} & \pd{z} \\
+            x & xy & y ^ 3
+        \end{vmatrix} = 3y ^ 2\vec{e}_1 + y\vec{e}_3 \\
+        &\implies \bnabla \times (\bnabla \times \vec{f}) = \begin{vmatrix}
+            \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\ \pd{x} & \pd{y} & \pd{z} \\ 3y ^ 2 & 0 & y
+        \end{vmatrix} = \vec{e}_1 - 6y\vec{e}_3.
+    \end{align*}
+    In Cartesians,
+    \begin{align*}
+        \bnabla ^ 2\vec{f} &= (\nabla ^ 2f_1)\vec{e}_1 + (\nabla ^ 2f_2)\vec{e}_2 + (\nabla ^ 2f_3)\vec{e}_3 \\
+        &= (0)\vec{e}_1 + (0)\vec{e}_2 + \frac{\partial ^ 2f_3}{\partial y ^ 2}\vec{e}_3 \\
+        &= 6y\vec{e}_3.
+    \end{align*}
+    Therefore $\bnabla \times (\bnabla \times \vec{f}) = \bnabla(\bnabla \cdot \vec{f}) - \bnabla ^ 2\vec{f}$.
+\end{example}
+
+Warning:
+Be careful when calculating $\bnabla ^ 2\vec{f}$ in non-Cartesian systems,
+because
+\[
+[\bnabla ^ 2\vec{f}]\cdot\vec{e}_u \neq \nabla ^ 2f_u.
+\]
+To find the correct expression,
+calculate
+\[
+\bnabla ^ 2\vec{f} = \bnabla(\bnabla\cdot\vec{f}) - \bnabla\times(\bnabla\times\vec{f}).
+\]
 
 
 
