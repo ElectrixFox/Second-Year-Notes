@@ -1858,7 +1858,6 @@ this isn't a useful method for finding a sufficient $S$.
         Begin with some setup -
         consider
         (discrete case)
-        \autoref{}
         \begin{equation}\label{statsinfII:eq:eq5}\tag{1}
             f_{X, S}(x, s(x); \theta) = f_{S \mid X}(s(\vec{x}) \mid \vec{x}; \vec{\theta})f_{X}(\vec{x}; \vec{\theta}).
         \end{equation}
@@ -2741,7 +2740,7 @@ Question:
 What would be a good test?
 One with a low probability of error.
 
-\begin{table}[h!]
+\begin{table}[ht]
     \centering
     \begin{tabular}{c|c|c}
          \phantom{} & $H_0$ true & $H_1$ true  \\
@@ -2940,7 +2939,7 @@ e.g. at $5\%$ level $\mathcal{R} = \{5\}$.
 \begin{proposition}
     For $X_1, \dotsc, X_n$ IID $N(\mu, \sigma ^ 2)$,
     the test of $H_0 : \mu = \mu_0$ vs $H_1$ rejects $H_0$ at level $\alpha$ if:
-    \begin{table}[h!]
+    \begin{table}[ht]
         \centering
         \begin{tabular}{c|c|c}
             \phantom{}& $\sigma ^ 2$ known & $\sigma ^ 2$ unknown \\
@@ -2960,16 +2959,330 @@ e.g. at $5\%$ level $\mathcal{R} = \{5\}$.
     \]
 \end{proposition}
 
+There is a duality between a $100(1 - \alpha)\%$ CI and a hypothesis test at level $\alpha$.
+
+\begin{proposition}
+    Suppose there is a test at level $\alpha$ of $H_0 : \theta = \theta_0$ against $H_1 : \theta \neq \theta_0$.
+    Then the $100(1 - \alpha)\%$ CI for $\theta$ is the set of values of $\theta$ for which $H_0$ is not rejected.
+\end{proposition}
+
+$3$ equivalent ways for testing $H_0 : \theta = \theta_0$ vs $H_1 : \theta \neq \theta_0$
+\begin{enumerate}[label = (\arabic*)]
+    \item Compute test statistic $T(\vec{x})$ and reject if it is in level $\alpha$ rejection region $\mathcal{R}$.
+
+    \item Compute $p$-value and reject if $< \alpha$.
+
+    \item Compute the $100(1 - \alpha)\%$ CI and reject if $CI$ does not contain $\theta_0$.
+\end{enumerate}
+
+\newpage
+
+\section{Two-sample tests}
+Suppose we have two samples,
+$X_1, \dotsc, X_n$ and $Y_1, \dotsc, Y_m$.
+Compare the means of the underlying distributions of $X$ and $Y$.
+How we proceed depends on how the samples are related:
+\begin{enumerate}[label = (\arabic*)]
+    \item Independent samples -
+    observation of $X$ unrelated to observation of $Y$;
+    no association between samples;
+    can have $n \neq m$.
+
+    \item Paired samples -
+    each $X_i$ is paired with a similar $Y_i$,
+    e.g.
+    before/after,
+    treatment/placebo.
+    Require $n = m$.
+\end{enumerate}
+
+\subsection{Independent sample test}
+Assume that $X_1, \dotsc, X_n \sim N(\mu x, \sigma ^ 2)$ IID and $Y_1, \dotsc, Y_n \sim N(\mu y, \sigma ^ 2)$ IID,
+and $X_i \independent Y_j$ for all $i, j$.
+
+Goal:
+compare $\mu_{X}$ and $\mu_{Y}$.
+Any difference will be characterised by $\mu_{D} = \mu_{X} - \mu_{Y}$.
+Then $\mu_{X} = \mu_{Y} \implies \mu_{D} = 0$,
+and a null hypothesis of "no difference" is $H_0 : \mu_{D} = 0$
+($\mu_{X} = \mu_{Y}$).
+Estimate $\mu_{D}$:
+use $\bar{X} - \bar{Y}$
+(MLE) -
+need its distribution to form the test.
+
+Distribution:
+$X_i, Y_j$ all normal implies $\bar{X}, \bar{Y}$ normal so $(\bar{X} - \bar{Y})$ is normal too.
+\begin{equation}\label{statsinfII:eq:eq8}\tag{*}
+    \bar{X} - \bar{Y} \sim N\left(\mu_{D} = \mu_{X} - \mu_{Y}, \sigma ^ 2\left(\frac{1}{n} + \frac{1}{m}\right)\right).
+\end{equation}
+\[
+\]
+Expectation:
+\[
+\E(\bar{X} - \bar{Y}) = \E(\bar{X}) - \E(\bar{Y}) = \mu_{X} - \mu_{Y} = \mu_{D}
+\]
+unbiased.
+Variance:
+\[
+\Var(\bar{X} - \bar{Y}) = \Var(\bar{X}) + \Var(\bar{Y}) - 2\Cov(\bar{X}, \bar{Y}) = \frac{\sigma ^ 2}{n} + \frac{\sigma ^ 2}{m} - 2 \cdot 0 = \sigma ^ 2\left(\frac{1}{n} + \frac{1}{m}\right)
+\]
+This gives us the bias for a test when $\sigma ^ 2$ is known.
+What if $\sigma ^ 2$ unknown?
+Estimate it!
+Two samples leads to two possible estimates of $\sigma ^ 2$:
+\[
+S_{X} ^ 2 = \frac{1}{n - 1}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ 2,\qquad S_{Y} ^ 2 = \frac{1}{m - 1}\sum_{j = 1}^{m}(y_i - \bar{y}) ^ 2
+\]
+which to use?
+Both.
 
 
+\begin{definition}
+    The pooled sample variance from two independent samples is:
+    \[
+    S_{P} ^ 2 = \frac{(n - 1)S_{X} ^ 2 + (m - 1)S_{Y} ^ 2}{n + m - 2}.
+    \]
+\end{definition}
 
+\begin{proposition}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item $S_{P} ^ 2$ is an unbiased estimate of $\sigma ^ 2$.
 
+        \item
+        \[
+        \frac{(n + m - 2)}{\sigma ^ 2}S_{P} ^ 2 \sim \chi_{n + m - 1}^{2}.
+        \]
+    \end{enumerate}
 
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \[
+            \E(S_{P} ^ 2) = \frac{(n - 1)}{n + m - 2}\E(S_{X} ^ 2) + \frac{(m - 1)}{n + m - 2}\E(S_{Y} ^ 2) = \frac{(n - 1)}{n + m - 2}\sigma ^ 2 + \frac{(m - 1)}{n + m - 2}\sigma ^ 2 = \sigma ^ 2.
+            \]
 
+            \item
+            \[
+            \frac{(n - 1)}{\sigma ^ 2}S_{X} ^ 2 \sim \chi_{n - 1}^{2}\qquad\text{and}\qquad \frac{(m - 1)}{\sigma ^ 2}S_{Y} ^ 2 \sim \chi_{m - 1}^{2},
+            \]
+            and $X \independent Y$,
+            so $S_{X} ^ 2 \independent S_{Y} ^ 2$.
+            By properties of $\chi ^ 2$:
+            \[
+            \frac{(n + m - 2)}{\sigma ^ 2}S_{p}^2 = \frac{(n - 1)}{\sigma ^ 2}S_{X} ^ 2 + \frac{(m - 1)}{\sigma ^ 2}S_{Y} ^ 2 \sim \chi_{n - 1}^{2} + \chi_{m - 1}^{2} \sim \chi_{n + m - 2}^{2}.
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
 
+\begin{proposition}
+    For $X, Y$ as above,
+    the independent sample $t$-test statistic is:
+    \[
+    T = \frac{(\bar{X} - \bar{Y}) - (\mu_{X} - \mu_{Y})}{S_{P}\sqrt{\frac{1}{n} + \frac{1}{m}}}
+    \]
+    which has a $t_{n + m - 2}$ distribution,
+    consequently:
+    \begin{enumerate}[label = (\roman*)]
+        \item A $100(1 - \alpha)\%$ CI for $\mu_{D} = \mu_{X} - \mu_{Y}$ is:
+        \[
+        \bar{x} - \bar{y} \pm t_{n + m - 2, \alpha / 2}^{*}S_{P}\sqrt{\frac{1}{n} + \frac{1}{m}}.
+        \]
+        
+        \item A test of $H_0 : \mu_{X} - \mu_{Y} = \mu_{D} = 0$ vs $H_1 : \mu_{D} \neq 0$
+        ($\mu_{X} \neq \mu_{Y}$)
+        rejects $H_0$ at level $\alpha$ if $|t| > t_{n + m - 2, \alpha / 2}^{*}$ where $t = \frac{(\bar{x} - \bar{y})}{S_{P}\sqrt{\frac{1}{n} + \frac{1}{m}}}$.
+    \end{enumerate}
 
+    \begin{proof}\phantom{}
+        Need to express $T$ as $\frac{Z}{\sqrt{U_k / k}}$ where $Z \sim N(0, 1)$ and $U_k \sim \chi_{k}^{2}$ and $Z \independent U_k$,
+        \begin{align*}
+            T &= \frac{(\bar{X} - \bar{Y}) - (\mu_{X} - \mu_{Y})}{S_p\sqrt{\frac{1}{n} + \frac{1}{m}}} \\
+            &= \frac{\left(\frac{(\bar{X} - \bar{Y}) - (\mu_{X} - \mu_{Y})}{\sigma\sqrt{\frac{1}{n} + \frac{1}{m}}}\right)}{\left(\frac{S_{P}\sqrt{\frac{1}{n} + \frac{1}{m}}}{\sigma\sqrt{\frac{1}{n} + \frac{1}{m}}}\right)} \\
+            &= \frac{Z}{\sqrt{\frac{S_{P} ^ 2}{\sigma ^ 2}}} \\
+            &= \frac{Z}{\sqrt{\frac{(n + m - 2)S_{P} ^ 2}{(n + m - 2)\sigma ^ 2}}} \\
+            &= \frac{Z}{\sqrt{\frac{U_{n + m - 2}}{n + m - 2}}}
+        \end{align*}
+        where $Z \sim N(0, 1) \independent U_{n + m - 2} \sim \chi_{n + m - 2}^{2}$ therefore by definition $T \sim t_{n + m - 2}$.
+    \end{proof}
+\end{proposition}
 
+\begin{example}
+    Youth Cohort Study of England and Wales $2004$-$2007$.
+    Total GCSE scores in Y$11$
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|c|c|c}
+             \phantom{} & $n$ & $\bar{x}$ & $S$ \\
+             \hline
+             Male & $6044$ & $381.2331$ & $131.20956$ \\
+             Female & $7726$ & $404.6233$ & $120.38817$
+        \end{tabular}
+    \end{table}
+    Question:
+    Is there a gender difference in GCSE performance?
 
+    Assume common variance:
+    \[
+    S_{P} ^ 2 = \frac{6043 \times 131.20956 ^ 2 + 7725 \times 120.38817 ^ 2}{6044 + 7726 - 2} = 7623.928.
+    \]
+    Test $H_0 : \mu_{X} - \mu_{Y} = 0$,
+    $H_1 : \mu_{X} \neq \mu_{Y}$
+    \[
+    t = \frac{(\bar{x} - \bar{y})}{S_{P}\sqrt{\frac{1}{n} + \frac{1}{m}}} = \frac{-233.902}{87.31511\sqrt{\frac{1}{6044} + \frac{1}{7726}}} = -15.59973.
+    \]
+    At $5\%$ level $t_{13768, 0.025}^{*} = z_{0.025}^{*} = 1.96$,
+    and $|t| > t ^ {*} = z ^ {*}$ so reject $H_0$ at $5\%$ and conclude evidence of difference in mean GCSE scores between the two genders.
+
+    Assumptions:
+    $X, Y$ both Normal,
+    and have equal variance.
+\end{example}
+
+\subsection{Inference for Paired Means}
+Suppose now our data are $n$ independent pairs $(X_i, Y_i)$,
+$i = 1, \dotsc, n$,
+where each $X_i$ and $Y_i$ are (cor)related,
+but different pairs are independent.
+
+Assume $X \sim N(\mu_{X}, \sigma_{X} ^ 2)$ and $Y \sim N(\mu_{Y}, \sigma_{Y} ^ 2$ and also $\Cov(X, Y) = \sigma_{XY} = \rho\sigma_{X}\sigma_{Y}$ where $\rho \in [-1, 1]$ is the correlation between $X$ and $Y$.
+
+Goal:
+Compare $\mu_{X}$ to $\mu_{Y}$ by $\mu_{D} = \mu_{X} - \mu_{Y}$.
+Correlation means we cannot use the independent sample test.
+Instead,
+consider the differences $D_i = X_i - Y_i$,
+which are independent of each other and have the properties:
+\begin{align*}
+    \E(D_i) &= \E(X_i - Y_i) = \E(X) - \E(Y) = \mu_{X} - \mu_{Y} = \mu_{D} \\
+    \Var(D_i) &= \Var(X_i) + \Var(Y_i) - 2\Cov(X_i, Y_i) \\
+    &= \sigma_{X} ^ 2 + \sigma_{Y} ^ 2 - 2\rho\sigma_{X}\sigma_{Y} \\
+    &= \sigma_{D} ^ 2
+\end{align*}
+and $D_i \sim N(\mu_{D}, \sigma_{D} ^ 2)$.
+We can estimate $\mu_{D}$ by $\bar{D} = \frac{1}{n}\sum_{i = 1}^{n}D_i = \frac{1}{n}\sum_{i = 1}^{n}(X_i - Y_i) = \bar{X} - \bar{Y}$ with
+\begin{align*}
+    \E(\bar{D}) &= \mu_{D} = \mu_{X} - \mu_{Y} \\
+    \Var(\bar{D}) &= \Var\left(\frac{1}{n}\sum_{i = 1}^{n}D_i\right) = \frac{1}{n ^ 2}n\sigma_{D} ^ 2 = \frac{\sigma_{D} ^ 2}{n} \\
+    &= \frac{1}{n}(\sigma_{X} ^ 2 + \sigma_{Y} ^ 2 - 2\rho\sigma_{X}\sigma_{Y})
+\end{align*}
+giving $\bar{D} \sim N(\mu_{D}, \sigma_{D} ^ 2 / n)$.
+
+Thus,
+we turn a paired $2$-sample problem into a single-sample one for $D_i$.
+
+\begin{proposition}
+    For $X, Y, D$ as above,
+    the paired-sample $t$-test statistic is:
+    \[
+    T = \frac{\bar{D}}{S_{D} / \sqrt{n}} \sim t_{n - 1}
+    \]
+    where $\bar{D} = \frac{1}{n}\sum_{i = 1}^{n}D_i$,
+    and $S_{D} ^ 2 = \frac{1}{n - 1}\sum_{i = 1}^{n}(D_i - \bar{D}) ^ 2$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item The $100(1 - \alpha)\%$ CI for $\mu_{D}$ is:
+        \[
+        \bar{d} \pm t_{n - 1, \alpha / 2}^{*}S_{D} / \sqrt{n}.
+        \]
+
+        \item The test of $H_0 : \mu_{D} = 0$ vs $H_1 : \mu_{D} \neq 0$ rejects $H_0$ at level $\alpha$ if
+        \[
+        |t| = \left|\frac{\bar{d}}{S_{D} / \sqrt{n}}\right| > t_{n - 1, \alpha / 2}^{*}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Follows immediately using $\bar{D}$ instead of $\bar{X}$.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Using the table in the notes.
+
+    Zinc concentration in drinking water.
+    $10$ pairs of measurements taken at $10$ locations both at and below the surface.
+
+    Question:
+    Is $\mu_{\text{Below}} > \mu_{\text{Surface}}$?
+    $H_0 : \mu_{B} = \mu_{S}$,
+    vs $H_1 : \mu_{B} > \mu_{S}$.
+
+    $\bar{x} = 0.5649$,
+    $\bar{y} = 0.4845$,
+    $\bar{d} = 0.0804$,
+    $\mathrm{sd}(x) = 0.14678$,
+    $\mathrm{sd}(y) = 0.13123$,
+    $\mathrm{sd}(d) = 0.05227$,
+    with $n = 10$ for all.
+
+    Paired sample $t$-test:
+    \[
+    t = \frac{0.0804}{0.05227 / \sqrt{10}} = 4.864 > t_{9, 0.05}^{*} = 1.833
+    \]
+    so reject $H_0$ at $5\%$ level.
+
+    $95\%$ CI for $\mu_{D}$:
+    \[
+    0.0804 \pm t_{9, 0.05}^{*}\times\frac{0.05227}{\sqrt{10}} = [0.774, 0.834]
+    \]
+    $\mu_{D} = 0$ not inside so reject $H_0$ at $5\%$ level.
+\end{example}
+
+The effect of correlation.
+
+What if we mistakenly assume $X \independent Y$?
+$\E(\bar{X} - \bar{Y}) = \mu_{D}$ still,
+but
+\[
+\Var(\bar{X} - \bar{Y}) = \frac{\sigma_{X} ^ 2}{n} + \frac{\sigma_{Y} ^ 2}{n}
+\]
+Comparing the variance for paired means and the above if $\rho > 0$,
+then $\Var(\bar{D}) < \Var(\bar{X}) + \Var(\bar{Y})$ so pairing is more accurate.
+
+Further,
+if $\sigma_{X} = \sigma_{Y} = \sigma$ then.
+
+Independent sample:
+\[
+\Var(\bar{X} - \bar{Y}) = \frac{2\sigma ^ 2}{n}.
+\]
+Paired sample:
+\[
+\Var(\bar{D}) = \frac{2\sigma ^ 2}{n}(1 - \rho).
+\]
+For $\rho = \frac{1}{2}$,
+estimating $\mu_{X} - \mu_{Y}$ with a paired approach and a sample size of $n$ pairs will give the same accuracy as an independent sample test with $2n$ observations each of $X_i$ and $Y_i$.
+Pairing when there is correlation
+($\rho > 0$)
+improves accuracy.
+
+Example.
+Back to data:
+ignore pairing
+\[
+S_{P} ^ 2 = 0.1392.
+\]
+Independent sample test statistic:
+\[
+t = \frac{0.0804}{0.1392\sqrt{\frac{1}{10} + \frac{1}{10}}} = 1.2913 < t_{18, 0.05}^{*} = 1.734.
+\]
+Not significant,
+do not reject $H_0$,
+conclude no evidence of difference in means.
+But all $X_i > Y_i$.
+What happened?
+
+Independence implies $\rho = 0$,
+but sample correlation $r = 0.935$.
+Pairing is very effective when correlation is high,
+so smaller standard error for $(\bar{X} - \bar{Y})$,
+and thus giving a much more sensitive test.
+
+Also,
+here the differences between different pairs were large,
+in comparison to the small but important differences within each pair.
 
 
 
