@@ -554,4 +554,157 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$5$}{}}
+
+\begin{problem}[Sheet $4$ Question $10$]
+    Show that if $R$ is a PID and $a \in R$ is irreducible,
+    then $(a)$ is a maximal ideal.
+
+    \begin{solution}
+        Assume that $I \supseteq (a)$ is an ideal containing $(a)$.
+        Want:
+        $I = R$ or $I = (a)$..
+        Since $R$ is a PID,
+        $I = (t)$,
+        for some $t \in R$.
+        $(t) \supseteq (a) \implies t \mid a$,
+        i.e.,
+        $a = tm$,
+        some $m \in R$.
+
+        $a$ is irreducible so $t$ is a unit or $m$ is a unit.
+        If $t$ is a unit,
+        then $I = (1) = R$.
+        If $m$ is a unit,
+        then $(a) = (tm) = (t) = I$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Sheet $4$ Question $11$]
+    Show that $\Q[i\sqrt{3}] = \{a + bi\sqrt{3} \mid a, b \in \Q\}$ is a field that is isomorphic to
+    \[
+    \Q[x] / (x ^ 2 + x + 1).
+    \]
+
+    \begin{solution}
+        Might be tempted to consider the evaluation map $f(x) \mapsto f(i\sqrt{3})$.
+        This does not work,
+        as it would not map $x ^ 2 + x + 1$ to $0$,
+        hence the kernel would not be $(x ^ 2 + x + 1)$,
+        so cannot apply FIT.
+
+        Instead use an evaluation map $\varphi : \Q[x] \to \C$,
+        $f(x) \mapsto f(\alpha)$,
+        where $\alpha$ is any root of $x ^ 2 + x + 1$
+        (e.g.,
+        $\alpha = (-1 - i\sqrt{3}) / 2$).
+
+        $\ker{\varphi}$:
+        Let $f(x) \in (x ^ 2 + x + 1)$.
+        Then $f(x) = (x ^ 2 + x + 1)g(x)$,
+        some $g(x) \in \Q[x]$.
+        Thus $\varphi(f(x)) = 0$.
+        $\varphi(g(x)) = 0$,
+        so $(x ^ 2 + x + 1) \subseteq \ker{\varphi}$.
+
+        If $f(x) \in \ker{\varphi}$,
+        i.e.,
+        $f(\alpha) = 0$.
+        Division with remainder
+        \[
+        f(x) = q(x)(x ^ 2 + x + 1) + r(x),\qquad \deg{r} < 2.
+        \]
+        Can write $r(x) = ax + b$,
+        $a, b \in \Q$,
+        \[
+        0 = f(\alpha) = 0 + r(\alpha) = a\alpha + b.
+        \]
+        If $a \neq 0$,
+        then $\alpha = -b / a$;
+        impossible as $\alpha \notin \Q$.
+        Hence $a = 0$.
+        Thus $b = 0$.
+        This means that $r(x) = 0$,
+        so $f(x) \in (x ^ 2 + x + 1)$ so $\ker{\varphi} \subseteq (x ^ 2 + x + 1)$.
+
+        $\Im{\varphi}$:
+        Let $f(x) \in \Q[x]$ and write $f(x) = q(x)(x ^ 2 + x + 1) + ax + b$.
+        Then $\varphi(f(x)) = a\alpha + b$.
+        Using $\alpha = (-1 - i\sqrt{3}) / 2$ this is $\varphi(f(x)) = (b - a / 2) - (a / 2)i\sqrt{3} \in \Q[i\sqrt{3}]$.
+        To obtain some $\alpha + \beta i\sqrt{3} \in \Q[i\sqrt{3}]$,
+        we only have to solve for $a$ and $b$:
+        \[
+        b - a / 2 = \alpha
+        \]
+        \[
+        -a / 2 = \beta
+        \]
+        can be solved,
+        so $\Im{\varphi} = \Q[i\sqrt{3}]$.
+        Thus by FIT,
+        $\Q[x] / (x ^ 2 + x + 1) \cong \Q[i\sqrt{3}]$.
+        Since $x ^ 2 + x + 1$ is irreducible in $\Q[x]$
+        (no roots in $\Q$),
+        Q$10$ says that $\Q[x] / (x ^ 2 + x + 1)$
+        (lecture:
+        $R / I$ with $I$ maximal,
+        is a field).
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Sheet $4$ Question $14$]
+    Show that $(\Z / 5)[x] / I$ where $I = (x ^ 2 + x + \bar{2})$ is a field,
+    and find the
+    (multiplicative)
+    inverse of $\bar{2}x + \bar{3} + I$.
+
+    \begin{solution}
+        Field:
+        We need $x ^ 2 + x + \bar{2}$ to be irreducible in $(\Z / 5)[x]$.
+        Check that no element in $\Z / 5$ is a root.
+        Q$10$ implies $(x ^ 2 + x + \bar{2})$ is maximal,
+        hence $(\Z / 5)[x] / (x ^ 2 + x + \bar{2})$.
+
+        The inverse:
+        By lectures,
+        any element in $(\Z / 5)[x] / (x ^ 2 + x + \bar{2})$ is of the form $\bar{a}x + \bar{b} + I$,
+        for some $\bar{a}, \bar{b} \in \Z / 5$.
+        \begin{align*}
+            \bar{a}x + \bar{b} + I= (\bar{2}x + \bar{3} + I) ^ {-1} &\iff (\bar{a}x + \bar{b})(\bar{2}x + \bar{3}) + I = \bar{1} + I \\
+            &\iff (\bar{a}x + \bar{b})(\bar{2}x + \bar{3}) - \bar{1} \in I = (x ^ 2 + x + \bar{2}) \\
+            &\iff (\bar{a}x + \bar{b})(\bar{2}x + \bar{3}) - \bar{1} = (x ^ 2 + x + \bar{2})g(x),\text{ some $g(x) \in (\Z / 5)[x]$} \\
+            &\iff \bar{2}\bar{a}x ^ 2 + (\bar{3}\bar{a} + \bar{2}\bar{b})x + \bar{3}\bar{b} - \bar{1} = (x ^ 2 + x + \bar{2})g(x).
+        \end{align*}
+        Comparing degrees,
+        we must have that $g(x) = c \in \Z / 5$.
+        Then,
+        \begin{align*}
+            \bar{2}\bar{a} &= c \\
+            \bar{3}\bar{a} + \bar{2}\bar{b} &= c \\
+            \bar{3}\bar{b} - \bar{1} &= \bar{2}c
+        \end{align*}
+        solving the system,
+        we get $\bar{a} = \bar{3}$,
+        $\bar{b} = \bar{1}$.
+        Thus the inverse of $\bar{2}x + \bar{3} + I$ is $\bar{3}x + \bar{1} + I$.
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
