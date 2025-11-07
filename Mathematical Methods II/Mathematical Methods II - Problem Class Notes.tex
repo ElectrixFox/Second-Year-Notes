@@ -623,7 +623,7 @@
             evaluate directly.
             Alternatively:
             \[
-            \int_{S}(\bnabla \tiems \vec{f})\cdot\hvec{n}\,dS = \oint_{C_1}\vec{f}\cdot\hvec{t}\,d\ell - \oint_{C_2}\vec{f}\cdot\hvec{t}\,d\ell
+            \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS = \oint_{C_1}\vec{f}\cdot\hvec{t}\,d\ell - \oint_{C_2}\vec{f}\cdot\hvec{t}\,d\ell
             \]
             with $C_1, C_2$ the boundary curves.
             
@@ -631,6 +631,206 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$5$}{}}
+
+\begin{problem}[$2010$ Question $2$]
+    Given that $S_{ij} = x_ix_j - c\delta_{ij}|\vec{x}|$ for $\vec{x} \in \R ^ 3$:
+
+    \begin{enumerate}[label = (\alph*)]
+        \item Find the value of $c$ such that $S_{ii} = 0$.
+
+        \item Simplify as much as possible $S_{ij}\epsilon_{ijk}$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            \begin{align*}
+                S_{ii} &\left[= \sum_{i = 1}^{3}S_{ii}\right] \\
+                &= x_ix_i - c\delta_{ij}|\vec{x}| ^ 2
+            \end{align*}
+            so
+            \begin{align*}
+                0 &= x_ix_i - c\delta_{ii}|\vec{x}| ^ 2 \\
+                &= |\vec{x}| ^ 2 - 3c|\vec{x}| ^ 2 \\
+                &= |\vec{x}| ^ 2(1 - 3c) \implies c = \frac{1}{3}.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                S_{ij}\epsilon_{ijk} &= x_ix_j\epsilon_{ijk} - c\delta_{ij}|\vec{x}| ^ 2\epsilon_{ijk} \\
+                \intertext{relabel $i \to j$}
+                &= x_jx_i\epsilon_{jik} - c\delta_{ji}|\vec{x}| ^ 2\epsilon_{jik} \\
+                &= x_ix_j\epsilon_{jik} - c\delta_{ij}|\vec{x}| ^ 2\epsilon_{jik} \\
+                &= -x_ix_j\epsilon_{ijk} + c\delta_{ij}|\vec{x}| ^ 2\epsilon_{ijk} \\
+                &= -S_{ij}\epsilon_{ijk} \implies S_{ij}\epsilon_{ijk} = 0.
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2009$ Question $5$]\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item Show that if $g$ is a scalar field and $\vec{f}$ is a vector field,
+        then
+        \[
+        \bnabla \times (g\vec{f}) = (\bnabla g)\times\vec{f} + g\bnabla \times \vec{f}.
+        \]
+
+        \item Hence,
+        or otherwise,
+        show that for some constant vector $\vec{c}$,
+        \[
+        \bnabla \times (|\vec{x}| ^ 2\vec{c}) = 2\vec{x} \times \vec{c}.
+        \]
+
+        \item Use Stokes' Theorem to show that
+        \[
+        \oint_{C}|\vec{x}| ^ 2\hvec{t}\,d\ell = -\int_{S}2\vec{x} \times \hvec{n}\,dS,
+        \]
+        where $C$ is the boundary of the surface $S$.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            Prove with index notation:
+            the $i$th component of LHS is
+            \begin{align*}
+                [\bnabla \times (g\vec{f})]_i &= \epsilon_{ijk}\pd{x_j}[g\vec{f}]_k \\
+                &= \epsilon_{ijk}\pd{x_j}(gf_k) \\
+                &= \epsilon_{ijk}\left(\pd[g]{x_j}f_k + g\pd[f_k]{x_j}\right) \\
+                &= [(\bnabla g) \times \vec{f}]_i + [g\bnabla \times \vec{f}]_i.
+            \end{align*}
+
+            \item
+            In formula from $(a)$,
+            take $\vec{f} = \vec{c}$ and $g = |\vec{x}| ^ 2$ so
+            \[
+            \bnabla \times (|\vec{x}| ^ 2\vec{c}) = (\bnabla |\vec{x}| ^ 2) \times \vec{c} + |\vec{x}| ^ 2\bnabla \times \vec{c}.
+            \]
+            Now calculate:
+            \begin{align*}
+                [\bnabla|\vec{x}| ^ 2]_i &= \pd{x_i}|\vec{x}| ^ 2 \\
+                &= \pd{x_i}(\vec{x} \cdot \vec{x}) \\
+                &= \pd{x_i}(x_jx_j) \\
+                &= \pd[x_j]{x_i}x_j + x_j\pd[x_j]{x_i} \\
+                &= 2x_j\pd[x_j]{x_i} \\
+                &= 2x_j\delta_{ij} \\
+                &= 2x_i
+            \end{align*}
+            so
+            \[
+            \bnabla|\vec{x}| ^ 2 = 2\vec{x}.
+            \]
+            So
+            \[
+            \bnabla \times (|\vec{x}| ^ 2\vec{c}) = 2\vec{x} \times \vec{c}.
+            \]
+            $\left[\text{Alternatively, }
+            \bnabla|\vec{x}| ^ 2 = \bnabla(r ^ 2) = \frac{1}{h_r}\pd{r}(r ^ 2)\vec{e}_r = 2r\vec{r}_r = 2r\frac{\vec{x}}{r} = 2\vec{x}\right]$.
+
+            \item 
+            Try integrating the flux of each side in $(b)$ over $S$:
+            \begin{align*}
+                \int_{S}\bnabla\times(|\vec{x}| ^ 2\vec{c})\cdot\hvec{n}\,dS = \int_{S}(2\vec{x} \times \vec{c})\cdot\hvec{n}\,dS &\iff \oint_{C}(|\vec{x}| ^ 2\vec{c})\cdot\hvec{t}\,d\ell = \int_{S}(2\vec{x} \times \vec{c})\cdot\hvec{n}\,dS \\
+                &\iff \vec{c}\cdot\oint_{C}|\vec{x}| ^ 2\hvec{t}\,d\ell = \vec{c}\cdot\int_{S}(\hvec{n} \times 2\vec{x}) \\
+                &\iff \vec{c}\cdot\left[\oint_{C}|\vec{x}| ^ 2\hvec{t}\,d\ell - \int_{S}\hvec{n}\times 2\vec{x}\,dS\right] = 0
+                \intertext{If the above holds for all $\vec{c} \in \R ^ 3$ then}
+                &\implies \oint_{C}|\vec{x}| ^ 2\hvec{t}\,d\ell = \int_{S}\hvec{n}\times 2\vec{x} = -\int_{S}2\vec{x} \times \hvec{n}\,dS.
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2009$ Question $8$]\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item Calculate $\int_{V}\rho\,dV$ where
+        \[
+        \rho(\vec{x}) = \frac{1}{|\vec{x}| ^ 4}\exp\left(-\frac{1}{|\vec{x}|}\right)
+        \]
+        and $V$ is a sphere of radius $R$ centred on the origin in $\R ^ 3$.
+
+        \item Let $\vec{B}(\vec{x})$ be a vector field in $\R ^ 3$ of the form
+        \[
+        \vec{B}(\vec{x}) = f(|\vec{x}|)\frac{\vec{x}}{|\vec{x}|}.
+        \]
+        Given that $\vec{B}(\vec{x})$ is related to $\rho$ by $\bnabla \cdot \vec{B} = \rho$,
+        use the Divergence Theorem to find $f(|\vec{x}|)$.
+
+        \item Use index notation to show that for any suitably differentiable function of $|\vec{x}|$,
+        $g(|\vec{x}|)$,
+        we have
+        \[
+        \bnabla g = g'(|\vec{x}|)\frac{\vec{x}}{|\vec{x}|}.
+        \]
+
+        \item Using the result of part $(c)$,
+        or otherwise,
+        show that the line integral $\int_{C}\vec{B}\cdot\hvec{t}\,d\ell$ along the curve $C$ from $\vec{x} = \vec{a}$ to $\vec{x} = \vec{b}$ is independent of the path taken.
+        Hence calculate this integral when $C$ is the path
+        \[
+        \vec{x}(t) = \cos(t)\vec{e}_1 + \sin(t)\vec{e}_2 + t\vec{e}_3\qquad t \in [0, \infty].
+        \]
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            \begin{align*}
+                \int_{V}\rho\,dV &= \int_{0}^{2\pi}\int_{0}^{\pi}\int_{0}^{R}\rho r ^ 2\sin(\theta)\,dr\,d\theta\,d\phi \\
+                &= \int_{0}^{2\pi}\int_{0}^{\pi}\int_{0}^{R}\frac{1}{r ^ 2}e ^ {-1 / r}\,dr\,d\theta\,d\phi \\
+                \intertext{$u = \frac{1}{r}$}
+                &= \int_{0}^{2\pi}\int_{0}^{\pi}\int_{\infty}^{1 / R}e ^ {-u}\,du\sin(\theta)\,d\theta\,d\phi \\
+                &= \int_{0}^{2\pi}\int_{0}^{\pi}\left[e ^ {-u}\right]_{\infty}^{1 / R}\sin(\theta)\,d\theta\,d\phi \\
+                &= e ^ {-1 / R}\int_{0}^{2\pi}\int_{0}^{\pi}\sin(\theta)\,d\theta\,d\phi \\
+                &= e ^ {-1 / R}\int_{0}^{2\pi}\left[-\cos(\theta)\right]_{0}^{\pi}\,d\phi \\
+                &= 2e ^ {-1 / R}\int_{0}^{2\pi}\,d\phi = 4\pi e ^ {-1 / R}.
+            \end{align*}
+
+            \item 
+            $\bnabla \cdot \vec{B} = \rho$.
+            Divergence theorem implies
+            \begin{align*}
+                &\int_{V}\bnabla\cdot\vec{B}\,dV = \oint_{S}\vec{B}\cdot\hvec{n}\,dS \\
+                &\implies \int_{V}\rho\,dV = \oint_{S}\vec{B}\cdot\vec{e}_r\,dS \\
+                &\implies 4\pi e ^ {-1 / R} = \oint_{S}f(r)\,dS = f(r)\oint_{S}\,dS = 4\pi R ^ 2f(r) \\
+                &\implies f(R) = \frac{1}{R ^ 2}e ^ {-1 / R} \\
+                &\implies f(r) = \frac{1}{r ^ 2}e ^ {-1 / r}.
+            \end{align*}
+
+            \item
+            \begin{align*}
+                [\bnabla g]_i &= \pd{x_i}(g(r)) \\
+                &= \pd[r]{x_i}\frac{dg}{dr} \\
+                \pd[r]{x_i} &= \pd{x_i}\left(|\vec{x}|\right) = \pd{x_i}\left((x_jx_j) ^ {1 / 2}\right) = \frac{1}{2}(x_jx_j) ^ {1 / 2}\pd{x_i}(x_jx_j) \\
+                &= \frac{1}{2r}2x_j\pd[x_j]{x_i} \\
+                &= \frac{x_j}{r}\delta_{ij} = \frac{x_i}{r}.
+                \intertext{So}
+                [\bnabla g]_i &= \frac{x_i}{r}g' = [g'\vec{x} / |\vec{x}|]_i
+            \end{align*}
+
+            \item
+            Path independent iff $\vec{B} = \bnabla g$.
+            But $\vec{B} = f(r)\frac{\vec{x}}{r}$ so by $(c)$ if $g'(r) = f(r)$ then $\vec{B} = \bnabla g$,
+            we have
+            \[
+            g' = \frac{1}{r ^ 2}e ^ {-1 / r} \implies g = \int_{0}^{r}\frac{1}{r ^ 2}e ^ {-1 / r}\,dr = e ^ {-1 / r} + C.
+            \]
+            So $\vec{B} = \bnabla(e ^ {-1 / r})$.
+            So FTLI implies
+            \begin{align*}
+                \int_{C}\vec{B} \cdot\hvec{t}\,d\ell &= \int_{C}\bnabla g\cdot\hvec{t}\,d\ell \\
+                &= g(\vec{b}) - g(\vec{a}) \\
+                r &= |\vec{x}| = \sqrt{1 + t ^ 2} \\
+                &= g(\infty) - g(1) \\
+                &= 1 - e ^ {-1} = 1 - e ^ {-1}.
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 
 
