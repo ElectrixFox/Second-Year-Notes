@@ -211,6 +211,201 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$2$}{}}
+
+\begin{problem}[Sheet $5$ Question $8$]
+    Suppose that $X_1, \dotsc, X_n$ form a random sample from a uniform distribution on the interval $[0, \theta]$,
+    and that the following hypotheses are to be tested:
+    \[
+    H_0 : \theta \geq 2,\quad H_1 : \theta < 2.
+    \]
+    Let $Y_n = \max(X_1, \dotsc, X_n)$,
+    and consider a test procedure such that the critical region contains all the outcomes for which $Y_n \leq 1.5$.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item Determine the power function of the test.
+
+        \item Determine the size of the test.
+    \end{enumerate}
+
+    \begin{solution}
+        $X_1, \dotsc, X_n$ IID $U[0, \theta]$,
+        $f(x; \theta) = \begin{cases}
+            \frac{1}{\theta} & x \in [0, \theta] \\
+            0 &\text{else}
+        \end{cases}$.
+        
+        $H_0 : \theta \geq 2$,
+        $H_1 : \theta < 2$.
+
+        Test statistic:
+        $Y_n = \max(X_1, \dotsc, X_n)$ and test based on $\mathcal{R} = \{\vec{x}\mid Y_n(x) \leq 1.5\}$,
+        $I = \{y_n \mid Y_n(x) \leq 1.5\}$.
+        
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            Power function is $\pi(\theta) = \P(Y_n(x) \leq 1.5; \theta)$.
+            Need the distribution for $Y_n$
+            (CDF)
+            \begin{align*}
+                \P(Y_n \leq y) &= \P(\max(X_1, \dotsc, X_n) \leq y) \\
+                &= \P(X_1 \leq y, X_2 \leq y, \dotsc, X_n \leq y) \\
+                &= \P(X_1 \leq y)\P(X_2 \leq y)\dotsi \P(X_n \leq y) \\
+                &= \prod_{i = 1}^{n}\P(X_i \leq y) \\
+                &= \P(X \leq y) ^ n.
+            \end{align*}
+            What is $\P(X \leq y)$?
+            For $y \in [0, \theta]$,
+            \[
+            \P(X \leq y) = \int_{0}^{y}\frac{1}{\theta}\,dx = \left[\frac{x}{\theta}\right]_{0}^{y} = \frac{y}{\theta}
+            \]
+            \[
+            \P(Y_n \leq y) = \begin{cases}
+                0 & y < 0 \\
+                \left(\frac{y}{\theta}\right) ^ n & y \in [0, \theta] \\
+                1 & y > 0.
+            \end{cases}
+            \]
+            Test rejects for any $Y_n \leq 1.5$,
+            so if $\theta \leq 1.5$,
+            then all $X_i \leq 1.5$ which implies $Y_n \leq 1.5$ and we always reject.
+
+            Conversely,
+            for $\theta > 1.5$,
+            the probability of rejection is $\P(Y_n \leq 1.5) = \left(\frac{1.5}{\theta}\right) ^ n$ so
+            \[
+            \pi(\theta) = \begin{cases}
+                1 & \theta \leq 1.5 \\
+                \left(\frac{1.5}{\theta}\right) ^ n & \theta > 1.5.
+            \end{cases}
+            \]
+
+            \item
+            Size of the test.
+            The significance level of the test is $\pi(\theta) = \P(\text{Type I})$ under $H_0$,
+            which changes with $\theta$.
+            The size is max/sup of the level/significance over all $\theta \in \Omega_0$
+            \[
+            \alpha = \sup_{\theta \geq 2}\pi(\theta) = \sup_{\theta \geq 2}\left(\frac{1.5}{\theta}\right) ^ n = \left(\frac{3}{4}\right) ^ n
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Sheet $4$ Question $4$]
+    A simple model for the drug concentration in plasma over time after a single intravenous injection is $c(t) = \theta_2\exp\{-\theta_1t\}$,
+    with $\theta_1, \theta_2 > 0$.
+    For simplicity,
+    we assume here that $\theta_2 = 1$.
+    
+    \begin{enumerate}[label = (\alph*)]
+        \item Assume that $n$ plasma samples had their concentrations $c_i$,
+        $i = 1, \dotsc, n$,
+        measured at the same single time-point $t$ and assume that the $c_i$ are IID $N(c(t), \sigma ^ 2)$ is appropriate for the data.
+        Calculate the MLE of $\theta_1$.
+
+        \item Calculate the asymptotic variance of the MLE.
+
+        \item In pharmacokinetic studies one is often interested in the area under the concentration curve
+        \[
+        \alpha = \int_{0}^{\infty}\exp\{-\theta_1t\}\,dt.
+        \]
+        Calculate the MLE for $\alpha$,
+        and its variance estimate in terms of $\hat{\theta}_1$ by using the delta theorem.
+
+       \item We now would like to determine the optimal time point for measuring the concentrations $c_i$.
+       It was suggested to identify the time point for which the asymptotic variance of the MLE of $1$ is smallest.
+       Assume that $1$ is known and minimise this variance with respect to $t$ to find the optimal time point $t_{opt}$.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            Normal model for $c_i$,
+            with mean
+            \[
+            c_i \sim N(e ^ {-\theta_1t}, \sigma ^ 2)
+            \]
+            $\theta_1 > 0$,
+            assume $\sigma ^ 2$ known.
+            \[
+            f(c_i; t, \sigma ^ 2, \theta_1) = \frac{1}{\sqrt{2\pi\sigma ^ 2}}\exp\left\{-\frac{1}{2\sigma ^ 2}(c_i - e ^ {-\theta_1t}) ^ 2\right\}
+            \]
+            implies
+            \begin{align*}
+                \ell(\theta_1) &= (2\pi\sigma ^ 2) ^ {-n / 2}\exp\left\{-\frac{1}{2\sigma ^ 2}(c_i - e ^ {-\theta_1t}) ^ 2\right\} \\
+                \mathcal{L}(\theta_1) &= \text{const} - \frac{1}{2\sigma ^ 2}\sum_{i = 1}^{n}(c_i - e ^ {-\theta_1t}) ^ 2 \\
+                \mathcal{L}'(\theta_1) &= -\frac{1}{2\sigma ^ 2}\sum_{i = 1}^{n}2(c_i - e ^ {-\theta_1t})\times te ^ {-\theta_1 t} \\
+                &= -\frac{te ^ {-\theta_1t}}{\sigma ^ 2}\sum_{i}(c_i - e ^ {-\theta_1t}) \\
+                &= -\frac{te ^ {-\theta_1t}}{\sigma ^ 2}(n\bar{c} - ne ^ {-\theta_1t}) \\
+                &= \frac{nte ^ {-\theta_1t}}{\sigma ^ 2}(e ^ {-\theta_1t} - \bar{c})
+                \intertext{Let $g(\theta_1) = e ^ {-\theta_1t}$}
+                &= \frac{ntg(\theta_1)}{\sigma ^ 2}(g(\theta_1) - \bar{c}).
+            \end{align*}
+            At the MLE:
+            \[
+            0 = \frac{ntg(\hat{\theta}_1)}{\sigma ^ 2}(g(\hat{\theta}_1) - \bar{c})
+            \]
+            only zero when $g(\hat{\theta}_1) = \bar{c}$,
+            \[
+            e ^ {-\hat{\theta}_1t} = \bar{c} \iff \hat{\theta}_1 = -\frac{\log{\bar{c}}}{t}.
+            \]
+            To verify maximum,
+            differentiate again:
+            \begin{align*}
+                \mathcal{L}''(\theta) &= \pd{\theta_1}\frac{nt}{\sigma ^ 2}g(\theta_1)(g(\theta_1) - \bar{c})) \\
+                &= \frac{nt}{\sigma ^ 2}(2g(\theta_1)g'(\theta_1) - \bar{c}g'(\theta_1)) \\
+                &= -\frac{nt ^ 2g(\theta_1)}{\sigma ^ 2}(2g(\theta_1) - \bar{c}).
+            \end{align*}
+            Hard to show less than $0$ for all $\theta$,
+            look at $\hat{\theta}$.
+            \[
+            \mathcal{L}''(\hat{\theta}) = -\frac{nt ^ 2\bar{c} ^ 2}{\sigma ^ 2} < 0.
+            \]
+
+            \item
+            Asymptotic
+            (large-sample,
+            $n$ large)
+            variance is the Crámer-Rao lower bound:
+            \[
+            \frac{1}{\mathbb{I}_n(\theta_1)}.
+            \]
+            We have $\mathcal{L}''(\theta)$,
+            so
+            \begin{align*}
+                \mathbb{I}_n(\theta) &= \E_C(-\mathcal{L}''(\theta)) \\
+                &= \frac{nt}{\sigma ^ 2}g(\theta_1)(2g(\theta_1) - \E(\bar{C}))
+                \intertext{As $\E(\bar{C}) = \E(C) = e ^ {-\theta_1t} = g(\theta_1)$.}
+                \mathbb{I}_n(\theta) &= \frac{nt ^ 2}{\sigma ^ 2}g(\theta_1)(2g(\theta_1) - g(\theta_1)) \\
+                &= \frac{nt ^ 2}{\sigma ^ 2}g(\theta_1) ^ 2 \\
+                &= \frac{nt ^ 2}{\sigma ^ 2}\exp\{-2\theta t\}.
+            \end{align*}
+            For large $n$:
+            $\Var(\hat{\theta}) = \frac{\sigma ^ 2}{n}\frac{1}{t ^ 2}\exp\{2\theta_1t\}$.
+
+            \item Want 
+            \begin{align*}
+                \alpha &= \int_{0}^{\infty}\exp\{-\theta_1t\}\,dt \\
+                &= \left[\frac{-\exp\{-\theta_1t\}}{\theta_1}\right]_{0}^{\infty} \\
+                &= \frac{1}{\theta_1} = \alpha(\theta_1).
+            \end{align*}
+            MLE of $\alpha$:
+            \[
+            \hat{\alpha} = \frac{1}{\hat{\theta}_1} = -\frac{t}{\log{\bar{c}}}.
+            \]
+            \[
+            \Var(\hat{\alpha}) = \Var(\hat{\theta}_1)\left(\pd[\alpha]{\theta_1}\right) ^ 2 = \left(\frac{\sigma ^ 2}{nt ^ 2}\exp\{2\theta_1 t\}\right)\left(-\frac{1}{\theta_1}\right) ^ 2 = \frac{\sigma ^ 2}{nt ^ 2\theta_1 ^ 4}\exp\{2\theta_1t\}.
+            \]
+            CI for $\alpha$:
+            \[
+            -\frac{t}{\log{\bar{c}}} \pm z_{\alpha / 2}^{*}\frac{\sigma}{t\hat{\theta_1} ^ 2\sqrt{n}}\exp\{\theta_1 t\}.
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 
 
