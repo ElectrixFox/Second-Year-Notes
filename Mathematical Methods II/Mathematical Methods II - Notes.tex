@@ -2331,13 +2331,194 @@ calculate
 \bnabla ^ 2\vec{f} = \bnabla(\bnabla\cdot\vec{f}) - \bnabla\times(\bnabla\times\vec{f}).
 \]
 
+\newpage
 
+\section{Partial Differential Equations}
 
+\subsection{What is a PDE}
 
+The heat equation
+\[
+\pd[u]{t} = D\left(\frac{\partial ^ 2u}{\partial x ^ 2} + \frac{\partial ^ 2u}{\partial y ^ 2}\right)
+\]
+dependent variable $u$,
+independent variables $x, y, t$.
 
+\begin{definition}
+    A PDE is an equation containing an unknown function of two or more variables.
+\end{definition}
 
+\begin{definition}
+    The order,
+    the highest derivative
+    ($2$ above).
+\end{definition}
 
+\begin{definition}
+    Linear/non-linear.
+    A PDE is linear/non-linear if it is linear/non-linear in the dependent variable
+\end{definition}
 
+\begin{example}
+    \begin{enumerate}[label = \alph*)]
+        \item
+        \[
+        \pd[u]{t} + \frac{\partial ^ 3u}{\partial x ^ 3} - 6u\pd[u]{t} = 0
+        \]
+        $u$ dependent variable,
+        $x, t$ independent,
+        $3$rd order.
+        Non-linear due to $6u\pd[u]{x}$.
+
+        \item
+        \[
+        \frac{\partial ^ 2u}{\partial t ^ 2} + \sin(u)\frac{\partial ^ 2u}{\partial x\partial y} = 0
+        \]
+        $2$nd order.
+        Non-linear due to $\sin(u)$.
+
+        \item
+        \[
+        \frac{\partial ^ 3u}{\partial t ^ 3} + \sin(x)\frac{\partial ^ 2u}{\partial x\partial y} = 0
+        \]
+        $3$rd order.
+        Linear as $\sin(x)$ is in the independent variable.
+    \end{enumerate}
+\end{example}
+
+\subsection{Solutions to PDEs}
+
+\begin{definition}
+    A solution to a PDE in some region $R$ of the space of independent variables is a function which possesses all the partial derivatives in the PDE in $R$,
+    and satisfies the equation.
+\end{definition}
+
+\begin{example}
+    \[
+    \pd[u]{t} = D\left(\frac{\partial ^ 2u}{\partial x ^ 2} + \frac{\partial ^ 2u}{\partial y ^ 2}\right).
+    \]
+    $2$ spacial variables $x, y$,
+    $1$ temporal variable $t$.
+    Consider $R = [0, L_x] \times [0, L_y] \times (0, \infty)$
+    $y \in [0, L_y]$,
+    $x \in [0, L_x]$,
+    $t \in (0, \infty)$.
+    This is a $2$D PDE due to the $2$ spacial variables,
+    even though $R$ is $3$D
+    (standard nomenclature).
+
+    Solutions
+    \[
+    u(x, y, t) = e ^ {-D\left(\frac{n ^ 2}{L_{x} ^ 2} + \frac{m ^ 2}{L_{y} ^ 2}\right)\pi ^ 2t}\cos\left(\frac{n\pi x}{L_{x}}\right)\cos\left(\frac{m\pi x}{L_{y}}\right)
+    \]
+    $n, m \in \Z$
+    \[
+    u(x, y, t) = e ^ {-D\left(\frac{n ^ 2}{L_{x} ^ 2} + \frac{m ^ 2}{L_{y} ^ 2}\right)\pi ^ 2t}\sin\left(\frac{n\pi x}{L_{x}}\right)\sin\left(\frac{m\pi x}{L_{y}}\right).
+    \]
+\end{example}
+
+\subsubsection{Boundary conditions matter}
+Two example boundary conditions matter:
+\begin{enumerate}[label = (\alph*)]
+    \item
+    \[
+    u(0, y, t) = u(L_x, y, t) = u(x, 0, t) = u(x, L_y, t) = 0.
+    \]
+    Zero all around the boundary.
+    
+    \item
+    \[
+    \pd[u]{x}(0, y, t) = \pd[u]{x}(L_x, y, t) = \pd[u]{y}(x, 0, t) = \pd[u]{y}(x, L_y, t) = 0.
+    \]
+    So $\bnabla u \cdot \hvec{n}$.
+\end{enumerate}
+Take (a)
+$\sin() = \sin(n\pi) = 0$ implies $\sin\sin$ solution satisfy
+(a)
+but $\cos(0) = 0$ satisfies
+(b)
+but the $\sin\sin$ solution doesn't.
+
+Key takeaway.
+The boundary conditions
+(a)
+are an example of Dirichlet boundary conditions:
+Conditions on the value of the function $u$ on the boundary.
+
+Boundary conditions
+(b)
+are Neumann boundary conditions,
+conditions on the derivative of the function on the boundary.
+
+They are homogenous if the values are zero on the boundary and in homogeneous.
+
+Key takeaway.
+Solutions are not fully defined without boundary conditions.
+In this case a big difference is that
+(b)
+allows $n = m = 0$ non-trivial.
+
+\subsection{Principle of linear superposition in the heat equation}
+Since $n, m$ were arbitrary integers we can sum over all their values,
+i.e.
+\[
+u(x, y, t) = \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}C_{nm}e ^ {-D\left(\frac{x ^ 2}{L_x ^ 2} + \frac{y ^ 2}{L_y ^ 2}\right)\pi ^ 2t}\cos\left(\frac{n\pi x}{L_x}\right)\cos\left(\frac{m\pi y}{L_y}\right)
+\]
+(assume Neumann homogeneous boundary conditions).
+
+Some key properties of this summed solution
+\begin{enumerate}[label = (\arabic*)]
+    \item At $t = 0$ this is a Fourier series,
+    we know this can represent any square integrable function.
+
+    \item The terms of a Fourier series are linearly independent i.e. only zero if all $c_{nm} = 0$
+\end{enumerate}
+Point $1$ means we can expect a lot of complex behaviour.
+Point $2$ means we can describe this complex behaviour in terms of simple functions.
+
+\subsection{Fourier series recap}
+
+\subsubsection{Fourier series on \texorpdfstring{$x \in [0, L]$}{}}
+
+$1$D
+\[
+f(x) = \frac{a_0}{2} + \sum_{n = 1}^{\infty}\left[a_n\cos\left(\frac{n\pi x}{L}\right) + b_n\sin\left(\frac{n\pi x}{L}\right)\right]
+\]
+$a_0 = \frac{2}{L}\int_{0}^{L}f(x)\,dx$,
+$a_n = \frac{2}{L}\int_{0}^{L}f(x)\cos\left(\frac{n\pi x}{L}\right)\,dx$,
+$b_n = \frac{2}{L}\int_{0}^{L}f(x)\sin\left(\frac{n\pi x}{L}\right)\,dx$
+
+\subsubsection{Fourier series recap \texorpdfstring{$[0, L_x] \times [0, L_y]$}{}}
+
+\begin{align*}
+    f(x, y) = \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}\left[a_{nm}\cos\left(\frac{n\pi x}{L_x}\right)\cos\left(\frac{n\pi y}{L_y}\right)\right.& \\
+    &+ b_{nm}\cos\left(\frac{n\pi x}{L_x}\right)\sin\left(\frac{n\pi y}{L_y}\right) \\
+    &+ c_{nm}\sin\left(\frac{n\pi x}{L_x}\right)\cos\left(\frac{n\pi y}{L_y}\right) \\
+    &\left.+ d_{nm}\sin\left(\frac{n\pi x}{L_x}\right)\sin\left(\frac{n\pi y}{L_y}\right)\right]
+\end{align*}
+\[
+a_{nm} = \frac{4}{L_xL_y}\int_{0}^{L_x}\int_{0}^{L_y}f(x, y)\cos\left(\frac{n\pi x}{L_x}\right)\sin\left(\frac{m\pi y}{L_y}\right)\,dx\,dy
+\]
+
+Orthogonality of Fourier coefficients to the result on $x \in [a, b]$
+\[
+\int_{a}^{b}\cos\left(\frac{n\pi x(x - a)}{b - a}\right)\cos\left(\frac{m\pi(x - a)}{b - a}\right)\,dx = 0
+\]
+unless $m = n$,
+same for $\sin\sin$.
+\[
+\int_{a}^{b}\cos\left(\frac{n\pi x(x - a)}{b - a}\right)\sin\left(\frac{m\pi(x - a)}{b - a}\right)\,dx = 0
+\]
+for any $n, m$.
+Use to grab coefficients.
+\[
+\int_{a}^{b}f(x)\cos\left(\frac{n\pi x(x - a)}{b - a}\right)\,dx = \int_{a}^{b}\cos\left(\frac{n\pi(x - a)}{b - a}\right)\sum_{n = 0}^{\infty}\left(a_n\cos\left(\frac{m\pi(x - a)}{b - a}\right) + b_n\sin\left(\frac{m\pi(x - a)}{b - a}\right)\right)\,dx
+\]
+only the term
+\[
+a_n\int_{a}^{b}\cos\left(\frac{n\pi(x - a)}{b - a}\right)\cos\left(\frac{n\pi(x - a)}{b - a}\right)\,dx
+\]
+is non-zero.
 
 
 
