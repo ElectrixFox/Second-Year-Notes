@@ -2862,6 +2862,328 @@ D_n = \langle r, s \mid r ^ n = e, s ^ 2 = e, srs = r ^ {-1}\rangle
 I_2(n) = \langle s_1, s_2 \mid s_1 ^ 2 = e, s_2 ^ 2 = e, (s_1, s_2) ^ n = e\rangle.
 \]
 
+\begin{lemma}
+    For any element in $D_n$,
+    \[
+    g = r ^ {a_1}s ^ {b_1}r ^ {a_2}s ^ {b_2}\dotsi r ^ {a_k}s ^ {b_k}
+    \]
+    can be written as $r ^ as ^ b$,
+    where $0 \leq a \leq n - 1$,
+    $0 \leq b \leq 1$.
+
+    \begin{proof}
+        By induction on $m = \sum_{i = 1}^{k}a_i + b_i$:
+        $m = 1$,
+        $g = r$ or $g = s$,
+        $r = r ^ 1s ^ 0$,
+        $s = r ^ 0s ^ 1$.
+        Assume we proved for $m$.
+        Need to prove for $m + 1$.
+        $g = r ^ {a_1}s ^ {b_1} \dotsi r ^ {a_k}s ^ {b_k}$ has $m + 1$ letters,
+        $g = g'r$ or $g = g's$,
+        where $g'$ consists of $m$ letters.
+
+        By the induction assumption $g' = r ^ as ^ b$.
+        If $g = g's = r ^ as ^ bs = r ^ ns ^ {b + 1\pmod{2}}$.
+        If $g = g'r = r ^ as ^ br \overset{b = 0}{\implies} g = r ^ {a + 1\pmod{n}}$
+        if $b = 1$ $g = r ^ asr$.
+        Recall $srs = r ^ {-1}$
+        so $srss = r ^ {-1}s$ and $sr = r ^ {-1}s$
+        so $g = r ^ {a - 1}s$
+    \end{proof}
+
+    \begin{proof}
+        $D_n = \langle r, s \mid s ^ 2 = e, r ^ n = e, srs = r ^ {-1}\rangle$.
+        Denote $t = sr$
+        (so $st = r$).
+
+        Can rewrite every element of $D_n$ in terms of $s, t$
+        $s ^ 2 = e$,
+        $(st) ^ n = e$.
+        $t ^ 2 = (sr)(sr) = (srs)r = r ^ {-1}r = e$.
+        $g = r ^ {a_1}s ^ {b_1}\dotsi$,
+        rewrite in $s, t$ and cancel out neighbouring $ss$,
+        $tt$.
+        So,
+        $g = ststststs\dotsi$ or $g = tstststs\dotsi$.
+        If $g = stst\dotsc$ then $g = \underbrace{(st)(st)\dotsi (st)}_{r ^ i}$ or $\underbrace{(st)\dotsi(st)s}_{r ^ is}$.
+        $i = np + a$,
+        $a \leq n - 1$
+        $r ^ i = r ^ {np + a} = r ^ {np}r ^ a = (r ^ n) ^ p \cdot r ^ a = r ^ a$.
+        So $g = r ^ a$ or $r ^ as$ or $g = (ts)(ts) \dotsi$,
+        $g = (ts) ^ i$ or $(ts) ^ it$.
+        $ts = t ^ {-1}\cdot s ^ {-1} = (st) ^ {-1} = r ^ {-1}$.
+        So,
+        $g = r ^ {-i} = r ^ {n - i} = r ^ {-i\pmod{n}}$ or $g = r ^ {-i}\cdot t = r ^ {-i}sr = r ^{-i - 1}s = r ^ {(-i - 1)\mod{n}}s$.
+    \end{proof}
+\end{lemma}
+
+Every element in $D_n$ can be written uniquely as $r ^ as ^ b$,
+$0 \leq a \leq n - 1$,
+$0 \leq b \leq 1$.
+So,
+\[
+D_n = \{e, r, r ^ 2, \dotsc, r ^ {n - 1}, s, rs, r ^ 2s, \dotsc, r ^ {n - 1}s\}.
+\]
+
+\begin{remark}
+    $D_n$ sometimes is denoted by $D_{2n}$.
+\end{remark}
+
+\newpage
+
+\section{Generators,
+orders and cyclic groups}
+
+\begin{definition}
+    $G$ a group,
+    $S \subset G$.
+    $S$ is a set of generators of $G$ if every element of $G$ is a product of elements of $S$ and their inverses.
+    $G = \langle S\rangle$.
+\end{definition}
+
+Example:
+$D_n = \langle r, s\rangle = \langle s, t\rangle$,
+$t = sr$.
+
+\begin{definition}
+    If $|S| = 1$ then $G$ is called cyclic.
+\end{definition}
+
+For example:
+$\Z / n = \langle \bar{1}\rangle$ so $\bar{a} = (\bar{1}) ^ a = a \cdot \bar{1}$,
+$\Z = \langle 1\rangle$.
+
+Every element in a cyclic group $\langle x\rangle $ has the form $x ^ a$,
+where $a \in \Z$,
+cyclic groups are abelian.
+
+\subsection{Orders of groups and elements}
+
+\begin{definition}
+    The number of elements in a finite group $G$ is called the order of $G$.
+    Notation:
+    $|G|$ or $\#G$.
+
+    The order of element $g \in G$ is the minimal positive $k$ such that $g ^ k = e$
+    (can be infinite)
+    $\mathrm{ord}(g)$.
+\end{definition}
+
+If $|G| < \infty$,
+then every element of $G$ has finite order.
+Why?
+Take $g \in G$,
+consider $\langle g\rangle$,
+$g ^ {-1}, e, g, g ^ 2, g ^ 3, \dotsc$.
+Since $|G| < \infty$,
+$\exists i, j, i < j, g ^ i = g ^ j$.
+Then $(g ^ i) ^ {-1}g ^ i = (g ^ i) ^ {-1}g ^ j = g ^ {j - i}$.
+
+
+Exercise:
+Find $G$ such that $|G| = \infty, \forall g \in G, \mathrm{ord}(g) < \infty$.
+
+\begin{example}
+    \begin{itemize}
+        \item $\Z / 6$ $|\Z / 6| = 6$,
+        \[
+        \ord(\bar{1}) = 6, \ord(\bar{5}) = 6, \ord(\bar{4}) = 3, \ord(\bar{3}) = 2.
+        \]
+
+        \item $p$ prime,
+        $\Z / p$,
+        $\forall g \in \Z / p$,
+        $g \neq 0$,
+        we have $\ord(g) = p$
+        \[
+        g = \bar{a}, (\bar{a}) ^ m = e \implies ma \equiv 0\mod{p}
+        \]
+        $\gcd(a, p) = 1$,
+        $p$ prime implies $m = p ^ k$ so $m \geq p$.
+
+        \item $D_n$:
+        $|D_n| = 2n$,
+        $\ord(r) = n$,
+        $\ord(s) = 2$,
+        $\ord(r ^ 2) = \begin{cases}
+            n &\text{$n$ odd} \\
+            n / 2 &\text{$n$ even}.
+        \end{cases}$
+    \end{itemize}
+\end{example}
+
+\begin{lemma}
+    Let $G$ be a finite cyclic group,
+    $|G| = n$,
+    $G = \langle x\rangle$.
+    Then
+    \begin{enumerate}[label = (\roman*)]
+        \item $\ord(x ^ a) = \frac{n}{\gcd(a, n)}$.
+
+        \item $\langle x ^ a\rangle = \langle x\rangle$ if and only if $\gcd(a, n) = 1$.
+    \end{enumerate}
+
+    \begin{proof}
+        Exercise.
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    $\Z / 20$.
+    $\ord(\bar{8}) = \frac{20}{\gcd(8, 20)} = \frac{20}{4} = 5$.
+    
+    Which elements of $\Z / 20$ generate the whole group?
+    \[
+    \{\bar{a} \mid \gcd(a, n) = 1\} = \varphi(20) = \varphi(4)\varphi(5) = 2 \cdot 4 = 8
+    \]
+    \[
+    \{\bar{1}, \bar{3}, \bar{7}, \bar{9}, \bar{11}, \bar{13}, \bar{17}, \bar{19}\}.
+    \]
+\end{example}
+
+The Euler function $\varphi(n) = \left|\{\bar{a} \in \Z / n \mid \gcd(a, n) = 1\}\right|$.
+
+$|(\Z / n) ^ {\times}| = \varphi(n)$.
+
+\newpage
+
+\section{Symmetric groups}
+
+\subsection{Permutations}
+$S = \{1, 2, \dotsc, n\}$
+(also $[n]$).
+
+\begin{definition}
+    A permutation of $S$ is a bijection $\sigma : S \to S$.
+    Notation:
+    \[
+    \begin{pmatrix}
+        1 & 2 & 3 & \dotsi & n \\
+        \sigma(1) & \sigma(2) & \sigma(3) & \dotsi & \sigma(n)
+    \end{pmatrix}.
+    \]
+    A $k$-cycle is a permutation $\sigma$ such that $\exists a_1, \dotsc, a_k \in S$ with $\sigma(a_1) = a_2, \sigma(a_2) = a_3, \sigma(a_3) = a_4, \dotsc, \sigma(a_k) = a_1$ and $\sigma(a) = a, \forall a \neq a_1, \dotsc, a_k$.
+
+    Notation for $k$-cycle
+    \[
+    \begin{pmatrix}
+        a_1 & a_2 & a_3 & \dotsi & a_k
+    \end{pmatrix}.
+    \]
+    A $2$-cycle $(a\quad b)$ is called a transposition.
+\end{definition}
+
+\textit{Note:
+The order of the elements of a cycle can be cycled in definition,
+i.e. $(a\ b\ c) = (b\ c\ a)$.}
+
+\begin{example}
+    Some cycles
+    \begin{itemize}
+        \item 
+        \[
+        \begin{pmatrix}
+            1 & 2 & 3 & 4 & 5 & 6 \\
+            1 & 5 & 3 & 4 & 6 & 2
+        \end{pmatrix} = (2\ 5\ 6) = (5\ 6\ 2) = (6\ 2\ 5).
+        \]
+
+        \item $(a\ b)$ transposition
+        \[
+        \begin{pmatrix}
+            1 & 2 & 3 & 4 & 5 & 6 \\
+            1 & 2 & 5 & 4 & 3 & 7
+        \end{pmatrix} = (3\ 5)\quad [= (5\ 3)].
+        \]
+
+        \item Two cycles are disjoint if their elements do not overlap
+        (intersect)
+        $(2\ 4\ 5), (1\ 3\ 6)$ are disjoint,
+        $(2\ 4\ 5), (1\ 6)$ are disjoint,
+        $(1\ 2\ 3\ 6), (2\ 5\ 6\ 4)$ are not disjoint.
+    \end{itemize}
+\end{example}
+
+\begin{proposition}
+    Permutations of $\{1, \dotsc, n\}$ form a group under a composition,
+    called the symmetric group $S_n$.
+
+    \begin{proof}
+        $\tau, \sigma : S \to S$ bijections,
+        $\tau \circ \sigma : S \to S \to S$ a bijection.
+        Associativity:
+        composition of functions is associative.
+        Identity:
+        $e = \begin{pmatrix}
+            1 & 2 & 3 & \dotsi & n \\
+            1 & 2 & 3 & \dotsi & n
+        \end{pmatrix}$.
+
+        Inverse:
+        every bijection has an inverse.
+    \end{proof}
+\end{proposition}
+
+\textit{Note:
+finding the inverse,
+$\sigma : i \mapsto \sigma(i)$,
+$\sigma ^ {-1} : \sigma(i) \mapsto i$}
+\[
+\begin{pmatrix}
+    1 & 2 & 3 & \dotsi & n \\
+    \sigma(1) & \sigma(2) & \sigma(3) & \dotsi & \sigma(n)
+\end{pmatrix} ^ {-1}
+\]
+\[
+\begin{pmatrix}
+    1 & 2 & 3 & 4 \\
+    2 & 3 & 1 & 4
+\end{pmatrix} ^ {-1} = \begin{pmatrix}
+    1 & 2 & 3 & 4 \\
+    3 & 1 & 2 & 4
+\end{pmatrix}
+\]
+\textit{swap the rows,
+sort the columns such that the top row is ordered.}
+
+\begin{remark}
+    $|S_n| = n!$
+    \[
+    \begin{pmatrix}
+        1 & 2 & 3 & \dotsi & n - 1 & n \\
+        \phantom{}
+    \end{pmatrix}
+    \]
+    with $n$ to $1$ choices per pairing.
+\end{remark}
+
+\begin{example}
+    $n = 4$ multiplying permutations
+    \[
+    \sigma = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\ 2 & 3 & 1 & 4
+    \end{pmatrix},\qquad \tau = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\ 1 & 4 & 3 & 2
+    \end{pmatrix}
+    \]
+    \[
+    \sigma \circ \tau = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\
+        2 & 4 & 1 & 3
+    \end{pmatrix}.
+    \]
+    \[
+    \sigma ^ {-1} = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\
+        3 & 1 & 2 & 4
+    \end{pmatrix},\qquad \tau ^ {-1} = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\
+        1 & 4 & 3 & 2
+    \end{pmatrix}.
+    \]
+\end{example}
+
 
 
 
