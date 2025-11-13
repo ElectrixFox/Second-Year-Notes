@@ -3595,6 +3595,306 @@ General approach:
     $\chi ^ 2$ tables show reject $H_0$ for $Y < 11.07$ so $\bar{X} < \frac{11.07}{20 \cdot 0.1} = 5.535$.
 \end{example}
 
+What about other hypotheses?
+$H_1 : \mu \neq \mu_0$.
+More tricky.
+
+\begin{proposition}
+    If the LR test at level $\alpha$ of $H_0 : \theta = \theta_0$ vs $H_1 : \theta = \theta_1$ is the same test for all $\theta_1 \in \Omega_1$,
+    then this test is UMP against the alternative $H_1 : \theta \in \Omega_1$.
+    Otherwise,
+    no UMP test against $H_1 : \theta \in \Omega_1$ exists at level $\alpha$.
+\end{proposition}
+
+\begin{example}
+    Let $X_1, \dotsc, X_n \sim N(\mu, \sigma ^ 2)$ IID,
+    $\sigma$ known.
+    Test $H_0 : \mu = \mu_0$ vs $H_1 : \mu \neq \mu_0$.
+
+    $\mu_1 > \mu_0$:
+    the UMP test exists at level $\alpha$ and rejects $H_0$ if
+    \[
+    \bar{X} > \mu_0 + z_{\alpha}^{*}\sigma / \sqrt{n}.
+    \]
+    $\mu_1 < \mu_0$:
+    the UMP test exists at level $\alpha$ and rejects $H_0$ if
+    \[
+    \bar{X} < \mu_0 - z_{\alpha}^{*}\sigma / \sqrt{n}.
+    \]
+    When $\mu_1 > \mu_0$,
+    $T ^ {-}$ is less powerful than $T ^ {+}$\footnotemark,
+    since a test of $\mu < \mu_0$ cannot detect when $\mu > \mu_0$.
+    So $T ^ {+}$ is best.
+    \footnotetext{$T ^ {-}$ is the second test and $T ^ {+}$ is the first.}
+    Similarly,
+    for $\mu_1 < \mu_0$ then $T ^ {+}$ less powerful than $T ^ {-}$ and $T ^ {-}$ is the best.
+
+    Our most powerful test changes as the value of $\mu$ changes,
+    so neither can be UMP against $H_1 : \mu \neq \mu_0$ therefore there is no uniformly most powerful test.
+
+    But the standard $2$-sided $z$-test rejects $H_0$ for
+    \[
+    \bar{X} > \mu_0 + z_{\alpha / 2}^{*}\sigma / \sqrt{n}\text{ or }\bar{X} < \mu_0 - z_{\alpha / 2}^{*}\sigma / \sqrt{n}.
+    \]
+    This is not a problem -
+    it is just not
+    "optimal"
+    in the UMP sense.
+    Flexibility comes at a cost of losing some power.
+\end{example}
+
+\newpage
+
+\section{Generalised LR test}
+When a UMP test doesn't exist,
+we use a generalised likelihood ratio
+(GLR)
+test.
+
+\begin{definition}
+    The GLR test of $H_0 : \theta \in \Omega_0$ vs $H_1 : \theta \in \Omega_1$,
+    where $\Omega_0 \cap \Omega_1 = \emptyset$ and $\Omega_0 \cup \Omega_1 = \Omega$,
+    computes:
+    \[
+    \Lambda(\vec{x}) = \frac{\max_{\theta \in \Omega_0}{\ell(\theta; \vec{x})}}{\max_{\theta \in \Omega}{\ell(\theta; \vec{x})}}
+    \]
+    (so the top is the maximum likelihood under $H_0$ and the bottom is maximum likelihood globally $\ell(\hat{\theta})$)
+    and rejects $H_0$ when $\Lambda(\vec{x}) < c ^ {*}$,
+    where $\P(\Lambda(x) < c ^ {*} \mid H_0) = \alpha$.
+\end{definition}
+
+Both $H_0$ and $H_1$ are composite.
+Comparing likelihoods at their maxima over the null parameter space,
+$\Omega_0$,
+and globally over all $\Omega$.
+The maximising $\theta$ overall $\Omega$ is just the usual MLE,
+$\hat{\theta}$.
+The value of $\theta \in \Omega_0$ which maximises $\ell(\theta)$ is called the restricted MLE.
+Unlike the standard LR,
+$\lambda(x)$,
+the has $H_0$ in the numerator.
+If $\hat{\theta} \in \Omega_0$,
+then $\Lambda(x) = 1$.
+If $\hat{\theta} \in \Omega_1$,
+then $\Lambda(x) < 1$.
+
+\begin{example}
+    Suppose $X_1, \dotsc, X_n \sim N(\mu, \sigma ^ 2)$ IID,
+    $\sigma$ known.
+    $H_0 : \mu = \mu_0$ but now $H_1 : \mu \neq \mu_0$.
+    Parameter spaces:
+    $\Omega_0 = \{\mu_0\}$,
+    $\Omega_1 = \R \setminus \{\mu_0\}$,
+    $\Omega = \R = \Omega_0 \cup \Omega_1$.
+    From last time:
+    \[
+    \ell(\mu) = \overbrace{(2\pi\sigma ^ 2) ^ {-n / 2}\exp\left\{-\frac{1}{2\sigma ^ 2}\sum_{i}(x_i - \bar{x}) ^ 2\right\}}^{= a}\exp\left\{-\frac{n}{2\sigma ^ 2}(\bar{x} - \mu) ^ 2\right\}.
+    \]
+    Under $H_0$:
+    \[
+    \max_{\mu \in \Omega_0}\ell(\mu) = \ell(\mu_0) = a\exp\left\{-\frac{n}{2\sigma ^ 2}(\bar{x} - \mu_0) ^ 2\right\}.
+    \]
+    Over all $\Omega = \R$:
+    the MLE of $\mu$ is $\hat{\mu} = \bar{x}$,
+    so
+    \[
+    \max_{\mu \in \Omega}\ell(\mu) = \ell(\hat{\mu}) = a\exp\left\{-\frac{n}{2\sigma ^ 2}(\bar{x} - \hat{\mu}) ^ 2\right\} = a.
+    \]
+    Thus the GLR statistic is:
+    \[
+    \Lambda(\vec{x}) = \frac{\max_{\mu \in \Omega_0}\ell(\mu)}{\max_{\mu \in \Omega}\ell(\mu)} = \frac{\ell(\mu_0)}{\ell(\hat{\mu})} = \frac{a\exp\left\{-\frac{n}{2\sigma ^ 2}(\bar{x} - \mu_0) ^ 2\right\}}{a} = \exp\left\{-\frac{n}{2\sigma ^ 2}(\bar{x} - \mu_0) ^ 2\right\}
+    \]
+    and so we reject $H_0$ if:
+    \begin{align*}
+        \Lambda(\bar{x}) &< c ^ {*} \\
+        \exp\left\{-\frac{n}{2\sigma ^ 2}(\bar{x} - \mu_0) ^ 2\right\} &< c ^ {*} \\
+        -\frac{n}{2\sigma ^ 2}(\bar{x} - \mu_0) ^ 2 &< \log{c ^ {*}} \\
+        \left(\frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}\right) ^ 2 &> -2\log{c ^ {*}} \\
+        \text{or} \left|\frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}\right| &> k ^ {*}.
+    \end{align*}
+    Given $H_0$,
+    $\bar{X} \sim N(\mu_0, \sigma ^ 2 / n)$ and so $K ^ {*} = z_{\alpha / 2}^{*}$,
+    and we recover the standard $2$-tailed $z$-test.
+\end{example}
+
+Key point:
+The standard hypothesis tests for common distributions are all versions of LR tests and therefore inherits the same optimality properties
+(or not).
+
+\subsection{Asymptotic GLR tests}
+The GLR test compares two general hypotheses:
+$H_0 : \theta \in \Omega_0$ vs $H_1 : \theta \in \Omega_1$,
+and rejects $H_0$ when
+\[
+\Lambda(\vec{x}) = \frac{\max_{\theta \in \Omega_0}\ell(\theta)}{\max_{\theta \in \Omega}\ell(\theta)} < C ^ {*}.
+\]
+Depending on $\ell(\theta)$,
+it can be difficult to find a distribution for $\Lambda(\vec{x})$,
+and hence find $C ^ {*}$.
+When $n$ large,
+we can use a large sample approximation.
+
+\begin{theorem}[Wilks' theorem]
+    Let $X_1, \dotsc, X_n$ and IID sample from $f(\vec{x}; \vec{\theta})$ where $\vec{\theta}$ contains $k$ unknown parameters.
+    Suppose $H_0$ specifies values for $v = k - k_0$ parameters,
+    leaving $k_0$ still unknown.
+    Then $\dim(\Omega) = k$ and $\dim(\Omega_0) = k_0$.
+
+    If $f$ has a regular likelihood,
+    then under $H_0$ as $n \to \infty$:
+    \[
+    W(\vec{x}) = -2\log(\Lambda(\vec{x})) \sim \chi_{v}^{*}.
+    \]
+    Thus,
+    for large $n$,
+    a GLR test rejects $H_0$ at approximate significance $\alpha$ if
+    \[
+    W(\vec{x}) = -2\log(\Lambda(\vec{x})) \geq \chi_{v, \alpha}^{*}.
+    \]
+
+    \begin{proof}
+        Outline.
+        Quadratic approximation to $\mathcal{L}(\theta)$ about $\hat{\theta}$:
+        \[
+        \mathcal{L}(\theta) \approx \mathcal{L}(\hat{\theta}) + \frac{1}{2}\mathcal{L}''(\hat{\theta})(\theta - \hat{\theta}) ^ 2
+        \]
+        $\mathcal{L}'(\hat{\theta}) = 0$.
+        Consider $H_0 : \theta = \theta_0$ vs $H_1 : \theta \neq \theta_0$,
+        so $k = 1$,
+        $k_0 = 0$,
+        and $v = 1$.
+        \begin{align*}
+            W(x) &= -2\log(\Lambda(x)) \\
+            &= -2\log\left(\frac{\ell(\theta_0)}{\ell(\hat{\theta})}\right) \\
+            &= -2[\mathcal{L}(\theta_0) - \mathcal{L}(\hat{\theta})] \\
+            &= -2\left[\mathcal{L}(\hat{\theta} + \frac{1}{2}\mathcal{L}''(\hat{\theta})(\hat{\theta} - \theta_0) ^ 2 - \mathcal{L}(\hat{\theta}) - \frac{1}{2}\mathcal{L}''(\hat{\theta})(\hat{\theta} - \hat{\theta} ^ 2\right] \\
+            &= (\hat{\theta} - \theta_0) ^ 2\mathcal{L}''(\hat{\theta}) \\
+            &= \frac{(\hat{\theta} - \theta_0) ^ 2}{1 / -\mathcal{L}''(\hat{\theta})} &&(\text{observed information $I(\hat{\theta}) \simeq \mathbb{I}_n(\theta)$ for large $n$} \\
+            &= \left(\frac{\hat{\theta} - \theta_0}{1 / \sqrt{\mathbb{I}_n(\theta)}}\right) ^ 2 \sim \chi_{1}^{2}.
+        \end{align*}
+        Hence,
+        for $n$ large,
+        the GLR test statistic rejects $H_0$ if $W(x) \geq \chi_{1}^{*}$.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Let $Y_1, \dotsc, Y_n \sim \Po(\lambda)$ IID.
+    Hypotheses:
+    $H_0 : \lambda = \lambda_0$ vs $H_1 : \lambda \neq \lambda_0$.
+    Likelihood:
+    \[
+    \ell(\lambda) = \prod_{i = 1}^{n}\frac{\lambda ^ {y_i}e ^ {-\lambda}}{y_i!} = \frac{\lambda ^ {n\bar{y}}e ^ {-n\lambda}}{\prod_{i}y_i!}.
+    \]
+    Under $H_0$:
+    the restricted parameter space is $\Omega_0 = \{\lambda_0\}$,
+    so the restricted MLE is $\lambda_0$.
+    Overall $\Omega$,
+    the MLE is $\hat{\lambda} = \bar{y}$ so the GLR test statistic:
+    \begin{align*}
+        \Lambda(\vec{y}) &= \frac{\ell(\lambda_0)}{\ell(\hat{\lambda})} \\
+        &= \left(\frac{\lambda_0 ^ {n\bar{y}}e ^ {-n\lambda_0}}{\prod_{i}y_i!}\right) / \left(\frac{\hat{\lambda} ^ {n\bar{y}}e ^ {-n\hat{\lambda}}}{\prod_{i}y_i!}\right) \\
+        &= \left(\frac{\lambda_0}{\hat{\lambda}}\right) ^ {n\bar{y}}\exp\left\{-n(\lambda_0 - \hat{\lambda})\right\} \\
+        &= \left(\frac{\lambda_0}{\bar{y}}\right) ^ {n\bar{y}}\exp\left\{n(\bar{y} - \lambda_0)\right\}.
+    \end{align*}
+    For $n$ large:
+    \begin{align*}
+        W &= -2\log(\Lambda(\vec{y})) \\
+        &= -2\left[n\bar{y}\log\left(\frac{\lambda_0}{\bar{y}}\right) + n(\bar{y} - \lambda_0)\right] \\
+        &= 2n\left[\bar{y}\log\left(\frac{\bar{y}}{\lambda_0}\right) + (\lambda_0 - \bar{y})\right].
+    \end{align*}
+    Here,
+    $k = |\Omega| = 1$,
+    and $k_0 = |\Omega_0| = 0$,
+    so $v = 1$.
+    Therefore by Wilks' theorem,
+    under $H_0$ and for $n$ large,
+    we have
+    \[
+    W = 2n\left[\bar{y}\log\left(\frac{\bar{y}}{\lambda_0}\right) + \lambda_0 - \bar{y}\right] \sim \chi_{1}^{2}.
+    \]
+    A test with approximate significance $\alpha$ rejects $H_0$ if $W > \chi_{1, \alpha}^{*}$
+    ($\alpha = 0.05$,
+    $\chi_{1}^{*} = 3.841$).
+\end{example}
+
+\begin{example}
+    Are birth rates constant over the year?
+    England and Wales $2022$,
+    monthly data.
+    $n = 605.5$
+    (in thousands).
+
+    Treat this as multinomial -
+    $c = 12$ categories,
+    mutually exclusive,
+    constant probability $\pi_i$ of birth in month/category
+    \[
+    \ell(\pi_1, \dotsc, \pi_k) \propto \pi_1 ^ {x_1}\pi_2 ^ {x_2} \dotsi \pi_c ^ {x_c}.
+    \]
+    Under $H_0$;
+    let $\pi_i = p, \forall i$,
+    so $k_0 = 0$.
+    Under $H_1$,
+    $pi_i$ can be any valid probability,
+    but $\sum_i \pi_i = 1 \implies k = c - 1$.
+    $\hat{\pi}_i = \frac{X_i}{n}$.
+    Use a GLR test:
+    \[
+    \Lambda(\vec{x}) = \frac{p ^ {x_1}p ^ {x_2} \dotsi p ^ {x_c}}{\hat{\pi} ^ {x_1}\hat{\pi} ^ {x_2} \dotsi \hat{\pi} ^ {x_c}} = \prod_{i = 1}^{c}\left(\frac{p}{\hat{\pi}_i}\right) ^ {x_i} = \prod_{i = 1}^{c}\left(\frac{np}{x_i}\right) ^ {x_i}
+    \]
+    $n$ is definitely large,
+    so
+    \[
+    W = -2\log(\Lambda(\vec{x})) = -2\sum_{i = 1}^{c}x_i\log\left(\frac{np}{x_i}\right).
+    \]
+    For this data:
+    $H_0 : p = 1 / 12 = \pi_i = 0.0833$ for all $i$,
+    and the MLEs are $\hat{\pi}_1 = \frac{49.7}{605.5} = 0.082$,
+    $\hat{\pi}_{10} = 0.087$,
+    so $W = 779.29$ and $v = k - k_0 = 11 - 0 = 11$.
+    Compare to $\chi_{11, 0.05}^{*} = 19.675$ so reject $H_0$.
+\end{example}
+
+\begin{example}
+    Pearson's $\chi ^ 2$ test:
+    Same multinomial problem.
+    Let $O_i = x_i$ is the number of observed in group $i$,
+    $E_i = np_i$ the number of observations expected  in group $i$ under $H_0 : \pi_i = p_i$ $i = 1, \dotsc, c$.
+    Then
+    \begin{align*}
+        W &= -2\sum_{i = 1}^{c}O_i\log\left(\frac{E_i}{O_i}\right) \\
+        &= 2\sum_{i = 1}^{c}O_i\log\left(\frac{O_i}{E_i}\right) \\
+        \intertext{differences $d_i = O_i - E_i$}
+        &= 2\sum_{i = 1}^{c}(E_i + d_i)\log\left(1 + \frac{d_i}{E_i}\right) \\
+        \intertext{$\log(1 + x) \approx x - x ^ 2 / 2$}
+        &= 2\sum_{i = 1}^{c}(E_i + d_i)\left(\frac{d_i}{E_i} - \frac{d_i ^ 2}{2E_i ^ 2}\right) \\
+        &= 2\sum_i\left(d_i - \frac{d_i ^ 2}{2E_i} + \frac{d_i ^ 2}{E_i} - \frac{d_i ^ 3}{2E_i ^ 2}\right)
+        \intertext{ignore cubic terms} \\
+        &\simeq 2\sum_id_i + 2\sum_i\frac{d_i ^ 2}{2E_i} \\
+        &= \sum_{i = 1}^{c}\frac{d_i ^ 2}{E_i} = \sum_{i = 1}^{c}\frac{(O_i - E_i) ^ 2}{E_i} \sim \chi^{2}.
+    \end{align*}
+    This is the Pearson's $\chi ^ 2$-test for "goodness of fit",
+    used to assess if an observed data distribution,
+    $O_i$,
+    matches a hypothesised model/distribution,
+    $E_i = np_i$.
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
