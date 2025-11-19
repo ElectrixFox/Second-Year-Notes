@@ -3481,13 +3481,338 @@ Need the notion of coset.
 $g = e$,
 $eH = H = He$.}
 
+\begin{example}
+    \begin{itemize}
+        \item 
+        $G = \Z$,
+        $H = 2\Z = \langle 2\rangle$.
+        Abelian implies left cosets equal right cosets.
+        Cosets:
+        $g + H$,
+        $g \in G$.
+        \[
+        e + H = 2\Z = H
+        \]
+        \[
+        1 + H = \{1 + 2n \mid n \in \Z\}\text{ - odd numbers}
+        \]
+        \[
+        2 + H = \{2 + 2n \mid n \in \Z\}\text{ - even numbers}.
+        \]
+        Only two cosets:
+        even numbers $(2\Z)$,
+        odd numbers $(1 + 2\Z)$.
 
+        \item $G = D_5 = \langle r, s \mid r ^ 3 = e, s ^ 2 = e, srs = r ^ {-1}\rangle$,
+        $H = \{e, s\}$.
+        Left cosets:
+        \[
+        G = \{e, r, r ^ 2, s, rs, r ^ 2s\}
+        \]
+        $eH, rH, r ^ 2H, sH, rsH, r ^ 2sH$,
+        $eH = H$,
+        $sH = \{s\cdot e, s\cdot s\} = \{s, e\} = eH = H$.
+        $rsH = \{rs \cdot h \mid h \in H\} = \{r \cdot (sh) \mid h \in H\}$,
+        $s \in H$ so $h' = sh$,
+        then $\{rh' \mid h' \in H\} = rH$.
+        There are at most three left cosets,
+        $H, rH, r ^ 2H$,
+        $H \neq rH$ since $r \in rH$ and $r \notin H$,
+        also $H \neq r ^ 2H$.
+        $rH, r ^ 2H$.
+        Assume $r \in r ^ 2H \implies r = r ^ 2\cdot h$,
+        for some $h \in H$,
+        this is equivalent to $r ^ {-1} = h$,
+        $h \in H$,
+        which implies $r ^ {-1} \in H \implies r \in H$,
+        contradiction.
+        So,
+        $rH \neq r ^ 2H$.
+    \end{itemize}
+\end{example}
 
+Exercise:
+$G$ a group,
+$H \subseteq G$ subgroup.
+Then $xH = yH \iff y ^ {-1}x \in H$.
 
+\begin{lemma}
+    Left cosets form a partition of $G$,
+    i.e. $G = \displaystyle\bigcup_{g \in G}gH$,
+    and if $g_1H \neq g_2H$ then $g_1 H \cap g_2H = \emptyset$
+    [i.e. $g$ is a disjoint union of
+    (left)
+    cosets].
 
+    \begin{proof}
+        Need to prove
+        \begin{enumerate}[label = (\roman*)]
+            \item $\forall g \in G, \exists \text{left coset } g'H$ such that $g \in g'H$.
+            Indeed,
+            $g \in gH$ since $g = g\cdot e$.
 
+            \item $g_1H, g_2H$,
+            assume $g_1H \cap g_2H \neq \emptyset$,
+            want to prove they coincide.
+            $x \in g_1H \cap g_2H$,
+            $x = g_1h_1 = g_2h_2$ for some $h_1, h_2 \in H$.
+            \[
+            g_1h_1 = g_2h_2 \implies g_1h_1h_2 ^ {-1} = g_2 \implies g_2 \in g_1H \implies g_2H \subset g_1H
+            \]
+            as $g_2H = g_1h'h \in g_1H$.
+            Similarly $g_1H \subseteq g_2H$ so $g_1H = g_2H$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
 
+\begin{lemma}
+    $\forall g \in G, |gH| = |H|$.
+    In particular,
+    $|G| = m \cdot |H|$,
+    where $m$ is the number of
+    (left)
+    cosets.
 
+    \begin{proof}
+        Let $g_1H, g_2H, \dotsc, g_nH$ all cosets.
+        Define map $f_i : g_iH \to H$,
+        $g_ih \mapsto h$.
+
+        Claim:
+        bijection for all $i$,
+        surjection:
+        $h \in H$,
+        then $h = f_i(g_ih)$.
+
+        Injection:
+        let $f_i(g_ih) = f_i(g_ih') \iff h = h' \iff g_ih = g_ih'$,
+        so $f_i$ is injective.
+
+        Thus,
+        $|g_iH| = |H|$,
+        all $g_iH$ do not intersect by the previous lemma.
+        Every,
+        $g \in g_iH$ for some $i$ so,
+        \[
+        G = \bigcup_{i = 1}^{m}g_iH,\quad |G| = \sum_{i = 1}^{m}|g_iH| = \sum_{i = 1}^{m}|H| = m|H|.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    $|H| \mid |G|$,
+    so we have Lagrange's theorem.
+\end{corollary}
+
+\begin{corollary}
+    Let $G$ be a finite group,
+    $g \in G$.
+    Then $\ord(g) \mid |G|$.
+
+    \begin{proof}
+        If $g \in G$,
+        consider cyclic group $\langle g \rangle $.
+        \[
+        |\langle g \rangle| = \ord(g).
+        \]
+        By Lagrange's theorem.
+        $|\langle g \rangle| \mid |G|$.
+    \end{proof}
+\end{corollary}
+
+\begin{definition}
+    If $G$ is a finite group,
+    $H \subseteq G$ subgroup,
+    then $\frac{|G|}{|H|}$ is called the index of $H$ in $G$.
+    Notation:
+    $[G : H]$.
+\end{definition}
+
+\textit{Note:
+$[G : H]$ for infinite groups:
+the number of left cosets of $H$ in $G$.}
+
+Example:
+$G = \Z$,
+$H = 2\Z$
+so
+\[
+[G : H] = 2.
+\]
+
+\begin{example}
+    Find all subgroups of $S_3$.
+    \[
+    |S_3| = 3! = 6.
+    \]
+    $H \subseteq G$ subgroup,
+    then $|H| = 1, 2, 3, 6$ by Lagrange's theorem.
+    \begin{align*}
+        |H| &= 1 &\implies H &= \{e\} \\
+        |H| &= 6 &\implies H &= G = S_3 \\
+        |H| &= 2 &\implies H &= \{e, x\} \implies \ord(x) = 2
+        \intertext{
+        $x = (1\,2), (2\,3), (1\,3)$.
+        $H = \{e, (1\,2)\}$,
+        $\{e, (2\,3)\}$ or
+        $\{e, (1\,3)\}$}
+        |H| &= 3 &\implies H = \{e, x, y\}
+    \end{align*}
+    $\ord(x) = \ord(y)$ by the previous corollary,
+    $x, y$ are $3$-cycles so $H = \{e, (1\,2\,3), (3\,2\,1)\}$.
+\end{example}
+
+\subsection{Application to number theory}
+Recall
+$(\Z / n) ^ {\times} = \{\bar{a} \in \Z / n \mid \gcd(a, n) = 1\}$.
+Euler $\varphi$ function $\varphi(n) = |(\Z / n) ^ {\times}|$.
+
+\begin{theorem}[Euler-Fermat]
+    $n, a \in \N$,
+    $\gcd(a, n) = 1$.
+    Then $a ^ {\varphi(n)} \equiv 1\pmod{n}$.
+
+    \begin{proof}
+        \[
+        a ^ {\varphi(n)} \equiv 1 \iff \bar{a} ^ {\varphi(n)} = \bar{1} \in (\Z / n) ^ {\times}.
+        \]
+        \[
+        |(\Z / n) ^ {\times}| = \varphi(n)
+        \]
+        (by definition).
+        By previous corollary the order of any element of $(\Z / n) ^ {\times}$ divides $|(\Z / n) ^ {\times}| = \varphi(n)$.
+        So,
+        $\ord(\bar{a}) \cdot m = \varphi(n)$ for some $m$ so
+        \[
+        \bar{a} ^ {\varphi(n)} = \bar{a} ^ {m \cdot \ord(\bar{a})} = \left(\bar{a} ^ {\ord(\bar{a})}\right) ^ m = \bar{1} ^ m = \bar{1}.
+        \]
+    \end{proof}
+\end{theorem}
+
+Fermat little theorem:
+$\gcd(a, p) = 1$,
+$p$ prime then $a ^ p \equiv a\pmod{p}$,
+$a ^ {p - 1} \equiv 1\pmod{p} \implies a ^ {p} = a\pmod{p}$.
+
+\newpage
+
+\section{Homomorphisms/isomorphisms of groups}
+
+\subsection{Definitions and examples}
+
+\begin{definition}
+    Let $G, H$ be groups,
+    a map $\varphi : G \to H$ is a homomorphism if
+    \[
+    \varphi(g_1g_2) = \varphi(g_1)\varphi(g_2)
+    \]
+    $\forall g_2, g_2 \in G$.
+
+    Homomorphism is an isomorphism if it is bijective.
+    Notation:
+    $G \cong H$.
+\end{definition}
+
+Exercise:
+$\varphi : G \to H$ homomorphism,
+then $\varphi(e) = e$.
+
+\begin{example}
+    \begin{itemize}
+        \item Let $|G| = 2$,
+        $G = \{e, x\}$,
+        $\ord(x) = 2$,
+        homomorphism from $G$ to $\Z / 2$,
+        $\varphi : G \to \Z / 2$m
+        $\varphi(e) = \bar{0}$,
+        $\varphi(x) = \bar{1}$.
+        \[
+        \varphi(e \cdot x) = \varphi(x) = \bar{1} = \bar{0} + \bar{1} = \varphi(e) + \varphi(x).
+        \]
+        \[
+        \varphi(x \cdot x) = \varphi(e) = \bar{0} = \bar{1} + \bar{1} = \varphi(x) + \varphi(x).
+        \]
+        So,
+        any group of order $2$ is isomorphic to $\Z / 2$.
+
+        \item Let $|G| = 3$.
+        $G = \{e, x, y\}$,
+        $\ord(x) = \ord(y) = 3$.
+        $\varphi : G \to \Z / 3$,
+        $\varphi(e) = \bar{0}$,
+        $\varphi(x) = \bar{1}$,
+        $\varphi(y) = \bar{2}$.
+        Isomorphism so any group of order $3$ is isomorphic to $\Z / 3$.
+
+        \item $D_n$,
+        $\varphi : D_n \to \Z / 2$,
+        $\varphi(r ^ a) = \bar{0}$,
+        $\forall a = 0, 1, \dotsc, n - 1$,
+        $\varphi(r ^ as) = \bar{1}$
+        [$\varphi(r ^ as ^ b) = \bar{b}$].
+
+        \[
+        \varphi(r ^ {a_1}s ^ {b_1}\cdot r ^ {a_2}s ^ {b_2})
+        \]
+        $b_1 = 0$:
+        \[
+        \varphi(r ^ {a_1}s ^ {b_1}\cdot r ^ {a_2}s ^ {b_2}) = \varphi(r ^ {a_1 - a_2}s ^ {b_2} = \bar{b}_2
+        \]
+        \[
+        \varphi(r ^ {a_1}) + \varphi(r ^ {a_2}s ^ {b_2}) = \bar{0} + \bar{b}_2 = \bar{b}_2.
+        \]
+        $b_1 = 1$:
+        \[
+        \varphi(r ^ {a_1}s\cdot r ^ {a_2}s ^ {b_2}) = \varphi(r ^ {a_1}sr ^ {a_2}sss ^ {b_2}) = \varphi(r ^ {a_1}r ^ {-a_2}s ^ {b_2 + 1}) = \overline{b_2 + 1} = \bar{1} + \bar{b}_2.
+        \]
+        \[
+        \varphi(r ^ {a_1}s) + \varphi(r ^ {a_2}s ^ {b_2}) = \bar{1} + \bar{b}_2.
+        \]
+        This is a homomorphism.
+        Not injective
+        (e.g. $\varphi(r ^ a) = \bar{0}$,
+        for the $a$).
+        Surjective:
+        $\varphi(r) = \bar{0}$,
+        $\varphi(s) = \bar{1}$.
+
+        \item $G = \Z / 6$,
+        $H = S_3$.
+        $\varphi : \Z / 6  \to S_3$,
+        $\varphi(\bar{1}) = (1\,2\,3)$
+        [$varphi(\bar{a}) = (1\,2\,3) ^ a$].
+        Why is it well-defined?
+        Need to check:
+        $(1\,2\,3) ^ {a + 6m} = (1\,2\,3) ^ a$.
+        If $\varphi : G \to H$ homomorphism,
+        $x ^ m = e \implies \varphi(x) ^ m = e$.
+        Indeed,
+        $(1\,2\,3) ^ {a + 6m} = (1\,2\,3) ^ a \cdot ((1\,2\,3) ^ 3) ^ {2m} = (1\,2\,3) ^ a$.
+
+        Why homomorphism?
+        \[
+        \varphi(\bar{a} + \bar{b}) = (1\,2\,3) ^ {a + b}
+        \]
+        $\varphi(\bar{a})\varphi(\bar{b}) = (1\,2\,3) ^ a\cdot(1\,2\,3) ^ b$.
+        Not surjective,
+        e.g. $(1\,2) \neq \varphi(\bar{a}) \forall \bar{a} \in \Z / 6$,
+        not injective as $\varphi(\bar{0}) = \varphi(\bar{3})$.
+    \end{itemize}
+\end{example}
+
+\begin{definition}
+    $\varphi : G \to H$ homomorphism.
+    The kernel $\ker{\varphi} = \{g \in G \mid \varphi(g) = e\}$.
+    
+    The image $\Im{\varphi} = \{h \in H \mid h = \varphi(g)\text{ for some $g \in G$}\}$.
+\end{definition}
+
+\textit{Note:
+$\varphi : G \to H$ is injective if and only if $\ker{\varphi} = \{e\}$.}
+
+\subsection{Normal subgroups,
+quotients,
+First Isomorphism Theorem}
 
 
 
