@@ -3565,7 +3565,7 @@ Then $xH = yH \iff y ^ {-1}x \in H$.
     \end{proof}
 \end{lemma}
 
-\begin{lemma}
+\begin{lemma}\label{algII:lem:numleftcosetsmag}
     $\forall g \in G, |gH| = |H|$.
     In particular,
     $|G| = m \cdot |H|$,
@@ -3814,7 +3814,326 @@ $\varphi : G \to H$ is injective if and only if $\ker{\varphi} = \{e\}$.}
 quotients,
 First Isomorphism Theorem}
 
+Given $H \subseteq G$ a subgroup,
+we want to define quotient group $G / H$,
+elements left cosets,
+operation:
+$(g_1H, g_2H) \mapsto g_1g_2H$.
+Does it work.
+For this to work
+(the map is well-defined)
+$(g_1h_1H, g_2h_2H) \mapsto g_1g_2H$.
+But,
+$(g_1h_1H, g_2h_2H) \mapsto g_1h_1g_2h_2H$.
+We need $\forall g_1, g_2 \in G, \forall h_1, h_2 \in H$,
+\[
+g_1g_2H = g_1h_1g_2h_2H.
+\]
+By Exercise:
+$gH = fH$ if and only if $gf ^ {-1} \in H$.
+\begin{align*}
+    (g_1g_2) ^ {-1}g_1h_1g_2h_2 \in H &\iff  g_2 ^ {-1}g_1 ^ {-1}g_1h_1g_2h_2 \in H \\
+    &\iff g_2 ^ {-1}h_1g_2h_2 = h' \in H \\
+    &\iff g_2 ^ {-1}h_1g_2 = h'h_2 ^ {-1} \in H.
+\end{align*}
+So,
+$(k) \iff \forall g_2 \in G$,
+$h_1 \in H$,
+we have $g_2 ^ {-1}h_1g_2 \in H$.
 
+\begin{definition}
+    $G$ a group,
+    $H \subseteq G$ subgroup.
+    $H$ is normal in $G$ if $\forall h \in H, \forall g \in G$
+    \[
+    g ^ {-1}hg \in H.
+    \]
+    Notation $H \vartriangle G$.
+\end{definition}
+
+Remark.
+Taking inverse of $g$,
+$H \vartriangle G \iff ghg ^ {-1} \in H$,
+$\forall h \in H, \forall g \in G$.
+
+\begin{example}
+    \begin{itemize}
+        \item $G$ abelian,
+        $H \subseteq G$ a subgroup.
+        $h \in H$,
+        $g \in G$,
+        $ghg ^ {-1} = h \in H$ so $H \vartriangle G$.
+
+        \item $G = D_n$,
+        $H = \langle r\rangle = \{e, r, \dotsc, r ^ {n - 1}\}$ -
+        normal.
+        $h = r ^ c$,
+        $g = r ^ as ^ b$,
+        $b = 0$,
+        $ghg ^ {-1} = r ^ ar ^ cr ^ {-a} \in \langle r\rangle = H$.
+        $b = 1$,
+        $ghg ^ {-1} = r ^ asr^ csr ^ {-a} = r ^ ar ^ {-c}r ^ {-a} \in \langle r\rangle$.
+    \end{itemize}
+\end{example}
+
+Exercise:
+$G = \langle g_1, \dotsc, g_k\rangle$,
+$H \subseteq G$ a subgroup.
+Then $H \vartriangle G$ if and only if $g_ihg_i ^ {-1} \in H$,
+$\forall h \in H, \forall i = 1, \dotsc, k$
+(need to check generators only).
+
+\begin{definition}
+    Let $G$ be a group,
+    $N \vartriangle G$.
+    The quotient group $G / N$ consists of left cosets $gN$,
+    operation $g_1N \cdot g_2N = g_1g_2N$.
+    Identity:
+    $eN = N$,
+    inverse:
+    $(gN) ^ {-1} = g ^ {-1}N$.
+    There is a canonical homomorphism $\varphi : G \to G / N$,
+    $\varphi(g) = gN$.
+    $\ker(\varphi) = N$.
+\end{definition}
+
+\begin{lemma}
+    $\varphi : G \to H$ a group homomorphism.
+    The $\ker{\varphi} \vartriangle G$.
+    Conversely,
+    if $N \vartriangle G$,
+    then $\exists \text{ group } H$,
+    homomorphism of groups $\theta : G \to H$,
+    such that $N = \ker{\theta}$.
+
+    \begin{proof}
+        $\varphi : G \to H$,
+        $g \in \ker{\varphi}$.
+        \begin{enumerate}[label = \roman*)]
+            \item $\ker{\varphi}$ is a subgroup of $G$,
+            $g_1 \in \ker{\varphi}$,
+            $g_2 \in \ker{\varphi}$,
+            so $\varphi(g_1, g_2) = \varphi(g_1)\varphi(g_2) = e \cdot e$,
+            also,
+            if $\varphi(g) = e$ then $\varphi(g ^ {-1}) = e$.
+            \item $\ker{\varphi} \vartriangle G$,
+            $g \in \ker{\varphi}$.
+            Need:
+            $fgf ^ {-1} \in \ker{\varphi} \forall f \in G$.
+            Equivalently,
+            $\varphi(fgf ^ {-1}) = e$,
+            $\forall f \in G$.
+            Check:
+            \[
+            \varphi(fgf ^ {-1}) = \varphi(f)\varphi(g)\varphi(f ^ {-1}) = \varphi(f)\varphi(f ^ {-1}) = \varphi(f\cdot f ^ {-1}) = \varphi(e) = e.
+            \]
+            (Remark:
+            we proved:
+            $\varphi(f ^ {-1}) = (\varphi(f)) ^ {-1}$).
+            Proved:
+            $\ker{\varphi} \vartriangle G$.
+            Converse:
+            $N \vartriangle G$,
+            then $N = \ker{\varphi}$,
+            $\varphi : G \to G / N$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    $|G| < \infty$,
+    $N \vartriangle G$.
+    Then $|G / N| = \frac{|G|}{|N|}$.
+    (Follows from \autoref{algII:lem:numleftcosetsmag})
+    both sides:
+    number of left cosets.
+\end{lemma}
+
+Remark:
+Even if $|G| = \infty$,
+we can write $|G / N| = [G : N]$.
+
+\begin{theorem}[First Isomorphism Theorem
+    (For Groups),
+    FIT]
+    Let $\varphi : G \to H$ a group homomorphism.
+    Then
+    \[
+    G / \ker{\varphi} \cong \Im{\varphi}.
+    \]
+    
+    \begin{proof}
+        Isomorphism:
+        $g\ker{\varphi} \mapsto \varphi(g)$.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Recall
+    \begin{itemize}
+        \item $\varphi : D_n \to \Z / 2$,
+        $\varphi(r ^ a) = \bar{0}$,
+        $\varphi(r ^ as) = \bar{1}$.
+        $\ker(\varphi) = \langle r\rangle$.
+        $\Im(\varphi) = \Z / 2$,
+        $(\varphi)$ is surjective,
+        FIT:
+        $D_n / \langle r\rangle \cong \Z / 2$.
+
+        \item $\varphi : \Z / 6 \to S_3$.
+        $\varphi(\bar{a}) = (1\ 2\ 3) ^ a$,
+        $\ker{\varphi} = \{\bar{0}, \bar{3}\} \cong \Z / 2$,
+        $\Im{\varphi} = \langle (1\ 2\ 3)\rangle \cong \Z / 3$.
+        FIT:
+        $(\Z / 6) / (\{\bar{0}, \bar{3}\} \cong \langle (1\ 2\ 3)\rangle$
+        (or $(\Z / 6) / (\Z / 2) \cong \Z / 3$).
+    \end{itemize}
+\end{example}
+
+\newpage
+
+\section{Relating and identifying finite groups}
+Already saw
+\begin{align*}
+    |G| = 2 &\implies G \cong \Z / 2 \\
+    |G| = 3 &\implies G \cong \Z / 3
+\end{align*}
+
+\begin{lemma}\phantom{}
+    \begin{enumerate}[label = (\arabic*)]
+        \item If $G$ is cyclic of order $n$ then $G \cong \Z / n$.
+
+        \item If $|G| = p$.
+        $p$ prime,
+        then $G \cong \Z / p$.
+    \end{enumerate}
+
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = (\arabic*)]
+            \item $G = \langle g\rangle = \{e, g, g ^ 2, g ^ 3, \dotsc, g ^ {n - 1}\}$.
+            $\Z / n = \langle \bar{1} \rangle = \{\bar{0}, \bar{1}, \bar{2}, \dotsc, \overline{n - 1}\}$.
+            Isomorphism:
+            $\varphi : G \to \Z / n$,
+            $\varphi(g ^ k) = \bar{k}$.
+
+            \item $G$,
+            $|G| = p$.
+            Take any $g \in G$,
+            $g \neq e$.
+            Consider $H = \langle g \rangle$.
+            Then $|H| \geq 2$.
+            By Lagrange's theorem,
+            $|H| \mid |G| = p$ so $|H| = p$ then $H = G$ so $G$ is cyclic,
+            by part $(1)$ $G \cong \Z / p$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+So far,
+we saw several families of groups,
+Cyclic $\Z / n$,
+dihedral groups $D_n$,
+symmetric groups $S_n$.
+Overlap $S_2 \cong \Z / 2$.
+
+\subsection{Direct product of groups}
+\[
+D_2 = \langle r, s \mid r ^ 2 = e, s ^ 2 = e, srs = r ^ {-1}\rangle = \langle e, r, s, rs\rangle
+\]
+with orders $1, 2, 2, 2$.
+
+\begin{definition}
+    $G, H$ groups.
+    Direct product $G \times H$ is defined as
+    \[
+    G \times H = \{(g, h) \mid g \in G, h \in H\}
+    \]
+    operation:
+    $(g_1, h_1) \cdot (g_2, h_2) = (g_1g_2, h_1h_2)$.
+    Identity:
+    $(e, e)$.
+    Inverse:
+    $(g, h) ^ {-1} = (g ^ {-1}, h ^ {-1})$.
+\end{definition}
+
+\begin{example}
+    $|G| = 4$,
+    either $|G| \cong \Z / 4$
+    (if $\exists g \in G, \ord(g) = 4$)
+    otherwise $G = \{e, a_1, a_2, a_3\}$,
+    $a_ia_j = a_k$,
+    $\ord(a_i) = 2$ abelian.
+
+    Define $\varphi : G \to \Z / 2 \times \Z / 2$.
+    $\varphi(e) = (\bar{0}, \bar{0})$,
+    $\varphi(a_1) = (\bar{1}, \bar{0})$,
+    $\varphi(a_2) = (\bar{0}, \bar{1})$,
+    $\varphi(a_3) = (\bar{1}, \bar{1})$.
+    Check $\varphi$ is an isomorphism.
+    $\Z / 2 \times \Z / 2$ is also known as Klein $4$ group,
+    $V_4$.
+\end{example}
+
+How to distinguish non-isomorphic groups.
+One of the ways:
+show that orders of elements are different.
+\begin{example}
+    \begin{itemize}
+        \item Why $\Z / n \ncong \Z / 2 \times \Z / 2$,
+        $\exists a \in \Z / n$ of order $4$ but $\Z / 2 \times \Z / 2$ has no such element.
+
+        \item Is $\Z / 3 \times S_3 \cong D_9$?
+        Orders of $D_9$:
+        reflections order $2$,
+        $\ord(r ^ a) = 9 / \gcd(9, a)$ so orders are $\{1, 3, 9\}$.
+        $S_3$ has orders $1, 2, 3$,
+        $\Z / 3$ orders $1, 3$.
+        Orders of $\Z / 3 \times S_3$ are $\{1, 2, 3, 6\}$.
+        Sets of orders are distinct so groups are non-isomorphic.
+    \end{itemize}
+\end{example}
+
+Exercise:
+$G \times H$,
+$g \in G$,
+$h \in H$,
+$\ord(g, h) = \lcm(\ord(g), \ord(h))$.
+
+$D_3 \ncong \Z / 6$.
+
+\subsection{\texorpdfstring{$D_3 \cong S_3$}{}}
+$D_3 = \{e, r, r ^ 2, s, rs, r ^ 2s\}$,
+orders:
+$\{1, 3, 3, 2, 2, 2\}$.
+$S_3 = \{e, (1\ 2), (2\ 3), (1\ 3), (1\ 2\ 3), (3\ 2\ 1)\}$,
+orders:
+$\{1, 2, 2, 2, 3, 3\}$.
+
+Proof $1$:
+Define isomorphism explicitly.
+Sufficient to define on generators $\varphi : D_3 \to S_3$,
+$\varphi(r) = (1\ 2\ 3)$,
+$\varphi(s) = (1\ 2)$.
+$\varphi(r ^ a) = (1\ 2\ 3) ^ a$,
+$\varphi(r ^ as) = (1\ 2\ 3) ^ a(1\ 2)$,
+$D_3 = \langle r, s \mid r ^ 3 = e, s ^ 2 = e, srs = r ^ {-1}\rangle$.
+To be well defined need:
+$\varphi(r) ^ 3 = e$,
+$\varphi(s) ^ 2 = e$,
+$\varphi(srs) = \varphi(r ^ {-1})$.
+$\varphi(srs) = \varphi(s)\varphi(r)\varphi(s)$.
+Got homomorphism,
+bijective so isomorphism.
+
+Proof $2$:
+$D_3$:
+$r \to (1\ 2\ 3)$,
+$s \to (2\ 3)$.
+Another isomorphism between $D_3$ and $S_3$.
+For $n > 3$.
+We can get an injective homomorphism from $D_n \to S_n$.
+$|D_n| = 2n$,
+$|S_n| = n!$.
 
 
 
