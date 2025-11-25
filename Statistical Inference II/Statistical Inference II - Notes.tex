@@ -3881,11 +3881,288 @@ we can use a large sample approximation.
     $E_i = np_i$.
 \end{example}
 
+\newpage
 
+\section{Further Topics in Conjugacy}
 
+Several standard distributions had a conjugate prior -
+is there a general connection?
 
+\begin{proposition}
+    Suppose that $f(\vec{x}\mid \vec{\phi})$ is a member of the $k$-parameter exponential family:
+    \[
+    f(\vec{x} \mid \vec{\phi}) = b(\vec{x})\exp\left\{\sum_{j = 1}^{k}\phi_jt_j(\vec{x}) - a(\vec{\phi})\right\}.
+    \]
+    Then $\vec{\phi}$ has a conjugate prior in the $(k + 1)$-parameter exponential family:
+    \[
+    f(\vec{\phi} \mid p, \vec{q}) = r(p, q)\exp\left\{\sum_{j = 1}^{k}\phi_jq_j - pa(\vec{\phi})\right\}
+    \]
+    where $p > 0$,
+    $\vec{q} \in \R ^ k$ and $r(p, q)$ does not depend on $\vec{\phi}$.
 
+    \begin{proof}
+        Likelihood:
+        Suppose we observe an IID sample:
+        $x_1, \dotsc, x_n$.
+        Then
+        \[
+        f(\vec{x} \mid \vec{\phi}) = \prod_{i = 1}^{n}b(x_i)\exp\left\{\sum_{j = 1}^{k}\phi_jt_j(x_i) - a(\phi)\right\} = \left(\prod_{i = 1}^{n}b(x_i)\right)\exp\left\{\sum_{j}\phi_jn\bar{t}_j - na(\phi)\right\}.
+        \]
+        Now we need a prior in $\phi$ that will collect together with the terms $\vec{\phi}$ in the previous expression.
+        We have $k + 1$ terms in $\phi: \phi_1, \dotsc, \phi_k$,
+        $a(\vec{\phi})$ -
+        attach a hyperparameter to each:
+        Prior:
+        \[
+        f(\vec{\phi} \mid p, q) \propto \exp\left\{\sum_{j = 1}^{k}\phi_jq_j - pa(\vec{\phi})\right\}\qquad p > 0, q \in \R ^ k.
+        \]
+        Posterior:
+        \begin{align*}
+            f(\vec{\phi} \mid \vec{x}, p, q) &\propto f(x \mid \vec{\phi})f(\vec{\phi} \mid p, \vec{q})&&(\text{Assuming $x \independent \{p, q\} \mid \vec{\phi}$}) \\
+            &\propto \exp\left\{\sum_{j}\phi_j(n\bar{t}_j + q_j) - (n + p)a(\vec{\phi})\right\} \\
+            &= S(\vec{x}, p, \vec{q})\exp\left\{\sum_{j}\phi_jq_j' - p'a(\vec{\phi})\right\}.
+        \end{align*}
+        Which matches the exponential family form,
+        and our parameters simply update as:
+        \[
+        q_j \mapsto q_j + n\bar{t}_j(\vec{x})\qquad p \mapsto p + n.
+        \]
+    \end{proof}
+\end{proposition}
 
+Key point:
+Every exponential family distribution has a conjugate prior.
+
+\begin{example}
+    Let $X \sim \Bin(n, \pi)$.
+    \begin{align*}
+        f(x \mid \pi) &= \binom{n}{x}\pi ^ x(1 - \pi) ^ {n - x} \\
+        f(x \mid \vec{\phi}) &= \underbrace{\binom{n}{x}}_{b(x)}\exp\left\{\underbrace{\log\left(\frac{\pi}{1 - \pi}\right)}_\phi(x)\underbrace{x}_{t(x)} - \underbrace{n\log(1 + e ^ {\phi})}_{a(\phi)}\right\}.
+    \end{align*}
+    One parameter $\pi$,
+    but $f(x \mid \vec{\phi})$ has $2$ terms in $\vec{\phi}$ so we need a $2$ parameter prior:
+    \[
+    f(\phi \mid p, q) \propto \exp\{\phi q - pa(\phi)\}.
+    \]
+    Direct substitution
+    \begin{align*}
+        f(\pi \mid p, q) &\propto \exp\left\{q\log\left(\frac{\pi}{1 - \pi}\right) - p\log(1 + e ^ {\phi})\right\} \\
+        &\propto \exp\left\{\log\left[\left(\frac{\pi}{1 - \pi}\right) ^ q\right]\right\}\exp\left\{\log\left[\left(\frac{1}{1 - \pi}\right) ^ {-p}\right]\right\} \\
+        &\propto \left(\frac{\pi}{1 - \pi}\right) ^ q\left(\frac{1}{1 - \pi}\right) ^ {-p} \\
+        &\propto \pi ^ q(1 - \pi) ^ {p - q} \\
+        &\propto \mathrm{Beta}(a = q + 1, b = p - q + 1)
+    \end{align*}
+    the standard conjugate prior.
+\end{example}
+
+But:
+we didn't use the full change of variables method
+($\pi$ is a random variable now)
+\[
+f(\pi \mid p, q) = f(\phi(\pi) \mid p, q)\left|\frac{d\pi}{d\phi}\right|
+\]
+our derivative term here is:
+\[
+\frac{d\pi}{d\phi} = \pi(1 - \pi).
+\]
+This still combines to give a $\mathrm{Beta}$ prior.
+Because $\left|\frac{d\pi}{d\phi}\right|$ collected with the terms in $f(\pi)$ -
+not always guaranteed
+(but common for standard $1$-parameter distributions).
+
+\subsection{Limits of Conjugacy}
+\begin{itemize}
+    \item Convenient -
+    simplifies calculation,
+    just updates parameters.
+
+    \item Widely applicable -
+    most standard $1$-parameter distributions have one.
+
+    \item Too convenient.
+    Does it really reflect genuine prior beliefs about parameter.
+
+    \item Issues with many $\vec{\theta}$,
+    complex models.
+    Need other techniques.
+
+    \item Lack of flexibility -
+    rigid prior form,
+    e.g. some cannot be flat.
+\end{itemize}
+
+\newpage
+
+\section{Noninformative priors}
+Question:
+What if prior information is not available/
+too vague/
+too subjective/
+too contentious to express as $f(\theta)$?
+
+\begin{definition}
+    A noninformative
+    (vague,
+    uninformative,
+    diffuse,
+    ignorant)
+    prior $f(\theta)$ is deliberately and rigorously vague about the behaviour of $\theta$.
+\end{definition}
+
+Often,
+interpret this as taking a flat
+(constant)
+prior.
+
+\begin{example}[Bayes Postulate]
+    Suppose $X \sim \Bin(n, \theta)$,
+    $f(x(\theta)) = \binom{n}{x}\theta ^ x(1 - \theta) ^ {n - x}$ we known $\theta \sim \Beta(a, b)$ is conjugate and $f(\theta) = \frac{1}{B(a, b)}\theta ^ {a - 1}(1 - \theta) ^ {b - 1}$,
+    $\theta \in [0, 1]$.
+\end{example}
+
+If we set $a = b = 1$,
+then $f(\theta) = \frac{1}{B(1, 1)}\theta ^ 0(1 - \theta) ^ 0 = 1 = U[0, 1]$ a flat prior.
+Continuing with this prior:
+\begin{align*}
+    f(\theta \mid x) &\propto f(x \mid \theta)f(\theta) \\
+    &\propto f(x \mid \theta) \\
+    &= \frac{f(x \mid \theta)}{\int f(x, \theta)\,d\theta}
+\end{align*}
+which is just a multiple of the likelihood,
+$\ell(\theta)$,
+and we find $\theta \mid x \sim \Beta(x + 1, n - x + 1)$.
+
+\textit{Note:
+This implies we judge $\theta$ to be exactly equally likely to be anywhere in $[0, 1]$ -
+this is a very precise statement of ignorance.}
+
+Question:
+What if $\theta \in \R$?
+A flat prior would be $f(\theta) = c$,
+but $\int_{-\infty}^{\infty}c\,d\theta \neq 1$.
+Not a valid pdf.
+What now?
+\begin{definition}
+    A density $f(x)$ is improper if $f(x) \geq 0$ but $\int f(x)\,dx \neq 1$.
+\end{definition}
+
+In some cases,
+we can use an improper prior for $\theta$
+(e.g. $\theta \in \R$),
+so long as the posterior is proper.
+I.e. $\int f(\theta \mid x)\,d\theta = 1$.
+
+\begin{example}
+    $X_i \mid \mu, \sigma ^ 2 \sim N(\mu, \sigma ^ 2 = 1 / 2)$ for $\sigma ^ 2$ known.
+    $\mu \sim N(m_0, v_0 = 1 / t_0)$.
+    Conjugates to $\mu \mid \vec{X} \sim N\left(\frac{m_0t_0 + n\bar{x}\tau}{t_0 + n\tau}, \frac{1}{t_0 + n\tau}\right)$.
+    
+    What if $\Var(\mu) = v_0 = \frac{1}{t_0} \to \infty$
+    $f(\mu)$ gets flatter and more spread over $\R$
+    (approaching uniform).
+    $t_1 = t_0 + n\tau = \frac{1}{v_0} + \frac{n}{\sigma ^ 2} \to \frac{n}{\sigma ^ 2}$ so $v_1 = \frac{\sigma ^ 2}{n}$.
+    \[
+    m_1 = \frac{m_0t_0 + n\bar{x}\tau}{t_0 + n\tau} = \frac{\frac{m_0}{v_0} + n\bar{x}\tau}{\frac{1}{v_0} + \frac{n}{\sigma ^ 2}} \to \bar{x}
+    \]
+    so $m_1 = \bar{x}$,
+    then $\mu \mid v \to N(\bar{x}, \sigma ^ 2 / n)$.
+    Prior is flat and improper,
+    but the posterior is fine.
+    Get the same result for $f(\mu) \propto 1$.
+\end{example}
+
+Problem:
+A flat prior for $\theta$ suggests $f(\theta) \propto 1$.
+Consider $\phi = \frac{1}{\theta}$.
+If we are ignorant about $\theta$ then we must be equally ignorant about $\phi$.
+Which suggests $f(\phi) \propto 1$,
+too.
+
+But:
+\begin{align*}
+    f_{\phi}(\phi) &\propto f_{\theta}(\theta(\phi))\left|\frac{d\theta}{d\phi}\right| \\
+    &\propto 1 \cdot \frac{1}{\phi ^ 2} \\
+    &\propto \frac{1}{\phi ^ 2}.
+\end{align*}
+
+The
+"flat prior"
+approach is not self-consistent.
+Different results for $\theta, \phi, \dotsc$
+
+Question:
+Can we find priors that contain minimal information about $\theta$ but are not sensitive to the choice of parameterisation?
+
+\begin{definition}
+    Suppose a method gives a prior $f_{\theta}(\theta)$ for $\theta$ and $f_{\phi}(\phi)$ for $\phi = g(\theta)$,
+    then we say this method is invariant under a re-parameterisation.
+    \[
+    f_{\phi}(\phi) = f_{\theta}(\theta)\left|\frac{d\theta}{d\phi}\right|
+    \]
+    i.e. the only connection between $f_{\theta}(\theta)$ and $f_{\phi}(\phi)$ is the usual change of variables.
+
+    The flat prior method was not invariant,
+    $f_{\theta}(\theta) = a$ but $f_{\phi}(\phi) = b \neq a \cdot \frac{1}{\phi ^ 2}$.
+\end{definition}
+
+\begin{proposition}
+    The Jeffreys prior for a parameter $\theta$ is
+    \[
+    f(\theta) \propto \sqrt{\mathbb{I}_n(\theta)}\qquad\text{or}\qquad f(\vec{\theta}) \propto \sqrt{\det(\mathbb{I}_n(\vec{\theta}))}
+    \]
+    and is invariant under a re-parameterisation.
+
+    \begin{proof}
+        For $\theta$:
+        \[
+        f_{\theta}(\theta) \propto \sqrt{\mathbb{I}_n(\theta)}.
+        \]
+        For $\phi = y(\theta)$:
+        \[
+        f_{\phi}(\phi) \propto \sqrt{\mathbb{I}_n(\theta)}
+        \]
+        \begin{align*}
+            \mathbb{I}_n(\phi) &= -\E_{X}\left(\frac{\partial ^ 2\mathcal{L}}{\partial\phi ^ 2}\right) \\
+            &= -\E_{X}\left(\frac{\partial ^ 2\mathcal{L}}{\partial \theta ^ 2}\left(\pd[\theta]{\phi}\right) ^ 2 + \pd[\mathcal{L}]{\theta}\frac{\partial ^ 2\theta}{\partial\phi ^ 2}\right) \\
+            &= \E_{X}\left(-\frac{\partial ^ 2\mathcal{L}}{\partial\theta ^ 2}\right)\left(\frac{\partial \theta}{\partial \phi}\right) ^ 2 + \E\left(-\pd[\mathcal{L}]{\theta}\right)\frac{\partial ^ 2\theta}{\partial \phi ^ 2} \\
+            &= \mathbb{I}_n(\theta)\left(\pd[\theta]{\phi}\right) ^ 2.
+        \end{align*}
+        Substituting in :
+        \begin{align*}
+            f_{\phi}(\phi) &\propto \sqrt{\mathbb{I}_n(\phi)} \\
+            &\propto \sqrt{\mathbb{I}_n(\theta)}\left|\frac{d\theta}{d\phi}\right| \\
+            &\propto f_{\theta}(\theta)\left|\frac{d\theta}{d\phi}\right|.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+Intuition:
+$\mathbb{I}_n(\theta)$ is the expected amount of information we will see from our data.
+
+If $f(\theta)$ behaves like $\mathbb{I}_n(\theta)$,
+we expect to agree with the data
+and so we minimise
+(but not eliminate)
+the influence of the prior.
+
+\begin{example}
+    Jeffreys prior for $\Po(\lambda)$.
+    Assume $X_1, \dotsc, X_n$ conditionally IID $\Po(\lambda)$ given $\lambda$
+    \begin{align*}
+        \ell(\lambda) &= f(\vec{x} \mid \lambda) \propto e ^ {-n\lambda}\lambda ^ {n\bar{x}} \\
+        \mathcal{L}(\lambda) &= \text{const } - n\lambda + n\bar{x}\log{\lambda} \\
+        \mathcal{L}''(\lambda) &= -\frac{n\bar{x}}{\lambda ^ 2} \\
+        \mathbb{I}_n(\lambda) &= -\E_{X}\left(-\frac{n\bar{X}}{\lambda ^ 2}\right) = \frac{n}{\lambda ^ 2}\E_{X}(\bar{X}) = \frac{n\lambda}{\lambda ^ 2} = \frac{n}{\lambda}.
+    \end{align*}
+    So Jeffreys prior is $f(\lambda) \propto \sqrt{n / \lambda} \propto 1 / \sqrt{\lambda} \propto \lambda ^ {-1 / 2}$ for $\lambda > 0$.
+
+    Compare to $\lambda ^ {\alpha - 1}e ^ {-\beta \lambda}$
+    (gamma distribution)
+    $\lambda \mathrm{Ga}(1 / 2, 0)$.
+
+    The prior is improper,
+    but conjugate so $\lambda \mid \vec{x} \sim \mathrm{Ga}(1 / 2 + n\bar{x}, n)$.
+\end{example}
 
 
 
