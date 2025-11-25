@@ -2678,14 +2678,136 @@ Neumann boundary conditions $X'(0) = X'(L_x) = 0$,
 $Y'(0) = Y'(L_y) = 0$.
 Reduction to ODEs.
 
+We saw this solves the heat equation:
+\[
+u(x, y, t) = \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}C_{mn}e ^ {-D\left(\frac{\pi ^ 2n ^ 2}{L_x ^ 2} + \frac{\pi ^ 2m ^ 2}{L_y ^ 2}\right)t}\cos\left(\frac{n\pi x}{L_x}\right)\cos\left(\frac{m\pi y}{L_y}\right).
+\]
+So we are missing something,
+if there are non-separable solutions how do we find them are?
 
+We can write $U ^ c$ in this sum format.
+\[
+U ^ c(x, y, t) = \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}C_{nm}(t)\cos\left(\frac{n\pi x}{L_x}\right)\cos\left(\frac{m\pi y}{L_y}\right).
+\]
+\[
+C_{mn}(t) = \frac{4}{L_xL_y}\int_{0}^{L_x}\int_{0}^{L_y}U ^ c(x, y, t)\cos\left(\frac{n\pi x}{L_x}\right)\cos\left(\frac{m\pi y}{L_y}\right)\,dx\,dy.
+\]
+So $U ^ c$ is actually amongst this class of summed functions.
 
+\begin{proposition}
+    Any solution to the heat equation on $[0, L_x] \times [0, L_y]$ with homogeneous Dirichlet/Neumann boundary conditions can be represented as a Fourier series.
+\end{proposition}
 
+Most linear PDE's are not separable.
+E.g.
+\[
+u_{xx} + u_{yy} + xu_y = 0.
+\]
+Try separation:
+\[
+u(x, y) = X(x)Y(y)
+\]
+so
+\[
+\frac{X''}{X} + \frac{Y''}{Y} + x\frac{Y'}{Y} = 0
+\]
+They depend on $x$ and $y$ so cannot balance.
 
+\subsubsection{Eigen Series
+(mode decompositions)
+are fundamental mathematics,
+not separation of variables}
 
+The examples we saw can be written in the form.
+\[
+u(x, y, t) = \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}\Gamma_{mn}(t)\phi_{nm}(x, y)
+\]
+where $\phi_{nm}$ satisfied some eigen problem
+(or system of eigen equations).
 
+Crucial point are the properties of linear independence of $\phi_{nm}$ and the orthogonality of these functions still applies in the general case.
+We will prove this.
 
+\newpage
 
+\section{Eigenfunction methods}
+Basic structure.
+
+Introduce a prototype model PDE which we will use to make clear what we need to do to generalise the eigen expansion method.
+
+Introduce the inner product and the adjoint operator.
+Use these to prove crucial theorems.
+
+Study the Strum-Liouville equations,
+a general class of operations which have all the properties we want.
+
+Then we generate this modeal further and look towards more complex topics.
+
+\subsection{A prototype problem and its solution via an eigen expansion}
+
+The problem
+\[
+\pd[u]{t} = Lu + h(x, t)
+\]
+where $x \in [0, L]$
+($1$D special problem),
+$x \in [a, b]$.
+$u(x, t)$ is a scalar function as is $h(x, t)$.
+
+\subsubsection{The operator \texorpdfstring{$L$}{}}
+Its linear
+\[
+L[au_1 + bu_2] = aLu_1 + bLu_2
+\]
+and it is a differential operator only dependent on $x$
+(spacial operator)
+
+\subsubsection{The
+"source"
+or
+"forcing"
+term \texorpdfstring{$h(x, t)$}{}}
+Does not depend on $u$,
+and provides some external affect on the system.
+"source"
+when it creates $u$ or
+"forcing"
+if it represents an external change
+(or loss)
+in the system.
+
+If $h(x, t) = 0$ the problem is homogenous if not it is inhomogenous.
+
+Inhomogenous - homogenous decomposition if $u_h$ solves $\pd[u]{t} = Lu$ and $u_{ih}$ solves $\pd[u]{t} = Lu + h(x, t)$,
+$u_h + u_{ih}$ solves $\pd[u]{t} = Lu + h(x, t)$
+(from linearity of $L$).
+
+\subsubsection{Boundary conditions}
+Need $n$ boundary conditions for an $n$th order linear operator
+(almost exclusively second order in this course).
+Denote
+\[
+BC_i[u, a, b] = 0\qquad i = 1, \dotsc, n
+\]
+
+\subsubsection{Initial conditions}
+System is complete if we specify an initial condition:
+\[
+u(x, 0) = g(x).
+\]
+
+\subsubsection{A solution}
+
+Assume we can expand $h(x, t)$ as this
+\[
+h(x, t) = \sum_{n = 0}^{\infty}y_n(x)h_n(t).
+\]
+We saw when $L = \frac{\partial ^ 2}{\partial x ^ 2}$ this will take the form of a Fourier or Bessel series.
+
+Substitute into our model
+\[
+\sum_{n = 0}^{\infty}\frac{dC_n}{dt}y_n = \sum_{n = 0}^{\infty}C_n(t)Ly_n(x) + \sum_{n = 0}^{\infty}h_n(t)y_n(x).
+\]
 
 
 \end{document}
