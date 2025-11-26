@@ -4135,6 +4135,417 @@ We can get an injective homomorphism from $D_n \to S_n$.
 $|D_n| = 2n$,
 $|S_n| = n!$.
 
+\subsection{Groups of small order}
+Order $1$ -
+trivial group $\{0\}$.
+
+Order $2$ -
+$\Z / 2$.
+
+Order $3$ -
+$\Z / 3$.
+
+Order $4$ -
+$\Z / 4$ and $\Z / 2 \times \Z / 2$.
+
+Order $5$ -
+$\Z / 5$.
+
+Order $6$ -
+$\Z / 6$ or $D_3 \cong S_3$.
+
+Order $7$ -
+$\Z / 7$.
+
+Order $8$ -
+$\Z / 8$,
+$\Z / 4 \times \Z / 2$,
+$\Z / 2 \times \Z / 2 \times \Z / 2 = (\Z / 2) ^ 3$,
+$D_4$,
+$Q_8$.
+
+\newpage
+
+\section{The alternating group}
+
+\subsection{Sign of permutation}
+$\sigma \in S_n$.
+
+\begin{definition}
+    Let $\sigma \in S_n$,
+    $\sigma = \begin{pmatrix}
+        1 & 2 & \dotsi & n \\
+        \sigma(1) & \sigma(2) & \dotsi & \sigma(n)
+    \end{pmatrix}$.
+    A pair $(i, j)$,
+    $i < j$,
+    $1 \leq i$,
+    $j \leq n$.
+    An inversion of $\sigma$ if $\sigma(i) > \sigma(j)$.
+\end{definition}
+
+\begin{example}
+    $\sigma \in S_4$,
+    \[
+    \sigma = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\
+        2 & 3 & 1 & 4
+    \end{pmatrix}.
+    \]
+    Inversions of $\sigma$ are $(1, 3)$ and $(2, 3)$ as $\sigma(1) > \sigma(3)$,
+    $\sigma(2) > \sigma(3)$.
+\end{example}
+
+\begin{definition}
+    $\sigma \in S_n$ is odd if the number of inversions of $\sigma$ is odd,
+    $\sigma \in S_n$ is even if the number of inversions of $\sigma$ is even.
+    The sign of $\sigma$ is
+    \[
+    \mathrm{sgn}(\sigma) = (-1) ^ N,
+    \]
+    where $N$ is the number of inversions,
+    i.e.
+    \[
+    \mathrm{sgn}(\sigma) = \begin{cases}
+        1 & \sigma\text{ is even}, \\
+        -1 & \sigma\text{ is odd}.
+    \end{cases}
+    \]
+\end{definition}
+
+Want to see the behaviour of the sign with respect to multiplication.
+
+\begin{lemma}
+    $\sigma \in S_n$ any permutation,
+    $\tau \in S_n$ a transposition.
+    Then
+    \[
+    \mathrm{sgn}(\sigma\tau) = -\mathrm{sgn}(\sigma)
+    \]
+    (i.e. multiplication by a transposition changes the parity of the number of inversions).
+
+    \begin{proof}
+        \[
+        \sigma = \begin{pmatrix}
+            1 & 2 & 3 & \dotsi & a & \dotsi & b & n  \\
+            \sigma(1) & \sigma(2) & \sigma(3) & \dotsi & \sigma(a) & \dotsi & \sigma(b) & \sigma(n)
+        \end{pmatrix}.
+        \]
+        $\tau = (a\ b)$,
+        $i \neq a, b$.
+        \begin{align*}
+            \sigma\tau(i) &= \sigma(ab)(i) = \sigma(i) \\
+            \sigma\tau(a) &= \sigma(b) \\
+            \sigma\tau(b) &= \sigma(a)
+        \end{align*}
+        \[
+        \sigma\tau = \begin{pmatrix}
+            1 & 2 & 3 & \dotsi & a & \dotsi & b & \dotsi & n \\
+            \sigma(1) & \sigma(2) & \sigma(3) & \dotsi & \sigma(b) & \dotsi & \sigma(a) & \dotsi & \sigma(n).
+        \end{pmatrix}
+        \]
+        Take any $k$:
+        
+        Take $k < a$:
+        the number of inversions $k$ is involved in $\sigma$ and $\sigma\tau$ are the same.
+
+        Similarly,
+        $k > b$,
+        the number of inversions involving $k$ didn't change.
+
+        $a < k < b$,
+        \begin{enumerate}[label = (\alph*)]
+            \item $\sigma(k) < \sigma(a)$,
+            $\sigma(k) < \sigma(b)$.
+            In $\sigma$:
+            $(a, k)$ is an inversion.
+            $(k, b)$ is not an inversion.
+            In $\sigma\tau$:
+            $(a, k)$ is still an inversion.
+            $(k, b)$ is not.
+
+            So number of inversions with $k$ didn't change.
+
+            \item $\sigma(k) > \sigma(a)$,
+            $\sigma(k) > \sigma(b)$.
+
+            Similarly,
+            $(a, k)$ not an inversion in $\sigma$,
+            $(k, b)$ is an inversion in $\sigma$ the same in $\sigma\tau$.
+            No change.
+
+            \item $\sigma(k)$ in between.
+            \begin{enumerate}
+                \item[(c')] $\sigma(a) < \sigma(k) < \sigma(b)$.
+                Neither of $(a, k), (k, b)$ is an inversion in $\sigma$.
+                Both are inversions in $\sigma\tau$.
+                Parity didn't change.
+
+                \item[(c'')] $\sigma(a) > \sigma(k) > \sigma(b)$.
+                Both $(a, k), (k, b)$ are inversions in $\sigma$,
+                none is in $\sigma\tau$.
+                Parity didn't change.
+
+                So,
+                for every $k \neq a, b$ the parity of the number of inversions involving $k$ didn't change from $\sigma$ to $\sigma\tau$.
+            \end{enumerate}
+        \end{enumerate}
+
+        What is left?
+        The only pair $(a, b)$.
+        \[
+        \sigma:
+        \begin{pmatrix}
+            \dotsi & a & \dotsi & b & \dotsi \\
+            \dotsi & \sigma(a) & \dotsi & \sigma(b) & \dotsi
+        \end{pmatrix}\qquad 
+        \sigma\tau:
+        \begin{pmatrix}
+            a & b \\
+            \sigma(b) & \sigma(a)
+        \end{pmatrix}
+        \]
+        if $(a, b)$ is an inversion in $b$,
+        then not in $\sigma\tau$ and vice versa.
+        So the total number of inversions did change.
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    \[
+    \sigma = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\
+        2 & 3 & 1 & 4
+    \end{pmatrix}
+    \]
+    inversions:
+    $(1, 3), (2, 3)$,
+    \[
+    \tau = (3\ 4)
+    \]
+    \[
+    \sigma\tau = \begin{pmatrix}
+        1 & 2 & 3 & 4 \\
+        2 & 3 & 4 & 1
+    \end{pmatrix}
+    \]
+    inversions are $(1, 4), (2, 4), (3, 4)$.
+\end{example}
+
+\begin{corollary}
+    $\sigma \in S_n$,
+    write $\sigma$ as a product of transpositions.
+    Then $\sigma$ is even if the number of transpositions is even,
+    $\sigma$ is odd if the number of transpositions is odd.
+
+    In particular,
+    the parity of the number of transpositions in any expression of $\sigma$ is always the same.
+
+    \begin{proof}
+        $e$ is even.
+        Multiplication by a transposition changes its sign.
+        By the previous lemma.
+        So,
+        if $\sigma$ is the product of an even number of transpositions then we change sign an even number of times.
+        Otherwise,
+        $\sigma$ is odd.
+    \end{proof}
+\end{corollary}
+
+\begin{example}
+    \begin{itemize}
+        \item $\mathrm{sgn}((a\ b)) = -1$,
+
+        \item $\mathrm{sgn}(k\text{-cycle}) = (-1) ^ {k - 1}$
+        $(a_1\ a_2\ \dotsi\ a_k) = (a_1\ a_2)(a_2\ a_3)\dotsi(a_{k - 1}\ a_k)$.
+        So cycles of odd length are even,
+        even length are odd.
+    \end{itemize}
+\end{example}
+
+\subsection{Even permutation and the alternating group}
+
+$C_2$ -
+group with two elements
+($\cong \Z / 2$).
+$C_2 = \{\pm 1\}$,
+$1 = e$.
+$S_n \to C_2$,
+$\sigma \mapsto \mathrm{sgn}(\sigma)$.
+
+\begin{lemma}
+    The map $\mathrm{sgn} : S_n \to C_2$,
+    $\sigma \mapsto \mathrm{sgn}(\sigma)$ is a homomorphism of groups.
+
+    \begin{proof}
+        Need:
+        $\mathrm{sgn}(\sigma_1)\mathrm{sgn}(\sigma_2) = \mathrm{sgn}(\sigma_1\sigma_2)$ follows from a previous corollary.
+
+        (count the number of transpositions:
+        odd and odd is even,
+        odd and even is odd,
+        even and even is even).
+    \end{proof}
+\end{lemma}
+
+\begin{definition}
+    Alternating group $A_n$ consists of all even permutations in $S_n$.
+
+    In other words,
+    $A_n = \ker(\mathrm{sgn})$.
+\end{definition}
+
+\begin{lemma}\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item $|A_n| = \frac{n!}{2}$.
+
+        \item $A_n \vartriangle S_n$.
+
+        \item $A_n$ is generated by $3$-cycles.
+    \end{enumerate}
+
+    \begin{proof} \phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item $\mathrm{sgn} : S_n \to C_2$,
+            $\ker = A_n$,
+            $\Im = C_2$.
+            By FIT:
+            $S_n / A_n \cong C_2$.
+            By a previous lemma
+            \[
+            |C_2| = \frac{|S_n|}{|A_n|} \iff |A_n| = \frac{n!}{2}.
+            \]
+
+            \item $A_n = \ker(\mathrm{sgn} : S_n \to C_2)$.
+            By previous lemma,
+            every kernel of a homomorphism is a normal subgroup.
+            So $A_n \vartriangle S_n$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item $A_3 = \{e, (1\ 2\ 3), (3\ 2\ 1)\}$.
+
+        \item $A_4$,
+        $|A_4| = 12$.
+        List elements of $A_4$:
+        All $3$-cycles:
+        How many?
+        $24 / 3$ $3$-cycles.
+        so $8$ $3$-cycles.
+        \[
+        A_4 = \{e, \text{$8$ $3$-cycles}, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3)\}.
+        \]
+    \end{itemize}
+\end{example}
+
+\begin{example}
+    $S_n$,
+    number of $(k\text{-cycles})$.
+    $\frac{n \cdot (n - 1)(n - 2)\dotsi(n - k + 1)}{k} = \frac{n!}{(n - k)!k}$.
+    $n = 4, k = 3$:
+    $\frac{4 \cdot 3 \cdot 2}{3} = 8$.
+\end{example}
+
+\newpage
+
+\section{Linear groups}
+
+\begin{definition}
+    $R$-commutative ring,
+    $n \in \N$.
+    General linear group $\mathrm{GL}_n(R)$ is
+    \[
+    \mathrm{GL}_n(R) = \{A \in M_n(R) \mid \det(A) \in R ^ {\times}\}.
+    \]
+\end{definition}
+
+Special linear group $\mathrm{SL}_n(R)$ is
+\[
+\mathrm{SL}_n(R) = \{A \in M_n(R) \mid \det(A) = 1\}.
+\]
+
+Remark:
+$F$ -
+field.
+Then $F ^ {\times} = F \setminus \{0\}$ so,
+$\mathrm{GL}_n(F) = \{A \in M_n(F) \mid \det{A} \neq 0\}$.
+
+Exercise $\mathrm{GL}_n(R)$ is a group,
+$\det : \mathrm{GL}_n(R) \to R ^ {\times}$ is a homomorphism of groups.
+In particular,
+$\ker(\det) = \mathrm{SL}_n(R)$,
+$\mathrm{GL}_n(R) / \mathrm{SL}_n(R) = R ^ {\times}$.
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item $R = \R, \C$ -
+        lie groups.
+
+        \item $R = \Z$,
+        $\Z ^ {\times} = \{\pm 1\}$,
+        $[\mathrm{GL}_n(\Z) : \mathrm{SL}_n(\Z)] = 2$.
+
+        \item Finite field $F_q$,
+        $|F_q| = q$
+        $|\mathrm{GL}_2(F_q)| = $
+        $|\mathrm{SL}_2(F_q)| = $,
+        $A \in \mathrm{GL}_2(F_q)$,
+        $A = \begin{pmatrix}
+            a & b \\ c & d
+        \end{pmatrix}$,
+        $\det{A} \neq 0$,
+        rows $\bar{r}_1 = (a, b)$,
+        $\bar{r}_2 = (c, d)$
+        $\det{A} = 0 \iff \text{$\bar{r}_1$ and $\bar{r}_2$}$ are linearly independent,
+        so $\bar{r}_1 = \lambda\bar{r}_2$.
+        Possible choices for $\bar{r}_1$:
+        $q ^ 2 - 1$
+        (all except $(0, 0)$)
+        For $\vec{r}_2$:
+        $q ^ 2 - q$,
+        $q$ are multiples of $\bar{r}_1: \lambda\bar{r}_1$,
+        $\lambda \in F_q$.
+        So,
+        $|\mathrm{GL}_2(F_q)| = (q ^ 2 - 1)(q ^ 2 - q)$,
+        $|\mathrm{SL}_2(F_q)| = \frac{|\mathrm{GL}_2(F_q)|}{q - 1} = (q ^ 2 - 1)q$ as
+        \[
+        \mathrm{GL}_2(F_q) / \mathrm{SL}_2(F_q) \cong F_q ^ {\times}.
+        \]
+        Now,
+        can compute $|\mathrm{GL}_n(F_q)| = (q ^ n - 1)(q ^ n - q)(q ^ n - q ^ 2)(q ^ n - q ^ {n - 1})$.
+        \end{itemize}
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
