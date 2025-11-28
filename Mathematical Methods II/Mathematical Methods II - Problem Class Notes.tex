@@ -833,14 +833,158 @@
 
 \newpage
 
-\section{Problems Class \texorpdfstring{$6$}{}}
+\section{Problems Class \texorpdfstring{$7$}{}}
 
-\begin{problem}[$20$ Question $8$]\phantom{}
-    
+\begin{problem}[Eigenexpansions problem sheet $4$]\phantom{}
+    Consider the following family of real-valued functions $u_n(x)$ defined on $[0, \infty)$
+    \[
+    u_n(x) = \frac{e ^ x}{xn!}\frac{d ^ n}{dx ^ n}(x ^ {n + 1}e ^ {-x}),\qquad n \in \N \cup \{0\}.
+    \]
+    any two distinct functions in this family are mutually orthogonal with respect to the inner product $\langle\cdot, \cdot\rangle_{\omega}$ for the weight $\omega \equiv xe ^ {-x}$.
+    Check this statement for $u_1$ and $u_2$.
+    Then calculate the norm of $u_1$ and $u_2$.
+
+    \begin{solution}
+        \begin{align*}
+            u_1(x) &= x ^ {-1}e ^ x\frac{d}{dx}(x ^ 2e ^ {-x}) = 2 - x \\
+            u_2(x) &= x ^ {-1}e ^ x\frac{d ^ 2}{dx ^ 2}(x ^ 3e ^ {-x}) = 6 - 6x + x ^ 2
+        \end{align*}
+        \[
+        \frac{1}{2}\int_{0}^{\infty}(12 - 18x + 8x ^ 2 - x ^ 3)xe ^ {-x}\,dx = \frac{1}{2}(12 - 18 \cdot 2 + 8 \cdot 6 - 24) = 0.
+        \]
+        \begin{align*}
+            \|u_1\| &= \int_{0}^{\infty}u_1(x)u_1(x)\omega(x)\,dx \\
+            &= \int_{0}^{\infty}(2 - x) ^ 2xe ^ {-x}\,dx \\
+            &= \int_{0}^{\infty}(x ^ 3 - 4x ^ 2 + 4x)e ^ {-x}\,dx \\
+            &= 3! - 4\cdot2! + 4 = 2
+        \end{align*}
+        $\|u_2\| ^ 2 = \sqrt{3}$.
+    \end{solution}
 \end{problem}
 
+\begin{problem}[Eigenexpansions problem sheet $7$]\phantom{}
+    Some random thing that he skipped over the question statement for!!!
 
+    \begin{solution}
+        \[
+        \langle Lu, v\rangle = \langle u, L ^ {*}v\rangle
+        \]
+        $L = a_2y ^ 4 + a_2y ^ 2 + a_0y$.
+        \[
+        \langle u, Lv\rangle = \langle L ^ {*}u, v\rangle
+        \]
+        \[
+        \int_{a}^{b}(ua_2)v''\,dx = \left[ua_2v' - (a_2u)'v\right]_{a}^{b} + \int_{a}^{b}v(a_2u)''\,dx
+        \]
+        \[
+        \int_{a}^{b}(ua_1)v'\,dx = \left[ua_1v\right]_{a}^{b} - \int_{a}^{b}v(a_1u)'\,dx
+        \]
+        \begin{align*}
+            \int_{a}^{b}ua_0v\,dx &= \int_{a}^{b}va_0u\,dx \\
+            \implies \langle u, Lv\rangle &= \left[a_2uv' - (a_2u)'v + a_1uv\right]_{a}^{b} \\
+            &+ \int_{a}^{b}v\underbrace{((a_2u)'' - (a_1u)' + a_0u)}_{L ^ {*}u}\,dx
+        \end{align*}
+        the formal adjoint
+        \[
+        L ^ {*}u = (a_2u)'' - (a_1u)' + a_0u.
+        \]
 
+        Now,
+        what makes this self-adjoint?
+        (it conditional on $a_0, a_1, a_2$)
+        \begin{align*}
+            (a_2u)'' &= a_2u'' + 2a_2'u' + a_2''u \\
+            -(a_1u)' &= -a_1u' - a_1'u
+        \end{align*}
+        matching coefficients with
+        \[
+        Lu = a_2u'' + a_1u' + a_0u
+        \]
+        $a_2 = a_2$
+        \[
+        2a_2' - a_1 = a_1
+        \]
+        \[
+        a_2' = a_1
+        \]
+        $a_0 = a_0$ no conditions.
+        So if the operator is self adjoint it can be written as follows
+        \[
+        Lu = (a_2u')' + a_0u.
+        \]
+
+        Now we need to find out what choices of $\alpha_1, \alpha_2, \beta_1, \beta_2$.
+        For
+        \begin{align*}
+            \alpha_1 u(a) + \alpha_2 u'(a) &= 0 \\
+            \beta_1 u(b) + \beta_2 u'(b) &= 0
+        \end{align*}
+        boundary term was
+        \[
+        \left[a_2(uv' - u'v) + (a_1 - a_2')uv\right]_{a}^{b}
+        \]
+        Need $a_1 = a_2'$ for operator to be self adjoint.
+        So
+        \[
+        \left[a_2(x)(uv' - u'v)\right]_{a}^{b} = 0.
+        \]
+        At $x = a$ we have
+        \begin{align}
+            \alpha_1u(a) + \alpha_2u'(a) &= 0 \\
+            \alpha_1v(a) + \alpha_2v'(a) &= 0
+        \end{align}
+        Multiply
+        \[
+        (1)v(a) - (2)v(a) = a_2(u'(a)v(a) - u(a)v'(a)) = 0 \implies u(a)v'(a) - u'(a)v(a) = 0
+        \]
+        so $u(a) + v(a) = 0$.
+        At $x = b$
+        $u(b)v'(b) - u'(b)v(b) = 0$.
+        As long as $a_1 = a_2'$ we can have any $\alpha_1, \alpha_2, \beta_1, \beta_2$.
+        So if $a_1 = a_2'$ the problem is fully self adjoint.
+    \end{solution}
+\end{problem}
+
+\begin{problem}[Eigenexpansions problem sheet $10$]\phantom{}
+    Use the method of eigenfunction expansion to solve the inhomogeneous problem on $[0, 1]$ given by:
+    \[
+    y'' = x ^ 2,\qquad 0 < x < 1,
+    \]
+    with boundary conditions
+    \[
+    y(0) = y(1) = 0.
+    \]
+
+    \begin{solution}
+        Step $1$ solve the eigenproblem
+        \[
+        u'' + \lambda u = 0\qquad u'' = -\lambda u\qquad (u_n)
+        \]
+        then $y = \sum_{n = 0}^{\infty}C_nu_n(x)$.
+        Solution is
+        \[
+        \lambda_n = n ^ 2\pi ^ 2
+        \]
+        $u_n(x) = \sin(n\pi x)$,
+        $n = 1, 2, \dotsc$.
+        Then
+        \[
+        y(x) = \sum_{n = 1}^{\infty}C_n\sin(n\pi x)\qquad x ^ 2 = \sum_{n = 1}^{\infty}b_n\sin(n\pi x).
+        \]
+        Fourier
+        \[
+        b_n = 2\int_{0}^{1}x ^ 2\sin(n\pi x)\,dx = \frac{2(-1) ^ n(2 - n ^ 2\pi ^ 2) - 4}{n ^ 3\pi ^ 3}
+        \]
+        sub $y(x)$ and $x ^ 2$ expressions into $y'' = x ^ 2$
+        \[
+        \sum_{n = 1}^{\infty}c_n(-n ^ 2\pi ^ 2)\sin(n\pi x) = \sum_{n = 1}^{\infty}b_n\sin(n\pi x)
+        \]
+        equate coefficients
+        \[
+        C_n = -\frac{b_n}{n ^ 2\pi ^ 2}.
+        \]
+    \end{solution}
+\end{problem}
 
 
 \end{document}
