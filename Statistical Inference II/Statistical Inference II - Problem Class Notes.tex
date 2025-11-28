@@ -407,9 +407,219 @@
     \end{solution}
 \end{problem}
 
+\newpage
 
+\section{Problems Class \texorpdfstring{$3$}{}}
 
+\begin{problem}[$2023$ exam question $6$]
+    A genetic study to estimate the frequency of a gene in human DNA is undertaken,
+    where the gene can take only one of two forms
+    (alleles):
+    $A$ or $B$.
+    DNA sequences for this location are provided for $n$ individuals.
+    We denote the observed number of $A$ alleles in these observed sequences by $X$,
+    with an underlying unknown allele frequency of $\theta \in [0, 1]$.
 
+    A model for this problem is proposed based on a binomial distribution for $X$,
+    where $X \mid \theta \sim \Bin(n, \theta)$.
+    Additionally,
+    we assume a Beta prior distribution $\theta \sim \Beta(\alpha, \beta)$ where $\alpha > 0$ and $\beta > 0$ are known constants.
+
+    \begin{enumerate}[label = 6.\arabic*]
+        \item Due to the expense of the DNA sequencing,
+        only a small sample of $n = 3$ sequences could be performed.
+        The $A$ allele was observed in all three samples.
+        
+        Using the Beta prior with parameters $\alpha = 2$ and $\beta = 1$,
+        find exact $95\%$ prior and posterior equal-tailed credible intervals for $\theta$.
+        Compare the two intervals and comment on how the distribution for $\theta$ has changed after learning from the data.
+
+        \item Derive the Jeffreys prior for this problem,
+        and find the corresponding posterior distribution for $\theta$.
+        Without further calculation,
+        comment on how the $95\%$ equal-tailed credible intervals constructed using this prior would compare to those found in $6.1$.
+
+        \item For some genetic markers,
+        the assumption of a Beta prior may be too restrictive and a prior density with two peaks might be more appropriate.
+        For example,
+        we could generate such a distribution combining two Beta distributions together as follows
+        \[
+        f(\theta) = 2f_{Be}(\theta \mid \alpha_1, \beta_1) + (1 - w)f_{Be}(\theta \mid \alpha_2, \beta_2)
+        \]
+        where $f_{Be}(\theta \mid \alpha, \beta)$ denotes the pdf of a Beta distribution with parameters $\alpha, \beta$,
+        and $w \in (0, 1)$ is a known constant weight parameter.
+        Using this prior,
+        derive the posterior distribution of $\theta$.
+        Express the posterior distribution in terms of a similar combination of standard distributions,
+        clearly identify their parameters,
+        and the corresponding posterior weight parameters.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = 6.\arabic*]
+            \item
+            $X \mid \theta \sim \Beta(n, \theta)$,
+            $\theta \sim \Beta(2, 1)$.
+            Sample $n = 3$,
+            $x = 3$.
+
+            Posterior:
+            conjugacy gives $\theta \mid x \sim \Beta(\alpha + x, \beta + \alpha - x)$,
+            $\Beta(5, 1)$.
+            To find a credible interval,
+            we need $f(\theta \mid x)$,
+            and $F(\theta \mid x)$.
+            \[
+            f(\theta \mid x) = \frac{1}{B(\alpha, \beta)}\theta ^ {\alpha - 1}(1 - \theta) ^ {\beta - 1} = \frac{1}{B(5, 1)}\theta ^ {5 - 1}(1 - \theta) ^ {1 - 1} = \frac{\Gamma(5 + 1)}{\Gamma(5)\Gamma(1)}\theta ^ 4 = 5\theta ^ 4
+            \]
+            for $\theta \in [0, 1]$.
+
+            We need the CDF:
+            $F_{\theta \mid x}(k) = \int_{0}^{k}5\theta ^ 4\,d\theta = \left[\theta ^ 5\right]_{0}^{k} = k ^ 5$.
+            The exact $95\%$ equal tailed credible interval is $[\ell, u]$ and $\P(\theta < \ell \mid x) = 0.025$,
+            $\P(\theta > u \mid x) = 0.025$.
+            So $F_{\theta \mid x}(\ell) = \ell ^ 5 = 0.025$ and $F_{\theta \mid X}(u) = u ^ 5 = 0.975$,
+            $\ell = 0.4782$ and $u = 0.9949$.
+            Therefore the interval is
+            \[
+            [0.4782, 0.9949].
+            \]
+            For the prior:
+            \[
+            f(\theta) = 2\theta, F_{\theta}(k) = k ^ 2\text{ and } \ell ^ 2 = 0.025, u ^ 2 = 0.975
+            \]
+            credible interval is $[0.1581, 0.9874]$.
+
+            \item
+            Find Jeffery's prior and posterior
+            \[
+            f(\theta) \propto \sqrt{\mathbb{I}_n(\theta)}
+            \]
+            $\mathbb{I}_n(\theta) = -\E_{X}(\mathcal{L}''(\theta))$
+            \begin{align*}
+                \ell(\theta) &= f(x\mid \theta) = \binom{n}{x}\theta ^ x(1 - x) ^ {n - x} \\
+                \mathcal{L}(\theta) &= \log\binom{n}{x} + x\log(\theta) + (n - x)\log(1 - \theta) \\
+                \mathcal{L}'(\theta) &= \frac{x}{\theta} - \frac{n - x}{1 - \theta} \\
+                \mathcal{L}''(\theta) &= -\frac{x}{\theta ^ 2} - \frac{n - x}{(1 - \theta) ^ 2}
+            \end{align*}
+            so
+            \begin{align*}
+                \mathbb{I}_n(\theta) &= \E_{X}\left(\frac{X}{\theta ^ 2} + \frac{n - X}{(1 - \theta) ^ 2}\right) \\
+                &= \frac{\E(X)}{\theta ^ 2} + \frac{n - \E(X)}{(1 - \theta) ^ 2} \\
+                \intertext{$X \sim \Bin(n, \theta)$,
+                $\E(X) = n\theta)$.}
+                &= \frac{n\theta}{\theta ^ 2}  + \frac{n - n\theta}{(1 - \theta) ^ 2} \\
+                &= \frac{n}{\theta} + \frac{n}{1 - \theta} \\
+                &= \frac{n}{\theta(1 - \theta)}
+            \end{align*}
+            Jeffrey's prior is:
+            \[
+            f(\theta) \propto \sqrt{\frac{n}{\theta(1 - \theta)}} \propto \theta ^ {-1 / 2}(1 - \theta) ^ {-1 / 2}.
+            \]
+            So posterior would be
+            \[
+            \Beta(-1 / 2 + 2, - 1 / 2 + 1) = \Beta(3 / 2, 1 / 2).
+            \]
+            Comment/comparison:
+            in $6.1$ prior was $\Beta(2, 1)$.
+
+            \item 
+            Mixture distribution:
+            \[
+            f(\theta) = wf_{Be}(\theta, \alpha_1, \beta_1) + (1 - w)f_{Be}(\theta \mid \alpha_2, \beta_2)\qquad w \in [0, 1].
+            \]
+            \begin{align*}
+                f(\theta \mid x) &\propto f(x \mid \theta)f(\theta) \\
+                &\propto \theta ^ x(1 - \theta) ^ {n - x}\left\{\frac{w}{B(\alpha_1, \beta_1)}\theta ^ {\alpha_1 - 1}(1 - \theta) ^ {\beta_1 - 1} + \frac{1 - w}{B(\alpha_2, \beta_2)}\theta ^ {\alpha_2 - 1}(1 - \theta) ^ {\beta_2 - 1}\right\} \\
+                &\propto \frac{w}{B(\alpha_1, \beta_1)}\theta ^ {\alpha_1 + x - 1}(1 - \theta) ^ {\beta_1 + n - x - 1} + \frac{1 - w}{B(\alpha_2, \beta_2)}\theta ^ {\alpha_2 + x - 1}(1 - \theta) ^ {\beta_2 + n - x - 1}.
+                \intertext{Let $\alpha_1 ^ {*} = \alpha_1 + x, \alpha_2 ^ {*} = \alpha_2 + x, \beta_1 ^ {*} = \beta_1 + x, \beta_2 ^ {*} = \beta_2 + x$}
+                &\propto \frac{w}{B(\alpha_1, \beta_1)}\theta ^ {\alpha_1 ^ {*} - 1}(1 - \theta) ^ {\beta_1 ^ {*} - 1} + \frac{1 - w}{B(\alpha_2, \beta_2)}\theta ^ {\alpha_2 ^ {*} - 1}(1 - \theta) ^ {\beta_2 ^ {*} - 1}.
+                \intertext{Cores of two beta distributions}
+                &\propto \frac{wB(\alpha_1 ^ {*}, \beta_1 ^ {*})}{B(\alpha_1, \beta_1} \times \frac{1}{B(\alpha_1 ^ {*}, \beta_1 ^ {*})} \theta ^ {\alpha_1 ^ {*} - 1}(1 - \theta) ^ {\beta_1 ^ {*} - 1} + \frac{(1 - w)B(\alpha_2 ^ {*}, \beta_2 ^ {*})}{B(\alpha_2, \beta_2)}\frac{\theta ^ {\alpha_2 ^ {*} - 1}(1 - \theta) ^ {\beta_2 ^ {*} - 1}}{B(\alpha_2 ^ {*}, \beta_2 ^ {*})} \\
+                &\propto \delta_1{Be}(\theta \mid \alpha_1 ^ {*}, \beta_1 ^ {*}) + \delta_2f_{Be}(\theta \mid \alpha_2 ^ {*}, \beta_2 ^ {*}).
+            \end{align*}
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}[$2023$ exam question $7$]
+    An engineer is interested in ensuring the successful operation of the production lines in a manufacturing plant.
+    Measuring the time between repairs of a given production line as $X$,
+    a model of an exponential distribution is agreed,
+    with pdf given by
+    \[
+    f(x \mid \lambda) = \lambda e ^ {-\lambda x}.
+    \]
+    where $x > 0$ and $\lambda > 0$ is the rate parameter,
+    so that $\E(X) = 1 / \lambda$.
+    Generally,
+    the expected time between repairs is approximately three months.
+    
+    \begin{enumerate}[label = 7.\arabic*]
+        \item
+        The engineer suspects problems with this production line and records an IID.
+        sample of $n$ inter-repair times $\vec{x} = (x_1, \dotsc, x_n) ^ T$,
+        intending to test the null hypothesis that the expected time between repairs is indeed three months
+        ($1 / 4$ of a year)
+        versus an alternative hypothesis under which the expected time between repairs is two months
+        ($1 / 6$ of a year).
+        Express this hypothesis test mathematically in terms of the parameter $\lambda$.
+        Derive the most powerful test the engineer can use and show that this is equivalent to a rejection rule of the form $\bar{x} < k$,
+        for an appropriate constant $k$.
+
+        \item
+        Subsequently,
+        the engineer wishes to test the simple null hypothesis in $7.1$ versus a composite alternative hypothesis which generally states that the expected repair time is less than three months.
+        Express,
+        again,
+        this test mathematically,
+        in terms of $\lambda$,
+        and derive the uniformly most powerful test
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = 7.\arabic*]
+            \item
+            Time between repairs $= X$,
+            $X \sim \Exp(\lambda)$,
+            $f(x \mid \lambda) = \lambda e ^ {-\lambda x}$,
+            $\E(X) = \frac{1}{\lambda}$.
+            Observe $\vec{x} = (x_1, \dotsc, x_n) ^ T$.
+            \begin{align*}
+                H_0 &: \E(X) = \frac{1}{4} \iff \lambda = 4 \\
+                H_1 &: \E(X) = \frac{1}{6} \iff \lambda = 6
+            \end{align*}
+            "Most powerful"
+            so use Neyman-Pearson lemma to justify likelihood ratio test:
+            \begin{align*}
+                \lambda(x) &= \frac{f(\vec{x}; \lambda = 6)}{f(\vec{x}; \lambda = 4)} \\
+                &= \frac{\ell(6)}{\ell(4)} \\
+                &= \frac{\prod_{i = 1}^{n}6e ^ {-6x_i}}{\prod_{i = 1}^{n}4e ^ {-4x_i}} \\
+                &= \left(\frac{6}{4}\right) ^ {n}\frac{e ^ {-6\sum x_i}}{e ^ {-4\sum x_i}} \\
+                &= \left(\frac{3}{2}\right) ^ ne ^ {-2n\bar{x}}
+            \end{align*}
+            Reject $H_0$ if 
+            \begin{align*}
+                \lambda(\vec{x}) > c ^ {*} \iff \left(\frac{3}{2}\right) ^ ne ^ {-2n\bar{x}} &> c ^ {*} \\
+                e ^ {-2n\bar{x}} &> \left(\frac{2}{3}\right) ^ nc ^ {*} \\
+                -2n\bar{x} &> \log\left(\left(\frac{2}{3}\right) ^ n\right) + \log{c ^ {*}} \\
+                \bar{x} &< \frac{-n\log\left(\frac{2}{3}\right) - \log{c ^ {*}}}{2n} = k.
+            \end{align*}
+
+            \item
+            Now $H_1 : \E(X) < \frac{1}{4} \iff \lambda > 4$.
+            Need a uniformly most powerful test.
+            \[
+            \lambda(\vec{x}) = \frac{f(\vec{x} \mid \lambda = \lambda_1)}{f(\vec{x} \mid \lambda = 4)} = \frac{\prod_{i = 1}^{n}\lambda_1e ^ {-\lambda_1x_i}}{\prod_{i = 1}^{n}4e ^ {-4x_i}} = \left(\frac{\lambda_1}{4}\right) ^ ne ^ {-(\lambda_1 - 4)n\bar{x}}.
+            \]
+            $\vec{x}$ and $\bar{X}$ are $> 0$,
+            thus $\lambda(x)$ is monotone decreasing as $\bar{x}$ increases and this is therefore a monotone likelihood ratio.
+            Then the test is simply to reject $H_0$ for $\bar{X} < k ^ {*}$ for some $k ^ {*} > 0$.
+            Therefore this is uniformly most powerful.
+        \end{enumerate}
+    \end{solution}
+
+\end{problem}
 
 
 
