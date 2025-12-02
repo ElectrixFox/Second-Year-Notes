@@ -2776,9 +2776,9 @@ if it represents an external change
 (or loss)
 in the system.
 
-If $h(x, t) = 0$ the problem is homogenous if not it is inhomogenous.
+If $h(x, t) = 0$ the problem is homogenous if not it is inhomogeneous.
 
-Inhomogenous - homogenous decomposition if $u_h$ solves $\pd[u]{t} = Lu$ and $u_{ih}$ solves $\pd[u]{t} = Lu + h(x, t)$,
+Inhomogeneous - homogenous decomposition if $u_h$ solves $\pd[u]{t} = Lu$ and $u_{ih}$ solves $\pd[u]{t} = Lu + h(x, t)$,
 $u_h + u_{ih}$ solves $\pd[u]{t} = Lu + h(x, t)$
 (from linearity of $L$).
 
@@ -2808,6 +2808,137 @@ Substitute into our model
 \[
 \sum_{n = 0}^{\infty}\frac{dC_n}{dt}y_n = \sum_{n = 0}^{\infty}C_n(t)Ly_n(x) + \sum_{n = 0}^{\infty}h_n(t)y_n(x).
 \]
+
+In our PDE solution we assumed we could decompose the forcing function $h(x, t)$,
+\[
+\sum_{n = 0}^{\infty}h_n(t)y_n(x) = h_n(t)
+\]
+where $y_n$ solved $Ly_n = -\lambda y_n$,
+$Ly_n = -\lambda \Gamma(x)y_n$.
+\[
+\sum_{n = 0}^{\infty}h_n(t)\frac{Ly_n(x)}{\lambda_n} = h(x, t)
+\]
+Linearity
+\[
+L\sum_{n = 0}^{\infty}h_n(t)\frac{y_n}{\Gamma(x)\lambda_n} = h(x, t)
+\]
+if we fix a time $t = t_0$ we have an inhomogeneous problem
+\[
+u = \sum_{n = 0}^{\infty}h_n(t_0)\frac{y_n(x)}{\lambda_n}\cdot f(x) = h(x, t_0)
+\]
+we have an equation in the form $Lu = f$.
+So seeking to solve $Lu = f$ is equivalent to asking if we can represent some function $h(x, t)$ in terms of the eigenfunctions of an operator $L$.
+Crucial assumption in PDE solution.
+There is a potential issue with the $\frac{1}{\lambda_n}$ factor.
+If $\lambda_0 = 0$ then this does not work.
+
+To solve
+\[
+Lu = f\qquad BC_1(a) = BC_2(b) = 0
+\]
+we take the following steps.
+Solve the eigenvalue problem 
+\[
+Ly_n = \lambda_ny_n,\qquad BC_1(a, b) = BC_2(a, b) = 0
+\]
+to obtain the set of pairs $(\lambda_n, y_n)$.
+
+Solve the adjoint eigenvalue problem
+\[
+L ^ {*}w_n = \lambda_nw_n,\qquad BC_1 ^ {*}(a, b) = BC_2 ^ {*}(a, b) = 0
+\]
+to get $(\lambda_n, w_n ^ {*})$.
+
+Assume the eigenexpansion solution
+\[
+y = \sum_{i = 0}^{\infty}c_iy_i(x)
+\]
+start from $Ly = f$,
+apply the inner product
+\[
+\langle Ly, w_k\rangle = \langle f, w_k\rangle
+\]
+apply inner product
+\[
+\langle y, L ^ {*}w_k\rangle = \langle f, w_k\rangle
+\]
+adjoint identity,
+then
+\[
+\langle y, \Gamma(x)\lambda_kw_k\rangle = \langle f, w_k\rangle
+\]
+$L_{w_k}^{*} = \Gamma(x)\lambda_kw_k$,
+sub in the eigenexpansion to get
+\[
+\lambda_k\left\langle\sum_{i = }^{\infty}c_iy_i, \Gamma(x)\lambda_kw_k\right\rangle = \langle f, w_k\rangle.
+\]
+Orthogonality means that $\lambda_kc_k\langle y_k, \Gamma(x)\lambda_kw_k\rangle = \langle f, w_k\rangle$.
+$c_k = \frac{\langle f, w_k\rangle}{\lambda_k\langle y_k, \Gamma(x)\lambda_kw_k\rangle}$.
+
+If the problem is fully self adjoint we get
+\[
+c_k = \frac{\langle f, y_k\rangle}{\lambda_k \langle y_k, \Gamma(x)y_k\rangle}
+\]
+e.g.
+\[
+\frac{d ^ 2y_n}{dx ^ 2} = -\lambda_ny_n\qquad \frac{dy_n}{dx}\biggr|_{x = a} = 0,\qquad \frac{dy_n}{dx}\biggr|_{x = b} = 0
+\]
+$L = \frac{d ^ 2}{dx ^ 2}$ know $y_n = \cos\left(\frac{n\pi(x - a)}{b - a}\right)$.
+So
+\[
+\langle f, y_k \rangle = \int_{a}^{b}\cos\left(\frac{n\pi(x - a)}{b - a}\right)f(x)\,dx
+\]
+\[
+\langle y_k, y_k\rangle = \int_{a}^{b}\cos ^ 2\left(\frac{kn(x - a)}{b - a}\right)\,dx = \frac{b - a}{2}.
+\]
+
+\subsubsection{Inhomogeneous boundary conditions}
+What about
+\[
+Lu = f(x)\qquad B_iu = \delta_i,\quad i = 1, \dotsc, n
+\]
+$\delta_i$ are real constants.
+
+We can exploit linearity to make the method almost identical.
+Solve
+\[
+Lu_1 = f(x)\qquad B_iu = 0
+\]
+homogeneous boundary conditions.
+Solve
+\[
+Lu_2 = 0\qquad B_iu = \delta_i.
+\]
+Linearity says $u_1 + u_2$ is a solution and it will match the required boundary conditions.
+
+\begin{example}
+    $y'' = f(x)$,
+    $y(0) = \alpha$,
+    $y(1) = \beta$,
+    $0 < x < 1$.
+
+    Solve $y_1$,
+    \[
+    Ly_1 = f(x)\qquad y_1(0) = 0, y_1(1) = 0.
+    \]
+    This has solution:
+    \[
+    c_k = \frac{\langle f, w_k\rangle}{\lambda_k\langle y_k, r(x)w_k\rangle} = 2\int_{0}^{1}\frac{f(x)\sin(k\pi x)}{k ^ 2\pi ^ 2}\,dx.
+    \]
+    \[
+    Ly_2 = 0\qquad y_2(0) = \alpha,\quad y_2(1) = \beta
+    \]
+    \[
+    \frac{d ^ 2y_2}{dk ^ 2} = 0\qquad y_2 = ax + b
+    \]
+    boundary conditions
+    $y_2 = (\beta - \alpha)x + \alpha$.
+    Full solution is
+    \[
+    y = y_1 + y_2.
+    \]
+\end{example}
+
 
 
 \end{document}
