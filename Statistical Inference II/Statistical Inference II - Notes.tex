@@ -4164,15 +4164,323 @@ the influence of the prior.
     but conjugate so $\lambda \mid \vec{x} \sim \mathrm{Ga}(1 / 2 + n\bar{x}, n)$.
 \end{example}
 
+\newpage
 
+\section{Bayesian Estimation}
 
+Estimation is finding the single best value $\hat{\theta}$ that we treat as true $\theta$.
+In a Bayesian setting,
+this is a decision problem:
+we decide to pick the value $\hat{\theta} = \hat{\theta}(x)$ as the estimate of $\theta$.
 
+The value we choose depends on the consequences of making a bad choice.
 
+\begin{definition}
+    A loss function,
+    $L(\theta, d)$,
+    quantifies the cost of making a decision,
+    $d$,
+    when the parameter value is $\theta$.
+    (Alternatively,
+    quantify benefits as utility,
+    $U(\theta, d)$).
+\end{definition}
 
+\begin{example}
+    \begin{itemize}
+        \item  An expensive item has a true value $\theta$ and is sold for $d$.
+        $L(\theta, d)$ will be different for the seller:
+        $L_S(\theta, d) = s(d - \theta)$,
+        the buyer $L_B(\theta, d) = b(\theta - d)$.
 
+        \item Criminal trial:
+        $\theta \in \{\text{Innocent}, \text{Criminal}\}$,
+        $d \in \{\text{Guilty}, \text{Not Guilty}\}$.
+        \[
+        \begin{array}{c|cc}
+             L(\theta, d) & \text{Guilty} & \text{Not Guilty} \\
+             \hline
+             \text{Innocent} & A & 0 \\
+             \text{Criminal} & 0\ (-C?) & B
+        \end{array}
+        \]
+        $A, B, C$ will depend on the crime and possible sentence.
+    \end{itemize}
+\end{example}
 
+\subsection{Statistical Decision Problems}
+In a statistical decision problem:
+we must make a decision,
+$d \in \mathcal{D}$,
+$\mathcal{D}$ is the decision space,
+when the unknown parameter is $\theta \in \Omega$,
+could be described by a prior $f(\theta)$ or posterior $f(\theta \mid x)$.
+The consequences of making decision $d$ when the parameter is $\theta$ are quantified by the loss function $L(\theta, d)$.
 
+\begin{example}
+    Patient goes to hospital.
+    $\theta \in \{\text{disease}, \text{no disease}\}$,
+    $d = \{\text{treat}, \text{don't treat}\}$
+    \[
+    \begin{array}{c|cc}
+         L(\theta, d) & \text{Don't Treat} & \text{Treat}  \\
+         \hline
+         \text{Disease} & A & C - B \\
+         \text{Don't} & 0 & C 
+    \end{array}
+    \]
+    $C$ is cost of treatment,
+    $A$ is the cost of failing to treat,
+    $B$ is the benefit of treating disease,
+    $A, B, C > 0$.
+\end{example}
 
+Loss functions are like priors:
+they add extra info,
+must be chosen/specified,
+depend on the problem/individual,
+and will affect results.
 
+What is the best decision?
+If we know $\theta$,
+easy:
+$\theta$ having the disease means we treat since $C - B  < A$.
+If $\theta$ doesn't have disease then don't treat as $0 < C$.
+
+So:
+we minimise our loss.
+But $\theta$ is unknown.
+Take expectations.
+
+\begin{definition}
+    The risk of decision $d \in \mathcal{D}$ is the expected loss
+    \[
+    r(d) = \E_{\theta}(L(\theta, d))
+    \]
+    and we choose decision $d$ to minimise risk.
+\end{definition}
+
+Example:
+Suppose $\P(\text{disease}) = p$.
+\begin{align*}
+    r(\text{Treat}) &= \E(L(\theta, \text{Treat})) = p(C - B) + (1 - p)C = C - Bp \\
+    r(\text{Don't}) &= \E(L(\theta, \text{Don't})) = pA.
+\end{align*}
+
+\begin{definition}
+    The decision $d ^ {*} \in \mathcal{D}$ which minimises the risk is the Bayes rule/decision/estimate,
+    which has associated Bayes risk
+    \[
+    r ^ {*} = \min_{d \in \mathcal{D}}r(d) = r(d ^ {*}).
+    \]
+\end{definition}
+
+\begin{example}
+    So if $C - Bp < pA$ then treatment is optimal decision,
+    $d ^ {*}$.
+    Thus we treat when:
+    $p > \frac{C}{B + a}$.
+
+    $(B + A)$ large means serious consequences so treat even for small $p$.
+    $C > (B + A)$ means it is too costly and never treat.
+    $C$ large means need large consequences and high $p$ to justify expensive treatment.
+\end{example}
+
+What if we have data $\vec{X}$?
+$\vec{X}$ informs us about $\theta$ via the posterior $f(\theta \mid x)$,
+and so seeing data affects our choice of decision.
+
+Example:
+Test the patient for disease,
+and get results $x = \text{positive}$.
+Now beliefs/probabilities for $\theta$ change to $\P(\theta \mid x = \text{true})$.
+Our decision also depends on $x$ as $d(x)$,
+e.g.
+$d(t) = \text{Treat}$
+(or test again etc.)
+
+\begin{definition}
+    A decision rule/function,
+    $d(x)$,
+    is a function from $\mathcal{X}$ to $\mathcal{D}$,
+    $d : \mathcal{X} \to \mathcal{D}$.
+\end{definition}
+
+How to deal with the dependency on $\vec{x}$?
+
+\begin{proposition}
+    Suppose a Bayes rule $d ^ {*}$ exists for a particular decision problem.
+    Then,
+    for data $x$,
+    $d ^ {*}$ minimises the posterior risk:
+    \[
+    \rho ^ {(d \mid x)} = \E_{\theta \mid x}(L(\theta, d(x))) = \int L(\theta, d(x))f(\theta \mid x)\,d\theta.
+    \]
+
+    \begin{proof}
+        Start with the overall risk:
+        \begin{align*}
+            r(d) &= \E_{\theta}(L(\theta, d(X))) \\
+            &= \int_{x}\int_{\theta}L(\theta, d(x))f(\theta, x)\,d\theta\,dx \\
+            &= \int_{x}\int_{\theta}L(\theta, d(x))f(\theta \mid x)f(x)\,d\theta\,dx \\
+            &= \int_{x}\left[\int_{\theta}L(\theta, d(x))f(\theta \mid x)\,d\theta\right]f(x)\,dx \\
+            &= \int_{x}\rho ^ {(d\mid x)}f(x)\,dx.
+        \end{align*}
+        To minimise $r(d)$,
+        we must choose,
+        for given $x$,
+        the decision $d ^ {*}$ that minimises $\rho ^ {(d\mid x)}$
+        \[
+        d ^ {*} = \argmin_{d \in \mathcal{D}}r(d) = \argmin_{d}\int_{x}\rho ^ {(d\mid x)}f(x)\,dx
+        \]
+    \end{proof}
+\end{proposition}
+Key point:
+Given data,
+$x$,
+our optimal decision $d ^ {*}$ will minimise posterior risk $\rho ^ {(d \mid x)}$.
+
+\subsection{Bayesian Point Estimates}
+Point estimation is a special case of decision making where we decide what value of $\theta$ to treat as true,
+the loss function arises as a penalty for making the wrong choice,
+and the decision rule is the estimator.
+
+Estimation as a decision problem:
+Observe $X$ from $f(x \mid \theta)$,
+decide what value $\hat{\theta}(x)$ to treat as true $\theta$:
+$d(x) = \hat{\theta}(x) \in \Omega = \mathcal{D}$,
+and we have the loss $L(\theta, d)$ which measures the cost of misspecification.
+
+Optimal decision/estimate $d ^ {*}$ minimises the posterior risk.
+
+\begin{proposition}
+    \begin{enumerate}[label = (\roman*)]
+        \item Under quadratic or squared-error loss:
+        $L(\theta, d) = (\theta - d) ^ 2$ the optimal estimate is $d ^ {*} = \E(\theta \mid X)$,
+        the posterior mean,
+        and $\rho ^ {(d ^ {*})} = \Var(\theta \mid X)$.
+
+        \item Under absolute error loss,
+        $L(\theta, d) = |\theta - d|$,
+        the optimal estimate is the posterior median.
+
+        \item Under zero-one loss:
+        discrete $\theta$:
+        $L(\theta, d) = \begin{cases}
+            1 & d \neq \theta \\
+            0 & d = 0
+        \end{cases} = 1 - \mathbb{1}(d = \theta)$
+        $\mathbb{1}(d = \theta) = \begin{cases}
+            1 & \text{if argument true} \\
+            0 & \text{otherwise}.
+        \end{cases}$.
+        Continuous:
+        \[
+        L(\theta, d) = 1 - \delta(\theta - d)
+        \]
+        ($\delta$ is the Dirac delta,
+        where $\delta(x) = \begin{cases}
+            \infty, & x = 0 \\
+            0, &\text{else}.
+        \end{cases}$,
+        $\int_{-\infty}^{\infty}\delta(x)\,dx = 1$).
+        The optimal estimate is the posterior mode,
+        also known as the MAP
+        (maximum a posteriori)
+        estimate.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \begin{align*}
+                L(\theta, d) &= (\theta - d) ^ 2 \\
+                \rho ^ {(d \mid x)} &= \E_{\theta \mid X}((\theta - d) ^ 2) \\
+                &= \E_{\theta \mid X}(\theta ^ 2 - 2\theta d(X) + d(X) ^ 2) \\
+                &= \E_{\theta \mid X}(\theta ^ 2) - 2\E_{\theta \mid X}(\theta)d(X) + d(X) ^ 2
+                \intertext{Minimise with respect to $d$}
+                \frac{d\rho}{d d} &= 0 - 2\E_{\theta \mid X}(\theta) + 2d(X) \\
+                \intertext{At $d = d ^ {*}$}
+                0 &= -2\E(\theta \mid X) + 2d(X) \implies d ^ {*} = \E(\theta \mid X)
+            \end{align*}
+            which is Bayes rule/estimator.
+
+            \item \phantom{}
+
+            \item Minimise
+            \begin{align*}
+                \rho ^ {(d \mid x)} &= \E_{\theta \mid X}(1 - \delta(\theta - d)) \\
+                &= 1 - \int_{-\infty}^{\infty}\delta(\theta - d)f(\theta \mid x)\,d\theta \\
+                &= 1 - \int_{d}^{d}\delta(0)f(\theta \mid x)\,d\theta \\
+                &= 1 - f(d\mid x).
+            \end{align*}
+            Therefore to minimise this,
+            maximise $f(d\mid x)$ implies $d ^ {*} = \theta$ with highest density,
+            mode of $f(\theta \mid x)$.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+Question:
+What happens if we had $f(\theta) \propto 1$
+(flat prior)
+and used zero-one loss?
+\begin{align*}
+    d ^ {*} &= \argmax_{\theta}f(\theta \mid x) = \argmax_{\theta}f(x \mid \theta)f(\theta) \\
+    &= \argmax_{\theta}f(x \mid \theta) \\
+    &= \hat{\theta}_{\text{MLE}}.
+\end{align*}
+Hence the MLE is the optimal Bayesian estimate under a flat prior and zero-one loss.
+
+\begin{example}
+    Suppose $X_1, \dotsc, X_n$ are CIID $\Po(\lambda)$ with prior $\lambda \sim \Exp(1) \equiv \mathrm{Ga}(1, 1)$ so $\lambda \mid \vec{x} \sim \mathrm{Ga}(n\bar{x} + 1, n + 1)$.
+    Under quadratic loss:
+    $\hat{\lambda}_{Q} = \E(\lambda \mid x) = \frac{n\bar{x} + 1}{n + 1}$.
+    Under zero-one loss:
+    Need the mode of $f(\lambda \mid \vec{x})$ maximise the pdf.
+    For general $\mathrm{Ga}(\alpha, \beta)$:
+    \begin{align*}
+        f(x \mid \alpha, \beta) &\propto x ^ {\alpha - 1}e ^ {-\beta x} \\
+        \log{f} &= \log{c} + (\alpha - 1)\log{x} - \beta x \\
+        \pd[\log{f}]{x} &= \frac{\alpha - 1}{x} - \beta \\
+        0 &= \frac{\alpha - 1}{x} - \beta \iff x = \frac{\alpha - 1}{\beta}.
+    \end{align*}
+    So for $f(\lambda \mid \vec{x})$ we get
+    \[
+    \hat{\lambda}_z = \frac{n\bar{x}}{n + 1}.
+    \]
+\end{example}
+
+Example:
+Suppose $\lambda \sim \mathrm{Ga}(\alpha, \beta)$ and for the estimate $d$ of $\lambda$:
+\[
+L(\lambda, d) = \frac{(\lambda - d) ^ 2}{\lambda}.
+\]
+Before data:
+$d ^ {*}$ must minimise $\E_{\lambda}(L(\lambda, d))$ with respect to our prior for $\lambda$:
+\begin{align*}
+    \rho ^ {(d)} &= \E_{\lambda}\left(\frac{(\lambda - d) ^ 2}{\lambda}\right) \\
+    &= \E\left(\frac{\lambda ^ 2 - 2\lambda d + d ^ 2}{\lambda}\right) \\
+    &= \E(\lambda - 2d + d ^ 2 / \lambda) \\
+    &= \E(\lambda) - 2d + d ^ 2\E(1 / \lambda) \\
+    &= \frac{\alpha}{\beta} - 2d + \frac{\alpha ^ 2\beta}{\alpha - 1}.
+    \intertext{Minimise with respect to $d$:}
+    \frac{d\rho}{dd} &= -2 + \frac{2d\beta}{\alpha - 1}. \\
+    \intertext{At $d = d ^ {*}$}
+    0 &= -2 + \frac{2d ^ {*}\beta}{\alpha - 1} \iff d ^ {*} = \frac{\alpha - 1}{\beta}.
+\end{align*}
+Bayes risk:
+$\rho(d ^ {*}) = \frac{\alpha}{\beta} - 2d ^ {*} + (d ^ {*}) ^ 2\frac{\beta}{\alpha - 1} = \frac{1}{\beta}$.
+After data:
+Observe data $X_1, \dotsc, X_n$ CIID $\Po(\lambda)$.
+$\lambda \mid x \sim \mathrm{Ga}(\underbrace{\alpha + n\bar{x}}_{\alpha_1}, \underbrace{\beta + n}_{\beta_1})$.
+So
+\[
+d ^ {*} = \frac{\alpha_1 - 1}{\beta_1} = \frac{\alpha + n\bar{x} - 1}{\beta + n}
+\]
+with
+\[
+\rho ^ {(d ^ {*})} = \frac{1}{\beta_1} = \frac{1}{\beta + n}.
+\]
 
 \end{document}
