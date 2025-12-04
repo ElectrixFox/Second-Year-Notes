@@ -4483,4 +4483,339 @@ with
 \rho ^ {(d ^ {*})} = \frac{1}{\beta_1} = \frac{1}{\beta + n}.
 \]
 
+Question:
+What happens to the posterior $f(\vec{\theta} \mid \vec{x})$ as $n$ grows large?
+
+\newpage
+
+\section{Large-Sample posterior distributions}
+Example:
+The number of calls to NHS $111$ in $200$ short intervals are counted $X_1, \dotsc, X_{200}$,
+$X_i \mid \lambda \sim \Po(\lambda)$ and let $\lambda \sim \mathrm{Ga}(a, b)$,
+$\lambda \mid \vec{x} \sim \mathrm{Ga}(a + n\bar{x}, b + n)$.
+Suppose $a = 2, b = 0.2$,
+$\sum x_i = 1723$,
+$n = 200$,
+then $\lambda \mid \vec{x} \sim \mathrm{Ga}(1725, 2002)$.
+Find a $95\%$ posterior EQT credible interval for $\lambda \mid \vec{x}$.
+\begin{enumerate}[label = (\roman*)]
+    \item Exactly -
+    use $R$'s gamma function $[8.215, 9.028]$.
+
+    \item No $R$?
+    Approximate $\lambda \mid \vec{x}$ by a Normal distribution:
+    \[
+    \E(\lambda \mid x) = \frac{1725}{2002} = 86164\qquad \Var(\lambda \mid \vec{x}) = \frac{1725}{2002 ^ 2} = 0.2075 ^ 2.
+    \]
+    Use $N(8.6164, 0.7075 ^ 2)$ implies $8.6164 \pm 1.96 \cdot 0.2075 = [8.210, 9.023]$.
+
+    \item Use only likelihood and Wald CI:
+    \[
+    \hat{\lambda} \pm 1.96 / \sqrt{I(\lambda)} = \bar{x} \pm 1.96\sqrt{\frac{\bar{x}}{n}} = 8.615 \pm 1.96\sqrt{\frac{8.615}{200}} = [8.208, 9.021]
+    \]
+\end{enumerate}
+$(i)$,
+$(ii)$,
+$(iii)$ are quit close.
+
+\begin{proposition}[Bernstein-von Mises]
+    Suppose $X_1, \dotsc, X_n$ CIID given $\theta$ with regular likelihood $f(x \mid \theta)$ and $f(\theta)$ is non-zero near the true value of $\theta$.
+    Then,
+    for large $n$,
+    the posterior distribution for $\theta \mid \vec{x}$ is approximately
+    \[
+    \theta \mid \vec{x} \sim N(\hat{\theta}, I(\hat{\theta}) ^ {-1})
+    \]
+    where $\hat{\theta}$ is the MLE,
+    and $I(\hat{\theta})$ is the observed information
+    (matrix).
+\end{proposition}
+
+Comments:
+\begin{enumerate}[label = (\roman*)]
+    \item This is a Bayesian version of $\hat{\theta} \to N(\theta, I(\hat{\theta}) ^ {-1})$.
+
+    \item As $n \to \infty$,
+    $I(\hat{\theta}) \approx \mathbb{I}_n(\hat{\theta})$,
+    etc.
+    \item For $n$ large,
+    Bayesian and likelihood methods approach
+    (almost)
+    the same distribution and make the same inferences.
+\end{enumerate}
+
+
+\begin{example}
+    Suppose $X \sim \Bin(n, \theta)$,
+    $\theta \sim \Beta(a, b)$,
+    observe $X = x$.
+
+    Likelihood calculations:
+    $\hat{\theta} = \frac{x}{n}$,
+    $I(\hat{\theta}) = \frac{n}{\hat{\theta}(1 - \hat{\theta})}$.
+    Conjugate,
+    so $\theta \mid x \sim \Beta(a_1 = a + x, b_1 = b + n - x)$.
+    What happens to $\theta \mid x$ as $n$ grows large?
+
+    For $\theta$ not close to $0$ or $1$,
+    then $\Beta \to \text{Normal}$ as $n$ grows large
+    (general result).
+    \[
+    \E(\theta \mid x) = \frac{a_1}{a_1 + b_1} = \frac{a + x}{a + x + b + n - x} = \frac{a + x}{a + b + n} = \frac{\frac{a}{n} + \frac{x}{n}}{\frac{a}{n} + \frac{b}{n} + \frac{n}{n}} \to \frac{0 + \hat{\theta}}{0 + 0 + 1} = \hat{\theta}
+    \]
+    for $n \to \infty$
+    (or for large $n$ if you're boring).
+
+    \begin{align*}
+        \Var(\theta \mid x) &= \frac{a_1b_1}{(a_1 + b_1) ^ 2(a_1 + b_1 + 1)} \\
+        &= \frac{(a + x)(b + n - x)}{(a + b + n) ^ 2(a + b + n + 1)} \\
+        &= \frac{\frac{1}{n}(a + x)(b + n - x)}{\left(\frac{a}{n} + \frac{b}{n} + \frac{n}{n}\right) ^ 2\left(\frac{a}{n} + \frac{b}{n} + \frac{n}{n} + \frac{1}{n}\right)} \\
+        &= \frac{\frac{1}{n}\frac{x}{n}\left(1 - \frac{x}{n}\right)}{1 ^ 2 \cdot 1} \to \frac{\hat{\theta}(1 - \hat{\theta})}{n}
+    \end{align*}
+    as $n \to \infty$
+    (or for $n$ large,
+    again if you're boring).
+
+    Giving us that
+    \[
+    \theta \mid x \sim N\left(\hat{\theta}, \frac{\hat{\theta}(1 - \hat{\theta})}{n} = I(\hat{\theta}) ^ {-1}\right).
+    \]
+\end{example}
+
+\[
+\hat{\theta} \sim N(\theta, I(\hat{\theta}) ^ {-1})
+\]
+for large $n$.
+
+Informal proof:
+Consider the posterior:
+$f(\theta \mid \vec{x}) \propto f(\vec{x} \mid \theta)f(\theta)$.
+$\vec{x}$ is CIID sample so $f(\theta \mid \vec{x}) \propto \left[\prod_{i = 1}^{n}f(x_i \mid \theta)\right]f(\theta)$.
+Take logs:
+\[
+g(\theta \mid \vec{x}) = \log{f(\theta \mid \vec{x})} = \text{const} + \log{f(\theta)} + \sum_{i = 1}^{n}\log(f(x_i \mid\theta))
+\]
+so for $n$ large $g(\theta \mid \vec{x}) \approx \sum_{i = 1}^{n}\log(f(x_i \mid \theta)) = \mathcal{L}(\theta)$ so $f(\theta \mid \vec{x}) \approx e ^ {\mathcal{L}(\theta)} = \ell(\theta)$.
+So for $n$
+"large enough":
+\begin{enumerate}[label = (\roman*)]
+    \item Posterior $\approx$ likelihood.
+
+    \item The prior becomes irrelevant.
+
+    \item The MLE $=$ MAP estimate
+    (the mode of the posterior).
+\end{enumerate}
+Why Normal?
+For a regular likelihood,
+$\mathcal{L}(\theta)$ is approximately quadratic about MLE $\hat{\theta}$.
+The above implies if $n$ also large,
+then $\log(f(\theta \mid x))$ is also approximately quadratic about the MAP $\tilde{\theta} = \hat{\theta}$.
+So:
+\begin{align*}
+    g(\theta \mid \vec{x}) &= g(\tilde{\theta} \mid \vec{x}) + (\theta - \tilde{\theta})g'(\tilde{\theta} \mid \vec{x}) + \frac{1}{2}(\theta - \tilde{\theta}) ^ 2g''(\tilde{\theta} \mid \vec{x}) + \dotsc \\
+    &\approx g(\hat{\theta} \mid \vec{x}) + (\theta - \hat{\theta}) \cdot 0 + \frac{1}{2}(\theta - \hat{\theta}) ^ 2g''(\hat{\theta} \mid \vec{x}) \\
+    &\approx C - \frac{(\theta - a) ^ 2}{2b}
+\end{align*}
+where $a = \hat{\theta}$,
+$b = -\frac{1}{g''(\hat{\theta}(x))} = -\frac{1}{\mathcal{L}''(\hat{\theta})} = \frac{1}{I(\hat{\theta})}$.
+
+Exponentiate:
+\[
+f(\theta \mid \vec{x}) = e ^ {g(\theta \mid \vec{x})} \approx \exp\left\{C - \frac{(\theta - a) ^ 2}{2b}\right\} \propto \exp\left\{-\frac{1}{2}\frac{(\theta - a) ^ 2}{b}\right\}
+\]
+the core of $N(a, b) = N(\hat{\theta}, I(\hat{\theta}) ^ {-1})$.
+So for large $n$:
+\begin{enumerate}[label = (\roman*)]
+    \item The posterior becomes a rescaled version of the likelihood.
+
+    \item Initial choice of prior distribution becomes unimportant.
+
+    \item The prior becomes effectively non-informative.
+
+    \item The mode of the posterior is also the mode of $\ell(\theta)$,
+    i.e. the MLE $\hat{\theta}$.
+
+    \item Likelihood and Bayesian methods give the same/very similar results when $n$ is large.
+\end{enumerate}
+
+Recap:
+Observe $X_1, \dotsc, X_n \sim f(xl \theta)$ IID,
+$\theta \in \Omega$ unknown.
+Hypotheses:
+$H_0 : \theta \in \Omega_0$,
+$H_1 : \theta \in \Omega$,
+$H_0 + H_1$ partition $\Omega'$.
+Goal:
+determine whether to reject $H_0$
+(or not),
+by assessing if $\vec{x}$ is
+"sufficiently unlikely to occur under $H_0$"
+
+\newpage
+
+\section{Bayesian Hypothesis Testing}
+In the Bayesian approach,
+all unknowns are treated probabilistically
+\begin{itemize}[label = -]
+    \item Data $\vec{X}$ assumed to come from either
+    \begin{itemize}
+        \item $f(\vec{x} \mid H_0)$ -
+        the null distribution.
+
+        \item $f(\vec{x} \mid H_1)$ -
+        the alternative distribution.
+    \end{itemize}
+
+    \item Which distribution depends on the prior probabilities
+    \[
+    \pi_0 = \P(H_0)\qquad \pi_1 = \P(H_1)
+    \]
+    which induce posterior probabilities
+    \[
+    p_0 = \P(H_0 \mid \vec{x})\qquad p_1 = \P(H_1 \mid \vec{x}).
+    \]
+\end{itemize}
+
+We can now directly assess the probability of particular hypothesis.
+
+Prior implies posterior by learning from data.
+This change in beliefs indicates the level of support in the data for these changes in probabilities.
+\begin{definition}
+    The prior odds of $H_0$ vs $H_1$ is the ratio of the probabilities
+    \[
+    O(H_0) = \frac{\pi_0}{\pi_1} = \frac{\P(H_0)}{\P(H_1)}.
+    \]
+    and the posterior odds of $H_0$ vs $H_1$ given $\vec{x}$ are:
+    \[
+    O(H_0 \mid \vec{x}) = \frac{p_0}{p_1} = \frac{\P(H_0 \mid \vec{x})}{\P(H_1 \mid \vec{x})}.
+    \]
+\end{definition}
+
+Comments:
+\begin{itemize}
+    \item If $\P(H_0) \approx \P(H_1) = \frac{1}{2}$,
+    then $O(H_0) \approx 1$.
+
+    \item $H_0$ more likely implies $\P(H_0) > \P(H_1)$ implies $O(H_0) > 1$.
+
+    \item Since $\P(H_1) = 1 - \P(H_0)$ we can show $\P(H_0) = \frac{O(H_0)}{1 + O(H_0)}$.
+\end{itemize}
+
+Now consider the posterior odds:
+\[
+O(H_0 \mid x) = \frac{\P(H_0 \mid x)}{\P(H_1 \mid x)} = \frac{p_0}{p_1}.
+\]
+
+Bayes theorem shows us
+($k = 0, 1$)
+\[
+p_k = \frac{f(\vec{x} \mid H_k)\P(H_k)}{f(\vec{x} \mid H_0)\P(H_0) + f(\vec{x} \mid H_1)\P(H_1)} = \frac{f(\vec{x} \mid H_k)\pi_k}{f(\vec{x})}.
+\]
+So
+\[
+O(H_0 \mid \vec{x}) = \frac{f(\vec{x} \mid H_0)\pi_0 / f(\vec{x})}{f(\vec{x} \mid H_1) \pi_1 / f(\vec{x})} = \frac{f(\vec{x} \mid H_0)}{f(\vec{x} \mid H_1)}\underbrace{\frac{\pi_0}{\pi_1}}_{O(H_0)} = \underbrace{\frac{p_0}{p_1}}_{O(H_0 \mid \vec{x})}
+\]
+so the term before $O(H_0)$ converts the prior into the posterior odds,
+this is called the Bayes factor.
+
+\begin{definition}
+    Given data arising under one of two hypotheses,
+    $H_0$ or $H_1$,
+    the Bayes factor
+    (BF)
+    in favour of $H_0$ vs $H_1$ is
+    \[
+    B_{01} = \frac{O(H_0 \mid \vec{x})}{O(H_0)} = \frac{p_0 / p_1}{\pi_0 / \pi_1} = \frac{p_0\pi_1}{p_1\pi_0} = \frac{f(\vec{x} \mid H_0)}{f(\vec{x} \mid H_1)}.
+    \]
+\end{definition}
+
+\begin{example}
+    A blood test for pulmonary embolism
+    (PE)
+    has a sensitivity of $\P(x = + \mid \text{PE}) = 0.7$,
+    and specificity of $\P(x = -\mid \text{No PE}) = 0.856$.
+    The prevalence of PE in hospital in-patients is believed to be $\pi_0 = 0.01$.
+    A random in-patient is tested with positive result.
+
+    Prior odds:
+    \[
+    O(\text{PE}) = \frac{\P(\text{Pe})}{\P(\text{No PE})} = \frac{0.01}{0.99} = 0.0101.
+    \]
+    Posterior odds:
+    \[
+    \P(\text{PE} \mid +) = \frac{\P(+ \mid \text{PE})}{\P(+ \mid \text{PE})\P(\text{PE}) + \P(+ \mid \text{No PE})\P(\text{No PE})} = 0.045
+    \]
+    (vs $\pi_0 = 0.01$)
+    \[
+    O(\text{PE} \mid +) = \frac{0.045}{1 - 0.045} = 0.0471
+    \]
+    Bayes factor:
+    \[
+    B_{01} = \frac{O(\text{PE} \mid +)}{O(\text{PE})} = \frac{0.0471}{0.0101} = 4.66.
+    \]
+    $B_{01}> 1$ implies the odds of PE have increased given the test result which implies $\P(\text{PE} \mid \vec{x}) > \P(\text{PE})$.
+    But not $\P(\text{PE} \mid \vec{x}) > \P(\text{No PE} \mid \vec{x})$.
+\end{example}
+
+Properties of Bayes factors:
+\begin{enumerate}[label = (\roman*)]
+    \item The BF for $H_1$ vs $H_0$,
+    $B_{10}$,
+    is simply $B_{10} = \frac{1}{B_{01}} = \frac{f(\vec{x} \mid H_1)}{f(\vec{x} \mid H_0)}$.
+
+    \item We can extract $p_0 = \P(H_0 \mid \vec{x})$ from $B_{01}$.
+    \[
+    \frac{p_0}{p_1} = B_{01}\frac{\pi_0}{\pi_1} \iff \frac{p_0}{1 - p_0} = B_{01}\frac{\pi_0}{\pi_1}
+    \]
+    \[
+    p_0 = B_{01}\frac{\pi_0}{\pi_1} - p_0B_{01}\frac{\pi_0}{\pi_1}
+    \]
+    \[
+    p_0 = \frac{1}{1 + \frac{\pi_1}{\pi_0B_{01}}}.
+    \]
+\end{enumerate}
+
+Interpreting Bayes factors:
+\begin{itemize}
+    \item $B_{01}$ measures the change in evidence for $H_0$
+    (vs significance tests which detect departures from $H_0$).
+
+    \item $B_{01} > 1$ implies data increase support for $H_0$ which implies the posterior odds are larger than prior odds so $p_0 > \pi_0$.
+
+    \item $B_{01} = 1$ means the data leaves the odds unchanged.
+
+    \item $B_{01}$ far from $1$:
+    strong evidence.
+    Large $(\gg 1)$ implies strong support for $H_0$,
+    small $(\ll 1)$ implies strong support for $H_1$.
+
+    \item Key point:
+    BF describes change in odds,
+    not absolute posterior probabilities.
+    A large/strong prior can still dominate:
+    e.g. $B_{01} = 0.01$,
+    $O(H_0) = 1000$ so $O(H_0 \mid \vec{x}) = 10$.
+    Data evidence strongly against $H_0$,
+    but posterior still favours $H_0$.
+    Need strong data to overturn strong priors.
+
+    \item We have the following scale of interpretation:
+    \[
+    \begin{array}{c|c}
+         B_{01} & \text{Evidence for $H_0$} \\
+         \hline
+         0 - 1 & \text{None} \\
+         1 - 3 & \text{Weak} \\
+         3 - 20 & \text{Positive} \\
+         20 - 150 & \text{Strong} \\
+         > 150 & \text{Very Strong}
+    \end{array}
+    \]
+    Blood test $B_{01}$ implies weak positive evidence supporting PE.
+\end{itemize}
+
+
+
+
 \end{document}
