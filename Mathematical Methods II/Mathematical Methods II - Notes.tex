@@ -2939,6 +2939,151 @@ Linearity says $u_1 + u_2$ is a solution and it will match the required boundary
     \]
 \end{example}
 
+\newpage
 
+\subsection{Strum-Liouville theory}
+
+The weighted Strum-Liouville eigenvalue problem takes the form:
+\[
+Ly = \lambda r(x)y
+\]
+where $r(x) \geq 0$ is a weighting function,
+and the operator $L$ is of the form
+\[
+Ly = \frac{d}{dx}\left(p(x)\frac{dy}{dx}\right) + q(x)y,\qquad a \leq x \leq b.
+\]
+Through the self-adjointness of the operator we can see that from
+\[
+Ly = f(x) \implies \langle Ly, y_k\rangle = \langle f, y_k\rangle
+\]
+we can derive
+\[
+c_k = \frac{\langle f, y_k\rangle}{\lambda_k\langle y_k, ry_k\rangle}
+\]
+giving us the full solution
+\[
+y = \sum_{k}c_ky_k.
+\]
+
+\textbf{Transforming an operator to Strum-Liouville form}
+
+We can transform an operator of the form
+\[
+Ly \equiv a_2(x)y''(x) + a_1(x)y'(x) + a_0(x)y(x)
+\]
+with $a_2(x) \neq 0$ in the interval.
+
+To \textbf{transform} we multiply by an integrating factor function $\mu(x)$:
+\[
+\mu a_2(x)y''(x) + \mu a_1y'(x) + \mu a_0y
+\]
+then choose our $\mu$ such that our first and second derivatives collapse,
+i.e. so it can be expressed in the form
+\[
+\frac{d}{dx}(py') + qy = py'' + p'y' + qy = \mu a_2(x)y''(x) + \mu a_1y'(x) + \mu a_2y
+\]
+and we can solve for $\mu, p$ and $q$ by equating the coefficients of $y'', y'$ and $y$ then solving the ensuing ODE's.
+
+
+\textbf{Orthogonality}
+
+Due to the presence of the weighting function,
+the orthogonality relation is
+\[
+\int_{a}^{b}y_k(x)y_j(x)r(x)\,dx = 0.
+\]
+
+\textbf{Real eigenvalues}
+
+$p, q, r$ are real so $\bar{L} = L$.
+Thus,
+taking conjugate of both sides of $Ly_k = \lambda_ky_k$ gives
+$\bar{\lambda}_k = \lambda_k$.
+Thus all the eigenvalues are real.
+
+\textbf{Eigenfunctions}
+
+The $\{y_k\}$ are a complete set,
+that is all $h(x)$ with $\int f  ^ 2r\,dx < \infty$ can be expanded as
+\[
+h(x) = \sum c_ky_k(x).
+\]
+
+\subsection{Existence of the eigen-expansion via the Fredholm alternative}
+We have shown that if we can solve the eigen-equation
+\[
+Ly_n = \lambda_ny_n
+\]
+and indeed the problem
+\[
+Lu = f
+\]
+subject to some appropriate boundary conditions.
+Then we can construct a solution using orthogonality and the coefficient formulae.
+
+We need to know if the problem can be solved in the first place.
+To do this we use the Fredholm alternative.
+
+\begin{proposition}[Fredholm alternative]
+    Either,
+    the homogenous adjoint problem $L ^ {*}w = 0$ has a non-trivial solution.
+    Or,
+    the inhomogeneous boundary value problem $Ly = f(x)$,
+    with relevant boundary conditions,
+    has a unique solution.
+\end{proposition}
+
+If we are in case $1$ we have a further alternative:
+\begin{proposition}
+    Either,
+    \[
+    \langle w, f\rangle = 0
+    \]
+    and there is a non-unique solution to the problem $Ly = f$,
+    with relevant boundary conditions.
+
+    Or,
+    this integral doe not vanish and there is no solution to the problem $Ly = f(x)$,
+    with the relevant boundary conditions.
+\end{proposition}
+
+Here is an example:
+
+\begin{example}
+    Consider the following inhomogeneous BVP:
+    \[
+    \frac{d ^ 2y}{dx ^ 2} + g_0 ^ 2y = \sin(x)
+    \]
+    with $g_0$ constant,
+    and with the boundary conditions:
+    \[
+    y(0) = 0, y(\pi) = 0.
+    \]
+
+    \begin{solution}
+        Solve the adjoint problem.
+        Consider the homogenous problem $L ^ {*}w = 0$:
+        \[
+        \frac{d ^ 2w}{dx ^ 2} + g_0 ^ 2w = 0,\qquad w(0) = 0,\qquad w(\pi) = 0
+        \]
+        $g_0 > 0$.
+        The general solution is
+        \[
+        w(x) = A\sin(g_0x) + B\cos(g_0x).
+        \]
+        The boundary condition $w(0) = 0$ implies $B = 0$.
+        The second condition:
+        \[
+        A\sin(g_0\pi x) = 0
+        \]
+        requires either $A = 0$ or $g_0 = 0, 1, 2, \dotsc, n$.
+        So since we have a non-trivial solution to $L ^ {*}w = 0$ we need to check
+        \[
+        \langle w,\sin(x)\rangle = \int_{0}^{\pi}\sin(g_0x)\sin(x)\,dx = \frac{\sin(g_0\pi)}{g_0 ^ 2 - 1}
+        \]
+        so if $g_0 \neq \pm 1$ this is zero.
+        If $g_0 = 1$ then the integral is not zero which implies we cannot solve the problem.
+    \end{solution}
+\end{example}
 
 \end{document}

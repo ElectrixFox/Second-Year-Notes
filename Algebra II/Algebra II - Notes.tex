@@ -4874,7 +4874,278 @@ $g$ sends $X$ to $gxg ^ {-1}$.
     $\Orb(r) = \{r, r ^ 4\}$.
 \end{example}
 
+\newpage
 
+\section{Conjugacy classes in \texorpdfstring{$S_n$}{}}
+
+\begin{definition}
+    Let $\sigma \in S_n$ be a product of disjoint cycles of length $n_1 \leq n_2 \leq n_3 \leq \dotsc \leq n_k$
+    (including $1$-cycles).
+    The cycle type of $\sigma$ is
+    \[
+    [n_1, n_2, \dotsc, n_k].
+    \]
+    \[
+    \sum_{i = 1}^{k}n_i = n.
+    \]
+\end{definition}
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item $(1\ 3\ 5)(2\ 4)(7\ 8) \in S_{10}$
+        \[
+        (1\ 3\ 5)(2\ 4)(7\ 8)(6)(9)(10) \to [1, 1, 1, 2, 2, 3].
+        \]
+
+        \item $(1\ 3\ 5)(2\ 4)(6\ 7) \in S_{7}$,
+        cycle type is $[2, 2, 3]$.
+    \end{itemize}
+\end{example}
+
+\begin{proposition}
+    Two elements of $S_n$ are conjugate if and only if they have the same cycle type.
+
+    \begin{proof}
+        "$\implies$".
+        Consider $\sigma$,
+        $\lambda\sigma\lambda ^ {-1} \in S_n$.
+        Want to prove:
+        they have the same cycle type.
+        Write $\sigma$ as a product of disjoint cycles
+        $\sigma = \sigma_1\sigma_2\dotsi\sigma_k$,
+        $\sigma_i$ is $n_i$-cycle $n_1 \leq n_2 \leq \dotsi \leq n_k$,
+        $\sum n_i = n$.
+        \begin{align*}
+            \lambda \sigma\lambda ^ {-1} &= \lambda\sigma_1\sigma_2\dotsi\sigma_k\lambda ^ {-1} \\
+            &= \lambda\sigma_1\lambda ^ {-1}\lambda\sigma_2\lambda ^ {-1}\lambda\sigma_3\lambda ^ {-1}\dotsi \lambda\sigma_k\lambda ^ {-1}.
+        \end{align*}
+        By the previous lemma,
+        $\lambda\sigma_i\lambda ^ {-1}$ is again a cycle of length $n_i$.
+        In fact,
+        all $\lambda\sigma_i\lambda ^ {-1}$ are disjoint since $\lambda$ is a bijection.
+        Therefore,
+        the cycle type of $\lambda\sigma\lambda ^ {-1}$ coincides with the cycle type of $\sigma$.
+
+        "$\impliedby$".
+        Take $\sigma, \tau \in S_n$ of the same cycle type,
+        $[n_1, n_2, \dotsc, n_k]$.
+        Need to find $\lambda$ such that $\tau = \lambda\sigma\lambda ^ {-1}$.
+        \begin{align*}
+            \sigma &= \sigma_1 \dotsi \sigma_k & \sigma_i &= (a_1 ^ {(i)}, a_2 ^ {(i)}, \dotsc, a_{n_i} ^ {(i)}) \\
+            \tau &= \tau_1 \dotsi \tau_k & \tau &= (b_1 ^ {(i)}, b_2 ^ {(i)}, \dotsc, b_{n_i} ^ {(i)}).
+        \end{align*}
+        Define $\lambda \in S_n$ such that $\forall i = 1, \dotsc, k$,
+        $\lambda\left(a_j ^ {(i)}\right) = b_j ^ {(i)}$,
+        $j = 1, \dotsc, n_i$.
+        Then by the same lemma $\tau = \lambda\sigma\lambda ^ {-1}$.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    $\sigma = (1\ 7)(2\ 6\ 5)(3\ 8\ 4) \in S_8$,
+    $[2, 3, 3]$.
+    $\tau = (1\ 5\ 4)(6\ 8\ 7)(2\ 3) \in S_8$.
+    We need a $\lambda$ such that $\tau = \lambda\sigma\lambda ^ {-1}$.
+    $\sigma = (1\ 7)(2\ 6\ 5)(3\ 8\ 4)$,
+    $\tau = (2\ 3)(1\ 5\ 4)(6\ 8\ 7)$.
+    $\lambda = \begin{pmatrix}
+        1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+        2 & 1 & 6 & 7 & 4 & 5 & 3 & 8
+    \end{pmatrix}$.
+\end{example}
+
+\begin{corollary}
+    Conjugacy classes in $S_n$ are given by sets of elements of the same cycle type .
+    Each conjugacy class is defined by a partition of $n$,
+    i.e. $(n_1, \dotsc, n_k) \mid \sum n_i = n$,
+    $n_1 \leq n_2 \leq \dotsi \leq n_k$.
+\end{corollary}
+
+\begin{example}
+    Conjugacy classes in $S_4$.
+    Partitions of $4$:
+    \[
+    1 + 1 + 1 + 1,\quad 1 + 1 + 2,\quad 1 + 3,\quad 2 + 2,\quad 4
+    \]
+    $5$ partitions so $5$ conjugacy classes.
+    \[
+    \begin{array}{c|c|c}
+         \text{cycle type} & \text{elements} & \text{size} \\
+         \hline
+         [1, 1, 1, 1] & e & 1 \\ \phantom{}
+         [1, 1, 2] & \text{transpositions } (a, b) & \frac{4 \cdot 3}{2} = 6 \\ \phantom{}
+         [1, 3] & 3\text{-cycles } (a, b, c) & \frac{4 \cdot 3 \cdot 2}{3} = 8 \\ \phantom{}
+         [2, 2] & (a\ b)(c\ d) & \frac{4 \cdot 3}{2}\cdot \frac{2\cdot 1}{2}\bigr/2 = 3 \\ \phantom{}
+         [4] & 4\text{-cycles } (a\ b\ c\ d) & \frac{4\cdot 3\cdot 2\cdot 1}{4} = 6
+    \end{array}
+    \]
+    $\sum = 1 + 6 + 8 + 3 + 6 = 24 = |S_n|$
+\end{example}
+
+\begin{example}
+    Find all normal subgroups of $S_n$.
+    $G$ is a group,
+    $H \subseteq G$ a subgroup.
+    Then $H$ is normal if and only if $H$ is a union of conjugacy classes.
+    $S_4$,
+    $H \subseteq S_4$ normal.
+    What is $|H|$?
+    By Lagrange's theorem,
+    $|H| \mid 24$,
+    i.e. $|H| = 1, 2, 3, 4, 6, 8, 12, 24$.
+    $|H| = 1 \implies \{e\}$.
+    $4 = 1 + 3$,
+    $\{e, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3)\}$,
+    $(1\ 2)(3\ 4) \cdot (1\ 3)(2\ 4) = (1\ 4)(2\ 3)$.
+
+    Normal.
+    $|H| = 12$ so $1 + 3 + 8 = 12$ all even permutations so
+    \[
+    H = A_n \vartriangle S_n.
+    \]
+    So,
+    two normal subgroups of $S_n$,
+    $A_n, \cong \Z_2 \times \Z_2$.
+\end{example}
+
+\newpage
+
+\section{Cauchy's theorem and groups of order \texorpdfstring{$2p$}{}}
+Lagrange's theorem:
+$H \subseteq G$ subgroup then $|H| \mid |G|$.
+
+\begin{theorem}[Cauchy]
+    Let $G$ be a finite group,
+    $p$-prime,
+    $p \mid |G|$.
+    Then there is a subgroup of $G$ of order $p$.
+
+    \begin{proof}
+        Need to find an element $h \in G$ such that $\ord(h) = p$.
+        Then $|\langle h \rangle| = p$.
+        Consider $G ^ p = \underbrace{G \times G \times G \times \dotsi \times G}_{p\text{ times}} = \left\{(x_1, x_2, \dotsc, x_p) \mid x_i \in G\right\}$.
+
+        Define $\Omega \subseteq G ^ p$:
+        \[
+        \Omega = \left\{(x_1, \dotsc, x_p) \in G ^ p \mid x_1x_2\dotsi x_{p - 1}x_p = e\right\}.
+        \]
+        $|\Omega| = |G| ^ {p - 1}$ as for any $x_1, \dotsc, x_{p - 1} \in G$,
+        exists a unique $x_p$ such that the above equation holds.
+
+        $\Z / p$ acts on $\Omega$.
+        $\bar{m}(x_1, \dotsc, x_p) = (x_{m + 1}, x_{m + 2}, \dotsc, x_p, x_1, \dotsc, x_n)$,
+        [e.g. $1(x_1, \dotsc, x_p) = (x_2, x_3, \dotsc, x_p, x_1)$].
+        Why is this an action?
+        If $x_1, \dotsc, x_p = e$ then any of its conjugates is also $e$ so
+        \begin{align*}
+            x_{m + 1} \dotsc x_px_1 \dotsc x_n &= (x_{m + 1}x_{m + 2}\dotsc x_p)(x_1 \dotsc x_p)(x_p ^ {-1}\dotsc x_{m + 1}^{-1}) \\
+            &= (x_{m + 1}\dotsc x_p)(x_1\dotsc x_p)(x_{m + 1}\dotsc x_p) ^ {-1} = e.
+        \end{align*}
+        
+        Example:
+        \[
+        x_2x_3 \dotsc x_px_1 = x_2\dotsc x_p(x_1x_2\dotsc x_p)x_p ^ {-1}x_{p - 1}^{-1}\dotsc x_2 ^ {-1}.
+        \]
+        Example:
+        \[
+        x_2x_3\dotsc x_px_1 = x_1 ^ {-1}(x_1\dotsc x_p)x_1
+        \]
+        conjugate so $(x_2\dotsc x_px_1) \in \Omega$.
+        Thus,
+        $\forall (x_1\dotsc x_p) \in \Omega$ we have $\bar{m}(x_1\dotsc x_p) \in \Omega$,
+        $\forall \bar{m} \in \Z / p$.
+        \[
+        \bar{n} + \bar{m}(x_1\dotsc x_p) = (x_{n + m + 1}\dotsc x_px_1\dotsc x_{n + m})
+        \]
+        \[
+        \bar{0}(x_1\dotsc x_p) = (x_1\dotsc x_p).
+        \]
+        Indeed an action.
+        
+        The orbit stabiliser theorem says:
+        $\Z / p$ acts on $\Omega$ so
+        \[
+        |\Orb(x)| = \frac{|\Z / p|}{|\Stab(x)|}\qquad\forall x \in \Omega
+        \]
+        so $|\Orb(x)| = 1\text{ or } p$.
+        Recall:
+        $|\Omega| = |G| ^ {p - 1}$,
+        $p \mid |G|$ so $p \mid |\Omega|$.
+        We want to find $x \in \Omega$:
+        $|\Orb(x)| = 1$,
+        $x \neq e$.
+        Observe:
+        $|\Orb(x)| = 1$ if and only if $x = (h, h, h, \dotsc, h)$,
+        $h \in G$,
+        (i.e. $x_1 = x_2 = x_3 = \dotsi = x_p$).
+        But then,
+        by the definition of $\Omega$,
+        $h \dotsi h = h ^ p = e$.
+        So,
+        if we find $x$ such that $|\Orb(x)| = 1$ then we find $h \in G$ such that $h ^ p = e$,
+        $h \neq e$ and then $\ord(h) = p$ as we wanted.
+        But $(e, e, \dotsc, e) \in \Omega$,
+        $|\Orb((e, e, \dotsc, e))| = 1$.
+        $\underbrace{|\Omega|}_{\mid p} = \#(\text{orbits of size $1$}) + \underbrace{p\cdot(\#\text{orbits of size $p$})}_{\mid p}$.
+        Thus,
+        $\#(\text{orbits of size $1$})$ is divisible by $p$ then the number of orbits of size $1$ is greater than $p \geq 2$ so there exists an orbit of size $1$ different from $(e, e, \dotsc, e)$.
+
+        Thus,
+        there exists an element of order $p$ in $G$.
+    \end{proof}
+\end{theorem}
+
+\begin{remark}
+    A much stronger statement holds.
+    
+    First Sylow's Theorem:
+    If $|G| = p_1 ^ {n_1}p_2 ^ {n_2}\dotsi p_k ^ {n_k}$,
+    then for every $i = 1, \dotsc, k$ there exists a subgroup $H_i \subseteq G$  such that $|H_i| = p_i ^ {n_i}$.
+\end{remark}
+
+Application of Cauchy's theorem.
+\begin{proposition}
+    Let $G$ be a group,
+    $|G| = 2p$,
+    $p \neq 2$ prime.
+    Then either $G \cong \Z / 2p$ or $G \cong D_p$.
+
+    \begin{proof}
+        By Cauchy's theorem,
+        there is $a \in G$ such that $\ord(a) = 2$,
+        $b \in G$ such that $\ord(b) = p$.
+        \[
+        |\langle b\rangle| = p,\quad \langle b\rangle \cong \Z / p,\quad a \neq \langle b\rangle = B.
+        \]
+        If $[G : H] = 2$ then $H \vartriangle G$
+        (from a problem sheet).
+        So $aba ^ {-1} = aba \in B$,
+        so $B$ is normal.
+        So,
+        $aba = b ^ k$ for some $k = 1, \dotsc, p - 1$.
+
+        \begin{enumerate}[label = (\arabic*)]
+            \item $k = 1$.
+            $aba = b \iff ab = ba$ so $\ord(ab) = \lcm(\ord(a), \ord(b)) = \lcm(2, p) = 2p$.
+            So $G \cong \Z / 2p$.
+
+            \item $k \neq 1$.
+            $aba = b ^ k$ so $b = ab ^ ka = (aba) ^ k$,
+            this means that $b = (aba) ^ k = (b ^ k) ^ k = b ^ {k ^ 2}$ so $b = b ^ {k ^ 2}$ then $b ^ {k ^ 2 - 1} = e$.
+            We know:
+            $\ord(b) = p$ prime.
+            So $p \mid k ^ 2 - 1$,
+            then $p \mid (k - 1)(k + 1)$ so either $p \mid k - 1$ or $p \mid k + 1$,
+            if $p \mid k - 1$ then $k = 1$,
+            if $p \mid k + 1$,
+            $k = p - 1$.
+            So,
+            in $G = \langle a, b \mid a ^ 2 = e, b ^ k = e, aba = \underbrace{b ^ {p - 1}}_{b ^ {-1}}\rangle$.
+            Thus,
+            $G \cong D_p$.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
 
 
 
