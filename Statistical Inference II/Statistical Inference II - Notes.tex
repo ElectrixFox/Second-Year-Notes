@@ -4815,5 +4815,254 @@ Interpreting Bayes factors:
     Blood test $B_{01}$ implies weak positive evidence supporting PE.
 \end{itemize}
 
+\subsection{Hypotheses and Conditional Priors}
+We defined Bayes factor as $B_{01} = \frac{p_0 / p_1}{\pi_0 / \pi_1} = \frac{f(\vec{x} \mid H_0)}{f(\vec{x} \mid H_1)}$.
+We can unpack $f(\vec{x} \mid H_k)$ 
+($k = 0, 1$)
+as
+\[
+f(\vec{x} \mid H_k) = \int f(\vec{x}, \theta \mid H_k)\,d\theta = \int f(\vec{x} \mid \theta, H_k)f(\theta \mid H_k)\,d\theta.
+\]
+$f(\theta \mid H_k)$ is the conditional prior for $\theta$ under $H_k$.
+$f(\vec{x} \mid \theta, H_k)$ is the likelihood of $\vec{x}$ under the $H_k$
+(often as $f(\vec{x} \mid \theta)$.
+$f(\vec{x} \mid H_k)$ is the prior predictive density for $\vec{x}$ under $H_k$.
+
+If $H_0 : \theta \in \Omega_0$,
+$H_1 : \theta \in \Omega_1$,
+where $\Omega_0, \omega_1$ partition $\Omega$,
+then the conditional priors relate to the overall prior for $\theta$ as
+\[
+f(\theta) = f(\theta \mid H_0)\P(H_0) + f(\theta \mid H_1)\P(H_1)
+\]
+which says that
+\[
+H_0 : \begin{cases}
+    \theta \sim f(\theta \mid H_0) \\
+    \theta \in \Omega_0
+\end{cases}
+\]
+with probability $\pi_0$.
+\[
+H_1 : \begin{cases}
+    \theta \sim f(\theta \mid H_1) \\
+    \theta \in \Omega_1
+\end{cases}
+\]
+with probability $\pi_1$.
+
+Question:
+How to test hypotheses?
+Depends on the type of hypothesis.
+
+\subsection{Simple vs Simple}
+$H_0 : \theta = \theta_0$ vs $H_1 : \theta = \theta_1$ with prior probabilities $\pi_0, \pi_1$ so $\theta$ is discrete since $\theta \in \{\theta_0, \theta_1\} = \Omega$.
+Under $H_k$,
+$\P(\theta = \theta_k \mid H_k) = 1$,
+and zero else.
+So $f(\theta) = \P(\theta) = \begin{cases}
+    \pi_0, &\theta = \theta_0 \\
+    \pi_1, &\theta = \theta_1 \\
+    0, &\text{else}.
+\end{cases}$
+Posterior probability is
+\[
+p_k = f(H_k \mid \vec{x}) = \frac{f(\vec{x} \mid H_k)f(H_k)}{f(\vec{x})} = \frac{f(\vec{x} \mid \theta = \theta_k)f(\theta = \theta_k)}{f(\vec{x})} = \frac{f(\vec{x} \mid \theta_k)\pi_k}{f(\vec{x})}.
+\]
+
+\begin{proposition}[Simple vs simple]
+    \[
+    B_{01} = \frac{(p_0 / p_1)}{(\pi_0 / \pi_1)} = \left[\frac{f(\vec{x} \mid \theta_0)\pi_0 / f(\vec{x})}{f(\vec{x} \mid \theta_1)\pi_1 / f(\vec{x})}\right] \biggr/ \left(\frac{\pi_0}{\pi_1}\right) = \frac{f(\vec{x} \mid \theta_0)}{f(\vec{x} \mid \theta_1)}
+    \]
+    which is the likelihood ratio,
+    $\lambda(\vec{x})$,
+    of $H_0$ vs $H_1$.
+\end{proposition}
+
+Note:
+$B_{01}$ is not affected by $\pi_0, \pi_1$.
+If $\pi_0 = \pi_1 = \frac{1}{2}$
+(flat prior),
+then
+\[
+O(H_0 \mid \vec{x}) = B_{01} \cdot \frac{\pi_0}{\pi_1} = \lambda(\vec{x})
+\]
+and $p_0 = (1 + B_{01}) ^ {-1}$.
+So prior probabilities disappear entirely.
+
+\begin{example}
+    Coin toss,
+    $X \sim \Bin(n, \theta)$.
+    $H_0 : \text{fair coin}, \theta = \frac{1}{2} = \theta_0$.
+    $H_1 : \text{bias}, \theta = \frac{3}{4} = \theta_1$.
+    $f(\vec{x} \mid \theta) = \binom{n}{x}\theta ^ x(1 - \theta) ^ {n - x}$ so
+    \[
+    B_{01} = \frac{\binom{n}{x}\theta_0 ^ x(1 - \theta_0) ^ {n - x}}{\binom{n}{x}\theta_1 ^ x(1 - \theta_1) ^ {n - x}} = \left(\frac{\theta_0}{\theta_1}\right) ^ x\left(\frac{1 - \theta_0}{1 - \theta_1}\right) ^ {n - x}
+    \]
+    $n = 5$
+    \[
+    \begin{array}{c|cccccc}
+         x & 0 & 1 & 2 & 3 & 4 & 5  \\
+         \hline
+         B_{01} & 35.05 & 10.66 & 3.55 & 1.19 & 0.395 & 0.132 \\
+         B_{10} = B_{01} ^ {-1} & 0.0312 & 0.074 & 0.781 & 0.844 & 2.531 & 7.59
+    \end{array}
+    \]
+    When $X \leq 3$ there is no support for $H_1$.
+    Weak support for $H_1$ when $X = 4$.
+    Positive support for $H_1$ when $X = 5$.
+\end{example}
+
+\subsection{Composite vs Composite}
+$H_0 : \theta \in \Omega_0$ vs $H_1 : \theta \in \Omega_1$,
+where $\Omega_0 \cup \Omega_1 = \Omega$,
+and $\Omega_0 \cap \Omega_1 = \emptyset$,
+and $\theta \sim f(\theta)$.
+
+Now $\theta$ is continuous,
+and $H_k$ defines restrictions on the values of $\theta$ by partitioning $\Omega$.
+When $\theta \in \Omega_k$,
+$f(\theta \mid H_k) \propto f(\theta) = cf(\theta)$ but
+\[
+\frac{1}{c} = \int_{\theta \in \Omega_1}f(\theta)\,d\theta = \P(\theta \in \Omega_k) = \pi_k.
+\]
+Thus,
+$f(\theta \mid H_k) = \begin{cases}
+    f(\theta) / \pi_k, &\theta \in \Omega_k \\
+    0 &\text{else}.
+\end{cases}$
+Hence,
+the posterior is:
+\[
+p_k = f(H_k \mid \vec{x}) = \frac{f(\vec{x} \mid H_k)f(H_k)}{f(\vec{x})} = \frac{f(\vec{x} \mid H_k)\pi_k}{f(\vec{x})} = \frac{\int_{\theta \in \Omega_k} f(\vec{x} \mid \theta)f(\theta \mid H_k)\,d\theta \pi_k}{f(\vec{x})}.
+\]
+
+\begin{proposition}[Composite vs composite]
+    \[
+    B_{01} = \left[\frac{\int_{\theta \in \Omega_0}f(\vec{x} \mid \theta)f(\theta \mid H_0)\,d\theta \pi_0 / f(\vec{x})}{\int_{\theta \in \Omega_1}f(\vec{x} \mid \theta)f(\theta \mid H_1)\,d\theta \pi_1 / f(\vec{x})}\right] \Bigr/\left(\frac{\pi_0}{\pi_1}\right) = \frac{\int_{\theta \in \Omega_0}f(\vec{x} \mid \theta)f(\theta \mid H_0)\,d\theta}{\int_{\theta \in \Omega_1}f(\vec{x} \mid \theta)f(\theta \mid H_1)\,d\theta}.
+    \]
+\end{proposition}
+
+\begin{example}
+    Physics theory predicts existence of a $W$ particle with mass $\mu$.
+    Theory suggests $\mu$ should be approximately $82.4\mathrm{GeV}$ with standard deviation $1.1\mathrm{GeV}$.
+    An experiment $X$ assessed the mass to be $82.1$ with standard deviation $1.7\mathrm{GeV}$.
+    Test:
+    $H_0 : \mu \leq 83$ vs $H_1 : \mu > 83$ assume Normal prior and Normal likelihood.
+
+    Prior:
+    $\mu \sim N\left(m_0  = 82.4, v_0 = \frac{1}{\tau_0} = 1.1 ^ 2\right)$ so $\pi_0 = \P(\mu \leq 83) = \P\left(Z < \frac{83 - 82.4}{1.1}\right) \approx 0.7088$.
+    $O(H_0) = \frac{\pi_0}{1 - \pi_0} \approx 2.43$ so weak support for $H_0$.
+
+    Likelihood:
+    $X \mid \mu \sim N\left(\mu, \sigma ^ 2 = \frac{1}{\tau} = 1.7 ^ 2\right)$,
+    observe $x = 82.1$,
+    $n = 1$.
+
+    Posterior:
+    $\mu \mid X \sim N\left(m_1, v_1 = \frac{1}{t_1}\right)$ by conjugacy
+    $t_1 = t_0 + n\tau = 1.1 ^ 2 + 1 \cdot 1.7 ^ {-2} = 1.172$
+    (so variance $v_1 = 0.853 = 0.92 ^ 2$)
+    $m_1 = \frac{m_0t_0 + n\tau\bar{x}}{t_1} \approx 82.3$ so $p_0 = \P(\mu < 83 \mid x) = \P\left(Z < \frac{83 - 82.3}{0.92}\right) \approx 0.7796$.
+    $O(H_0 \mid \vec{x}) = \frac{p_0}{1 - p_0} \approx 3.47$ and $B_{01} = \frac{O(H_0 \mid x)}{O(H_1 \mid x)} = \frac{3.47}{3.43} = 1.43$ so weak evidence in favour of $H_0$.
+\end{example}
+
+\subsection{Simple vs Composite}
+$H_0 : \theta = \theta_0$ vs $H_1 : \theta \neq \theta_0$
+($\theta > \theta_0$,
+$\theta < \theta_0$).
+Problem:
+Under $H_0$,
+$\theta$ is discrete,
+but under $H_1$ $\theta$ is continuous.
+
+\begin{definition}
+    The Dirac delta function/distribution,
+    $\delta(x)$,
+    is a continuous
+    "generalised"
+    function where
+    \[
+    \delta(x) = \begin{cases}
+        0, &x \neq 0 \\
+        \infty, &x = 0
+    \end{cases}
+    \]
+    such that $\int_{-\infty}^{\infty}\delta(x)\,dx = 1$.
+\end{definition}
+Think of $\delta$ as $\lim_{\sigma \to 0}N(0, \sigma ^ 2)$.
+This gives a
+"spike"
+of probability at $\theta = \theta_0$ under $H_0$.
+
+Priors:
+$f(\theta \mid H_0) = \delta(\theta = \theta_0) = \begin{cases}
+    \infty, &\theta = \theta_0 \\
+    0, &\text{else}.
+\end{cases}$
+Under $H_1$,
+describe $\theta$ by $f_1(\theta)$,
+\[
+f(\theta \mid H_1) = \begin{cases}
+    f_1(\theta), &\theta \in \Omega_1 = \Omega \setminus\{\theta_0\} \\
+    0, &\text{else}
+\end{cases}\quad(= f_1(\theta))
+\]
+\[
+f(\theta) = \pi_0f(\theta \mid H_0) + \pi_1f(\theta \mid H_1).
+\]
+
+Posterior:
+\[
+p_0 = \P(H_0 \mid \vec{x}) = \frac{f(\vec{x}\mid H_0)\P(H_0)}{f(\vec{x})} = \frac{f(\vec{x} \mid \theta_0)\pi_0}{f(\vec{x})}
+\]
+\begin{align*}
+    p_1 &= \P(H_1 \mid \vec{x}) \\
+    &= \frac{f(\vec{x}\mid H_1)\P(H_1)}{f(\vec{x}} \\
+    &= \frac{\int_{\theta \in \Omega}f(\vec{x} \mid \theta)f(\theta \mid H_1)\,d\theta \cdot \pi_1}{f(\vec{x})}.
+\end{align*}
+
+\begin{proposition}[Simple vs composite]
+    \[
+    B_{01} = \frac{p_0 / p_1}{\pi_0 / \pi_1} = \frac{f(\vec{x} \mid \theta = \theta_0)}{\int_{\theta \in \Omega_1}f(\vec{x} \mid \theta)f(\theta \mid H_1)\,d\theta}.
+    \]
+\end{proposition}
+
+We can also find the posterior for $\theta$
+\[
+f(\theta \mid \vec{x}) = f(\theta \mid \vec{x}, H_0)\P(H_0 \mid \vec{x}) + f(\theta \mid \vec{x}, H_1)\P(H_1 \mid \vec{x}) = \delta(\theta = \theta_0)p_0 + f(\theta \mid x, H_1)p_1.
+\]
+
+\begin{example}
+    Test of Normal means,
+    variance known
+    \[
+    X_1, \dotsc, X_n \sim N(\mu, \sigma ^ 2),
+    \]
+    IID,
+    $\sigma ^ 2$ known.
+    $H_0 : \mu = \theta$,
+    or $H_1 : \mu \neq \theta$.
+
+    Let $\mu \mid H_1 \sim N(m, v)$,
+    and for simplicity let $m = \theta$.
+
+    \[
+    B_{01} = \frac{f(\vec{x} \mid H_0)}{f(\vec{x} \mid H_1)} = \frac{f(\vec{x} \mid \mu = \theta)}{\int f(\vec{x} \mid \mu)f(\mu \mid H_1)\,d\mu} = \frac{\prod_{i = 1}^{n}\frac{1}{\sqrt{2\pi}\sigma}\exp\left\{-\frac{1}{2}\frac{(x_i - \theta) ^ 2}{\sigma ^ 2}\right\}}{\prod_{i = 1}^{n}\frac{1}{\sqrt{2n}\sigma}\exp\left\{-\frac{1}{2}\frac{(x_i - \mu) ^ 2}{\sigma ^ 2}\right\}\cdot \frac{1}{\sqrt{2\pi v}}\exp\left\{-\frac{1}{2}\frac{(\mu - \theta) ^ 2}{v}\right\}}.
+    \]
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
