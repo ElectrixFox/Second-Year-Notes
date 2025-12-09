@@ -3086,4 +3086,316 @@ Here is an example:
     \end{solution}
 \end{example}
 
+\newpage
+
+\section{Green's method}
+
+\subsection{Motivation for Green's method}
+Using our previous method we can get an eigenfunction expansion solution as such
+\[
+y(x) = \sum_{k = 1}^{\infty}\frac{\langle f, w_k\rangle}{\lambda_k\langle y_k, w_k\rangle}y_k(x)
+\]
+however this requires all $\lambda_k \neq 0$.
+The case of zero eigenvalue has two subcases:
+One where $\langle f, w_k\rangle \neq 0$ and one where the inner product is zero.
+In the first case the BVP has no solution,
+the latter is not unique as you can add any multiple of $y_k$ to the solution.
+
+Assume this is not an issue for now.
+Let $n_k = \langle y_k, w_k\rangle$,
+then:
+\begin{align*}
+    y(x) &= \sum_{k = 1}^{\infty}\frac{1}{\lambda_kn_k}\left(\int_{a}^{b}f(t)w_k(t)\,dt\right)\,y_k(t) \\
+    &= \int_{a}^{b}\left(\sum_{k = 1}^{\infty}\frac{1}{\lambda_kn_k}w_k(t)y_k(t)\right)\,f(t)\,dt \\
+    &= \int_{a}^{b}g(x, t)f(t)\,dt
+\end{align*}
+where $g(x, t) = \sum_{k = 1}^{\infty}\frac{w_k(t)y_k(x)}{\lambda_kn_k}$.
+
+Thus,
+we have a solution to $Ly = f$ in the form
+\[
+y(x) = \int_{a}^{b}g(x, t)f(t)\,dt.
+\]
+$g(x, t)$ is called the Green's function
+(GF).
+
+If $L = L ^ {*}$,
+then $w_k = y_k$ and:
+\[
+g(x, t) = \sum \frac{1}{\lambda_kn_k}y_k(t)y_k(x).
+\]
+In this case $g(x, t) = g(t, x)$,
+and we have the important connection between a self-adjoint operator and a symmetric Green's function.
+
+You can think of the Green's function as inverting the differential operator.
+Look at the equation $A\vec{x} = \vec{b}$ the solution is given by $\vec{x} = A ^ {-1}\vec{b}$.
+
+\begin{example}
+    Consider the BVP:
+    \begin{align*}
+        Ly &\equiv -y'' = f(x),\qquad 0 < x < 1 \\
+        y(0) &= y(1) = 0.
+    \end{align*}
+    Taking the Green's function
+    (without working it out)
+    as
+    \[
+    g(x, \xi) = \begin{cases}
+        (1 - \xi)x & 0 < x < \xi \\
+        (1 - x)\xi & \xi < x < 1.
+    \end{cases}
+    \]
+    To check this we can use the Leibniz rule for differentiating integrals:
+    \[
+    \frac{d}{dx}\int_{a(x)}^{b(x)}f(x, \xi)\,d\xi = \int_{a(x)}^{b(x)}\frac{df(x, \xi)}{dx} + \frac{db(x)}{dx}f(b, \xi) - \pd[a(x)]{x}f(a, \xi).
+    \]
+
+    Showing that $y(x) = \int_{0}^{1}g(x, \xi)f(\xi)\,d\xi$ is a solution to this equation:
+    \begin{align*}
+        y(x) &= \int_{0}^{1}g(x, \xi)f(\xi)\,d\xi = \int_{0}^{x}(1 - x)\xi f(\xi)\,d\xi + \int_{x}^{1}(1 - \xi)xf(\xi)\,d\xi \\
+        \frac{dy}{dx} &= -\int_{0}^{x}\xi f(\xi)\,d\xi + (1 - x)xf(x) + \int_{x}^{1}(1 - \xi)f(\xi)\,d\xi - (1 - x)xf(x) \\
+        &= -\int_{0}^{x}\xi f(\xi)\,d\xi + \int_{x}^{1}(1 - \xi)f(\xi)\,d\xi, \\
+        \frac{d ^ 2y}{dx ^ 2} &= -xf(x) - (1 - x)f(x) = -f(x).
+    \end{align*}
+    The Green's function vanishes at the boundaries it satisfies the boundary conditions.
+\end{example}
+
+The following properties of Green's function itself are easily checked:
+\begin{enumerate}[label = (\roman*)]
+    \item The GF satisfies $Lg = 0$ if $x \neq \xi$.
+
+    \item $g(x, \xi)$ satisfies the boundary conditions as a function of $x$.
+
+    \item $g$ is continuous on the whole interval $[0, 1]$.
+
+    \item $g$ is differentiable everywhere except at $x = \xi$,
+    where it suffers a jump in the derivative.
+\end{enumerate}
+The above are always true of the GF of a second order linear operator.
+
+\subsection{Green's function via delta function}
+
+To fix the context,
+consider stationary heat conduction in a rod:
+\[
+-y''(x) = f(x)\quad 0 < x < 1,\quad y(0) = 0,\quad y(1) = 0
+\]
+where $y(x)$ is the temperature field and $f(x)$ is a given heat source density.
+
+The delta function is described by
+\[
+\delta(x) = \begin{cases}
+    0, & x \neq 0 \\
+    \infty, & x = 0
+\end{cases}
+\]
+and
+\[
+\int_{-\infty}^{\infty}\delta(x)\,dx = 1.
+\]
+
+We can approximate $\delta$ by $f_n(x)$ an increasingly narrower sequence of functions with normalised area where
+\[
+\forall n, \int_{-\infty}^{\infty}f_n(x)\,dx = 1,\quad \lim_{n \to \infty}f_n(x) = 0\quad \forall x \neq 0.
+\]
+Example:
+"hat"
+functions
+\[
+f_n(x) = \begin{cases}
+    0 &\text{for } |x| > 1 / n \\
+    n / 2 &\text{for } |x| \leq 1 / n
+\end{cases}
+\]
+and $f_n(x) \to \delta(x)$ as $n \to \infty$.
+
+There are some useful properties of the $\delta$ function:
+
+Let $f(x)$ be continuous,
+and $F(x) = \int^{x}f(s)\,ds$ its antiderivative.
+Now consider the approximating sequences:
+\begin{align*}
+    \int_{-\infty}^{\infty}\delta(x - a)f(x)\,dx = \lim_{n \to \infty}\int_{-\infty}^{\infty}f_n(x - a)f(x)\,dx \\
+    \intertext{and if $f_n$ are the hat functions}
+    &= \lim_{n \to \infty}\int_{a - 1 / n}^{a + 1 / n}\frac{n}{2}f(x)\,dx \\
+    &= \lim_{n \to \infty}\frac{F(a + (1 / n)) - F(a - (1 / n))}{2 / n} \\
+    &= \lim_{s \to 0}\frac{F(a + s) - F(a - s)}{2s} = F'(a) = f(a).
+\end{align*}
+Thus,
+we have
+\[
+\int_{-\infty}^{\infty}\delta(x - a)f(x)\,dx = f(a)\qquad\text{if $f$ is continuous at $a$}.
+\]
+In particular,
+\[
+\int_{-\infty}^{\infty}\delta(x)f(x)\,dx = f(x)\qquad\text{if $f$ is continuous at $x = 0$}.
+\]
+Thus,
+the delta function can be sifted out the value of a function at a particular point
+
+The antiderivative of $\delta(x)$.
+The antiderivative of the delta function is the Heaviside function,
+\[
+\int_{-\infty}^{x}\delta(s)\,ds = H(x) \equiv \begin{cases}
+    0 & x < 0 \\
+    1 & x > 0.
+\end{cases}
+\]
+
+Returning to the heat conduction BVP with a point heat source of unit strength at the centre of the rod:
+\[
+-y''(x) = \delta(x - 1 / 2),\qquad 0 < x < 1,\qquad y(0) = y(1) = 0.
+\]
+Since $\forall x \neq 1 / 2, \delta(x - 1 / 2) = 0$,
+this implies
+\[
+-y''(x) = 0,\qquad 0 < x < 1 / 2,\quad 1 / 2 < x < 1.
+\]
+We can solve the second of the two above equations in each of the two separate domains $[0, 1 / 2)$ and $(1 / 2, 1]$ and then apply the boundary conditions of the first.
+
+To derive the extra conditions we get at $x = 1 / 2$ we do the following:
+\[
+\int_{1 / 2-}^{1 / 2+}-y''(x)\,dx = \int_{1 / 2-}^{1 / 2+}\delta(x - 1 / 2)\,dx,
+\]
+where $1 / 2 - (1 / 2+)$ just to the left
+(right)
+of $1 / 2$.
+We have
+\[
+-y'\biggr|_{1 / 2-}^{1 / 2+} = 1 \implies y'(1 / 2+) - y'(1 / 2-) = -1.
+\]
+The other extra conditions comes as a requirement that $y(x)$ is continuous across the point source,
+that is
+\[
+y\biggr|_{1 / 2-}^{1 / 2+} = 0.
+\]
+Giving us the final solution
+\[
+u(x) = \begin{cases}
+    \frac{x}{2} & 0 < x < 1 / 2 \\
+    -\frac{x}{2} + \frac{1}{2} & 1 / 2 < x < 1.
+\end{cases}
+\]
+
+
+To motivate the construction of Green's function,
+consider the heat conduction problem with an arbitrary heat source:
+\[
+-y''(x) = f(x),\qquad 0 < x < 1,\qquad y(0) = y(1) = 0.
+\]
+Describing $f$ by a distribution of point heat sources with varying strength;
+that is at point $x = \xi$ we imagine placing the point source $f(\xi)\delta(x - \xi)$.
+
+The idea of the Green's function is to introduce such an extra parameter $\xi$,
+and consider the system
+\[
+-g''(x, \xi) = \delta(x - \xi),\qquad 0 < x < 1,\qquad g(0, \xi) = g(1, \xi) = 0.
+\]
+We have replaced $f(x)$ by a delta function,
+in order to solve for the Green's function $g(x, \xi)$.
+
+We have already seen that the Green's function is
+\[
+g(x, \xi) = \begin{cases}
+    (1 - \xi)x & 0 < x < \xi \\
+    (1 - x)\xi & \xi < x < 1.
+\end{cases}
+\]
+
+\subsection{General linear BVP}
+Consider a general $n$th order linear BVP with arbitrary continuous forcing function,
+\[
+Ly(x) = a_ny ^ {(n)}(x) + a_{n - 1}y ^ {(n - 1)}(x) + \dotsi + a_1y'(x) + a_0y(x) = f(x)
+\]
+for $a < x < b$,
+where each $a_i = a_i(x)$ is a continuous function,
+and moreover $\forall x, a_n(x) \neq 0$.
+
+Along with the above equation are $n$ boundary conditions,
+each a linear combination of $y$ and derivatives up to $y ^ {(n - 1)}$,
+evaluated at $x = a, b$.
+For example:
+in the case $n = 2$,
+the general form is:
+\begin{align*}
+    B_1y &\equiv \alpha_{11}y(a) + \alpha_{12}y'(a) + \beta_{11}y(b) + \beta_{12}y'(b) = \gamma_1 \\
+    B_2y &\equiv \alpha_{21}y(a) + \alpha_{22}y'(a) + \beta_{21}y(b) + \beta_{22}y'(b) = \gamma_2.
+\end{align*}
+
+To solve our general equation with homogeneous boundary conditions:
+\[
+B_iy = 0,\qquad i = 1,\dotsc, n - 1.
+\]
+We first determine the Green's function by solving
+\begin{align*}
+    Lg(x, \xi) &= \delta(x - \xi),\qquad a < x < b \\
+    B_ig &= 0.
+\end{align*}
+As before,
+\[
+Lg(x, \xi) = \delta(x - \xi)
+\]
+implies
+\[
+Lg(x, \xi) = 0\qquad\text{on } a < x < \xi,\quad \xi < x < b,
+\]
+i.e.
+we have a homogeneous problem to solve on two separate domains.
+As before,
+we need extra conditions,
+which come by integrating $Lg(x, \xi) = \delta(x - \xi)$ across $x = \xi$:
+\[
+\int_{\xi-}^{\xi+}a_ng ^ {(n)}(x, \xi) + \dotsi + a_0g(x, \xi)\,d\xi = \int_{\xi-}^{\xi+}\delta(x - \xi)\,dx.
+\]
+The right hand side clearly integrates to one.
+If we integrate by parts on the first term of the left hand side,
+we would obtain
+\[
+a_n(x)g ^ {(n - 1)}(x, \xi)\biggr|_{\xi-}^{\xi+} + \int_{\xi-}^{\xi+}(a_{n - 1} - a_n')g ^ {(n - 1)} + \dotsi + a_0g(x, \xi)\,dx = 1.
+\]
+This equation is balanced by setting a jump condition on the $n - 1$st derivative:
+\[
+g ^ {(n - 1)}(x, \xi)\biggr|_{\xi-}^{\xi+} = \frac{1}{a_n(\xi)},
+\]
+taking all lower derivatives to be continuous across $x = \xi$:
+\[
+g ^ {(j)}(x, \xi)\biggr|_{\xi-}^{\xi+} = 0,\qquad j = 0, 1, \dotsc, n - 2.
+\]
+Once the Green's function is determined,
+the solution to the BVP is given by
+\[
+y(x) = \int_{a}^{b}g(x, \xi)f(\xi)\,d\xi.
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
