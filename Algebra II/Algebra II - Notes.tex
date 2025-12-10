@@ -5147,16 +5147,293 @@ Application of Cauchy's theorem.
     \end{proof}
 \end{proposition}
 
+\newpage
 
+\section{Groups of order \texorpdfstring{$p ^ 2$}{},
+\texorpdfstring{$p$}{}-prime}
+Recall,
+centre $z(G) = \{h \in G \mid hg = gh, \forall g \in G\}$,
+$z(G)$ is an abelian subgroup,
+normal.
 
+Exercise:
+$g \in z(G)$ if and only if the size of its conjugacy class is $1$.
 
+\begin{proposition}
+    $G$ a group,
+    such that $|G| = p ^ r$,
+    $p$ prime.
+    Then $z(G)$ is not trivial.
 
+    \begin{proof}
+        By Orbit-stabiliser theorem,
+        the size of any conjugacy class divides $p ^ r$,
+        so it is $p ^ i$ either $1$ or a multiple of $p$.
+        Thus,
+        $p ^ r = |G| = \#\text{conjugacy classes of size $1$}$ so
+        \[
+        p ^ r + \underbrace{\sum\#\text{other conjugacy classes}}_{\text{multiple of } p}.
+        \]
+        There exists at least $1$ conjugacy class of size $1$:
+        $\{e\}$.
+        Thus,
+        the number of conjugacy classes of size $1$ is greater than or equal to $p$.
+        By the above exercise,
+        $|z(G)| \geq p$.
+    \end{proof}
+\end{proposition}
 
+\begin{corollary}
+    If $|G| = p ^ 2$ then $G$ is abelian.
 
+    \begin{proof}
+        Consider $z(G)$ subgroup of $G$ then by Lagrange's theorem $|z(G)| = p ^ i$.
+        $|z(G)| \neq 1$ by previous proposition.
 
+        If $|z(G)| = p ^ 2$ then $z(G) = G$ so $G$ is abelian.
 
+        Assume $|z(G)| = p$,
+        take $h \notin z(p)$,
+        $C_G(h)$ centraliser of $h$ is $\{g \in G \mid gh = hg\}$,
+        this is a subgroup so its order divides $p ^ 2$,
+        $G(h) \supseteq z(G)$ so $|C_G(h)| \geq p$,
+        but $h \in C_G(p) \notin z(G)$ so $|C_G(h)| \geq p + 1$ so $|C_G(h)| = p ^ 2$ so $C_G(h) = G$ so $h \in z(G)$,
+        contradiction.
+    \end{proof}
+\end{corollary}
 
+\newpage
 
+\section{Simple groups}
+
+\begin{definition}
+    $G$ is simple if it has no proper non-trivial normal subgroups.
+\end{definition}
+
+If $N \vartriangle G$,
+we can take $G / N$ smaller size.
+Simple groups -
+minimal groups.
+
+\begin{example}
+    Every subgroup of abelian group is normal so simple abelian groups are $\Z / p$,
+    $p$ prime.
+\end{example}
+
+\begin{example}
+    $S_n$ is not simple for $n \geq 3$ since $A_n \vartriangle S_n$.
+\end{example}
+
+\begin{example}
+    $A_4$ is not simple.
+    Two normal subgroups of $S_n : A_n$ and $\{e, \{(a\ b)(c\ d)\}\} \subseteq A_n$.
+\end{example}
+
+\begin{proposition}
+    $A_n$ is simple for $n \geq 5$.
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{proposition}
+
+\newpage
+
+\section{Abelian groups}
+
+\subsection{Finite abelian groups}
+
+\begin{theorem}[Fundamental Theorem of Finite Abelian Groups]
+    If $G$ is a finite abelian group.
+    Then
+    \[
+    G \cong \Z / a_1 \times \Z / a_2 \times \dotsi \times \Z / a_k.
+    \]
+    Moreover,
+    if one writes $a_i$ such that $a_1 \mid a_2 \mid a_3 \mid \dotsi \mid a_k$,
+    then this presentation is unique.
+\end{theorem}
+
+\begin{example}
+    $\Z / 4 \times \Z / 6 \cong \Z / 2 \times \Z / 12$,
+    Let $G = \Z / 4 \times \Z / 6$.
+    \[
+    G = (x, y), x \in \Z / 4, y \in \Z / 6,
+    \]
+    $a = (x, e)$,
+    $b = (e, y)$.
+    $G = \langle a, b \mid ab = ba, a ^ 4 = e, b ^ 6 = e\rangle$.
+    Want:
+    find $c, d \in G$ such that $G = \langle c, d \mid cd = dc, c ^ 2 = e, d ^ {12} = e\rangle$.
+    \[
+    \begin{pmatrix}
+        4 & 0 \\ 0 & 6
+    \end{pmatrix}
+    \]
+    so $a ^ 4b ^ 0 = e$,
+    $a ^ 0b ^ 6 = e$,
+    multiply relations:
+    \[
+    a ^ 0b ^ 6 = e \implies a ^ 4b ^ 6 = e
+    \]
+    elementary row operation with the matrix.
+    \[
+    \begin{pmatrix}
+        4 & 6 \\ 0 & 6
+    \end{pmatrix}
+    \]
+    so $a ^ 4b ^ 6 = e$,
+    $b ^ 6 = e$.
+    \[
+    \begin{pmatrix}
+        4 & 0 \\ 6 & 6
+    \end{pmatrix}
+    \]
+    $a ^ 4 = e$,
+    $a ^ 6d ^ 6 = a ^ 6(a ^ {-1}b) ^ 6 = b ^ 6 = e$.
+    Define $d = a ^ {-1}b$.
+    New generators:
+    $a, d$.
+    \[
+    \begin{pmatrix}
+        4 & 0 \\ 2 & 6
+    \end{pmatrix} \to \begin{pmatrix}
+        2 & 6 \\ 4 & 0
+    \end{pmatrix} \to \begin{pmatrix}
+        2 & 6 \\ 0 & -12
+    \end{pmatrix} \to \begin{pmatrix}
+        2 & 0 \\ 0 & -12
+    \end{pmatrix}
+    \]
+    $a ^ 2d ^ 6 = e$,
+    $d ^ {-12} = e$.
+    $c ^ 2 = e$,
+    $d ^ {-12} = e$,
+    $c = d ^ 3a$.
+
+    New generators:
+    \[
+    G = \langle c, d \mid cd = dc, c ^ 2 = e, d ^ {12} = e\rangle \implies G \cong \Z / 2 \times \Z / 12.
+    \]
+\end{example}
+
+\begin{theorem}[Chinese Remainder Theorem]
+    \[
+    \Z / m \times \Z / n \cong \Z / (mn)\text{ if }\gcd(m, n) = 1.
+    \]
+\end{theorem}
+
+\begin{example}
+    \begin{itemize}
+        \item $\Z / 6 \cong \Z / 2 \times \Z / 3$.
+
+        \item $\Z / 12 \cong \Z / 4 \times \Z / 3$.
+        
+        \item $\Z / 12 \ncong \Z / 2 \times \Z / 6$ as $\gcd(2, 6) = 2 \neq 1$.
+    \end{itemize}
+\end{example}
+
+\begin{example}
+    Find all abelian groups of order $16$
+    \[
+    16 = 2 ^ 4
+    \]
+    $G = \Z / a_1 \times \Z / a_2 \times \dotsi \times \Z / a_k$,
+    $a_1 \mid a_2 \mid \dotsi \mid a_k$,
+    $a_1 \dotsi a_k = 16$,
+    all $a_i$ are powers of $2$.
+    $a_i = 2 ^ {b_i}$.
+    $2 ^ {b_1 + b_2 + \dotsi + b_k} = 2 ^ 4$,
+    i.e. $b_1 + \dotsi + b_k = 4$,
+    $b_1 \leq \dotsi \leq b_k$.
+    \begin{align*}
+        b_i :\ &1 + 1 + 1 + 1 &&\to \Z / 2 \times \Z / 2  \times \Z / 2 \times \Z / 2 \\
+        & 1 + 1 + 2 &&\to \Z / 2 \times \Z / 2 \times \Z / 4 \\
+        &2 + 2 &&\to \Z / 2 \times \Z / 8 \\
+        &4 &&\to \Z / 4 \times \Z / 4.
+    \end{align*}
+\end{example}
+
+\subsection{Finitely generated abelian groups}
+
+\begin{definition}
+    $G$ is finitely generated if there exists a finitely generated set of $G$.
+\end{definition}
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item Any finitely generated group is finitely generated.
+        
+        \item $\Z ^ n$ is finitely generated.
+
+        \item $G$ finitely generated then $G ^ k$ is finitely generated.
+
+        \item $\mathrm{SL}_2(\Z)$ is generated by $\begin{pmatrix}
+            1 & 1 \\ 0 & 1
+        \end{pmatrix}$ and $\begin{pmatrix}
+            0 & 1 \\ -1 & 0
+        \end{pmatrix}$.
+
+        \item $\Q$ is not finitely generated.
+    \end{itemize}
+\end{example}
+
+$G$ abelian finitely generated,
+$G = \langle s_1, \dotsc, s_n \mid \text{relations}, s_is_j = s_js_i$.
+
+Define $\varphi : \Z ^ n \to G$,
+$\varphi : (a_1, \dotsc, a_n) \mapsto s_1 ^ {a_1}s_2 ^ {a_2} \dotsi s_n ^ {a_n}$.
+By FIT:
+$G \cong \Z ^ n / k$,
+$k = \ker{\varpi}$.
+
+\begin{theorem}
+    Every finitely generated abelian group is isomorphic to $\Z ^ n / K$,
+    $K$ is the relation group,
+    $K \subseteq \Z ^ n$.
+    If $K = \{e\}$,
+    $G$ is a free abelian group.
+\end{theorem}
+
+\begin{example}
+    $G = \langle x, y, z \mid \text{abelian}, x ^ 8y ^ {-4}z ^ {22} = e, x ^ 4y ^ {-8}z ^ 8 = e\rangle$.
+
+    Relation matrix
+    \[
+    \begin{pmatrix}
+        8 & -4 & 22 \\ 4 & -8 & 8
+    \end{pmatrix}.
+    \]
+    \[
+    \begin{pmatrix}
+        8 & -4 & 22 \\ 4 & -8 & 8
+    \end{pmatrix} \to \begin{pmatrix}
+        0 & 12 & 6 \\
+        4 & -8 & 8
+    \end{pmatrix} \to \begin{pmatrix}
+        4 & -8 & 8 \\ 0 & 12 & 6
+    \end{pmatrix} \to \begin{pmatrix}
+        4 & 0 & 8 \\ 0 & 12 & 6
+    \end{pmatrix}
+    \]
+    $x ^ 4y ^ {-8}z ^ 8 = e$,
+    $x' = xy ^ {-2}, y, 2$.
+    $G \cong \Z / 2 \times \Z / 12 \times \Z$.
+\end{example}
+
+\begin{theorem}[fundamental Theorem of Finitely Generated Abelian Groups]
+    Let $G$ be a finitely generated abelian group.
+    Then
+    \[
+    G \cong \Z / a_1 \times \Z / a_2 \times \dotsi \times \Z / a_k \times \Z ^ r
+    \]
+    $a_1 \mid a_2 \mid \dotsi \mid a_k$,
+    $r \geq 0$,
+    this presentation is unique.
+    $r$ is the rank of $G$,
+    $\{a_1, \dotsc, a_k\}$ are called torsion coefficients
+    (torsion invariants).
+\end{theorem}
 
 
 
