@@ -618,21 +618,133 @@
             Therefore this is uniformly most powerful.
         \end{enumerate}
     \end{solution}
-
 \end{problem}
 
+\newpage
 
+\section{Problems Class \texorpdfstring{$4$}{}}
 
+\begin{problem}[$2023$ exam question $8$]
+    Consider the setting where we have a Weibull sampling distribution with known
+    (fixed)
+    positive parameter $k$,
+    and pdf given by
+    \[
+    f(x \mid \lambda) = \frac{k}{\lambda}x ^ {k - 1}e ^ {-x ^ k / \lambda}
+    \]
+    where $x \in [0, \infty)$ and $\lambda > 0$.
+    We are given a sample $\vec{x} = (x_1, \dotsc, x_n) ^ T$ of $n$ observation which we assume to be conditionally IID given parameter $\lambda$
 
+    \begin{enumerate}[label = (\arabic*)]
+        \item Derive the joint sampling distribution of $\vec{x}$ given $\lambda$.
 
+        \item Consider the hypothesis test $H_0 : \lambda = 1$ vs $H_1 : \lambda = 2$ and derive the Bayes factor in favour of $H_0$ against $H_1$.
 
+        \item Assume now that we want to test the null hypothesis $H_0 : \lambda = 1$ vs a more general alternative of the form $H_1 : \lambda > 0$.
+        Under the alternative we specify an inverse-Gamma distribution for parameter $\lambda$,
+        with parameters $a = b = 1$.
+        Derive the Bayes factor in favour of $H_0$ against $H_1$.
 
+        \item Consider the framework where we want to compare a model $M_0$ with an inverse-Gamma prior on $\lambda$,
+        as defined in the previous part,
+        versus a model $M_1$ with an inverse-Gamma prior with parameters $a$ and $b$ such that the prior mode and mean are $b / (a + 1) = 1$ and $b / (a - 1) = 3$,
+        respectively.
+        Find the corresponding prior distribution under $M_1$,
+        briefly describe this model comparison framework mathematically and derive the Bayes factor in favour of $M_0$ against $M_1$.
 
+        \item Suppose that we observe $\vec{x} = (0.95, 1.16, 1.37) ^ T$ and that by design $k = 1$.
+        Calculate the Bayes factor of the previous part and the resulting posterior probabilities of the two models assuming equal model probabilities $a$-priori.
+        Which model would you select?
+    \end{enumerate}
 
+    \begin{solution}
+        \begin{enumerate}[label = (\arabic*)]
+            \item
+            \[
+            f(\vec{x} \mid \lambda) = \prod_{i = 1}^{n}\frac{k}{\lambda}x_i ^ {k - 1}e ^ {-x_i ^ k / \lambda} = \left(\frac{k}{\lambda}\right) ^ n\left(\prod_{i = 1}^{n}x_i ^ {k - 1}\right)\exp\left\{-\frac{1}{\lambda}\sum_{i = 1}^{n}x_i ^ k\right\}.
+            \]
 
+            \item Simple vs simple test of $H_0$ vs $H_1$.
+            No prior $\pi_0, \pi_1$,
+            so cannot find $p_0, p_1$,
+            or $O(H_0 \mid x)$ or $O(H_0)$.
+            \begin{align*}
+                B_{01} &= \frac{f(\vec{x} \mid \lambda = 1)}{f(\vec{x} \mid \lambda = 2)} \\
+                &= \frac{k ^ n1 ^ {-n}\left(\prod_{i}x_i ^ {k - 1}\right)\exp\left\{-\frac{1}{1}\sum_{i}x_i ^ k\right\}}{k ^ n2 ^ {-n}\left(\prod_ix_i ^ {k - 1}\right)\exp\left\{-\frac{1}{2}\sum_{i}x_i ^ k\right\}} \\
+                &= 2 ^ n\exp\left\{-\sum_{i}x_i ^ k + \frac{1}{2}\sum_{i}x_i ^ k\right\} \\
+                &= 2 ^ n\exp\left\{-\frac{1}{2}\sum_{i}x_i ^ k\right\}.
+            \end{align*}
 
+            \item
+            Test $H_0 : \lambda = 1$ vs $H_1 : \lambda > 0$ under $H : f(\lambda \mid H_1)$ is $\mathrm{InvGamma}(a = 1, b = 1)$.
+            If $X \sim \mathrm{Ga}(\alpha, \beta)$ then $Y = \frac{1}{X} \sim \mathrm{InvGa}(\alpha, \beta)$.
+            \begin{align*}
+                f_{X}(x \mid \alpha, \beta) &= \frac{\beta ^ {\alpha}}{\Gamma(\alpha)}x ^ {\alpha - 1}e ^ {-\beta x} & f(y \mid \alpha, \beta) &= f_{X}(x(y) \mid \alpha, \beta)\left|\frac{dx}{dy}\right| \\
+                && &= \frac{\beta ^ {\alpha}}{\Gamma(\alpha)}\left(\frac{1}{y}\right) ^ {\alpha - 1}e ^ {-\beta / y}\cdot \left|\frac{1}{y ^ 2}\right| \\
+                && &= \frac{\beta ^ {\alpha}}{\Gamma(\alpha)}\left(\frac{1}{y}\right) ^ {\alpha + 1}e ^ {-\beta / y}
+            \end{align*}
+            so
+            \[
+            f_1(\lambda \mid a, b) = \frac{b ^ a}{\Gamma(a)}\lambda ^ {-(a + 1)}e ^ {-b / \lambda} = \lambda ^ {-2}e ^ {-1 / \lambda}.
+            \]
+            \begin{align*}
+                B_{01} &= \frac{f(\vec{x} \mid H_0)}{f(\vec{x} \mid H_1)} \\
+                &= \frac{f(\vec{x} \mid \lambda = 1)}{\int_{0}^{\infty}f(x \mid \lambda)f_1(\lambda)\,d\lambda}
+            \end{align*}
+            Need to find the denominator:
+            \begin{align*}
+                I &= \int_{0}^{\infty}\left(\frac{k}{\lambda}\right)^n\left(\prod_{i = 1}^{n}x_i ^ {k - 1}\right)e ^ {-\frac{\sum_i x_i ^ k}{\lambda}}\cdot\lambda ^ {-2}e ^ {-1 / \lambda}\,d\lambda \\
+                &= k ^ n\left(\prod_{i = 1}^{n}x_i ^ {k - 1}\right)\int_{0}^{\infty}\underbrace{\lambda ^ {-(n + 2)}e ^ {-\frac{1}{\lambda}\left[1 + \sum_{i}x_i ^ k\right]}}_{\text{core of $\mathrm{InvGa}(n + 1, 1+ \sum_{i}x_i ^ k)$}}\,d\lambda \\
+                &= k ^ n\left(\prod_{i = 1}^{n}x_i ^ {k - 1}\right)\frac{\Gamma(n + 1)}{\left(1 + \sum_{i}x_i ^ {k}\right) ^ {n + 1}}.
+            \end{align*}
+            So
+            \begin{align*}
+                B_{01} &= \frac{k ^ n1 ^ n\left(\prod_{i}x_i ^ {k - 1}\right)e ^ {-\sum_{i}x_i ^ k}}{k ^ n\left(\prod_{i = 1}^{n}x_i ^ {k - 1}\right)\Gamma(n + 1)\left(1 + \sum_{i}x_i ^ k\right) ^ {-(n + 1)}} \\
+                &= \frac{e ^ {-\sum_{i}x_i ^ k}\left(1 + \sum_{i}x_i ^ k\right) ^ {n + 1}}{n!}.
+            \end{align*}
 
+            \item
+            Model comparison:
+            $M_0 : \lambda \sim \mathrm{InvGa}(1, 1)$ and $x \mid \lambda \sim \mathrm{Weibull}(\lambda)$,
+            $M_1 : \lambda \sim \mathrm{InvGa}(a, b)$ and $x \mid \lambda \sim \mathrm{Weibull}(\lambda)$.
+            \[
+            \frac{\frac{b}{a} - 1}{\frac{b}{a} + 1} = \frac{3}{1} = \frac{a + 1}{a - 1} \implies a + 1 = 3a - 3 \implies 2a = 3 \implies a = 2 \implies \frac{b}{2 + 1} = 1 \iff b = 3
+            \]
+            $\lambda \sim \mathrm{InvGa}(2, 3)$ under $M_1$.
+            Composite vs composite,
+            as all parameters are not uniquely determined.
+            \[
+            B_{01} = \frac{\int_{0}^{\infty}f(\vec{x} \mid \lambda)f_0(\lambda)\,d\lambda}{\int_{0}^{\infty}f(\vec{x}\mid \lambda)f_1(\lambda)\,d\lambda}.
+            \]
+            Try and find $\int_{0}^{\infty}f(\vec{x}\mid \lambda)f_1(\lambda)\,d\lambda$,
+            \begin{align*}
+                \int_{0}^{\infty}f(\vec{x}\mid \lambda)f_1(\lambda)\,d\lambda &= \int_{0}^{\infty}\left(\frac{k}{\lambda}\right) ^ n\left(\prod_{i}x_i ^ {k - 1}\right)e ^ {-\frac{1}{\lambda}\sum_{i}x_i ^ k}\cdot\lambda ^ {-3}e ^ {-3 / \lambda}\,d\lambda \\
+                &= k ^ n\left(\prod_{i}x_i ^ {k - 1}\right)\int_{0}^{\infty}\lambda ^ {-(n + 3)}\exp\left\{-\frac{1}{\lambda}\left[3 + \sum_{i}x_i ^ k\right]\right\}\,d\lambda \\
+                &= k ^ n\left(\prod_{i}x_i ^ {k - 1}\right)\frac{\Gamma(n + 2)}{\left(1 + \sum_{i}x_i ^ k\right) ^ {n + 2}}
+            \end{align*}
+            \[
+            B_{01} = \frac{\left(\frac{k ^ n\left(\prod_{i}x_i ^ {k - 1}\right)\Gamma(n + 1)}{\left(1 + \sum_{i}x_i ^ k\right) ^ {n + 1}}\right)}{\left(\frac{k ^ n\left(\prod_{i}x_i ^ {k - 1}\right)\Gamma(n + 2)}{\left(3 + \sum_{i}x_i ^ k\right) ^ {n + 2}}\right)} = \frac{\left(3 + \sum_{i}x_i ^ k\right) ^ {n + 2}}{\left(1 + \sum_{i}x_i ^ k\right) ^ {n + 1}} = \frac{n!}{(n + 1)!} = \frac{1}{n + 1}.
+            \]
 
-
+            \item
+            $k = 1$,
+            $\sum x_i ^ k = 3.48$,
+            and $n = 3$
+            \[
+            B_{01} = \frac{(3.48 + 3) ^ 5}{(3.48 + 1) ^ 4} \cdot \frac{1}{4} = 7.090926.
+            \]
+            Need to find $p_0, p_1$,
+            which need $\pi_0, \pi_1$.
+            Assume $\pi_0 = \pi_1 = \frac{1}{2}$.
+            \begin{align*}
+                p_0 &= \frac{1}{1 + \frac{\pi_1}{\pi_0B_{01}}} = (1 + B_{01} ^ {-1}) ^ {-1} = 0.8764 \\
+                p_1 &= 0.1236 \\
+            \end{align*}
+            ($B_{10} = 0.141$).
+            Clear evidence in support of $M_0$,
+            positive support from data so choose $M_0$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 \end{document}
