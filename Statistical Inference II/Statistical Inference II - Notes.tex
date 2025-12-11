@@ -5052,8 +5052,141 @@ f(\theta \mid \vec{x}) = f(\theta \mid \vec{x}, H_0)\P(H_0 \mid \vec{x}) + f(\th
     \]
 \end{example}
 
+\subsection{Sufficiency and Bayes Factors}
+If we know that $S$ is a sufficient statistic for $\theta$,
+then
+\[
+f(\vec{x} \mid \theta) = f(\vec{x} \mid s)f(s\mid \theta)\qquad (=h(\vec{x})g(s, \theta))
+\]
+which means
+\begin{align*}
+    B_{01} &= \frac{f(\vec{x} \mid H_0)}{f(\vec{x} \mid H_1)} \\
+    &= \frac{\int f(\vec{x}\mid\theta)f(\theta \mid H_0)\,d\theta}{\int f(\vec{x}\mid \theta)f(\theta \mid H_1)\,d\theta} \\
+    &= \frac{\int f(\vec{x}\mid s)f(s \mid \theta)f(\theta \mid H_0)\,d\theta}{\int f(\vec{x}\mid s)f(s \mid \theta)f(\theta \mid H_1)\,d\theta} \\
+    &= \frac{\int f(s \mid \theta)f(\theta \mid H_0)\,d\theta}{\int f(s \mid \theta)f(\theta \mid H_1)\,d\theta}.
+\end{align*}
 
+\begin{proposition}
+    If $S$ is a sufficient statistic for $\theta$,
+    then
+    \[
+    B_{01} = \frac{f(s \mid H_0)}{f(s \mid H_1)},
+    \]
+    which depends only on the distribution of $S \mid \theta$,
+    and not all of $\vec{x} \mid \theta$.
+\end{proposition}
 
+\begin{example}
+    $\bar{X}$ is sufficient for $\mu$,
+    and $\bar{X} \mid \mu \sim N(\mu, \sigma ^ 2 / n)$ so now:
+    \[
+    B_{01} = \frac{f(\bar{x} \mid H_0)}{f(\bar{x} \mid H_1)} = \frac{f(\bar{x} \mid \mu = \theta)}{f(\bar{x} \mid H_1)}.
+    \]
+    We need the distribution of $\vec{X} \mid H_1$ -
+    the prior predictive distribution of $\vec{X}$ given a Normal prior for $\mu$.
+    \[
+    \bar{X} \mid H_1 \sim N(\theta, v + \sigma ^ 2 / n).
+    \]
+    \begin{align*}
+        B_{01} &= \frac{f(\vec{x} \mid \mu = \theta)}{f(\vec{x} \mid H_1)} \\
+        &= \frac{(2\pi\sigma ^ 2 / n) ^ {-1 / 2}\exp\left\{-\frac{1}{2}(\bar{x} - \theta) ^ 2/ (\sigma ^ 2 / n)\right\}}{(2\pi(v + \sigma ^ 2 / n)) ^ {-1 / 2}\exp\left\{-\frac{1}{2}(\bar{x} - \theta) ^ 2/ (v + \sigma ^ 2 / n)\right\}} \\
+        &= \left(\frac{\sigma ^ 2 / n}{v + \frac{\sigma ^ 2}{n}}\right) ^ {-1 / 2}\exp\left\{-\frac{1}{2}(\bar{x} - \theta) ^ 2\left[\frac{1}{\sigma ^ 2 / n} + \frac{1}{v + \sigma ^ 2 / n}\right]\right\} \\
+        &= \left(\frac{1}{\frac{vn}{\sigma ^ 2} + 1}\right)\exp\left\{-\frac{1}{2}(\bar{x} - \theta) ^ 2\left[\frac{v + \sigma ^ 2 / n + \sigma ^ 2 / n}{(\sigma ^ 2 / n)(v + \sigma ^ 2 / n)}\right]\right\} \\
+        &= \left(1 + \frac{vn}{\sigma ^ 2}\right) ^ {1 / 2}\exp\left\{-\frac{1}{2}\underbrace{(\bar{x} - \theta) ^ 2(\sigma ^ 2 / n) ^ {-1}}_{Z ^ 2 = \left(\frac{x - \theta}{\sigma / \sqrt{n}}\right)}\left[1 + \frac{\sigma ^ 2}{nv}\right] ^ {-1}\right\}.
+    \end{align*}
+\end{example}
+
+\begin{example}
+    Standardised reading test for $9$ year olds.
+    Mean score of $100$ with standard deviation $10$.
+    Test $n = 20$ children in a class,
+    $\bar{x} = 17.5$.
+    Is there evidence for/against $H_0 : \mu = 100$ vs $H_1 : \mu \neq 100$,
+    when $\mu \mid H_1 \sim N(100, 20 ^ 2)$.
+
+    In the notation above:
+    $\theta = 100$,
+    $n = 20$,
+    $\bar{x} = 97.5$,
+    $\sigma ^ 2 = 10 ^ 2$,
+    $v = 20 ^ 2$.
+    $B_{01} = 4.854$,
+    ($B_{10} = 0.206$)
+    positive evidence in support of $H_0$.
+\end{example}
+
+\newpage
+
+\section{Model Comparison}
+So far,
+our hypotheses determined our priors for $\theta$,
+but the likelihood was fixed.
+
+Question:
+What if we let $f(\vec{x} \mid \theta)$ change too?
+
+Replace the usual hypotheses by models,
+$M_0$ and $M_1$,
+and test:
+\[
+M_0 : \begin{cases}
+    x \mid \theta_0 \sim f_0(x \mid \theta_0) \\
+    \theta_0 \sim f_0(\theta_0) \\
+    \theta_0 \in \Omega_0 \\
+    \text{with probability $\pi_0$}
+\end{cases}\qquad\qquad
+M_1 : \begin{cases}
+    x \mid \theta_1 \sim f_1(x \mid \theta_1) \\
+    \theta_1 \sim f_1(\theta_1) \\
+    \theta_1 \in \Omega \\
+    \text{with probability $\pi_1$}.
+\end{cases}
+\]
+This becomes a problem of model comparison,
+where our prior and likelihood may change.
+However,
+the method is still the same:
+\[
+B_{01} = \frac{f(\vec{x} \mid M_0)}{f(\vec{x} \mid M_1)} = \frac{O(M_0 \mid \vec{x})}{O(M_0)} = \frac{f(M_0 \mid \vec{x}) / f(M_1 \mid \vec{x})}{f(M_0) / f(M_1)}.
+\]
+
+\begin{example}
+    A coffee shop records the number of complaints per week in $n = 10$ weeks,
+    \[
+    0, 0, 1, 1, 1, 4, 2, 3, 0, 3
+    \]
+    $\bar{x} = 1.5$,
+    $s ^ 2 = 2.056$.
+    Consider the possible models suitable for $X \in \Z_{0}^{+}$,
+    \[
+    M_0 : \begin{cases}
+        x \mid \lambda_0 \sim \Po(\lambda_0) \\
+        \lambda_0 = 1.5
+    \end{cases}\qquad\qquad
+    M_1 : \begin{cases}
+        x \mid \alpha_1, \beta_1 \sim \mathrm{NegBin}(\alpha_1, \beta_1) \\
+        \alpha_1 = 2, \beta_1 = 4
+    \end{cases}
+    \]
+    $\mathrm{NegBin}(\alpha_1, \beta_1)$ is the negative binomial which is an alternative to the Poisson when $\Var(X) > \E(X)$:
+    \[
+    f(x \mid \alpha, \beta) = \binom{\alpha + x - 1}{\alpha - 1}\beta ^ {\alpha}(1 - \beta) ^ {\alpha}.
+    \]
+    As $M_0, M_1$ completely specify all aspects of prior and likelihood,
+    then simple vs simple problem:
+    \begin{align*}
+        B_{01} &= \frac{f(\vec{x} \mid M_0)}{f(\vec{x} \mid M_1)} \\
+        &= \frac{f_0(\vec{x} \mid \lambda_0)}{f_1(\vec{x} \mid \alpha_1, \beta_1)} \\
+        &= \frac{\prod_{i = 1}^{n}\frac{1}{x_i!}\lambda_0 ^ {x_i}e ^ {-\lambda_0}}{\prod_{i = 1}^{n}\binom{\alpha_1 + x_i - 1}{\alpha_1 - 1}\beta_1 ^ {\alpha_1}(1 - \beta_1) ^ {x_i}} \\
+        &= \frac{\left(\prod_{i = 1}^{n}x_i!\right) ^ {-1}}{\left(\prod_{i = 1}^{n}\binom{\alpha_1 + x_i - 1}{\alpha_1 - 1}\right)}\frac{\lambda_0 ^ {n\bar{x}}}{\beta_0 ^ {n\alpha_1}}\frac{e ^ {-\lambda_0n}}{(1 - \beta_1) ^ {n\bar{x}}}.
+    \end{align*}
+    Plug-in numbers:
+    $B_{01} = 7.810$ positive evidence for $M_0$:
+    $\Po(1.5)$
+    (if $\pi_0 = \pi_1 = 1 / 2$ then $p_0 = 0.886$).
+    \[
+    \]
+\end{example}
 
 
 
