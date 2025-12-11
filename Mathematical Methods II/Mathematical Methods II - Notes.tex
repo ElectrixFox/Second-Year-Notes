@@ -3367,35 +3367,90 @@ the solution to the BVP is given by
 y(x) = \int_{a}^{b}g(x, \xi)f(\xi)\,d\xi.
 \]
 
+\subsection{Three-dimensional Green's functions in
+(pretty)
+arbitrary domains}
+We seek $G(x, \xi)$ such that
+\[
+-\nabla_{x}^{2}G(x, \xi) = \delta(x - \xi),\qquad G(x, \xi) \to 0\text{ as } |x| \to \infty.
+\]
+By translation and rotational symmetry,
+$G$ depends only on the distance $r = |x - \xi|$.
 
+\textbf{Step $1$}:
+Solve away from the source.
 
+For $r > 0$ we have $\nabla_{x}^{2}G = 0$,
+so in spherical coordinates the radial Laplacian gives
+\[
+\Phi''(r) + \frac{2}{r}\Phi'(r) = 0.
+\]
+Integrating once:
+$r ^ 2\Phi'(r) = A$ a constant,
+hence $\Phi'(r) = \frac{A}{r ^ 2}$ and
+\[
+\Phi(r) = -\frac{A}{r} + B
+\]
+The decay condition $G \to 0$ as $r \to \infty$ forces $B = 0$,
+so for $r > 0$
+\[
+G(x, \xi) = \Phi(r) = \frac{C}{r}\quad\text{with }C = -A.
+\]
 
+\textbf{Step $2$};
+Fix the constant by normalisation.
+Integrate the defining equation over a ball $B_{\varepsilon}(\xi)$ of radius $\varepsilon$ centred at $\xi$ and use the divergence theorem:
+\[
+\int_{B_{\varphi}(\xi)}-\nabla_{x}^{2}G\,dV = \int_{\partial B_{\varepsilon}(\xi)}-\pd[G]{n}\,dS = \int_{B_{\varepsilon}(\xi)}\delta(x - \xi)\,dV = 1.
+\]
+Since $G = C / r$,
+its radial derivative is $\pd[G]{r} = -\frac{C}{r ^ 2}$.
+On the sphere $|x - \xi| = \varepsilon$,
+the outward normal derivative is $\pd[G]{n} = \pd[G]{r} = -\frac{C}{\varepsilon ^ 2}$,
+hence
+\[
+\int_{\partial B_{\varepsilon}(\xi)}-\pd[G]{n}\,dS = \int_{\partial B_{\varphi}(\xi)}\frac{C}{\varepsilon ^ 2}\,dS = \frac{C}{\varepsilon ^ 2}\cdot 4\pi\varepsilon ^ 2 = 4\pi C.
+\]
+Therefore $4\pi C = 1$,
+so $C = \frac{1}{4\pi}$ and
+\[
+G(x, \xi) = \frac{1}{4\pi|x - \xi|}.
+\]
 
+Let $\Omega \subset \R ^ 3$ be a bounded domain with smooth boundary $\partial\Omega$.
+For
+\[
+-\nabla ^ 2u(x) = f(x) \in \Omega
+\]
+Green's representation formula is
+\[
+u(x) = \int_{\partial\Omega}\left(G(x, \xi)\pd[u]{n_{\xi}}(\xi) - u(\xi)\pd[G]{n_{\xi}}(x, \xi)\right)\,dS_{\xi} + \int_{\Omega}G(x, \xi)f(\xi)\,dV_{\xi},
+\]
+where $G$ is the Green's function appropriate to the boundary condition.
 
+Dirichlet problem
+($u = g$ on $\partial\Omega$):
+choose the Dirichlet Green's function $G_{D}$ solving
+\[
+-\nabla_{x}^{2}G_{D}(x, \xi) = \delta(x - \xi),\qquad G_{D}(x, \xi) = 0\quad\text{for $x \in \partial\Omega$}.
+\]
+Then
+\[
+u(x) = -\int_{\partial\Omega}g(\xi)\pd[G_{D}]{n_{\xi}}(x, \xi)\,dS_{\xi} + \int_{\Omega}G_{D}(x, \xi)f(\xi)\,dV_{\xi},\qquad x \in \Omega.
+\]
+Hence $u$ is obtained from known boundary data $g$ and the volume source $f$.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Neumann problem
+($\pd[u]{n} = h$ on $\partial\Omega$):
+choose the Neumann function $G_{N}$ solving
+\[
+-\nabla_{x}^{2}G_{N}(x, \xi) = \delta(x - \xi),\qquad \pd[G_{N}]{n_x}(x, \xi) = 0\text{ for } x \in \partial\Omega,
+\]
+together with the usual compatibility $\int_{\Omega}f\,dV = \int_{\partial\Omega}h\,dS$.
+Then
+\[
+u(x) = \int_{\partial\Omega}G_{N}(x, \xi)h(\xi)\,dS_{\xi} + \int_{\Omega}G_{N}(x, \xi)f(\xi)\,dV_{\xi},\qquad x \in \Omega
+\]
+which uses only the known Neumann data $h$ and $f$.
 
 \end{document}
