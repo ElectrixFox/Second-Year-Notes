@@ -15,4 +15,267 @@
 
 \newpage
 
+\section{Probability Spaces}
+There are three parts to a probability space:
+the sample space $\Omega$,
+this is a set
+(finite or infinite).
+Intuitively,
+$\Omega$ consists of all outcomes of a randomised experiment.
+Sigma-algebra or sigma-field $\mathcal{F}$ is a $\sigma$-field if it consists of some subsets of $\Omega$ and has the following properties:
+\begin{enumerate}[label = (\alph*)]
+    \item $\Omega \in \mathcal{F}$.
+
+    \item If $A \in \mathcal{F}$,
+    then $A ^ c \in \mathcal{F}$.
+
+    \item If $A_1, A_2, A_3, \dotsc$ is a collection of subsets such that $A_n \in \mathcal{F}$ for every $n$ then $\bigcup_{n = 1}^{\infty}A_n \in \mathcal{F}$.
+\end{enumerate}
+
+\begin{definition}
+    If $A \in \mathcal{F}$
+    ($\sigma$-field)
+    then $A$ is an event.
+\end{definition}
+
+\begin{example}
+    Throw a dice:
+    \[
+    \Omega = \{1, 2, \dotsc, 6\}.
+    \]
+    \[
+    \mathcal{F}_{\text{full}} = \{\text{all subsets of $\Omega$}\} \eqqcolon 2 ^ {\Omega}
+    \]
+    \[
+    \mathcal{F}_{\text{trivial}} = \{\emptyset, \Omega\}.
+    \]
+\end{example}
+
+The probability function $\P$,
+$\P$ is a function from $\mathcal{F} \to [0, 1]$.
+It must have two properties
+\begin{enumerate}[label = (\alph*)]
+    \item $\P(\Omega) = 1$.
+
+    \item If $A_1, A_2, A_3, \dotsc$ are events
+    ($A_n \in \mathcal{F}$)
+    that are pairwise disjoint,
+    then
+    \[
+    \P\left(\bigcup_{n = 1}^{\infty}A_n\right) = \sum_{n = 1}^{\infty}\P(A_n).
+    \]
+\end{enumerate}
+
+Basic properties of $(\Omega, \mathcal{F}, \P)$.
+
+\begin{proposition}
+    Let $A \in \mathcal{F}$.
+    Then
+    \[
+    \P(A ^ c) = 1 - \P(A).
+    \]
+
+    \begin{proof}
+        \[
+        \Omega = A \cup A ^ c
+        \]
+        (disjoint union)
+        \[
+        1 = \P(\Omega) = \P(A \cup A ^ c) = \P(A) + \P(A ^ c) \iff \P(A) = 1 - \P(A ^ c)
+        \]
+        using the pairwise disjoint probabilities summing and $\P(\Omega) = 1$.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Let $A$ and $B$ be two events
+    ($A, B \in \mathcal{F}$).
+    \begin{itemize}
+        \item If $A \subseteq B$ then $\P(A) \leq \P(B)$.
+
+        \item Suppose $A \subseteq B$ then $B \setminus A = B \cap A ^ c = \{\omega \in B\,:\, \omega \notin A\}$.
+        Then
+        \[
+        \P(B) = \P(A) + \P(B \setminus A).
+        \]
+    \end{itemize}
+    
+    \begin{proof}
+        \begin{itemize}
+            \item
+            \[
+            \P(B) \geq \P(A)
+            \]
+            since $\P(B \setminus A) \geq 0$ in the following
+            \[
+            \P(B) = \P(A) + \P(B \setminus A).
+            \]
+            
+            \item
+            \[
+            B = A \cup (B \setminus A)
+            \]
+            a disjoint union.
+            Then
+            \[
+            \P(B) = \P(A) + \P(B \setminus A).
+            \]
+        \end{itemize}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[Boole's Inequality]
+    Suppose $A_1, A_2, A_3, \dotsc$ are events.
+    Then
+    \[
+    \P\left(\bigcup_{n = 1}^{\infty}A_n\right) \leq \sum_{n = 1}^{\infty}\P(A_n).
+    \]
+
+    \begin{proof}
+        Let $B_1 = A_1$,
+        $B_2 = A_2 \setminus B_1$,
+        $B_3 = A_3 \setminus (B_1 \cup B_2)$,
+        $B_n = A_n \setminus \left(\bigcup_{k = 1}^{n - 1}B_k\right)$.
+        So $B_n \cap B_m = \emptyset$ when $n \neq m$ by construction.
+        $B_n \subseteq A_n$ by construction.
+        Observe
+        \[
+        \bigcup_{n = 1}^{\infty}B_n = \bigcup_{n = 1}^{\infty}A_n
+        \]
+        because $\bigcup_{n = 1}^{\infty}B_n \subseteq \bigcup_{n = 1}^{\infty}A_n$ since $B_n \subseteq A_n$.
+        Suppose $\omega \in A_n$.
+        There is a smallest index $k \leq n$ such that $\omega \in A_j$ and $\omega \notin A_1, \dotsc, A_{k - 1}$.
+        Then $\omega \in B_k$.
+        This implies $\omega \in \bigcup_{n = 1}^{\infty}B_n$.
+        \[
+        \P\left(\bigcup_{n = 1}^{\infty}A_n\right) = \P\left(\bigcup_{n = 1}^{\infty}B_n\right) = \sum_{n = 1}^{\infty}\P(B_n) \leq \sum_{n = 1}^{\infty}\P(A_n)
+        \]
+        since $B_n \subseteq A_n$.
+    \end{proof}
+\end{proposition}
+
+\subsubsection{Generated \texorpdfstring{$\sigma$}{}-fields}
+
+\begin{proposition}
+    Suppose $\mathcal{F}_{\alpha}$,
+    $\alpha \in \mathcal{I}$ is a collection of $\sigma$-fields on sample space $\Omega$.
+    Then
+    \[
+    \mathcal{G} = \bigcap_{\alpha \in \mathcal{I}}\mathcal{F}_{\alpha}
+    \]
+    is also a $\sigma$-field.
+
+    \begin{proof}
+        Need to show:
+        \begin{enumerate}[label = (\alph*)]
+            \item $\Omega \in \mathcal{G}$.
+            
+            \item If $A \in \mathcal{G}$ then $A ^ c \in \mathcal{G}$.
+            
+            \item If $A_1, A_2, \dotsc \in \mathcal{G}$ then $\bigcup_{n = 1}^{\infty}A_n \subset \mathcal{G_n}$.
+        \end{enumerate}
+    
+        \begin{enumerate}[label = (\alph*)]
+            \item $\Omega \in \mathcal{F}_{\alpha}$ for every $\alpha \in \mathcal{I}$.
+            Thus,
+            $\Omega \in \bigcap_{\alpha \in \mathcal{I}}\mathcal{F}_{\alpha}$.
+    
+            \item $A \in \mathcal{G}$.
+            Then $A \in \mathcal{F}_{\alpha}$ for every $\alpha \in \mathcal{I}$.
+            Then $A ^ c \in \mathcal{F}_{\alpha}$ for every $\alpha$ then $A ^ c \in \bigcap_{\alpha \in \mathcal{I}}\mathcal{F}_{\alpha} = \mathcal{G}$.
+    
+            \item $A_n \in \mathcal{G}$ for every $n$.
+            Thus,
+            $A_n \in \mathcal{F}_{\alpha}$ for every $\alpha$ and $n$.
+            Then
+            \[
+            \bigcup_{n = 1}^{\infty}A_n \in \mathcal{F}_{\alpha} \implies \bigcup_{n = 1}^{\infty}A_n \in \bigcap_{\alpha \in \mathcal{I}}\mathcal{F}_{\alpha} = \mathcal{G}
+            \]
+            for every $\alpha$.
+        \end{enumerate}
+        $\Omega$ is the sample space,
+        $\mathcal{C} = \{A_1, \dotsc, A_k\}$ are subsets of $\Omega$.
+        \[
+        \sigma(\mathcal{C}) = \bigcap_{\alpha \in \mathcal{I}}\mathcal{F}_{\alpha}
+        \]
+        where $\mathcal{F}_{\alpha}$ ranges over all $\sigma$-field which contain every event in $\mathcal{C}$.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    One event $A$.
+    Find $\sigma(\{A\})$.
+
+    Claim $\sigma(\{A\}) = \{\emptyset, \Omega, A, A ^ c\}$.
+\end{example}
+
+\begin{example}
+    $\mathcal{C} = \{A, B\}$,
+    $A \cap B = \emptyset$,
+    $\Omega = \{A, B, (A \cup B) ^ c\}$
+    \[
+    \sigma(\mathcal{C}) = \{A, B, (A \cup B) ^ c, A \cup B, A \cup D, B \cup D, \underbrace{A \cup B \cup D}_{\Omega}, \emptyset\}
+    \]
+    $D = (A \cup B) ^ c$.
+\end{example}
+
+\begin{example}
+    $\Omega = [0, 1]$.
+    $\mathcal{C} = \{\text{all open sets $U \subseteq [0, 1]$}\}$.
+    $\sigma(\mathcal{C})$ is called the Borel $\sigma$-field of $\Omega$.
+\end{example}
+
+\subsection{Monotone events}
+\begin{definition}
+    A sequence $A_n$,
+    $n \geq 1$ of events is increasing if $A_n \subseteq A_{n + 1}$ for every $n$.
+    
+    A sequence $B_n$ is decreasing if $B_n \supseteq B_{n + 1}$ for every $n$.
+\end{definition}
+
+\begin{theorem}
+    Let $A_n$ be an increasing sequence of events.
+    Set $A_{\infty} = \bigcup_{n = 1}^{\infty}A_n$
+    ($A_{\infty} = \lim_{n}A_n$).
+    Then
+    \[
+    \P(A_{\infty}) = \lim_{n \to \infty}\P(A_n).
+    \]
+    Suppose $B_n$ are decreasing events.
+    Set $B_{\infty} = \bigcap_{n = 1}^{\infty}B_n$
+    ($B_{\infty} = \lim_{n}B_n$).
+    Then
+    \[
+    \P(B_{\infty}) = \lim_{n \to \infty}\P(B_n).
+    \]
+
+    \begin{proof}
+        Define $C_1 = A_1$,
+        $C_2 = A_2 \setminus A_1$,
+        $C_n = A_n \setminus A_{n - 1}$.
+        The $C_n$ are pairwise disjoint since $A_n$ are increasing.
+        Claim:
+        \[
+        A_{\infty} = \bigcup_{n = 1}^{\infty}C_n\quad\text{and}\quad A_n = \bigcup_{k = 1}^{n}C_k.
+        \]
+        $\bigcup_{n = 1}^{\infty}C_n \subseteq A_{\infty}$.
+        $C_n \subseteq A_n$ so $\bigcup_{n = 1}^{\infty}C_n \subseteq \bigcup_{n = 1}^{\infty}A_n = A_{\infty}$.
+
+        Suppose $\omega \in A_{\infty}$.
+        Then $\omega \in A_n$ for some $n$.
+        Let $k$ be the first index such that $\omega \in A_k$.
+        Then $\omega \notin A_1, \dotsc, A_{k - 1}$.
+        Then $\omega \in A_k \setminus A_{k - 1} = C_k$.
+        Then $\omega \in \bigcup_{n = 1}^{\infty}C_n$ so $A_{\infty} \subseteq \bigcup_{n = 1}^{\infty}C_n$.
+        \begin{align*}
+            \P(A_{\infty}) &= \P\left(\bigcup_{n = 1}^{\infty}C_n\right) \\
+            &= \sum_{n = 1}^{\infty}\P(C_n) \\
+            &= \lim_{n \to \infty}\sum_{k = 1}^{n}\P(C_k) \\
+            &= \lim_{n \to \infty}\P\left(\bigcup_{k = 1}^{n}C_k\right) \\
+            &= \lim_{n \to \infty}\P(A_n).
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+
 \end{document}
