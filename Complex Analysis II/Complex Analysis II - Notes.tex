@@ -1,0 +1,341 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Complex Analysis II}
+\author{Luke Phillips}
+\date{January 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{The Complex Plane and Complex Functions}
+
+\subsection{Complex Numbers}
+
+Complex numbers are of the form $z = x + iy$ where $i$ is the imaginary unit,
+$i = \sqrt{-1}$.
+The set of complex numbers is denoted $\C$.
+We use an Argand diagram to visualise complex numbers $x + iy$ with $(x, y)$.
+
+For $z = x + iy$ we have the real part of $z$,
+$\mathrm{Re}(z) = x$,
+and the imaginary part of $z$,
+$\Im(z) = x$.
+
+Addition of complex numbers,
+$z_1 = x_1 + iy_1$,
+$z_2 = x_2 + iy_2$
+\[
+z_1 \pm z_2 = (x_1 \pm x_2) + i(y_1 \pm y_2)
+\]
+the real parts are added together and the imaginary parts are added together.
+
+Multiplication of complex numbers,
+$z_1 = x_1 + iy_1$,
+$z_2 = x_2 + iy_2$
+\[
+z_1z_2 = (x_1 + iy_1)(x_2 + iy_2) = (x_1x_2 - y_1y_2) + i(x_1y_2 + x_2y_1)
+\]
+just expand and use $i ^ 2 = -1$.
+
+Looking at
+\[
+(x + iy)(x - iy) = x ^ 2 + ixy - ixy - i ^ 2y ^ 2 = x ^ 2 + y ^ 2 \in \R.
+\]
+We call the conjugate of a complex number as follows,
+given $z = x + iy$ the conjugate is
+\[
+\bar{z} = x - iy = \mathrm{Re}(z) - i\mathrm{Im}(z).
+\]
+We can see that
+\[
+z\bar{z} = \mathrm{Re}(z) ^ 2 + \Im(z) ^ 2 \in \R
+\]
+which leads us to
+\[
+|z| = \sqrt{z\bar{z}} = \sqrt{\mathrm{Re}(z) ^ 2 + \Im(z) ^ 2}
+\]
+the modulus
+(or absolute value)
+of $z$.
+
+Using the conjugate we can see
+\[
+\frac{z_1}{z_2} = \frac{x_1 + iy_1}{x_2 + iy_2} = \frac{(x_1 + iy_1)(x_2 - iy_2)}{(x_2 + iy_2)(x_2 - iy_2)} = \frac{x_1x_2 + y_1y_2}{x_2 ^ 2 + y_2 ^ 2} + i\frac{x_2y_1 - x_1y_2}{x_2 ^ 2 + y_2 ^ 2}.
+\]
+
+\begin{example}
+    Find $\frac{3}{1 + i} - (3 + 2i)$.
+
+    \begin{solution}
+        \[
+        \frac{3}{1 + i} - (3 + 2i) = \frac{3(1 - i)}{(1 + i)(1 - i)} - (3 + 2i) = \frac{3 - 3i}{2} - 3 - 2i = -\frac{3}{2} - \frac{7}{2}i.
+        \]
+    \end{solution}
+\end{example}
+
+Conjugation is nothing but reflection with respect to the real axis.
+
+\begin{lemma}[Important Properties of Complex Numbers]
+    \begin{enumerate}[label = (\roman*)]
+        \item $z_1z_2 = 0 \iff z_1 = 0\text{ or } z_2 = 0$.
+
+        \item $|z| = \sqrt{z\bar{z}}$.
+
+        \item $\overline{(zw)} = \bar{z}\bar{w}$.
+
+        \item $\Re(z) = \frac{z + \bar{z}}{2}$ and $\Im(z) = \frac{z - \bar{z}}{2i}$.
+
+        \item $z ^ {-1} = \frac{\bar{z}}{|z| ^ 2}$.
+    \end{enumerate}
+\end{lemma}
+
+Using polar coordinates and the Argand diagram we can write complex numbers in polar coordinates.
+We define for any $z \in \C$
+\[
+r \coloneqq \sqrt{x ^ 2 + y ^ 2} = \sqrt{\Re(z) ^ 2+ \Im(z) ^ 2} = |z|
+\]
+and any $z \neq 0$
+\[
+\theta \coloneqq \begin{cases}
+    \arctan(y / x) & x > 0, \\
+    \pi / 2 & x = 0, y > 0, \\
+    -\pi / 2 & x = 0, y < 0, \\
+    \arctan(y / x) + \pi &x < 0, y > 0, \\
+    \arctan(y / x) - \pi &x < 0, y < 0.
+\end{cases}
+\]
+$\theta$ is the anticlockwise angle measured from the real axis,
+$\theta$ is called the argument of $z$,
+denoted $\arg(z)$.
+
+We have the following polar coordinates for $z$:
+\[
+z = x + iy = r\cos(\theta) + ir\sin(\theta) = r(\cos(\theta) + i\sin(\theta)).
+\]
+
+\begin{example}
+    $z = i$.
+
+    \[
+    r = |z| = \sqrt{0 ^ 2 + 1 ^ 2} = 1
+    \]
+    \[
+    \theta = \pi / 2.
+    \]
+    \[
+    i = 1(\cos(\pi / 2) + i\sin(\pi / 2)) = \cos(\pi / 2) + i\sin(\pi / 2).
+    \]
+
+    $z = 1 + i$
+    \[
+    |z| = \sqrt{1 ^ 2 + 1 ^ 2} = \sqrt{2},
+    \]
+    $\theta = \frac{\pi}{4}$,
+    \[
+    z = \sqrt{2}(\cos(\pi / 4) + i\sin(\pi / 4)).
+    \]
+\end{example}
+
+\textbf{Important:}
+$\arg(z)$ is only defined up to multiples of $2\pi$.
+
+$\arg(i) = \frac{\pi}{2} + 2\pi k$,
+$k \in \Z$,
+not a function.
+
+To define an argument we need a range of angles.
+
+The principal value of $\arg(z)$ is the value in the interval $(-\pi, \pi]$ denoted $\Arg(z)$.
+
+For example:
+$\Arg(i) = \frac{\pi}{2}$,
+$\Arg(-1) = \pi$.
+
+\begin{lemma}[Properties of argument]
+    We have the following properties of the argument:
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item $\arg(z_1z_2) = \arg(z_1) + \arg(z_2)\mod{2\pi}$.
+
+        \item $\arg(1 / z) = -\arg(z)\mod{2\pi}$.
+
+        \item $\arg(\bar{z}) = -\arg(z)\mod{2\pi}$.
+    \end{enumerate}
+\end{lemma}
+\textit{Note:
+the proof relies on why we went to polar coordinates:
+multiplication is clear.}
+
+\begin{lemma}
+    Geometrically,
+    multiplication in $\C$ is given by a dilated rotation;
+    i.e.,
+    if $z_1 = r_1(\cos(\theta_1) + i\sin(\theta_1))$ and $z_2 = r_2(\cos(\theta_2) + i\sin(\theta_2))$ then
+    \[
+    z_1z_2 = r_1r_2(\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2)).
+    \]
+    In particular,
+    multiplying by $z_2$ constitutes an
+    (anticlockwise)
+    rotation of $z_1$ by $\theta_2$ degrees,
+    followed by a dilation with factor $r_2$.
+
+    \begin{proof}
+        \begin{align*}
+            z_1z_2 &= r_1(cos(\theta_1) + i\sin(\theta_2))r_2(\cos(\theta_2) + i\sin(\theta_2)) \\
+            &= (r_1\cos(\theta_1) + ir_1\sin(\theta_1))(r_2\cos(\theta_2) + ir_2\sin(\theta_2)) \\
+            &= (r_1r_2\cos(\theta_1)\cos(\theta_2) - r_1r_2\sin(\theta_1)\sin(\theta_2)) \\
+            &+ i(r_1r_2\sin(\theta_1)\cos(\theta_2) + r_1r_2\cos(\theta_1)\sin(\theta_2)) \\
+            &= r_1r_2[(\cos(\theta_1)\cos(\theta_2) - \sin(\theta_1)\sin(\theta_2)) + i(\sin(\theta_1)\cos(\theta_2) + \cos(\theta_1)\sin(\theta_2))] \\
+            &= r_1r_2(\cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2)).
+        \end{align*}
+    \end{proof}
+\end{lemma}
+\textit{Note:
+this proves $\arg(z_1z_2) = \arg(z_1) + \arg(z_2)\mod{2\pi}$,
+but also:
+$\frac{1}{z} = \frac{\bar{z}}{|z| ^ 2}$ so $\arg(1 / z) = \arg(\bar{z})\mod{2\pi}$,
+or $0 = \arg(z \cdot 1 / z) = \arg(z) + \arg(1 / z)\mod{2\pi}$.}
+
+Useful notation:
+write $\cos(\theta) + i\sin(\theta) \coloneqq e ^ {i\theta}$.
+
+Motivated by
+\[
+e ^ {i\theta_1}e ^ {i\theta_2} = (\cos(\theta_1) + i\sin(\theta_1))(\cos(\theta_2) + i\sin(\theta_2)) = \cos(\theta_1 + \theta_2) + i\sin(\theta_1 + \theta_2) = e ^ {i(\theta_1 + \theta_2)}
+\]
+
+\begin{corollary}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item $|z_1z_2| = |z_1||z_2|$.
+        
+        \item De Moivre's formula:
+        $(\cos(\theta) + i\sin(\theta)) ^ n = \cos(n\theta) + i\sin(n\theta)$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item Exercise.
+
+            \item Done with induction.
+        \end{enumerate}
+    \end{proof}
+\end{corollary}
+
+The modulus has the following properties.
+\begin{enumerate}[label = (\roman*)]
+    \item
+    (Triangle inequality)
+    $|z_1 + z_2| \leq |z_1| + |z_2|$.
+
+    \item $|z| \geq 0$ and $|z| = 0 \iff z = 0$.
+
+    \item $\max(|\Re(z)|, |\Im(z)|) \leq |z| \leq |\Re(z)| + |\Im(z)|$.
+\end{enumerate}
+
+We can use $\arg(z)$,
+$|z|$ to describe geometric sets.
+$\mathbb{D} \coloneqq \{z \in \C\,:\, |z| < 1\}$ -
+Unit disc.
+
+$\mathbb{H} = \{z \in \C\,:\, \Im(z) > 0\}$ -
+Upper half plane
+(without the $x$ axis).
+
+$\mathbb{H}_{R} \coloneqq \{z \in \C,\:\, \Re(z) > 0\}$ -
+Right half plane
+(without the $y$ axis).
+
+$\mathbb{H}_{L} \coloneqq \{z \in \C,\:\, \Re(z) < 0\}$ -
+Left half plane
+(without the $y$ axis)
+
+$\arg(z) = \frac{\pi}{4}$ -
+Ray of angle $\pi / 4$.
+
+$\{z \in \C\,:\, |z - i| = 4\}$ -
+Circle centred at $i$ with radius $4$.
+
+\begin{example}
+    What is the set $|z - i| = |z + i|$?
+
+    \begin{solution}
+        The real line.
+
+        $z = x + iy$
+        \begin{align*}
+            |x + i(y - 1)| = |x + i(y + 1)| &\iff |x + i(y - 1)| ^ 2 = |x + i(y + 1)| ^ 2 \\
+            &\iff x ^ 2 + (y - 1) ^ 2 = x ^ 2 + (y + 1) ^ 2 \\
+            &\iff 4y = 0 \implies y = 0.
+        \end{align*}
+
+        With $z$:
+        one can show
+        \[
+        |z - \omega| ^ 2 = |z| ^ 2 - 2\Re(z\bar{\omega}) + |\omega| ^ 2.
+        \]
+    \end{solution}
+\end{example}
+
+\subsection{Complex Functions}
+
+Complex functions are $f : \C \to \C$.
+To visualise the graph of complex functions we need four dimensions.
+We can always write
+\[
+f(z) = \Re(f(z)) + i\Im(f(z)).
+\]
+This is not enough to visualise it.
+
+To understand complex functions we usually try to see how they take sets from $\C$ to sets in $\C$.
+We will explore
+"elementary"
+functions like polynomials,
+exponentials,
+trigonometric functions,
+logarithms and powers.
+
+\subsection{The function \texorpdfstring{$f(z) = z ^ n$}{} with \texorpdfstring{$n \in \N$}{}}
+To understand $z ^ n$ we will use polar representation:
+if $z = re ^ {i\theta}$.
+By our lemma,
+\[
+z ^ n = r ^ ne ^ {in\theta}
+\]
+if we fix $r$,
+i.e. we are on a circle $z ^ n$ dilates our radius by power of $n$
+($r \mapsto r ^ n$) and multiplies our argument by a factor of $n$
+($\theta \to n\theta\mod{2\pi}$).
+
+A segment of angular length $\eta$ on a circle of radius $r$ becomes an angular segment of length $n\eta\mod{2\pi}$ if $n\eta < 2\pi$ and the full circle if $n\eta \geq 2\pi$ with radius $r ^ n$.
+
+If $n\eta > 2\pi$,
+$z ^ n$ will not be injective.
+
+We can slice the world to wedges of size $2\pi / n$ on which $z ^ n$ is injective.
+For instance
+\[
+S_{k}^{(n)} = \{z \in \C\,:\,-\pi < 2\pi k / n < \Arg(z) \leq -\pi + 2\pi(k + 1) / n\}
+\]
+where $k = 0, \dotsc, n - 1$.
+Or
+\[
+R_{k}^{(n)} = \{z \in \C\,:\, 2\pi k / n\mod{2\pi} < \Arg(z) \leq 2\pi(k + 1) / n\mod{2\pi}\}
+\]
+$k = 0, \dotsc, n - 1$.
+
+
+
+
+
+
+
+\end{document}
