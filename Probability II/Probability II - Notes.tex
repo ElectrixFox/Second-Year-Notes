@@ -277,5 +277,315 @@ Basic properties of $(\Omega, \mathcal{F}, \P)$.
     \end{proof}
 \end{theorem}
 
+\subsection{Random variables}
+Saw the cumulative distribution function
+(cdf)
+of a random variable $X$,
+\[
+F_{X}(y) = \P(X \leq y),\quad y \in \R.
+\]
+
+\begin{definition}[Random variable]
+    Let $(\Omega, \mathcal{F}, \P)$ be a probability space.
+    A random variable is a function
+    \[
+    X : \Omega \to \R
+    \]
+    such that for every open set $U \subseteq \R$
+    \[
+    \{\omega\,:\, \underbrace{X(\omega)}_{= \{X \in U\}} \in U\} \in \mathcal{F}
+    \]
+    (i.e. is an event)
+\end{definition}
+
+Open set $U$ means that for every $x \in U$,
+$\exists \delta > 0$ such that $y \in U$ for all $|x - y| < \delta$,
+e.g. $U = (-1, 8)$.
+
+In fact the open set condition in the above definition is equivalent to:
+for every closed set $K \subseteq \R$,
+$\{X \in K\} \in \mathcal{F}$.
+Closed set $K$ means $\R \setminus K$ is open.
+E.g. $K = [-1, 8]$.
+For every $y \in \R$,
+$\{X \leq y\} \in \mathcal{F}$,
+i.e. $\{\omega \in \Omega\,:\,X(\omega) \in (-\infty, y]\}$.
+
+The above conditions are a version of saying that a function $X$ is measurable with respect to $\mathcal{F}$.
+
+Indicators:
+If $A \in \mathcal{F}$ is an event,
+the indicator of $A$ denote $\mathbb{1}_{A}$ is the function
+\[
+\mathbb{1}_{A}(\omega) = \begin{cases}
+    1 &\text{if } \omega \in A \\
+    0 &\text{if } \omega \notin A.
+\end{cases}
+\]
+
+Check that $\mathbb{1}_A$ is a random variable.
+Suppose $U \subseteq \R$ is open
+\[
+\{\mathbb{1}_{A} \in U\} = \begin{cases}
+    \emptyset &\text{if } 0 \notin U, 1 \notin U \\
+    A &\text{if } 0 \notin U, 1 \in U \\
+    A ^ c &\text{if } 0 \in U, 1 \notin U \\
+    \Omega &\text{if } 0 \in U, 1 \in U.
+\end{cases}
+\]
+These sets are all in $\mathcal{F}$,
+so fine.
+
+Properties of indicators
+(exercise to check)
+$\mathbb{1}_{\emptyset} \equiv 0$,
+$\mathbb{1}_{\Omega} \equiv 1$,
+$\mathbb{1}_{A ^ c} = 1 - \mathbb{1}_{A}$,
+$\mathbb{1}_{A \cap B} = \mathbb{1}_{A}\cdot\mathbb{1}_{B}$,
+$\mathbb{1}_{A \cup B} = \mathbb{1}_{A} + \mathbb{1}_{B} - \mathbb{1}_{A \cap B}$.
+
+\begin{lemma}
+    If $X$ is a random variable and $f : \R \to \R$ continuous then $f(X)$ is also a random variable
+    (e.g. $X ^ 2$).
+
+    \begin{proof}
+        For $f$ continuous and $U$ open,
+        \[
+        f ^ {-1}(U) = \{x\,:\, f(x) \in U\}
+        \]
+        is open.
+    \end{proof}
+\end{lemma}
+
+The law of a random variable.
+
+The law of a random variable $X$ is the collection of probabilities $\P(\underbrace{X \in U}_{\in \mathcal{F}})$ for every open $U \subseteq \R$.
+Two random variables $X$ and $Y$ are equal in law written $X \overset{\text{law}}{=} Y$ if $\P(X \in U) = \P(Y \in U)$ for all open $U \subseteq \R$.
+Another word for law is distribution.
+
+For any random variable we can specify the law via a probability mass function
+\[
+\P(X \in U) = \sum_{x \in U}p_{X}(x)
+\]
+and for continuous random variables use the probability density function
+\[
+\P(X \in U) = \int_{U}f_{X}(x)\,dx.
+\]
+
+Cumulative distribution function
+(cdf).
+
+Recall,
+$F_{X}(y) = \P(\underbrace{X \leq y}_{\in \mathcal{F}})$ for $y \in \R$.
+
+Examples.
+If $X$ is continuous with pdf $f_{X}$,
+\[
+F_{X}(y) = \int_{-\infty}^{y}f_{X}(t)\,dt.
+\]
+If $X$ is discrete with pdf $p_{X}$,
+$F_{X}(y) = \sum_{t \leq y}p_{X}(t)$
+
+$F_{X}$ uniquely determines the law of $X$.
+
+Properties of cdf.
+$F_{X}$ has the following properties
+\begin{proposition}
+    \begin{enumerate}[label = (\roman*)]
+        \item Non-decreasing:
+        If $y_1 \leq y_2$,
+        then $F_{X}(y_1) \leq F_{X}(y_2)$.
+    
+        \item Limits
+        \[
+        \lim_{y \to \infty}F_{X}(y) = 1,\qquad \lim_{y \to -\infty}F_{X}(y) = 0.
+        \]
+    
+        \item Right continuity
+        \[
+        \lim_{y' \to y ^ {-}}F_{X}(y') = F_{X}(y).
+        \]
+    
+        \item Left limits
+        \[
+        \lim_{y' \to y ^ {+}}F_{X}(y') =  \P(X < y)
+        \]
+    \end{enumerate}
+    
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item If $y_1 \leq y_2$,
+            then $\{X \leq y_1\} \subseteq \{X \leq y_2\}$ so $F_{X}(y_1) = \P(X \leq y) \leq \P(X \leq y_2) = F_{X}(y_2)$
+            (monotonicity of $\P$).
+
+            \item Take sequence $y_n \uparrow \infty$
+            (e.g. $y_n = n$).
+            Then $\{X \leq y_n\}$ are increasing events
+            ($\{X \leq y_n\} \subseteq \{X \leq y_{n + 1}\}$).
+            \[
+            \bigcup_{n = 1}^{\infty}\{X \leq y_n\} = \{X < \infty\} = \Omega.
+            \]
+            \[
+            1 = \P\left(\bigcup_{n = 1}^{\infty}\{X \leq y_n\}\right) = \lim_{n \to \infty}\P(X \leq y_n) = \lim_{n \to \infty}F_{X}(y_n)
+            \]
+            (continuity of $\P$ for monotone events).
+
+            Similarly for $y \to -\infty$.
+
+            \item Consider $y_n \downarrow y$
+            (e.g. $y_n = y + 1 / n$).
+            Then $\{X \leq y_n\}$ are decreasing events
+            \[
+            \bigcap_{n = 1}^{\infty}\{X \leq y_n\} = \{X \leq y\}
+            \]
+            so
+            \[
+            \lim_{n \to \infty}F_{X}(y_n) = \P\left(\bigcap_{n = 1}^{\infty}\{X \leq y_n\}\right) = \P(X \leq y) = F_{X}(y).
+            \]
+
+            \item If $y_n \uparrow y$
+            (e.g. $y_n = y - 1 / n$).
+            $\{X \leq y_n\}$ are increasing
+            \[
+            \bigcup_{n = 1}^{\infty}\{X \leq y_n\} = \{X < y\}.
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\subsection{Expectation and independence}
+Let $X$ be a random variable on $(\Omega, \mathcal{F}, \P)$
+\[
+\E(X) = \int X(\omega)\,d\P(\omega)
+\]
+a Lebesgue integral.
+
+If $X$ has a density $f_{X}$
+\[
+\E(X) = \int_{\R}xf_{X}(x)\,dx
+\]
+and if $X$ has a pmf $p_{X}$
+(discrete)
+\[
+\E(X) = \sum_{x}xp_{X}(x).
+\]
+Can build the general theory
+(the Lebesgue integral)
+by starting from
+\[
+\E(\mathbb{1}_A) = \P(A)
+\]
+and approximating general $X$ by piecewise constant functions
+(weighted sums of indicators).
+
+Properties of $\E$.
+\begin{enumerate}[label = (\roman*)]
+    \item $\E(1) = 1$
+    (non-random).
+
+    \item $\E(\alpha X + \beta Y) = \alpha\E(X) + \beta\E(Y)$
+    ($\alpha, \beta \in \R$)
+    (linearity).
+
+    \item If $\P(X \leq Y) = 1$ then $\E(X) \leq \E(Y)$.
+\end{enumerate}
+
+Markov's inequality:
+If $X \geq 0$ is a random variable,
+then
+\[
+\P(X \geq a) \leq \frac{\E(X)}{a}
+\]
+for any $a > 0$.
+
+\begin{proposition}
+    Suppose $X$ is a random variable and $\E(|X|) < \infty$.
+
+    Then $\P(|X| < \infty) = 1$,
+    i.e. $X$ is finite.
+
+    \begin{proof}
+        Consider events $\{|X| > n\}$,
+        $n = 1, 2, \dotsc$ which are decreasing and
+        \[
+        \bigcap_{n = 1}^{\infty}\{|X| > n\} = \{|X| = \infty\}.
+        \]
+        So
+        \[
+        \P(|X| = \infty) = \P\left(\bigcap_{n = 1}^{\infty}\{|X| > n\}\right) = \lim_{n \to \infty}\P(|X| > n) \leq \frac{\E(|X|)}{n}.
+        \]
+        Hence
+        (since $\E(|X|) < \infty$),
+        $\lim_{n \to \infty}\P(|X| > n) = 0$.
+        So $\P(|X| = \infty) = 0$ then $\P(|X| < \infty) = 1 - \P(|X|  = \infty) = 1$.
+        
+    \end{proof}
+\end{proposition}
+
+Our definition of random variable insisted $X(\omega) \in \R$,
+but often we actually work with $X : \Omega \to [-\infty, \infty]$ and need to check $|X| < \infty$.
+
+Let $X, Y$ be two random variables on probability space $(\Omega, \mathcal{F},\P)$.
+$(X, Y)$ is a random variable on $\R ^ 2$
+(previous definitions of e.g. law extend to this case).
+
+Independence is a property of the law of $(X, Y)$.
+Random variables $X$ and $Y$ are independent if
+($3$ equivalent conditions)
+\begin{enumerate}[label = (\roman*)]
+    \item $\P(X \leq x, Y \leq y) = \P(X \leq x)\P(Y \leq y)$ for all $x, y \in \R$.
+
+    \item $\P(X \in A, Y \in B) = \P(X \in A)\P(Y \in B)$ for all open $A, B \subseteq \R$.
+
+    \item $\E(f(X)g(Y)) = \E(f(X))\E(g(Y))$ for all bounded and continuous functions $f, g : \R \to \R$.
+\end{enumerate}
+
+Jointly discrete random variables $p_{X, Y}(x, y) = p_{X}(x)p_{Y}(y)$ and jointly continuous random variables $f_{X, Y}(x, y) = f_{X}(x)f_{Y}(y)$.
+
+A special case of
+(iii)
+is $\E(XY) = \E(X)\E(Y)$ if $X, Y$ are independent.
+
+\begin{example}
+    Toss a fair coin twice.
+    \[
+    X = \begin{cases}
+        1 &\text{first toss is $H$} \\
+        0 &\text{first toss is $T$}
+    \end{cases}
+    \]
+    \[
+    Y = \begin{cases}
+        1 &\text{second toss is $H$} \\
+        0 &\text{second toss is $T$}.
+    \end{cases}
+    \]
+    Suppose $\P(X = a, Y = b) = \frac{1}{4} = \P(X = a)\P(Y = b)$ for all $a, b \in \{0, 1\}$.
+
+    Then
+    \begin{align*}
+        \E(f(X)g(Y)) &= \sum_{a, b}f(a)g(b)\P(X = a, Y = b) &&\text{(LOTUS)} \\
+        &= \sum_{a}\sum_{b}f(a)g(b)\P(X = a)\P(Y = b) \\
+        &= \sum_{a}f(a)\P(X = a)\sum_{b}g(b)\P(Y = b) \\
+        &= \E(f(X))\E(g(Y)).
+    \end{align*}
+\end{example}
+
+\begin{lemma}
+    Suppose $X$ and $Y$ are independent and $f, g$ continuous,
+    then $f(X)$ and $g(Y)$ are also independent.
+    
+    \begin{proof}
+        Use
+        (iii)
+        of the above.
+    \end{proof}
+\end{lemma}
+
+
+
+
+
+
 
 \end{document}
