@@ -1,0 +1,85 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Complex Analysis II \\
+    \large Prereading Notes}
+\author{Luke Phillips}
+\date{January 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{The Complex Plane and Complex Functions}
+
+\subsection{Exponential and trigonometric functions}
+
+\begin{definition}[Complex exponential]
+    We define the complex exponential function $\exp : \C \to \C$ by
+    \[
+    \exp(z) \coloneqq e ^ x(\cos{y} + i\sin{y}).\qquad (z = x + iy)
+    \]
+    short hand $\exp(z) = e ^ z$.
+\end{definition}
+
+\begin{proposition}
+    We have the following properties of the complex exponential function:
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item $e ^ z \neq 0$ for all $z \in \C$.
+
+        \item $e ^ {z_1 + z_2} = e ^ {z_1}e ^ {z_2}$.
+
+        \item $e ^ z = 1$ if and only if $z = 2\pi ik$ for some $k \in \Z$.
+
+        \item $e ^ {-z} = 1 / e ^ z$.
+
+        \item $|e ^ z| = e ^ {\Re(z)}$.
+    \end{enumerate}
+
+    \begin{proof}
+        Start by seeing that $e ^ {z} = e ^ xe ^ {iy}$ so
+        \[
+        |e ^ z| = e ^ x = e ^ {\Re(z)},\qquad \Arg(e ^ {z}) = y\mod{2\pi}.
+        \]
+        Since $|e ^ z| = e ^ {\Re(z)}$ we see $|e ^ z| \neq 0$ for all $z \in \C$ and $e ^ z \neq 0$ for all $z \in \C$.
+
+        By definition
+        \[
+        e ^ {z_1}e ^ {z_2} = e ^ {x_1}e ^ {iy_1}e ^ {x_2}e ^ {iy_2} = e ^ {x_1}e ^ {x_2}e ^ {iy_1}e ^ {iy_2} = e ^ {x_1 + x_2}e ^ {i(y_1 + y_2)} = e ^ {z_1 + z_2}.
+        \]
+        This implies that
+        \[
+        e ^ {z}e ^ {-z} = e ^ {z - z} = e ^ 0 = 1
+        \]
+        and so $e ^ {-z} = 1 / e ^ z$.
+
+        Finally,
+        $e ^ z = 1 = e ^ 0e ^ {i0}$ so
+        \[
+        \Re(z) = 0,\qquad \Im(z) = 0\mod{2\pi}
+        \]
+        in other words $z = 2\pi ik$ for some $k \in \Z$.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    We have $\exp(2\pi i) = 1$ and $\exp(\pi i) = -1$.
+    The latter being Euler's formula.
+\end{corollary}
+
+\begin{corollary}
+    The complex exponential function is $2\pi i$-periodic,
+    $\exp(z + 2k\pi i) = \exp(z)$ for any $k \in \Z$.
+\end{corollary}
+
+
+
+
+\end{document}
