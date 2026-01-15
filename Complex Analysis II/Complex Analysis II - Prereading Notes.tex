@@ -79,7 +79,59 @@
     $\exp(z + 2k\pi i) = \exp(z)$ for any $k \in \Z$.
 \end{corollary}
 
+\begin{definition}[Trigonometric functions]
+    \begin{align*}
+        \sin(z) &\coloneqq \frac{1}{2i}(e ^ {iz} - e ^ {-iz}) & \cos(z) &\coloneqq \frac{1}{2}(e ^ {iz} + e ^ {-iz}) \\
+        \sinh(z) &\coloneqq \frac{1}{2}(e ^ {z} - e ^ {-z}) & \cosh(z) &\coloneqq \frac{1}{2}(e ^ {z} + e ^ {-z})
+    \end{align*}
+\end{definition}
 
+\begin{lemma}
+    For $z = x + iy$:
+    \begin{align*}
+        \sin(z) &= \sin(x)\cosh(y) + i\cos(x)\sinh(y) \\
+        \cos(z) &= \cos(x)\cosh(y) - i\sin(x)\sinh(y) \\
+        \sinh(z) &= -i\sin(iz) = \sinh(x)\cos(y) + i\cosh(x)\sin(y) \\
+        \cosh(z) &= \cos(iz) = \cosh(x)\cos(y) + i\sinh(x)\sin(y).
+    \end{align*}
+    In addition we have that for all $z \in \C$
+    \[
+    \sin ^ 2(z) + \cos ^ 2(z) = 1,\qquad \cosh ^ 2(z) - \sinh ^ 2(z) = 1.
+    \]
+\end{lemma}
+
+\subsection{Logarithms and complex powers}
+
+\begin{lemma}[Inverting the exponential function]
+    For every $w \in \C ^ {*} = \C \setminus \{0\}$,
+    the equation
+    \[
+    e ^ z = w
+    \]
+    has a solution $z$.
+    Furthermore,
+    if we write $w = |w|e ^ {i\varphi}$ with $\varphi = \Arg(w)$,
+    then all of the solutions are given by
+    \[
+    z = \log{|w|} + i(\varphi + 2\pi k)\quad\text{for } k \in \Z.
+    \]
+    Here,
+    $\log|w|$ is the natural logarithm of the real number $|w|$.
+
+    \begin{proof}
+        Choosing $z = \log|w| + i(\varphi + 2\pi k)$ for some $k \in \Z$ we see
+        \[
+        e ^ {z} = e ^ {\log|w|}e ^ {i(\varphi + 2\pi k)} = |w|e ^ {i\varphi} = w.
+        \]
+        This shows a solution exists.
+        Assume $z = x + iy$ satisfies $e ^ z = w$.
+        Then
+        \[
+        |w| = |e ^ z| = e ^ x,\quad \Arg(w) = \Arg(e ^ z) = y\mod{2\pi}.
+        \]
+        The first equality implies $x = \log|w|$ and the second equality implies $y = \Arg(w) + 2\pi k$ for $k \in \Z$.
+    \end{proof}
+\end{lemma}
 
 
 \end{document}
