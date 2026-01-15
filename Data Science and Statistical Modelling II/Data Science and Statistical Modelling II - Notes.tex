@@ -86,5 +86,75 @@ where
 \end{cases}
 \]
 
+Intuition:
+Is what we actually saw $t_{\text{obs}}$ unusual compared to many
+"parallel universes"
+(universes -
+$(t_1, \dotsc, t_N)$)
+in which $H_0$ really is true?
+
+What problems remain?
+\begin{enumerate}[label = (\arabic*)]
+    \item Would rather have a standard error and confidence interval.
+
+    \item Still had to assume something for $F(\cdot\mid \theta)$.
+\end{enumerate}
+
+\textbf{Bootstrap}:
+Data $\vec{x} = (x_1, \dotsc, x_n)$.
+Statistic of interest,
+$S(\cdot)$.
+
+To construct a Bootstrap estimate of the standard error,
+we simulate $B$ samples of size $n$ with replacement from $\{x_1, \dotsc, x_n\}$ giving:
+\begin{align*}
+    \{x_1 ^ {*1}, \dotsc, x_n ^ {*1}\} &= \vec{x} ^ {*1} \to S(\vec{x} ^ {*1}) \\
+    &\vdots \\
+    \{x_1 ^ {*B}, \dotsc, x_n ^ {*B}\} &= \vec{x} ^ {*B} \to S(\vec{x} ^ {*B}).
+\end{align*}
+We take $S(\vec{x})$ as the estimator and compute the variance of the estimate as:
+\[
+\widehat{\Var}(S(\cdot)) = \frac{1}{B - 1}\sum_{b = 1}^{B}(S(\vec{x} ^ {*b}) - \bar{S} ^ {*}) ^ 2.
+\]
+
+Why does bootstrap work?
+
+\begin{definition}
+    For a random variable $X$ taking values in $\R$,
+    the cumulative distribution function
+    (cdf),
+    $F : \R \to [0, 1]$,
+    is defined by:
+    \[
+    F(x) \coloneqq \P(X \leq x),\quad \forall x \in \R.
+    \]
+\end{definition}
+
+\begin{definition}
+    Given a sample of IID data,
+    $(x_1, \dotsc, x_n)$,
+    we define the empirical cdf
+    (ecdf)
+    to be:
+    \[
+    \hat{F}(x) \coloneqq \frac{1}{n}\sum_{i = 1}^{n}\mathbb{1}\{x_i \leq x\},\qquad \forall x \in \R.
+    \]
+\end{definition}
+
+\textit{Note:
+this is a valid cdf}
+\[
+\lim_{x \to -\infty}\hat{F}(x) = 0,\qquad \lim_{x \to \infty}\hat{F}(x) = 1
+\]
+\[
+\forall x' < x, \hat{F}(x') \leq \hat{F}(x)
+\]
+\[
+\forall x \in \R, \hat{F}(x) = \hat{F}(x ^ {+})
+\]
+$\hat{F}(x ^ {+}) = \lim_{t \to x ^ {+}}\hat{F}(t)$.
+
+
+
 
 \end{document}
