@@ -332,6 +332,324 @@ R_{k}^{(n)} = \{z \in \C\,:\, 2\pi k / n\mod{2\pi} < \Arg(z) \leq 2\pi(k + 1) / 
 \]
 $k = 0, \dotsc, n - 1$.
 
+\textit{Note:
+when $n$ is even $R ^ {(n)}$s and $S ^ {(n)}$s will overlap
+(not true if $n$ is odd).}
+
+We now want to fix $\theta$.
+Geometrically that a fixed $\theta$ is a ray
+(half line)
+without the origin.
+
+The ray of angle $\theta$ is the set
+\[
+\{z \in \C \setminus \{0\}\,:\,\Arg(z) = \theta\}
+\]
+The closed ray of angle $\theta$ is the way of angle $\theta$ together with the origin $z = 0$,
+i.e.
+\[
+\{z \in \C \setminus \{0\}\,:\,\Arg(z) = \theta \cup \{0\}\}.
+\]
+
+If $\theta$ is fixed $z ^ n = r ^ ne ^ {in\theta}$ which takes a segment on the ray $R_{\theta}$
+($0 \leq a < r < b$)
+will go to a segment on the ray $R_{n\theta\bmod{2\pi}}$
+($a ^ n < r ^ n < b ^ n$).
+
+\begin{lemma}
+    \begin{itemize}
+        \item The map $z ^ n$ injectively takes an angular segment of length $\frac{2\pi}{n}$ which is open at one end and closed at the other from a circle of radius $r$ to the entire circle of radius $r ^ n$.
+        If the above segment is closed,
+        or its size is larger than $\frac{2\pi}{n}$ the image is no longer injective.
+
+        \item The map $z ^ n$ injectively takes a ray of angle $\theta$ to a ray of angle $n\theta\bmod{2\pi}$.
+        Consequently,
+        if $n|\theta_1 - \theta_2| \leq 2\pi$ the map $z ^ n$ injectively takes the wedge
+        \[
+        W = \{z \in \C\,:\, \theta_1 < \Arg(z) < \theta_2\}
+        \]
+        to the wedge
+        \[
+        W = \{z \in \C\,:\, n\theta_1\bmod{2\pi} < \Arg(z) <n\theta_2\bmod{2\pi}\}
+        \]
+        with the convention that for any $-\pi < \nu < \xi \leq \pi$
+        \[
+       \left\{z\in\mathbb{C}\;:\; \xi<\mathrm{Arg}(z)<\upsilon\right\} = \left\{ z\in\mathbb{C}\;:\; \xi<\mathrm{Arg}(z)\leq \pi\right\} \cup \left\{ z\in\mathbb{C}\;:\; -\pi<\mathrm{Arg}(z)<\upsilon\right\}. 
+        \]
+        If we replace one strict inequality
+        (i.e. $<$)
+        with an inequality
+        (i.e. $\leq$)
+        the above claim remains true.
+        In this case,
+        if $n|\theta_1 - \theta_2| = 2\pi$ the image of the map will be $\C \setminus \{0\}$.
+        We can get the entire complex plane by adding $z = 0$ to $W$.
+        When $n|\theta_1 - \theta_2| > 2\pi$ the image of $W$ by $z ^ n$ will be $\C \setminus \{0\}$ but not injectively.
+
+        \item We can define $n$ different $n$th roots which are the inverses of the map $z ^ n$.
+        We can write them all in the form
+        \[
+        z^{\frac{1}{n}} = \left\lvert z\right\rvert^{\frac{1}{n}}e^{i\left( \frac{\mathrm{Arg}\left( z\right)}{n} + \frac{2\pi k }{n}\right)}
+        \]
+        with $k = 0, \dotsc, n - 1$
+        (we remove the $k$ index from the map,
+        but one need to specify which $k$ we are talking about).
+        note that for a fixed $k$ the $n$th root of $z$ takes $\C$ into a anti-clockwise rotation by $\frac{\pi}{n}$ of $R_{k - 1}^{(n)}$.
+    \end{itemize}
+\end{lemma}
+
+Notation:
+we want
+\[
+e ^ z = e ^ {x + iy} = e ^ x\cdot e ^ {iy}
+\]
+defined $e ^ {iy}$ earlier.
+
+We define the following:
+\begin{definition}[Complex exponential]
+    We define the complex exponential function $\exp : \C \to \C$ by
+    \[
+    \exp(z) \coloneqq e ^ x(\cos{y} + i\sin{y}).\qquad (z = x + iy)
+    \]
+    Shorthand $\exp(z) = e ^ z$.
+\end{definition}
+
+One can show
+(later)
+that with this definition
+\[
+e ^ z = \sum_{n = 0}^{\infty}\frac{z ^ n}{n!}.
+\]
+
+\begin{proposition}
+    We have the following complex exponential function properties:
+    
+    \begin{enumerate}[label = (\roman*)]
+        \item $e ^ z \neq 0$ for all $z \in \C$.
+
+        \item $e ^ {z_1 + z_2} = e ^ {z_1}e ^ {z_2}$.
+
+        \item $e ^ z = 1$ if and only if $z = 2\pi ik$ for some $k \in \Z$.
+
+        \item $e ^ {-z} = 1 / e ^ z$.
+
+        \item $|e ^ z| = e ^ {\Re(z)}$.
+    \end{enumerate}
+
+    \begin{proof}
+        By definition
+        \[
+        e ^ z = e ^ {x}e ^ {iy} = e ^ x(\cos{y} + i\sin{y})
+        \]
+        recall that any $\omega \in \C$ can be written uniquely 
+        ($\bmod{2\pi}$)
+        as $w = \underbrace{r}_{|\omega|}e ^ {i\overbrace{\theta}^{\Arg(w)}}$ so
+        \[
+        |e ^ z| = e ^ x\qquad \Arg(e ^ z) = y\bmod{2\pi}.
+        \]
+        $|e ^ z| \neq 0$ since $e ^ x \neq 0$.
+        Since $\omega = 0 \iff |\omega| = 0$ we conclude that $e ^ z \neq 0$
+        (i.e. $1$).
+        \[
+        e ^ z = 1 \iff e ^ xe ^ {iy} = 1 \cdot e ^ {i0}
+        \]
+        so $e ^ x = 1$ and $y = 0 + 2\pi k$ so $x = 0$ and $y = 2\pi k$,
+        $k \in \Z$
+        (shows (iii)).
+
+        \[
+        e ^ {z_1 + z_2} = e ^ {x_1 + x_2}e ^ {i(y_1 + y_2)} = e ^ {x_1}e ^ {x_2}e ^ {iy_1}e ^ {iy_2} = \left(e ^ {x_1}e ^ {iy_1}\right)\left(e ^ {x_2}e ^ {iy_2}\right) = e ^ {z_1}e ^ {z_2}.
+        \]
+        \[
+        1 = e ^ 0 = e ^ {0 + i0} = e ^ {z - z} =  e ^ ze ^ {-z} \implies e ^ {-z} = \frac{1}{e ^ z}.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    We have $\exp(2\pi i) = 1$ and $\exp(\pi i) = -1$.
+    Latter is Euler's formula.
+\end{corollary}
+
+\begin{corollary}
+    The complex exponential function is $2\pi i$-periodic,
+    that is $\exp(z + 2k\pi i) = \exp(z)$ for any $k \in \Z$.
+\end{corollary}
+
+How does the exponential operate?
+Recall $e ^ z - e ^ xe ^ {iy}$ and $|e ^ z| = e ^ x$ and $\Arg(e ^ z) = y\bmod{2\pi}$.
+For fixed $x$,
+i.e. $x = c$ for some $c \in \R$ we get image of a circle of radius $e ^ c$.
+Segments on $x = c$ go to angular segments on the concentric circle with radius $e ^ c$.
+If $y$ ranges over a segment of length more than $2\pi$ we will get the full circle.
+When we fix $y$,
+we will end up on a ray of angle $y\bmod{2\pi}$.
+A segment on the line $y = c$ goes under $e ^ z$ to a segment on the ray $R_{c\bmod{2\pi}}$ if $a < x < b$ then we get the part of the ray $e ^ a < |\omega| < e ^ b$,
+$\Arg(\omega) = c\bmod{2\pi}$.
+
+\begin{lemma}
+    \begin{itemize}
+        \item The map $e ^ z$ injectively takes a segment of length $2\pi$ on the line $x = c$ which is open at one end and closed at the other to the entire concentric circle of radius $e ^ c$.
+        If the above segment is closed,
+        or its size is larger than $2\pi$ the image is no longer injective.
+
+        \item The map $e ^ z$ injectively takes the line $y = c$ to the ray of angle $c$
+        (without the origin).
+
+        \item The map $e ^ z$ injectively takes the set $\{z \in \C\,:\, \theta < \Im(z) \leq \theta + 2\pi\}$ to $\C ^ {*}$ where
+        \[
+        \C ^ {*} =  \C \setminus \{0\}.
+        \]
+    \end{itemize}
+\end{lemma}
+With $e ^ z$ we can define trig functions.
+
+Recall we defined $e ^ {ix} = \cos{x} + i\sin{x}$ when $x \in \R$.
+\begin{align*}
+    \cos{x} &= \frac{e ^ {ix} - e ^ {-ix}}{2}&\sin{x} &= \frac{e ^ {ix} - e ^ {-ix}}{2i} \\
+    \cosh{x} &= \frac{e ^ x + e ^ {-x}}{2}& \sinh{x} &= \frac{e ^ x - e ^ {-x}}{2}
+\end{align*}
+
+\begin{definition}[Trigonometric functions]
+    \begin{align*}
+        \cos{z} &= \frac{e ^ {iz} - e ^ {-iz}}{2}&\sin{z} &= \frac{e ^ {iz} - e ^ {-iz}}{2i} \\
+        \cosh{z} &= \frac{e ^ z + e ^ {-z}}{2}& \sinh{z} &= \frac{e ^ z - e ^ {-z}}{2}
+    \end{align*}
+\end{definition}
+\textbf{Remember,
+complex $\cos$ and $\sin$ are not bounded as they have $x$ and $y$ in $x + iy$.}
+
+
+\begin{lemma}
+    We have that for $z = x + iy$:
+    \begin{align*}
+        \sin(z) &= \sin(x)\cosh(y) + i\cos(x)\sinh(y) \\
+        \cos(z) &= \cos(x)\cosh(y) - i\sin(x)\sinh(y) \\
+        \sinh(z) &= -i\sin(iz) = \sinh(x)\cos(y) + i\cosh(x)\sin(y) \\
+        \cosh(z) &= \cos(iz) = \cosh(x)\cos(y) + i\sinh(x)\sin(y).
+    \end{align*}
+    In addition we have that for all $z \in \C$
+    \[
+    \sin ^ 2(z) + \cos ^ 2(z) = 1,\qquad \cosh ^ 2(z) - \sinh ^ 2(z) = 1.
+    \]
+
+    \begin{proof}
+        Exercise.
+
+        \begin{align*}
+            \sin{z} &= \frac{e ^ {iz} - e ^ {-iz}}{2i} \\
+            &= \frac{e ^ {i(x + iy)} - e ^ {-i(x + iy)}}{2i} \\
+            &= \frac{e ^ {-y}e ^ {ix} - e ^ {y}e ^ {-ix}}{2i} \\
+            &= \frac{e ^ {-y}(\cos(x) + i\sin(x)) - e ^ {y}(\cos(x) - i\sin(x))}{2i}
+        \end{align*}
+    \end{proof}
+\end{lemma}
+
+In general complex $\cos$ and $\sin$ are bounded if and only if $y$ is bounded in $z = x + iy$.
+
+\subsection{Logarithms and complex powers}
+
+
+The real exponential $e ^ x$ has an inverse
+($\log{x}$).
+This,
+in general,
+will not work for $e ^ z$ since it is not injective.
+
+Can we get an inverse when we restrict our domain?
+
+\begin{lemma}[Inverting the exponential function]
+    For every $w \in \C ^ {*} = \C \setminus \{0\}$,
+    the equation
+    \[
+    e ^ z = w
+    \]
+    has a solution $z$.
+    Furthermore,
+    if we write $w = |w|e ^ {i\varphi}$ with $\varphi = \Arg(w)$,
+    then all the solutions to $e ^ z = w$ are given by
+    \[
+    z = \log|w| + i(\varphi + 2\pi k)
+    \]
+    for $k \in \Z$.
+    Here,
+    $\log|w|$ is the usual natural logarithm of the real number $|w|$.
+    \textit{Note that there are infinitely many solutions}.
+
+    \begin{proof}
+        \begin{align*}
+            e ^ z = \omega &\iff e ^ xe ^ {iy} = |w|e ^ {iy} \\
+            &\iff e ^ x = |\omega|\text{ and } y = y + 2\pi k\quad k \in \Z
+        \end{align*}
+        \[
+        \]
+    \end{proof}
+\end{lemma}
+
+From this we see a candidate to complex logarithm:
+Just fix k.
+
+We can try and define
+\[
+\log{z} = \log|z| + i\arg(z)
+\]
+where $\arg(z)$ goes in a fixed given range of angles $(\theta_1, \theta_2]$.
+This definition is missing some
+"nice"
+properties.
+
+To illustrate this choose the angles to be $(-\pi, \pi]$.
+$\log(-1) = \log|-1| + i\pi = i\pi$.
+Let's try to get closer to $-1$ from below,
+choosing $\theta = -\pi + \delta$,
+$\delta > 0$ gives us $z\delta = e ^ {i(-\pi + \delta)}$ close to $z = -1$.
+\[
+\log(z\delta) = \log\left|e ^ {i(-\pi + \delta)}\right| + i(-\pi + \delta) = -i(\pi - \delta) \approx -i\pi
+\]
+we have a discontinuity.
+
+It is as if when we complete a full circle we
+"climb"
+by $2\pi$.
+
+To avoid this issue we must disallow the ability to do full circles.
+We do that by removing a closed ray $R_{\theta} = \{z = re ^ {i\theta}\,:\,r \geq 0\}$.
+
+\begin{definition}[Complex logarithm functions]
+    For any two real numbers $\theta_1 < \theta_2$ with $\theta_2 - \theta_1 = 2\pi$,
+    let $\arg$ be the choice of argument function with values in $(\theta_1, \theta_2]$.
+    Then the function
+    \[
+    \log(z) \coloneqq \log|z| + i\arg(z)
+    \]
+    is called a branch of logarithm.
+    It has a jump discontinuity along the ray $R_{\theta_1} = R_{\theta_2}$.
+    this ray is called a branch cut.
+    If we choose $\arg(z) = \Arg(z) \in (-\pi, \pi]$,
+    then we obtain a branch of logarithm called the principal branch of $\log$.
+    We write $\Log$ for this principal branch:
+    it is given by the formula
+    \[
+    \Log(z) \coloneqq \log|z| + i\Arg(z).
+    \]
+    The principal branch of logarithm has a
+    "jump discontinuity"
+    along the ray given by the non-positive real axis $\R_{\leq 0}$.
+\end{definition}
+
+Comments:
+\begin{itemize}
+    \item We must specify a branch
+    ($\theta_1 < \theta_2$)
+    to discuss a logarithm.
+
+    \item For future:
+    any branch of logarithm is continuous on $\C \setminus \R_{\theta}$.
+\end{itemize}
+
+\begin{lemma}[Properties of logarithms]
+    We have the following properties when using any given branch of logarithm:
+\end{lemma}
 
 
 
