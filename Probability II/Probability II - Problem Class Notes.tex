@@ -1,0 +1,165 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Probability II \\
+    \large Problem Class Notes}
+\author{Luke Phillips}
+\date{January 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Problems Class \texorpdfstring{$1$}{}}
+
+\begin{problem}
+    Application of Boole's inequality.
+    Let $A_n$,
+    $n \geq 1$,
+    be a sequence of events on a probability space such that $\P(A_n) = 0$ for all $n$.
+    Show that $\displaystyle\P\left(\bigcup_{n = 1}^{\infty}A_n\right) = 0$ as well.
+
+    Let $B_n$,
+    $n \geq 1$,
+    be a sequence of events such that $\P(B_n) = 1$ for all $n$.
+    Show that
+    \[
+    \P\left(\bigcap_{n = 1}^{\infty}B_n\right) = 1
+    \]
+    as well.
+
+    \begin{solution}
+        Recall Boole's inequality:
+        If $C_n$,
+        $n \geq 1$,
+        is a sequence of events then
+        \[
+        \P\left(\bigcup_{n = 1}^{\infty}C_n\right) \leq \sum_{n = 1}^{\infty}\P(C_n).
+        \]
+        We infer that
+        \[
+        0 \leq \P\left(\bigcup_{n = 1}^{\infty}A_n\right) \leq \sum_{n = 1}^{\infty}\P(A_n) = 0.
+        \]
+        Thus
+        \[
+        \P\left(\bigcup_{n = 1}^{\infty}A_n\right) = 0
+        \]
+        as required.
+
+        Now let $C_n = B_n ^ c$.
+        Then
+        \[
+        \P(C_n) = 1 - \P(B_n) = 0
+        \]
+        for all $n$.
+        Therefore,
+        $\P\left(\bigcup_{n = 1}^{\infty}C_n\right) = 0$ by the previous part.
+        By De Morgan's law
+        \[
+        0 = \bigcup_{n = 1}^{\infty}C_n = \bigcup_{n = 1}^{\infty}B_n ^ c = \left(\bigcap_{n = 1}^{\infty}B_n\right) ^ c
+        \]
+        Therefore $\P\left(\left(\bigcap_{n = 1}^{\infty}B_n\right) ^ c\right) = 0$ so $\P\left(\bigcap_{n = 1}^{\infty}B_n\right) = 1$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $X$ be a random variable such that
+    \[
+    \P(X \geq 0) = 1\qquad\text{and}\qquad\E(X) = 0.
+    \]
+    Show that $\P(X = 0) = 1$.
+
+    \begin{solution}
+        For $n \geq 1$ integer,
+        consider the event $\{X \geq 1 / n\} = \{\omega \in \Omega\,:\,X(\omega) \geq 1 / n\}$.
+        These events are increasing because if $X \geq 1 / n$ then $X \geq \frac{1}{n + 1}$ as well
+        \big($\frac{1}{n + 1} < \frac{1}{n}$\big).
+        Notice that $\bigcup_{n = 1}^{\infty}\{X \geq 1 / n\} = \{X > 0\}$.
+
+        Indeed,
+        if $X(\omega) > 0$ then there is $n \geq 1$ such that $X(\omega) \geq 1 / n$ and so that $\{X > 0\} \subseteq \bigcup_{n = 1}^{\infty}\{X \geq 1 / n\}$.
+
+        Conversely,
+        if $X(\omega) \geq 1 / n$ for some $n \geq 1$ then $X(\omega) > 0$,
+        i.e.
+        \[
+        \bigcup_{n = 1}^{\infty}\{X \geq 1 / n\} \subseteq \{X > 0\}.
+        \]
+        We have $\P(X > 0) = \lim_{n \to \infty}\P(X \geq 1 / n)$.
+        As $X \geq 0$,
+        by Markov's inequality
+        \[
+        0 \leq \P(X \geq 1 / n) \leq n\E(X) = 0
+        \]
+        so $\P(X \geq 1 / n) = 0$ and so $\P(X > 0) = 0$ as well.
+        Finally,
+        \[
+        1 = \P(X \geq 0) = \P(X = 0) + \P(X > 0) = \P(X = 0) + 0 \iff \P(X = 0) = 1
+        \]
+        $\{X = 0\}$,
+        $\{X > 0\}$ are disjoint so we can separate at first step.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $X$ and $Y$ be independent with distribution
+    (law)
+    \begin{align*}
+        \P(X = -1) &= \P(X = +1) = \frac{1}{2} \\
+        \P(Y = -1) &= \P(Y = +1) = \frac{1}{2}.
+    \end{align*}
+    Define $Z = X\cdot Y$.
+    Then each pair $(X, Y)$,
+    $(X, Z)$ or $(Y, Z)$ is independent
+    (i.e. $X, Y, Z$ are pairwise independent).
+    However,
+    the triple $(X, Y, Z)$ is not mutually independent.
+    \[
+    \P(X = a, Y = b, Z = c) \neq \P(X = a)\P(Y = b)\P(Z = c).
+    \]
+
+    \begin{solution}
+        The pair $(X, Y)$ is independent by design.
+        Consider $(X, Z)$.
+        Note $Z \in \{-1, +1\}$.
+        For $a, b \in \{-1, 1\}$ we have
+        \begin{align*}
+            \P(X = a, Z = b) &= \P(X = a, XY = b) \\
+            &= \P(X = a, Y = ab) && \text{(as $a ^ 2 = 1$)} \\
+            &= \P(X = a)\P(Y = ab) && \text{(as $X, Y$ independent)} \\
+            &= \frac{1}{2}\cdot \frac{1}{2} = \frac{1}{4}
+        \end{align*}
+        \[
+        \P(X = a) = \frac{1}{2}
+        \]
+        for $a \in \{-1, 1\}$.
+        $\P(Z = 1) = \P(XY = 1) = \P(\{X = 1, Y = 1\})$ or $\{X = 1, Y = -1\}$,
+        both events are disjoint so
+        \[
+        \P(Z = 1) = \P(X = 1, Y = 1) + \P(X = -1, Y = -1) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}.
+        \]
+        Similarly,
+        $\P(Z = -1) = 1 - \P(Z = 1) = \frac{1}{2}$ as $Z \in \{-1, 1\}$.
+        So $\P(Z = b) = \frac{1}{2}$ for each $b \in \{-1, 1\}$.
+        Thus $\P(X = a, Z = b) = \frac{1}{4} = \P(X = a)\P(Z = b)$.
+        Therefore $(X, Z)$ independent.
+        A similar argument gives $(Y, Z)$ independent.
+        However,
+        \[
+        \P(Z = 1, X = 1, Y = 1) = \P(X = 1, Y = 1) = \frac{1}{4}
+        \]
+        however $\P(X = 1)\P(Y = 1)\P(Z = 1) = \frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{2} = \frac{1}{8}$ not equal so collection of three variables is not independent.
+    \end{solution}
+\end{problem}
+
+
+
+
+
+\end{document}
