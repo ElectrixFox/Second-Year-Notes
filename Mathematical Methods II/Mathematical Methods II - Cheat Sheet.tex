@@ -12,8 +12,6 @@
 
 \newpage
 
-\section{Cheat Sheet}
-
 The \textbf{line integral} of a scalar field $f(\vec{x})$ along a curve $C$ with parametrisation $\vec{x}(t)$,
 for $t \in [t_0, t_1]$,
 is defined as
@@ -21,5 +19,127 @@ is defined as
 \int_{C}f\,d\ell = \int_{t_0}^{t_1}f(\vec{x}(t))\left|\frac{d\vec{x}}{dt}\right|\,dt.
 \]
 
+The \textbf{arclength} of the curve is
+\[
+L = \int_{C}d\ell = \int_{t_0}^{t_1}\left|\frac{d\vec{x}}{dt}\right|\,dt.
+\]
+
+The \textbf{unit tangent} vector is
+\[
+\hat{t} = \frac{\frac{d\vec{x}}{dt}}{\left|\frac{d\vec{x}}{dt}\right|}.
+\]
+
+The \textbf{line integral} of a \textbf{vector field} is
+\[
+\int_{C}\vec{f}\cdot\hat{\vec{t}}\,d\ell = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\hat{\vec{t}}\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\frac{d\vec{x}}{dt}\,dt.
+\]
+
+We define an orthogonal basis as
+\[
+\vec{e}_u = \frac{1}{h_u}\pd[\vec{x}]{u},\qquad\vec{e}_v = \frac{1}{h_v}\pd[\vec{x}]{v},\qquad\vec{e}_w = \frac{1}{h_w}\pd[\vec{x}]{w},
+\]
+where
+\[
+h_u = \left|\pd[\vec{x}]{u}\right|,\qquad h_v = \left|\pd[\vec{x}]{v}\right|,\qquad h_w = \left|\pd[\vec{x}]{w}\right|.
+\]
+
+\textbf{Cylindrical coordinates}
+\[
+\vec{x}(r, \theta, z) = r\cos(\theta)\vec{e}_1 + r\sin(\theta)\vec{e}_2 + z\vec{e}_3,\qquad r > 0, \theta \in [0, 2\pi], z \in \R
+\]
+$h_r = 1$,
+$h_{\theta} = r$,
+$h_z = 1$.
+
+\textbf{Spherical coordinates}
+\[
+\vec{x}(r, \theta, \phi) = r\sin(\theta)\cos(\phi)\vec{e}_1 + r\sin(\theta)\sin(\phi)\vec{e}_2 + r\cos(\theta)\vec{e}_3,\qquad r > 0, \theta \in [0, \pi], \phi \in [0, 2\pi]
+\]
+$h_r = 1$,
+$h_{\theta} = r$,
+$h_{\phi} = r\sin(\theta)$.
+
+
+\textbf{Unit normal}
+\[
+\hat{\vec{n}} = \frac{\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}}{\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|}.
+\]
+
+
+\textbf{Surface integral}
+\[
+\int_{S}f\,dS = \int_{U}f(\vec{x}(u, v))\left|\pd[\vec{x}]{u} \times \pd[\vec{x}]{v}\right|\,du\,dv.
+\]
+
+\textbf{Orthogonal coordinates}
+\[
+\left|\pd[\vec{x}]{u}\times\pd[\vec{x}]{v}\right| = h_uh_v.
+\]
+
+The \textbf{surface area} of $S$ is computed with $f(\vec{x}) \equiv 1$,
+so
+\[
+|S| = \int_{S}\,dS.
+\]
+
+The \textbf{flux} of $\vec{f}$ is
+\[
+\int_{S}\vec{f}\cdot\hat{\vec{n}}\,dS = \int_{U}\vec{f}(\vec{x}(u, v))\cdot\left(\pd[\vec{x}]{u}\times\pd[\vec{x}]{v}\right)\,du\,dv.
+\]
+
+\textbf{Volume integral}
+\[
+\int_{V}f\,dV = \int_{U}f(\vec{x}(u, v, w))\left|\pd[\vec{x}]{u}\cdot\left(\pd[\vec{x}]{v}\times\pd[\vec{x}]{w}\right)\right|\,du\,dv\,dw.
+\]
+
+\textbf{Orthogonal coordinates}
+\[
+\left|\pd[\vec{x}]{u}\cdot\left(\pd[\vec{x}]{v}\times\pd[\vec{x}]{w}\right)\right| = h_uh_vh_w.
+\]
+
+\textbf{Differential operator}
+\[
+\bnabla f = \pd[f]{x}\vec{e}_1 + \pd[f]{y}\vec{e}_2 + \pd[f]{z}\vec{e}_3.
+\]
+
+\textbf{Curvilinear coordinates gradient}
+\[
+\bnabla f = \frac{1}{h_u}\pd[f]{u}\vec{e}_u + \frac{1}{h_v}\pd[f]{v}\vec{e}_v + \frac{1}{h_w}\pd[f]{w}\vec{e}_w.
+\]
+
+\textbf{Divergence and curl}
+\begin{align*}
+    \bnabla \cdot \vec{f} &= \pd[f_1]{x} + \pd[f_2]{y} + \pd[f_3]{z}. \\
+    \bnabla \times \vec{f} &= \begin{vmatrix}
+        \vec{e}_1 & \vec{e}_2 & \vec{e}_3 \\
+        \pd{x} & \pd{y} & \pd{z} \\
+        f_1 & f_2 & f_3
+    \end{vmatrix}.
+\end{align*}
+
+\textbf{Product rules}
+\begin{enumerate}[label = (\roman*)]
+    \item $\bnabla (fg) \equiv g\bnabla f + f\bnabla g$,
+    
+    \item $\bnabla \cdot (g\vec{f}) \equiv (\bnabla g) \cdot f + g \bnabla \cdot \vec{f}$,
+    
+    \item $\bnabla \cdot (\vec{f} \times \vec{g}) \equiv \vec{g} \cdot (\bnabla \times \vec{f}) - \vec{f}\cdot(\bnabla \times \vec{g})$,
+    
+    \item $\bnabla \cdot (g\vec{f}) \equiv g(\bnabla \times \vec{f}) + (\bnabla g) \times \vec{f}$,
+
+    \item $\bnabla \times (\vec{f} \times \vec{g}) \equiv (\vec{g} \cdot \bnabla)\vec{f} - (\vec{f} \cdot \bnabla)\vec{g} + \vec{f}(\bnabla \cdot \vec{g}) - \vec{g}(\bnabla \cdot \vec{f})$.
+
+    \item $\bnabla (\vec{f} \cdot \vec{g}) \equiv (\vec{g} \cdot \bnabla)\vec{f} + (\vec{f} \cdot \bnabla)\vec{g} + \vec{f} \times (\bnabla \times \vec{g}) + \vec{g} \times (\bnabla \times \vec{f})$.
+\end{enumerate}
+
+\textbf{Divergence and curl in curvilinear coordinates}
+\begin{align*}
+    \bnabla \cdot \vec{f} &= \frac{1}{h_uh_vh_w}\left[\pd{u}(h_vh_wf_u) + \pd{v}(h_uh_wf_v) + \pd{w}(h_uh_vf_w)\right]. \\
+    \bnabla \times \vec{f} &= \frac{1}{h_uh_vh_w}\begin{vmatrix}
+        h_u\vec{e}_u & h_v\vec{e}_v & h_e\vec{e}_w \\
+        \pd{u} & \pd{v} & \pd{w} \\
+        h_uf_u & h_vf_v & h_wf_w
+    \end{vmatrix}.
+\end{align*}
 
 \end{document}
