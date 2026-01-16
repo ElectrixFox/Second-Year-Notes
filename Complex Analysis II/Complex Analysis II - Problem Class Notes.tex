@@ -1,0 +1,157 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Complex Analysis II \\
+    \large Problem Class}
+\author{Luke Phillips}
+\date{January 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Problems Class \texorpdfstring{$1$}{}}
+
+\begin{problem}
+    Find all complex numbers $z$ for which $|z| ^ 2 = z ^ 2$.
+
+    \begin{solution}
+        Recall $|z| ^ 2 = z\bar{z}$.
+        We want to solve
+        \[
+        z \cdot \bar{z} = z ^ 2
+        \]
+        $z = 0$ solves the above,
+        $z \neq 0$ divide by $z$ and get
+        \[
+        \bar{z} = z \iff z \in \R.
+        \]
+        Since $z = 0$ is a real number we conclude that
+        \[
+        |z| ^ 2 = z ^ 2 \iff z \in \R.
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    If $\omega = \frac{z - 1}{z + 1}$ show that $\Re(\omega) = \frac{|z| ^ 2 - 1}{|z| ^ 2 + 2\Re(z) + 1}$ and $\Im(\omega) = \frac{2\Im(z)}{|z| ^ 2 + 2\Re(z) + 1}$.
+
+    \begin{solution}
+        \begin{align*}
+            \frac{z - 1}{z + 1} &= \frac{z - 1}{z + 1}\cdot\frac{\overline{z + 1}}{\overline{z + 1}} \\
+            &= \frac{z - 1}{z + 1}\cdot\frac{\bar{z} + 1}{\bar{z} + 1} \\
+            &= \frac{z\bar{z} - \bar{z} + \bar{z} - 1}{z\bar{z} + \bar{z} + z + 1} \\
+            &= \frac{|z| ^ 2 + 2i\Im(z) - 1}{|z| ^ 2 + 2\Re(z) + 1} \\
+            &= \frac{|z| ^ 2 - 1 + 2i\Im(z)}{|z| ^ 2 + 2\Re(z) + 1} \\
+            &= \frac{|z| ^ 2 - 1}{|z| ^ 2 + 2\Re(z) + 1} + i\frac{2\Im(z)}{|z| ^ 2 + 2\Re(z) + 1}
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Describe geometrically the subset of $\C$ specified by $|z + 2 - i| < |iz - 1 + 2i|$.
+
+    \begin{solution}
+        Useful formula
+        \begin{align*}
+            |z - \omega| ^ 2 &= (z - \omega)\overline{(z - \omega)} \\
+            &= (z - \omega)(\bar{z} - \bar{\omega}) \\
+            &= z\bar{z} - \omega\bar{z} - z\bar{\omega} + \omega\bar{\omega} \\
+            &= |z| ^ 2 - 2\Re(\bar{z}\omega) + |\omega| ^ 2 \\
+            &= |z| ^ 2 - 2\Re(\bar{\omega}z) + |\omega| ^ 2
+        \end{align*}
+        consequently
+        \begin{align*}
+            |z + 2 - i| < |iz - 1 + 2i| &\overset{\text{everything is non-negative}}{\iff} |z + (2 - i)| ^ 2 < |iz - 1 + 2i| ^ 2 \\
+            &\iff |z - (i - 2)| ^ 2 < |iz - (1 - 2i)| ^ 2 \\
+            &\iff |z| ^ 2 - 2\Re((-i -2)z) + |i - 2| ^ 2 < |iz| ^ 2 - 2\Re((1 + 2i)iz) + |1 - 2i| ^ 2 \\
+            \intertext{$|iz| ^ 2 = (|i||z|) ^ 2 = |z| ^ 2$,
+            $|i - 2| ^ 2 = 5$,
+            $|1 - 2i| ^ 2 = 5$}
+        \end{align*}
+        so the inequality holds if and only if
+        \[
+        -2\Re((-i - 2)z) < -2\Re((1 + 2i)iz)
+        \]
+        $\Re(\alpha z) = \alpha\Re(z)$ if $\alpha \in \R$,
+        $\Re(i\alpha z) = -\alpha\Im(z)$ if $\alpha \in \R$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    The real axis and the imaginary axis divide $\C$ into four quadrants as follows:
+    \[
+    \begin{array}{c|c}
+         \Omega_2 & \Omega_1  \\
+         \hline
+         \Omega_3 & \Omega_4
+    \end{array}
+    \]
+    Determine the images of $\Omega_1, \Omega_2, \Omega_3, \Omega_4$ under the exponential map $z \mapsto e ^ z$.
+
+    \begin{solution}
+        $e ^ z = \underbrace{e ^ x}_{> 0} \cdot e ^ {iy}$.
+        By uniqueness of polar representation
+        \[
+        |e ^ z| = e ^ x\qquad \Arg(e ^ z) = y\bmod{2\pi}.
+        \]
+        For a fixed $x$ and $a < y < b$ we get that $e ^ z$ gives us a circle with angular segment of length $\min(b - a, 2\pi)$.
+        The half line $x = c$,
+        $0 < y < \infty$ goes to the full circle
+        \[
+        \{z \in \C\,:\,|z| = e ^ c\}.
+        \]
+        Same for $x = c$,
+        $-\infty < y < 0$.
+        \[
+        \exp(\Omega_1) = \{z \in \C\,:\, e ^ 0 < |z| < e ^ {\infty}\} = \{z \in \C\,:\, 1 < |z| < \infty\} = \exp(\Omega_4).
+        \]
+        with $0, \infty$ minimal $x$ and
+        "maximal"
+        $x$ respectively.
+        Similarly
+        \[
+        \exp(\Omega_2) = \{z \in \C\,:\,e ^ {-\infty} < |z| < e ^ 0\} = \{z \in \C\,:\, 0 < |z| < 1\} = \exp(\Omega_3).
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Give examples to illustrate that,
+    in general,
+    for complex numbers $z, w$,
+    \[
+    \Log(zw) \neq \Log(z) + \Log(w).
+    \]
+
+    \begin{solution}
+        \begin{align*}
+            \Log(zw) &= \log|zw| + i\Arg(zw) \\
+            &= \log(|z||w|) + i\Arg(zw) \\
+            &= \log|z| + \log|w| + i\underbrace{\Arg(zw)}_{\Arg(z) + \Arg(w)\bmod{2\pi}}.
+        \end{align*}
+        On the other hand
+        \begin{align*}
+            \Log(z) + \Log(w) &= \log|z| + i\Arg(z) + \log|w| + i\Arg(w) \\
+            &= \log|z| + \log|w| + i(\Arg(z) + \Arg(w)).
+        \end{align*}
+        So
+        \[
+        \Log(zw) = \Log(z) + \Log(w) \iff \Arg(zw) = \Arg(z) + \Arg(w).
+        \]
+        This doesn't always hold.
+        Take $z = w = -i = e ^ {-i\pi / 2}$.
+        $\Arg(z) = \Arg(w) = -\pi / 2$,
+        $\Arg(zw) = \Arg(-1) = \pi$.
+        
+    \end{solution}
+\end{problem}
+
+
+\end{document}
