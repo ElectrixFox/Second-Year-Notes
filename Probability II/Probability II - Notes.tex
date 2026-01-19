@@ -15,7 +15,9 @@
 
 \newpage
 
-\section{Probability Spaces}
+\section{Probability and independence}
+
+\subsection{Probability Spaces}
 There are three parts to a probability space:
 the sample space $\Omega$,
 this is a set
@@ -581,6 +583,251 @@ is $\E(XY) = \E(X)\E(Y)$ if $X, Y$ are independent.
         of the above.
     \end{proof}
 \end{lemma}
+
+\subsection{Mutually independent random variables}
+Suppose $X_1, X_2, \dotsc, X_k$ are random variables.
+They are mutually independent if any of the following hold:
+\begin{enumerate}[label = (\roman*)]
+    \item $\P(X_1 \leq x_1, \dotsc, X_k \leq x_k) = \prod_{i = 1}^{k}\P(X_i \leq x_i)$ for all $x_1, \dotsc, x_k \in \R$.
+
+    \item $\P(X_1 \in A_1, \dotsc, X_k \in A_k) = \prod_{i = 1}^{k}\P(X_i \in A_i)$ for all open sets $A_1, \dotsc, A_k \subseteq \R$.
+
+    \item $\E\left(\prod_{i = 1}^{n}f_i(X_i)\right) = \prod_{i = 1}^{k}\E(f_i(X_i))$ for all continuous and bounded $f_1, \dotsc, f_k : \R \to \R$.
+\end{enumerate}
+
+\begin{example}
+    $X \sim \Bin(n, p)$.
+    \[
+    \P(X = k) = \binom{n}{k}p ^ k(1 - p) ^ {n - k}\quad 0 \leq k \leq n.
+    \]
+    Let $X_1, \dotsc, X_n$ be mutually independent random variables s.t.
+    \[
+    \P(X_i = 0) = 1 - p\qquad \P(X_i = 1) = p.
+    \]
+    claim:
+    $X = X_1 + \dotsi X_n$.
+
+    Check $S = X_1 + \dotsi + X_n$.
+    \[
+    \P(S = k) = \P(X = k)
+    \]
+    for every $0 \leq k \leq n$
+    \[
+    \P(S = k) = \binom{n}{k}p ^ k(1 - p) ^ {n - k}.
+    \]
+    $S = X_1 + \dotsi + X_n = 2$.
+    \[
+    \P(X = 0) = \P(X_i = 0) = \prod_{i = 1}^{n}\P(X_i = 0) = (1 - p) ^ n\qquad \forall i
+    \]
+    $S = 2$,
+    $X_a = 1$,
+    $X_b = 1$,
+    rest $X_k = 0$
+    \[
+    \binom{n}{2}p ^ 2(1 - p) ^ {n - 2}
+    \]
+    \[
+    \P(S = k) = \binom{n}{k}p ^ k(1 - p) ^ {n - k}.
+    \]
+
+    $S \overset{\text{law}}{=} \Bin(n, p)$,
+    $S = X_1 + \dotsi + X_n$
+    (true as random variables)
+    \[
+    \E(S) = \E(X_1) + \dotsi + \E(X_n) = np.
+    \]
+    \begin{align*}
+        M_{S}(t) &= \E\left(e ^ {ts}\right) \\
+        &= \E\left(e ^ {t(X_1 + \dotsi X_n)}\right) \\
+        &= \E\left(\prod_{i = 1}^{n}e ^ {tX_i}\right) \\
+        &= \prod_{i = 1}^{n}\E\left(e ^ {tX_i}\right) \\
+        &= \left(1 - p + pe ^ t\right) ^ n
+    \end{align*}
+\end{example}
+
+\newpage
+
+\section{Two Special Events}
+
+\subsection{Infinitely often}
+Take probability space $(\Omega, \mathcal{F}, \P)$.
+Let $A_n$,
+$n \geq 1$,
+be a sequence of events.
+New event:
+$\{A_n\text{ infinitely often}\}$.
+
+Informally.
+this event contains all $\omega \in \Omega$ s.t. $\omega \in A_n$ for infinitely many values of $n$.
+
+Formally:
+\[
+\{A_n\text{ infinitely often}\} = \bigcap_{n = 1}^{\infty}\left(\bigcup_{k = n}^{\infty}A_k\right).
+\]
+Claim:
+\[
+\omega \in \{A_n \text{ i.o}\} \iff \text{ there is an infinite sequence $n_1 < n_2 < n_3 < \dotsi$ s.t. $\omega \in A_{n_k}$ $\forall k$}.
+\]
+\begin{proof}
+    Suppose $\omega \in \bigcap_{n = 1}^{\infty}\left(\bigcup_{k = n}^{\infty}A_k\right)$.
+    $n = 1$:
+    $\omega \in \bigcup_{k = 1}^{\infty}A_k \implies \omega \in A_{n_1}$ for some $n \geq 1$.
+    $n = n_1 + 1$,
+    $\omega \in \bigcup_{k = n_1 + 1}^{\infty}A_k$ so $\omega \in A_{n_2}$ with $k = n_2 \geq n_1 + 1 > n_1$.
+    Then $n = n_2 + 1$:
+    $\omega \in \bigcup_{k = n_2 + 1}^{\infty}A_k$ so $\omega \in A_{n_3}$  for $n_3 > n_2$,
+    continuing we get a sequence $n_1 < n_2 < n_3 < \dotsi \to +\infty$ s.t. $\omega \in A_{n_k}$ for every $k$.
+
+    Suppose $\omega \in A_{n_k}$ for every $k$
+    ($n_1 < n_2 < n_3 \to +\infty$).
+    Need for every $n \geq 1$,
+    $\omega \in \bigcup_{k = n}^{\infty}A_k$.
+    Take any $n \geq 1$.
+    Since $n_k \to +\infty$,
+    there is a $k$ s,t, $n_k \geq n$.
+    $\omega \in A_{n_k} \implies \omega \in \bigcup_{k = n}^{\infty}A_k$.
+    Since $n$ was arbitrary,
+    we get $\omega \in \bigcap_{n = 1}^{\infty}\left(\bigcup_{k = n}^{\infty}A_k\right)$.
+\end{proof}
+
+$X_1, X_2, \dotsc$ $X_k \in \{a, b, c, d, \dotsc, z\}$.
+$W = \text{"probability"}$.
+Show $W$ appears infinitely often in the sequence $X_1, X_2, X_3, \dotsc,$
+
+\subsection{Eventually}
+Let $A_n$,
+$n \geq 1$,
+be a sequence of events.
+\[
+\{A_n\text{ eventually}\} = \bigcup_{n = 1}^{\infty}\left(\bigcap_{k = n}^{\infty}A_k\right).
+\]
+Informally,
+$\omega \in \{A_n\text{ eventually}\}$ if $\omega \in A_n$ for all $n \geq N$ if there is a $N$ s.t. $\omega \in A_n$ for all $n \geq N$.
+
+\begin{example}
+    $X$ is a random variable,
+    \[
+    A_n = \{X > n\}.
+    \]
+
+    $A_n$ are decreasing.
+    \[
+    \{A_n\text{ infinitely often}\} = \bigcap_{n = 1}^{\infty}\left(\bigcup_{k = n}^{\infty}A_k\right) = \bigcap_{n = 1}^{\infty}A_n = \bigcap_{n = 1}^{\infty}\{X > n\} = \{X = +\infty\}.
+    \]
+    \[
+    \bigcup_{k = n}^{\infty}A_k =  A_n
+    \]
+    because $A_k$ are decreasing.
+\end{example}
+
+\begin{example}
+    Let $X_n$ be a sequence of random variables s.t. $X_n(\omega) \to X(\omega)$ as $n > \infty$ for some $\omega \in \Omega$.
+    \[
+    C = \{\omega \in \Omega\,:\, X_n(\omega) \to X(\omega)\text{ as } n \to \infty\}.
+    \]
+    Suppose $\omega \in C$.
+    Then $\lim_{n \to \infty}X_n(\omega) = X(\omega)$.
+    So for every $k \geq 1$ there is $n_k \in \Z$ s.t. $|X_n(\omega) - X(\omega)| < \frac{1}{k}$ for every $n \geq n_k$.
+    $A_k = \{|X_n(\omega) - X(\omega)| < 1 / k\text{ eventually}\}$,
+    $C = \bigcap_{k = 1}^{\infty}A_k$
+    (convergence event).
+    $B_{n, k} = \{|X_n - X| < 1 / k\}$ then,
+    $A_k = \{B_{n, k}\text{ eventually in } n\}$.
+\end{example}
+
+\[
+\{A_n\text{ i.o.}\} = \bigcap_{n = 1}^{\infty}\bigcup_{k = n}^{\infty}A_k
+\]
+\[
+\{A_n\text{ eventually}\} = \bigcup_{n = 1}^{\infty}\bigcap_{k = n}^{\infty}A_k.
+\]
+Relation between infinitely often and eventually.
+\[
+\{A_n\text{ eventually}\} = \{A_n ^ c\text{ infinitely often}\} ^ c
+\]
+
+\newpage
+
+\section{Borel-Cantelli Lemma}
+Let $A_n$ be a sequence of events .
+
+First version:
+If
+\[
+\sum_{n = 1}^{\infty}\P(A_n) < \infty
+\]
+then
+\[
+\P(A_n\text{ i.o.}) = 0.
+\]
+Second version:
+suppose $A_n$,
+$n \geq 1$,
+are mutually independent.
+If
+\[
+\sum_{n = 1}^{\infty}\P(A_n) = +\infty
+\]
+then
+\[
+\P(A_n\text{ i.o.}) = 1.
+\]
+\begin{proof}
+    (of first version).
+
+    \[
+    \{A_n\text{ i.o.}\} = \bigcap_{n = 1}^{\infty}\bigcup_{k = n}^{\infty}A_k = \bigcap_{n = 1}^{\infty}B_n
+    \]
+    with $B_n = \bigcup_{k = n}^{\infty}A_k$.
+    The event $B_n$ are decreasing.
+    \[
+    \P(A_n\text{ i.o.}) = \P\left(\bigcap_{n = 1}^{\infty}B_n\right) = \lim_{n \to \infty}\P(B_n)
+    \]
+    as $B_n$ decreasing.
+    Boole's inequality:
+    \[
+    \P(B_n) = \P\left(\bigcup_{k = n}^{\infty}A_k\right) \leq \sum_{k = n}^{\infty}\P(A_n)
+    \]
+    so
+    \[
+    \lim_{n \to \infty}\P(B_n) \leq \sum_{k = n}^{\infty}\P(A_k).
+    \]
+    Assumption:
+    \[
+    \sum_{n = 1}^{\infty}\P(A_n) < \infty \iff \sum_{k = n}^{\infty}\P(A_k) \to 0\text{ as } n \to \infty.
+    \]
+    \[
+    0 \leq \P(A_n\text{ i.o.}) = \lim_{n \to \infty}\sum_{k = n}^{\infty}\P(A_k) = 0
+    \]
+    since $\sum_{k = 1}^{\infty}\P(A_k) < \infty$.
+    So,
+    \[
+    \P(A_n\text{ i.o.}) = 0.
+    \]
+\end{proof}
+
+\begin{example}
+    Let $W$ be any phrase,
+    e.g. $W = \text{"probability"}$.
+    Suppose $W$ has length $\ell$
+    (e.g. $\ell = 11$ in "probability").
+    Let $X_1, X_2, \dotsc$ be an infinite sequence of mutually independent random variables where $X_n$ is a random alphabet.
+    \[
+    \P(X_n = a) = \P(X_n = b) = \dotsi = \P(X_n = z) = \frac{1}{26}.
+    \]
+    $X_1, X_2, \dotsc, X_{\ell}, X_{\ell + 1}, X_{\ell + 2}, \dotsc, X_{2\ell}, X_{2\ell + 1}, \dotsc$,
+    breaking down into blocks of length $\ell$.
+    $A_k = \{\text{$k$th block spells out $W$}\}$.
+    $\P(A_k) = \left(\frac{1}{26}\right) ^ {\ell}$,
+    for every $k$.
+    The events $A_k$ are independent
+    \[
+    \sum_{k = 1}^{\infty}\P(A_k) = \sum_{k = 1}^{\infty}26 ^ {-\ell} = +\infty
+    \]
+    by Borel-Cantelli lemma $\P(A_k\text{ i.o.}) = 1$.
+    So $W$ appears infinitely often with probability $1$.
+\end{example}
+
 
 
 
