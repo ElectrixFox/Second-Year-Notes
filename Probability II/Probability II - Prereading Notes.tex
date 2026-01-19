@@ -147,7 +147,117 @@ So check that it satisfies all of the properties to be a sigma field.
     \]
 \end{definition}
 
+\subsection{Random variables}
 
+\begin{lemma}
+    Let $X$ be a finite random variable on a probability space $(\Omega, \mathcal{F}, \P)$,
+    i.e.,
+    $\P(|X| < \infty) = 1$.
+    Its cumulative distribution function $F_{X}(y) \coloneqq \P(X \leq y)$ has the following properties:
+    \begin{enumerate}[label = (\alph*)]
+        \item $F_{X}(y)$ is a non-decreasing function of $y$ such that $\lim_{y \to -\infty ^ {+}}F_{X}(y) = 0$ and $\lim_{y \to \infty ^ {-}}F_{X}(y) = 1$.
+
+        \item $F_{X}(y)$ is a right-continuous function of $y$,
+        i.e.,
+        $\lim_{\varepsilon \to 0 ^ {+}}F_{X}(y + \varepsilon) = F_{X}(y)$ for all $y \in \R$.
+    \end{enumerate}
+\end{lemma}
+
+\subsubsection{Independent random variables}
+\begin{definition}
+    Two random variables $X, Y$ on the same probability space $(\Omega, \mathcal{F}, \P)$ are independent,
+    if
+    \[
+    \forall x, y \in \R,\qquad \P(X \leq x, Y \leq y) = \P(X \leq x)\P(Y \leq y).
+    \]
+\end{definition}
+
+\begin{definition}
+    An arbitrary collection of random variables $(X_{\alpha})_{\alpha \in \mathcal{A}}$ on some probability space $(\Omega, \mathcal{F}, \P)$ is
+    (mutually)
+    independent,
+    if any finite sub-collection of these variables is independent,
+    namely,
+    for all integer $k \geq 1$,
+    all $\alpha_1, \dotsc, \alpha_k \in \mathcal{A}$,
+    and all real $x_1, \dotsc, x_k$,
+    \[
+    \P(X_{\alpha_1} \leq x_{\alpha_1}, \dotsc, X_{\alpha_k} \leq x_{\alpha_k}) = \prod_{\ell = 1}^{k}\P(X_{\alpha_{\ell}} \leq x_{\alpha_{\ell}}).
+    \]
+\end{definition}
+
+\newpage
+
+\section{General sequences of events}
+
+\subsection{Two special limit events}
+It is useful to describe convergence of events in terms of their indicators
+\[
+\mathbbm{1}_{A}(\omega) = \begin{cases}
+    1, &\text{if }\omega \in A, \\
+    0, &\text{if }\omega \notin A.
+\end{cases}
+\]
+
+\subsection{Borel-Cantelli lemma}
+
+We can define the event
+"infinitely many of the events $A_n$ occur"
+as
+\[
+\{A_n\text{ infinitely often}\} = \bigcap_{n \geq 1}\bigcup_{k = n}^{\infty}A_k.
+\]
+
+\begin{lemma}[Borel-Cantelli lemma]
+    Let $A = \bigcap_{n \geq 1}\bigcup_{k = n}^{\infty}A_k$ be the event $\{A_n\text{ infinitely often}\}$.
+    Then:
+    \begin{enumerate}[label = (\alph*)]
+        \item If $\sum_{k}\P(A_k) < \infty$,
+        then $\P(A) = 0$,
+        i.e.,
+        with probability one only finitely many of the $A_k$ occur.
+
+        \item If $\sum_{k}\P(A_k) = \infty$ and $A_1, A_2, \dotsc$ are independent events,
+        then $\P(A) = 1$.
+    \end{enumerate}
+
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item For every $n \geq 1$,
+            let $B_n \coloneqq \bigcup_{k = n}^{\infty}A_k$ be the event that at least one of $A_k$ with $k \geq n$ occurs.
+            As $A \subset B_n$ for all $n \geq 1$,
+            we have
+            \[
+            0 \leq \P(A) \leq \P(B_n) \leq \sum_{k = n}^{\infty}\P(A_k) \to 0
+            \]
+            as $n \to \infty$,
+            whenever $\sum_{k}\P(A_k) < \infty$.
+            Consequently,
+            $\P(A) = 0$.
+
+            \item The event $A ^ c = \{A_n\text{ occur finitely often}\}$ is related to the sequence
+            \[
+            B_n ^ c = \bigcap_{k = n}^{\infty}A_{k}^{c} \equiv \{\text{none of $A_k$,
+            $k \geq n$,
+            occurs}\}\quad\text{via}\quad A ^ c = \bigcup_{n}\bigcap_{k = n}^{\infty}A_{k}^{c} = \bigcup_{n}B_{n}^{c},
+            \]
+            so for $\P(A ^ c) = 0$ it is sufficient to show that $\P(B_{n}^{c}) = 0$ for all $n \geq 1$.
+            By independence and the elementary inequality $1 - x \leq e ^ {-x}$ with $x \geq 0$,
+            we get
+            \[
+            \P\left(\bigcap_{k = n}^{m}A_{k}^{c}\right) = \prod_{k = n}^{m}\P(A_{k}^{c}) = \prod_{k = n}^{m}(1 - \P(A_k)) \leq \exp\left\{-\sum_{k = n}^{m}\P(A_k)\right\}
+            \]
+            so that
+            \[
+            \P(B_{n}^{c}) = \lim_{m \to \infty}\P\left(\bigcap_{k = n}^{m}A_{k}^{c}\right) \leq \exp\left\{-\sum_{k = n}^{\infty}\P(A_k)\right\} = 0,
+            \]
+            as the sum diverges.
+            Hence,
+            $0 \leq \P(A ^ c) \leq \sum_{n \geq 1}\P(B_{n}^{c}) = 0$ by sub-additivity,
+            implying that $\P(A) = 1$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
 
 
 \end{document}
