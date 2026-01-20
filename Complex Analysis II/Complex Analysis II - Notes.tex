@@ -645,11 +645,333 @@ Comments:
 
     \item For future:
     any branch of logarithm is continuous on $\C \setminus \R_{\theta}$.
+
+    \item For real positive numbers
+    \[
+    \log{x} = \Log{x}.
+    \]
 \end{itemize}
 
 \begin{lemma}[Properties of logarithms]
     We have the following properties when using any given branch of logarithm:
+    \begin{enumerate}[label = (\roman*)]
+        \item $e ^ {\log{z}} = z$ for any $z \in \C \setminus \{0\}$.
+
+        \item In general
+        \[
+        \log(zw) \neq \log{z} + \log{w}.
+        \]
+
+        \item In general
+        \[
+        \log(e ^ z) \neq z.
+        \]
+    \end{enumerate}
 \end{lemma}
+
+\begin{lemma}\phantom{}
+    \begin{itemize}
+        \item A branch of the map $\log(z)$ injectively takes a ray of angle $\theta$ without the origin,
+        to the line $y = \theta$ where $\theta$ is measured with respect to the branch cut.
+    
+        \item A branch of the map $\log(z)$ takes a concentric circle of radius $r$,
+        minus the intersection of this circle with the branch cut,
+        to an open segment of length $2\pi$ on the line $x = \log{r}$ with its lowest point given by the angle that defines the branch cut.
+    \end{itemize}
+\end{lemma}
+
+\begin{definition}[Complex powers]
+    For $w \in \C$ fixed by choosing any branch of $\log$ we can define a branch of the function $z \mapsto z ^ w$ by the equation
+    \[
+    z ^ w \coloneqq e ^ {w\log{z}}.
+    \]
+\end{definition}
+
+For example,
+if $w = 1 / n$ and use the principal branch we get
+\[
+z ^ {1 / n} = e ^ {\frac{\log|z|}{n} + i\frac{\Arg(z)}{n}} = |z| ^ {1 / n}e ^ {i\frac{\Arg(z)}{n}}.
+\]
+
+\begin{remark}
+    This definition is consistent with $z ^ n = z \dotsi z$ with $n \in \N$.
+    Also,
+    for $n \in \N$ one can show that all the branches of $z ^ {1 / n}$ with argument in $(-\pi, \pi)$
+    (branch cut is $\R_{\leq 0}$)
+    are
+    \[
+    |z| ^ {1 / n}e ^ {i / n(\Arg(z) + 2\pi k)}
+    \]
+    $k = 0, \dotsc, n - 1$.
+\end{remark}
+
+\begin{example}
+    Find $(1 - i) ^ {1 / 2}$ using the principal branch of the logarithm.
+
+    \begin{solution}
+        \[
+        (1 - i) ^ {1 / 2} = e ^ {1 / 2\Log(1 - i)} = e ^ {1 / 2(\log|1 - i| + i\Arg(1 - i))} = e ^ {1 / 2(\log(\sqrt{2}) - i\pi / 4)} = e ^ {1 / 4\log(2)}e ^ {-i\pi / 8} = 2 ^ {1 / 4}e ^ {-i\pi / 8}.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Find $2 ^ {1 / 2}$ for all possible branches.
+
+    \begin{solution}
+        We only have two branches
+        ($k = 0, k = 1$ from above)
+        which will give $\sqrt{2}, -\sqrt{2}$.
+    \end{solution}
+\end{example}
+
+\newpage
+
+\section{Topology and Continuity}
+On $\R$ these notions are related to intervals
+(open,
+closed,
+etc).
+These studies can be extended to sets which are called open,
+closed,
+compact.
+Such sets tell us a lot about our space and form its topology.
+
+\subsection{Basic topology on the complex plane -
+open and closed sets}
+
+\begin{definition}[Balls in $\C$]\phantom{}
+    \begin{itemize}
+        \item The open ball $B_r(z_0)$ of radius $r$ centred at $z_0$ is
+        \[
+        B_r(z_0) \coloneqq \{z \in \C\,:\,|z - z_0| < r\}.
+        \]
+
+        \item The closed ball $\bar{B}_r(z_0)$ of radius $r$ centred at $z_0$ is
+        \[
+        \bar{B}_r(z_0) \coloneqq \{z \in \C\,:\, |z - z_0| \leq r\}.
+        \]
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Open/closed sets in $\C$]\phantom{}
+    \begin{itemize}
+        \item A subset $U \subseteq \C$ is open
+        (in $\C$)
+        if for every point $z_0 \in U$ there exists $\varepsilon > 0$ such that $B_{\varepsilon}(z_0) \subset U$.
+
+        \item A subset $U \subseteq \C$ is closed
+        (in $\C$)
+        if its complement $U ^ c \coloneqq \C \setminus U$ is open.
+    \end{itemize}
+\end{definition}
+
+\begin{lemma}[Open balls are open]
+    For any $z_0 \in \C$ and any $r > 0$ the open ball $B_r(z_0)$ is an open set.
+
+    \begin{proof}
+        Let $z \in B_r(z_0)$.
+        Define
+        \[
+        \varepsilon = \frac{r - |z - z_0|}{2} > 0\qquad (|z - z_0| < r).
+        \]
+        Claim:
+        $B_{\varepsilon}(z) \subset B_r(z_0)$.
+        Indeed,
+        if $w \in B_{\varepsilon}(z)$
+        \begin{align*}
+            |w - z_0| &= |w - z + z - z_0| \\
+            &\leq |w - z| + |z - z_0| \\
+            &< \varepsilon + |z - z_0| \\
+            &= \frac{r - |z - z_0|}{2} + |z - z_0| \\
+            &= \frac{r + |z - z_0|}{2} < r.
+        \end{align*}
+    \end{proof}
+\end{lemma}
+
+\begin{remark}
+    It can also be shown that for any $z_0 \in \C$ and any $r > 0$ the closed ball $\bar{B}_r(z_0)$ is closed in $\C$.
+\end{remark}
+
+\begin{example}
+    The following sets are open:
+
+    \begin{enumerate}[label = (\roman*)]
+        \item $\mathbb{H} = \{z \in \C\,:\,\Im(z) > 0\}$.
+        
+        \item $\mathbb{H}_{-} = \{z \in \C\,:\,\Im(z) < 0\}$.
+        
+        \item $\mathbb{H}_{L} = \{z \in \C\,:\,\Re(z) < 0\}$.
+        
+        \item $\mathbb{H}_{R} = \{z \in \C\,:\,\Re(z) > 0\}$.
+        
+        \item $\mathbb{D} = \{z \in \C\,:\,|z| < 1\}$.
+        
+        \item $\Omega_1 = \{z \in \C\,:\,\Re(z) > 0, \Im(z) > 0\}$.
+    \end{enumerate}
+
+    Lets show that $\Omega_1$ is open.
+    Given $z_0 \in \Omega_1$,
+    define $\varepsilon = \frac{\min\{\Re(z_0), \Im(z_0)\}}{2}$.
+    Claim:
+    $B_{\varepsilon}(z) \subset \Omega_1$.
+    Indeed if $w \in B_{\varepsilon}(z_0)$ then
+    \begin{align*}
+        \Re(w) &= \Re(w - z_0  + z_0) \\
+        &= \Re(w - z_0) + \Re(z_0) \\
+        \intertext{$|\Re(\xi)| \leq |\xi|$}
+        &\geq -|w - z_0| + \Re(z_0) \\
+        &> -\varepsilon + \Re(z_0) \\
+        &= -\frac{\min(\Re(z_0), \Im(z_0))}{2} + \Re(z_0) \\
+        &\geq \frac{\Re(z_0)}{2} > 0.
+    \end{align*}
+    Similarly $\Im(z_0) > 0$.
+\end{example}
+
+\textbf{Careful!}
+Not all sets are open or closed.
+$A - \{z \in \C\,:\,\Re(z) > 0, \Im(z) \geq 0\}$.
+$A$ is not open
+($1 - i\varepsilon \in B_{\varepsilon}(1)$,
+but $1 \in A$,
+$B_{\varepsilon}(1) \not\subset A$ for any $\varepsilon > 0$).
+$A ^ c$ is not open,
+i.e. $A$ is not closed.
+
+\begin{lemma}[Unions and intersections of open sets]\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Arbitrary unions of open sets are open;
+        that is $\bigcup_{i \in I}U_i$ is open for any
+        (possible infinite)
+        collection of open sets $U_i$.
+
+        \item Finite intersections of open sets are open;
+        that is $\bigcap_{i = 1}^{n}U_i$ is open for any finite collection of open sets $U_i$.
+    \end{enumerate}
+
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item Let $z_0 \in \bigcup_{i \in I}U_i$,
+            $\exists i_0 \in I$ s.t. $z_0 \in U_{i_0}$ since $U_{i_0}$ is open $\exists \varepsilon > 0$ s.t. $B_{\varepsilon}(z_0) \subset U_i \subseteq \bigcup_{i \in I}U_i$.
+            $z_0$ was arbitrary so $\bigcup_{i \in I}U_i$ is open.
+
+            \item Let $z_0 \in \bigcap_{i = 1}^{n}U_i$.
+            This means that $z_0 \in U_i$ $\forall i = 1, \dotsc, n$.
+            Since $U_i$ is open $\exists \varepsilon_i > 0$ s.t. $B_{\varepsilon_i}(z_0) \subset U_i$.
+            Define $\varepsilon = \min(\varepsilon_1, \dotsc, \varepsilon_n)$ then $z_0 \in B_{\varepsilon}(z_0) \subseteq B_{\varepsilon_i}(z_0) \subset U_i$ $\forall i = 1, \dotsc, n$ this implies $B_{\varepsilon_0}(z) \subset \bigcap_{i = 1}^{n}U_i$.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}[Unions and intersections of closed sets]\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Finite unions of closed sets are closed.
+
+        \item Arbitrary intersections of closed sets are closed.
+    \end{enumerate}
+
+    \begin{proof}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item Follows from De Morgan's law
+            \[
+            \left(\bigcup_{i \in I}A_i\right) ^ c = \bigcap_{i \in I}A_i ^ c, \qquad \left(\bigcap_{i \in I}A_i\right) ^ c = \bigcup_{i \in I}A_i ^ c.
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{corollary}
+
+Given a set $A$ we can define special open and closed sets associated to $A$.
+
+\begin{definition}[Interior points,
+closure,
+boundary]
+    Let $A$ be a subset of $\C$.
+
+    \begin{itemize}
+        \item The interior $A ^ 0$ of $A$ is defined by
+        \[
+        A ^ 0 \coloneqq \{x \in A\,:\,\text{there exists an open set $U \subseteq A$ such that $x \in U$}\}
+        \]
+        (this can be replaced with $B_{\varepsilon}(x) \subset A$ for some $\varepsilon > 0$).
+        
+        \item The closure $\bar{A}$ of $A$ is the complement of the interior of the complement:
+        \[
+        \bar{A} \coloneqq \left(\left(A ^ c\right) ^ 0\right) ^ c = \{x \in X\,:\, U \cap A \neq \emptyset\text{ for every open set $U$ with $x \in U$}\}
+        \]
+        ($U$ can be replaced with $B_{\varepsilon}(x)$ for all $\varepsilon > 0$).
+    
+        \item The boundary $\partial A$ of $A$ is the closure without the interior:
+        \[
+        \partial A \coloneqq \bar{A} \setminus A ^ 0\qquad \left[=\left(A ^ 0\right) ^ c \cap \left(\left(A ^ c\right) ^ 0\right) ^ c = \left(A ^ 0 \cup \left(A ^ c\right) ^ 0\right) ^ c\right].
+        \]
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    Consider the set
+    \[
+    A = \{z \in \C\,:\, 1 < |z| \leq 3\}.
+    \]
+    Then $A ^ 0$ is the area inside the inner and outer circle not inclusive of the boundary.
+    The closure is the area inside the inner and outer circles including the boundary.
+    The boundary is only the boundary of both the inner and outer circles.
+\end{example}
+
+\begin{remark}\phantom{}
+    \begin{itemize}
+        \item Don't confuse closure with conjugation.
+
+        \item $A ^ 0$ is always open.
+        $\bar{A}$ is always closed.
+        $\partial A$ is always closed.
+
+        \item Intuitively boundary is the edge of the set.
+        Interior points are points in the set that are not on the edge and the closure is attained by adding all the edge points.
+    \end{itemize}
+\end{remark}
+
+\textit{Note:
+$A = \{z_0\}$,
+$A ^ 0 = \emptyset$,
+$\bar{A} = \{z_0\}$,
+$\partial A = \{z_0\}$}
+
+\textbf{Important properties:}
+\begin{enumerate}[label = (\roman*)]
+    \item $A$ is open $\iff \partial A \cap A = \emptyset \iff A = A ^ 0$.
+    Moreover,
+    \[
+    A ^ 0 = \bigcup_{U \subseteq A, U\text{ open}}U.
+    \]
+    In other words:
+    $A ^ 0$ is the largest open set that is contained in $A$.
+
+    \item $A$ is closed $\iff \partial A \subseteq A \iff A = \bar{A}$.
+    Moreover,
+    \[
+    \bar{A} = \bigcap_{A \subseteq F, F\text{ closed}}F.
+    \]
+    In other words:
+    $\bar{A}$ is the smallest closed set that contains $A$.
+
+    \item $\partial A = \{x \in X\,:\,\text{for all open sets $U$ containing $x$,
+    there exist $y, z \in U$ with $y \in A$ and $z \in A ^ c$}\}$.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
