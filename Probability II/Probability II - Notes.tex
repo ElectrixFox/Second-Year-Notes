@@ -828,11 +828,177 @@ then
     So $W$ appears infinitely often with probability $1$.
 \end{example}
 
+\newpage
 
+\section{Convergence of random variables}
 
+\subsection{Expectation as a linear operator}
 
+$X$ is a random variable,
+$\E(X)$ is the average value of $X$.
+\[
+\E(X) = \int_{\Omega}X(\omega)\,d\P(\omega)
+\]
+Lebesgue integral.
 
+$X : \Omega \to \R$,
+$X \mapsto \E(X)$ a linear operator.
 
+Discrete random variables.
+\[
+X \in \{x_1, x_2, \dotsc, x_n\} \subseteq \R\qquad \E(X) = \sum_{i = 1}^{k}x_i\P(X = x_i)
+\]
+\[
+Y \in \{y_1, y_2, \dotsc, y_k, y_{k + 1}, \dotsc\} \subseteq \R
+\]
+\[
+\E(Y) = \sum_{i = 1}^{\infty}y_i\P(Y = y).
+\]
 
+\begin{example}
+    $X \sim \Po(\lambda)$,
+    \[
+    \P(X = k) = \frac{e ^ {-\lambda}\lambda ^ k}{k!},\qquad k = 0, 1, 2, \dotsc
+    \]
+    \[
+    \E(X) = \sum_{k = 0}^{\infty}k\P(X = k) = \sum_{k = 0}^{\infty}k\frac{e ^ {-\lambda}\lambda ^ k}{k!} = \sum_{k = 1}^{\infty}\frac{e ^ {-\lambda}\lambda ^ k}{(k - 1)!} = \sum_{k = 0}^{\infty}\frac{e ^ {-\lambda}\lambda ^ {k + 1}}{k!} = \lambda e ^ {-\lambda}\sum_{k = 0}^{\infty}\frac{\lambda ^ k}{k!} = \lambda e ^ {-\lambda}e ^ {\lambda} = \lambda.
+    \]
+\end{example}
+
+\subsection{Expectation in abstract}
+Four key properties of $\E$.
+
+\begin{enumerate}[label = (\roman*)]
+    \item Probability:
+    \[
+    \E(\mathbbm{1}_A) = \P(A)
+    \]
+    for any event $A$.
+
+    \item Linearity:
+    \[
+    \E(aX + bY) = a\E(X) + b\E(Y).
+    \]
+
+    \item Monotonicity:
+    if $X \leq Y$ then $\E(X) \leq \E(Y)$.
+
+    \item Monotone convergence:
+    suppose $X_n$ are random variables such that $0 \leq X_n \leq X_{n + 1}$ for every $n$.
+    Suppose $\lim_{n \to \infty}X_n(\omega) = X(\omega)$
+    (or equivalently $\lim_{n \to \infty}X_n = X$).
+    Then
+    \[
+    \E(X) = \lim_{n \to \infty}\E(X_n).
+    \]
+\end{enumerate}
+These four properties determine the operator $\E$ uniquely.
+
+How to define $\E(X)$.
+suppose $X \geq 0$.
+Then we can find a sequence $X_n$ such that
+\begin{enumerate}[label = (\roman*)]
+    \item $0 \leq X_n \leq X_{n + 1}$ for every $n$.
+
+    \item $\lim_{n \to \infty}X_n(\omega) = X(\omega)$.
+
+    \item $X_n$ are discrete random variables.
+\end{enumerate}
+Since $X_n$ is discrete $\E(X_n)$ is well defined.
+By the monotone convergence property $\lim_{n \to \infty}\E(X_n)$ exists and we can define $\E(X) = \lim_{n \to \infty}\E(X_n)$.
+
+For general $X$,
+decompose $X ^ {+} = \max(X, 0)$,
+$X ^ {-} = \max(-X, 0)$.
+$X = X ^ {+} - X ^ {-}$
+\[
+\E(X) = \E(X ^ {+}) - \E(X ^ {-})
+\]
+provided that they are both finite.
+
+\begin{example}
+    $X \equiv 1$,
+    $\E(X) = 1$.
+\end{example}
+
+$\E(X)$ depends only on the law of $X$.
+\[
+X = \{\P(X \in U), U \subseteq K\text{ open}\}
+\]
+
+\subsection{Expectation inequalities}
+\textbf{Triangle inequality}
+\[
+|\E(X)| \leq \E(|X|)
+\]
+\begin{proof}
+    \begin{align*}
+        -|X| \leq X \leq |X|
+        \intertext{take expectations}
+        -\E(|X|) \leq \E(X) \leq \E(|X|) \iff |\E(X)| \leq \E(|X|)
+    \end{align*}
+\end{proof}
+
+\textbf{Variance inequality}
+\[
+\E(X) ^ 2 \leq \E(X ^ 2)
+\]
+since
+\[
+0 \leq \Var(X) = \E(X ^ 2) - (\E(X)) ^ 2 \iff \E(X) ^ 2 \leq \E(X ^ 2).
+\]
+
+\begin{lemma}[Borel-Cantelli lemma]
+    If $A_n$,
+    $n \geq 1$,
+    are a sequence of events with $\sum_{n = 1}^{\infty}\P(A_n) < \infty$ then $\P(A_n\text{ i.o}) = 0$.
+
+    \begin{proof}
+        (using expectation)
+        Let
+        \[
+        X = \sum_{n = 1}^{\infty}\mathbbm{1}_{A_n},
+        \]
+        $X(\omega) = \#\{n, \omega \in A_n\}$
+        $\{A_n\text{ infinitely often}\} = \{X = +\infty\}$.
+        Need to show $\P(X = +\infty) = 0$.
+        Monotone approximation
+        \[
+        \{X = +\infty\} = \bigcap_{n = 1}^{\infty}\{X = n\}
+        \]
+        decreasing in $n$.
+        \[
+        \P(X = +\infty) = \lim_{n \to \infty}\P(X \geq n) \leq \lim_{n \to \infty}\frac{\E(X)}{n}
+        \]
+        by Markov's inequality.
+
+        Compute $\E(|X|)$.
+        \[
+        X_n = \sum_{k = 1}^{n}\mathbbm{1}_{A_k}
+        \]
+        $0 \leq X_n \leq X_{n + 1}$.
+        \[
+        \lim_{n \to \infty}X_n = X.
+        \]
+        Using monotone convergence property of expectation,
+        $\E(X) = \lim_{n \to \infty}\E(X_n)$
+        \[
+        \E(X_n) = \E\left(\sum_{k = 1}^{n}\mathbbm{1}_{A_k}\right) = \sum_{k = 1}^{n}\E(\mathbbm{1}_{A_k}) = \sum_{k = 1}^{n}\P(A_k)
+        \]
+        \[
+        \lim_{n \to \infty}\E(X_n) = \lim_{n \to \infty}\sum_{k = 1}^{n}\P(A_k) = \sum_{n = 1}^{\infty}\P(A_k) < \infty
+        \]
+        so $\E(X) < \infty$.
+        So $\lim_{n \to \infty}\frac{\E(X)}{n} = 0$.
+        So $\P(X = +\infty) = 0$.        
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    If $\E(|X|) < \infty$ then there exists a $\omega$ and $\omega'$ such that
+    \[
+    X(\omega) \leq \E(X) \leq X(\omega').
+    \]
+\end{lemma}
 
 \end{document}
