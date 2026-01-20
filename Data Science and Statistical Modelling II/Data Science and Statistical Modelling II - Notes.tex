@@ -155,6 +155,120 @@ this is a valid cdf}
 $\hat{F}(x ^ {+}) = \lim_{t \to x ^ {+}}\hat{F}(t)$.
 
 
+\begin{theorem}[Glivenko-Cantelli]
+    Let $X_1, \dotsc, X_n$ be a random sample taken from some probability distribution with cdf $F(\cdot)$.
+    Then,
+    \[
+    \sup_{x \in \R}|\hat{F}(x) - F(x)| \to 0\text{ as } n \to \infty.
+    \]
+\end{theorem}
+
+\begin{lemma}
+    Given data $\vec{x} = (x_1, \dotsc, x_n)$,
+    then sampling uniformly at random from $\vec{x}$ is equivalent to sampling from the probability distribution defined by the ecdf,
+    $\hat{F}(\cdot)$,
+    constructed using $\vec{x}$.
+\end{lemma}
+
+\begin{enumerate}[label = (\alph*)]
+    \item The ecdf $\vec{x}$ approximates the true cdf.
+
+    \item Bootstrap is equivalent to $n$ simulation,
+    for the ecdf.
+
+    \item Bootstrap is like fitting ecdf,
+    then simulation how the statistic $S(\cdot)$ behaves for samples of size $n$.
+\end{enumerate}
+
+The ecdf defines $n$ discrete random variables with pmf:
+\[
+p(y) = \P(Y = y) = \begin{cases}
+    \frac{1}{n} &\text{if } y \in \{x_1, \dotsc, x_n\} \\
+    0 &\text{otherwise},
+\end{cases}
+\]
+Calculate moments exactly
+\begin{align*}
+    \E(Y) &= \sum_{y \in \mathcal{X}}y\cdot p(y) \\
+    &= \sum_{i = 1}^{n}x_i\P(Y = x_i) \\
+    &= \sum_{i = 1}^{n}x_i\cdot\frac{1}{n} \\
+    &= \frac{1}{n}\sum_{i = 1}^{n}x_i \\
+    &= \bar{x} \\
+    \Var(Y) &= \sum_{y \in \mathcal{X}}(y - \E(Y)) ^ 2p(y) \\
+    &= \sum_{i = 1}^{n}(x_i - \bar{x}) ^ 2\cdot\frac{1}{n} \\
+    &= \frac{1}{n}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ 2 \\
+    &= \frac{n - 1}{n}\cdot\frac{1}{n - 1}\sum_{i = 1}^{n}(x_i - \bar{x}) ^ 2 \\
+    &= \frac{n - 1}{n}S_{X} ^ 2.
+\end{align*}
+Similarly,
+we can show $\{Y_1, \dotsc, Y_m\}$ iid draws from the ecdf,
+\[
+\E(\bar{Y}) = \bar{x},\qquad \Var(\bar{Y}) = \frac{n - 1}{n}\cdot \frac{S_{X} ^ 2}{m}
+\]
+where $\bar{Y} = \frac{1}{m}\sum_{j = 1}^{m}Y_j$ for $Y_j \sim \hat{F}(\cdot)$.
+Hence,
+$\sqrt{\Var(\bar{Y})}$ is usual estimate of standard error of mean with correction factor.
+
+Useful but only for $\bar{Y}$,
+not so much for the median,
+variance,
+but we still simulate.
+
+Bootstrap has issues when there is missing data
+(e.g. when not all variables are collected for all observations).
+Time-series data
+(e.g. stock prices,
+when strong serial dependence and assumption of independence is not valid).
+Censored data
+(e.g. data on failure times of engineered system,
+could run experiment and observe failures but other units work at the end of the experiment).
+
+Finite population case.
+E.g. surveys of finite population of individuals.
+Let $N$ be the population size.
+$\mu, \sigma ^ 2$ are the population parameters,
+mean and variance.
+$n$ is the survey size.
+$\bar{x}, s ^ 2$ are sample statistics,
+mean and variance.
+$f \coloneqq \frac{n}{N}$ is the sampling fraction.
+
+If $f > 0.1$
+(rough rule of thumb),
+then cannot ignore the finite population structure of the problem.
+Now,
+$\bar{X} = \frac{1}{n}\sum_{i = 1}^{n}X_i$ is still an unbiased estimator for $\mu$.
+But,
+$\Var(\bar{x})$ is not $\frac{\sigma ^ 2}{n}$ any more.
+
+\begin{theorem}
+    Given a finite population size $N$,
+    the sample mean based on a sample of size $n$ drawn uniformly without replacement has:
+    \[
+    \Var(\bar{X}) = \left(\frac{N - n}{N - 1}\right)\frac{\sigma ^ 2}{n}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \Var(\bar{X}) &= \Var\left(\frac{1}{n}\sum_{i = 1}^{n}X_i\right) \\
+            &= \frac{1}{n ^ 2}\Var\left(\sum_{i = 1}^{n}X_i\right) \\
+            &= \frac{1}{n ^ 2}\left(\sum_{i = 1}^{n}\Var(X_i) + \sum_{i \neq j}\underbrace{\Cov(X_i, X_j)}_{c}\right) \\
+            &= \frac{1}{n ^ 2}\left(n\sigma ^ 2 + \sum_{i \neq j}c\right) \\
+            &= \frac{1}{n ^ 2}\left(n\sigma ^ 2 + n(n - 1)c\right) \\
+            &= \frac{1}{n}(\sigma ^ 2 + (n - 1)c).
+        \end{align*}
+        If we sample the whole population,
+        then $\bar{x} = \mu$,
+        $\Var(\bar{X}) = 0$ so
+        \[
+        0 = \frac{1}{N}(\sigma ^ 2 + (N - 1)c) \implies c = -\frac{\sigma ^ 2}{N - 1}.
+        \]
+        Hence,
+        \[
+        \Var(\bar{X}) = \frac{1}{n}\left(\sigma ^2  + (n - 1)\left(-\frac{\sigma ^ 2}{N - 1}\right)\right) = \frac{\sigma ^ 2}{n}\left(\frac{N - n}{N - 1}\right).
+        \]
+    \end{proof}
+\end{theorem}
 
 
 \end{document}
