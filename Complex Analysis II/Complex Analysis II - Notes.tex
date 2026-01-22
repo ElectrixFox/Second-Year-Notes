@@ -958,6 +958,313 @@ $\partial A = \{z_0\}$}
     there exist $y, z \in U$ with $y \in A$ and $z \in A ^ c$}\}$.
 \end{enumerate}
 
+\subsection{Convergence and continuity}
+
+The notion of limits and convergence is paramount in Analysis.
+
+\begin{definition}[Limits and convergence of sequences in $\C$]
+    We say a sequence $\{z_n\}_{n \in \N} \subset \C$ converges to $z \in \C$ if
+    \[
+    \lim_{n \to \infty}|z_n - z| = 0.
+    \]
+    That is if for any $\varepsilon > 0$ there exists $N \in \N$ such that for every $n > N$
+    \[
+    |z_n - z| < \varepsilon.
+    \]
+\end{definition}
+
+We notice that if $\{z_n\}_{n \in \N}$ is a sequence in $\C$ then $\{\Re(z_n)\}_{n \in \N}$ and $\{\Im(z_n)\}_{n \in \N}$ are sequences in $\R$.
+Is there a connection between the convergence of these sequences.
+
+\begin{lemma}
+    A sequence of complex numbers $\{z_n\}_{n \in \N} \subset \C$ converges if and only if the sequences $\{\Re(z_n)\} \subset \R$ and $\{\Im(z_n)\} \subset \R$ converge in $\R$.
+    Moreover,
+    in that case
+    \[
+    \lim_{n \to \infty}z_n = \lim_{z \to \infty}\Re(z_n) + i\lim_{n \to \infty}\Im(z).
+    \]
+
+    \begin{proof}
+        Denote $\Re(z_n) = x_n$,
+        $\Im(z_n) = y_n$,
+        i.e. $z_n = x_n + iy_n$ for $x_n, y_n \in \R$.
+        Assume $z_n \to z = x + iy$.
+        Then
+        \[
+        0 \leq |x_n - x| \leq \sqrt{(x_n - x) ^ 2 + (y_n - y) ^ 2} = |z_n| \to 0
+        \]
+        by assumption.
+        Then $|x_n - x| \to 0$ as $n \to \infty$ by squeezing theorem.
+        \[
+        \lim_{n \to \infty}|x_n - x| < 0 \implies \lim_{n \to \infty}x_n = x.
+        \]
+        Similarly $y_n$ must converge to $y$ as $n \to \infty$.
+
+        Assume $x_n \to x$ as $n \to \infty$,
+        $y_n \to y$ as $n \to \infty$ then
+        \begin{align*}
+            |z_n - z| &= |(x_n - x) + i(y_n - y)| \\
+            &\leq |x_n - x| + |i||y_n - y| \\
+            &\implies \\
+            0 \leq |z_n - z| &\leq |x_n - x| + |y_n - y|
+        \end{align*}
+        then $|z_n - z| \to 0$ as $n \to \infty$.
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    A sequence in $\C$ can have at most one limit.
+
+    \begin{proof}
+        This holds since it is true in $\R$.
+        Indeed,
+        if $\{z_n\}$ converges then $\{\Re(z_n)\}$ converges.
+        It can converge to a unique limit,
+        say $x$.
+        Similarly $\{\Im(z_n)\}$ converges to a unique limit $y$,
+        and consequently $\{z_n\}$ converges to the unique limit $x + iy$.
+    \end{proof}
+\end{corollary}
+
+\begin{example}
+    Show $z_n = \frac{1}{n} + i\left(1 - \frac{1}{n}\right) ^ n$ converges in $\C$.
+
+    \begin{solution}
+        $x_n = \frac{1}{n}$,
+        $y_n = (1 - 1 / n) ^ n$.
+        Since $x_n \to 0$ as $n \to \infty$ and $y_n \to e ^ {-1}$ as $n \to \infty$,
+        $z_n$ must converge as well to $\frac{i}{e}$.
+    \end{solution}
+\end{example}
+
+\textbf{Important:}
+COLT rules follow in the complex plane
+(where $i$ is treated as a constant).
+
+We can formulate convergence of sequences in a topological sense.
+
+\begin{lemma}
+    Let $\{z_n\}_{n \in \N} \subset \C$ be a given sequence in $\C$.
+    Then $\lim_{n \to \infty}z_n = z$ if and only if for any open set $U \subseteq \C$ such that $z \in U$ there exists $N \in \N$ such that for any $n > N$ we have that $z_n \in U$.
+
+    \begin{proof}
+        We start by noticing that $z_n \to z$ as $n \to \infty$ is equivalent to $\forall \varepsilon > 0$,
+        $\exists N \in \N$ s.t. if $n > N$ $|z_n - z| < \varepsilon$ which is equivalent to $\forall \varepsilon > 0$,
+        $\exists N \in \N$ s.t. if $n > N$,
+        $z_n \in B_{\varepsilon}(z)$.
+
+        "$\implies$".
+        Let $U$ be an open set s.t. $z \in U$.
+        By definition.
+        $\exists \varepsilon > 0$ s.t. $B_{\varepsilon}(z) \subset U$.
+        Since $z_n \to z$ as $n \to \infty$ we can find $N \in \N$ s.t. for all $n > N$ $z_n \in B_{\varepsilon}(z) \subset U$,
+        which is the required result.
+
+        "$\impliedby$"
+        Given $\varepsilon > 0$ the set $B_{\varepsilon}(z)$ is open.
+        By assumption,
+        $\exists N \in \N$ s.t. if $n > N$ $z_n \in B_{\varepsilon}(z)$.
+        Since this holds for any $\varepsilon > 0$ $z_n \to z$ as $n \to \infty$.
+    \end{proof}
+\end{lemma}
+
+Sequences give excellent intrinsic criterion to test closedness of sets.
+
+\begin{lemma}[Closedness criterion]
+    The set $A \subseteq \C$ is a closed set if and only if for any sequence $\{z_n\}_{n \in \N}$ in $A$ that converges to an element $z \in \C$ we have that $z \in A$.
+\end{lemma}
+
+\begin{definition}[Continuity]
+    Let $A$ be a subset of $\C$.
+    A map $f : A \to \C$
+    (or $\R$)
+    is called continuous at $z_0 \in A$ if for any $\varepsilon > 0$ there exists $\delta > 0$ such that if $|z - z_0| < \delta$ and $z \in A$ then
+    \[
+    |f(z) - f(z_0)| < \varepsilon.
+    \]
+    We say a function $f$ is continuous on a set $A \subseteq \C$ if it is continuous at every point in $A$.
+\end{definition}
+
+Just like before we have the following
+
+\begin{lemma}[Continuity via sequences]
+    A function $f : A \to \C$
+    (or $\R$)
+    is continuous at $z_0 \in A$ if and only if
+    \[
+    \lim_{n \to \infty}f(z_n) = f(z_0)
+    \]
+    for every sequence $\{z_n\}_{n \in \N}$ in $A$ such that $\lim_{n \to \infty}z_n = z_0$
+\end{lemma}
+
+We use this usually to show lack of continuity
+(and in fact,
+lack of limit):
+If we find $\{z_n\}, \{w_n\}$ s.t. $z_n \to z_0$ as $n \to \infty$,
+$w_n \to z_0$ as $n \to \infty$.
+$f(z_n) \to \ell_1$ as $n \to \infty$,
+$f(w_n) \to \ell_2$ as $n \to \infty$ and $\ell_1 \neq \ell_2$ then $f$ is not continuous at $z_0$
+(in fact there is no limit).
+
+\begin{example}
+    \[
+    f(z) = f(x + iy) = \begin{cases}
+        \frac{xy}{x ^ 2 + y ^ 2} &(x, y) \neq (0, 0) \\
+        0 &(x, y) = (0, 0)
+    \end{cases}
+    \]
+    is not continuous at $z = 0$.
+    Indeed,
+    note that for $y = kx$,
+    $k \in \R$
+    \[
+    f(x + ikx) = \frac{k}{1 + k ^ 2}
+    \]
+    when $x \neq 0$.
+    Choosing $z_n = \frac{1}{n}$ and $w_n = \frac{1}{n} + \frac{i}{n}$,
+    we have that $z_n \to 0$,
+    $w_n \to 0$
+    \[
+    f(z_n) = 0 \to 0\text{ as $n \to \infty$}
+    \]
+    \[
+    f(w_n) = \frac{1}{2} \to \frac{1}{2}\text{ as $n \to \infty$}
+    \]
+    and as such there is no limit.
+\end{example}
+
+\begin{lemma}[Basic properties of continuous functions]\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Products,
+        sums,
+        quotients of real/complex valued functions on $A \subseteq \C$ are continuous on $A$
+        (where defined).
+
+        \item Composition of continuous functions are continuous.
+    \end{enumerate}
+\end{lemma}
+
+The following functions are continuous on $\C$:
+\begin{itemize}[label = -]
+    \item $f(z) = z$.
+
+    \item $f(z) = \text{const}$.
+
+    \item $f(z) = \Re(z)$,
+    $f(z) = \Im(z)$,
+    $f(z) = |z|$.
+
+    \item $f(z) = \bar{z}$.
+
+    \item $f(z) = z ^ n$,
+    $n \in \N$.
+    Consequently,
+    polynomials are continuous.
+
+    \item $f(z) = e ^ z$ and consequently $\sin(z)$,
+    $\cos(z)$,
+    $\sinh(z)$,
+    $\cosh(z)$.
+\end{itemize}
+For any $\theta_1 < \theta_2$ s.t. $\theta_2 - \theta_1 = 2\pi$ the argument associated to $(\theta_1, \theta_2]$ is not continuous on $C ^ {*}$
+($=\C \setminus\{0\}$).
+This is due to a jump discontinuity at $R_{\theta_1}$
+(ray of $\theta_1$).
+It is continuous on $\C \setminus R_{\theta_1}$.
+
+Any branch of $\log{z}$ is continuous on $\C \setminus R_{\theta_1}$
+(the branch cut).
+
+Much like sequences we can recast continuity in topological sets.
+
+\begin{theorem}[Continuity via open sets]
+    Let $A \subseteq \C$ be an open set and let $f : A \to \C$
+    (or $\R$)
+    be a given map.
+    Then the following are equivalent.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item $f$ is continuous.
+
+        \item $f ^ {-1}(U)$ is an open set for every open set $U \subseteq \C$.
+
+        \item $f ^ {-1}(F)$ is a closed set for every closed set $F \subseteq \C$.
+    \end{enumerate}
+
+    \begin{proof}
+        Motivation:
+        $f$ is continuous at an interior point $z_0$ if and only if for any $\varepsilon > 0$,
+        there exists $\delta > -$ such that if $z \in B_{\delta}(z)$ then $f(z) \in B_{\varepsilon}(f(z_0))$.
+        Equivalently for any $\varepsilon > 0$,
+        there exists $\delta > 0$ such that
+        \[
+        B_{\delta}(z_0) \subset f ^ {-1}(B_{\varepsilon}f(z_0)).
+        \]
+    \end{proof}
+\end{theorem}
+
+We can use this theorem to classify sets.
+For any $z_0 \in \C$,
+$\{z_0\}$ is closed which implies if $f$ is continuous then $f ^ {-1}(\{z_0\})$ is closed.
+For example
+\[
+\{z \in \C \mid |z| = 1\}
+\]
+for $f(z) = |z|$.
+
+The set
+\[
+U = \{z = x + iy \in \C \mid (x ^ 2 + y ^ 2)\sin(\sqrt{x ^ 2 + 2}) > 2\}
+\]
+is open since $U = f ^ {-1}((2, \infty))$ where $f(x + iy) = (x ^ 2 + y ^ 2)\sin\sqrt{x ^ 2 + 2}$ continuous.
+
+\subsection{Sequential Compactness}
+A fundamental theorem in real analysis is Bolzano-Weierstrass that states that bounded sequences have converging subsequences.
+This implies many results for continuous functions on closed bounded intervals or more generally compact sets.
+
+\begin{definition}[Sequential Compactness]
+    A non-empty subset $K$ of $\C$ is called sequentially compact if for any sequence $\{z_n\}_{n \in \N}$ in $K$ there exists a convergent subsequence,
+    $\{z_{n_k}\}_{k \in \N}$,
+    whose limit lies in $K$.
+\end{definition}
+
+\begin{example}
+    $B_1(0) = \{z \in \C \mid |z| < 1\}$ is not sequentially compact.
+    \[
+    z_n = 1 - \frac{1}{n} \in B_1(0)
+    \]
+    $z_n \to 1$ as $n \to \infty$ but $1 \notin B_1(0)$.
+\end{example}
+
+There is a simple criteria for sequential compactness in $\C$.
+
+\begin{theorem}[Heine-Borel for $\C$]    
+    A subset $K$ of $\C$ is sequentially compact if and only if it is closed and bounded.
+
+    \begin{proof}
+        We'll show that if $K$ is bounded and closed,
+        it is compact.
+        Let $\{z_n\}_{n \in \N} \in K$ be given.
+        We write
+        \[
+        z_n = x_n + iy_n\qquad x_n, y_n \in \R
+        \]
+        and see that $\{x_n\}_{n \in \N}$,
+        $\{y_n\}_{n \in \N}$ are real sequences s.t.
+        \[
+        \max(|x_n|, |y_n|) \leq |z_n| \leq U
+        \]
+        i.e. $\{x_n\}$,
+        $\{y_n\}$ are bounded.
+    \end{proof}
+\end{theorem}
+The above theorem holds in $\R ^ n$ and $\C ^ n$ for any $n \in \N$.
+It is not true in general metric spaces.
+
+
+
+
+
 
 
 
