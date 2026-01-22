@@ -270,5 +270,146 @@ $\Var(\bar{x})$ is not $\frac{\sigma ^ 2}{n}$ any more.
     \end{proof}
 \end{theorem}
 
+\textit{Note:}
+\begin{enumerate}[label = (\roman*)]
+    \item $\frac{N - n}{N - 1} < 1$ so finite population standard error of the mean is smaller.
+
+    \item $N$ large means $\frac{N - n}{N - 1} \approx 1 - \frac{n}{N}$,
+    so $\Var(\bar{x}) \approx (1 - f)\frac{\sigma ^ 2}{n}$.
+
+    \item As $N \to \infty$,
+    $\Var(\bar{x}) \to \frac{\sigma ^ 2}{n}$.
+\end{enumerate}
+
+Know theoretical $\Var(\bar{x})$ in finite population case,
+but this involves $\sigma ^ 2$.
+
+Recall,
+$\E(s ^ 2) = \sigma ^ 2$ for infinite population but not for finite population.
+
+\begin{theorem}
+    Given a finite population size $N$,
+    sample size $n$,
+    drawn without replacement,
+    we have that $\left(1 - \frac{n}{N}\right)\frac{s ^ 2}{n}$ is an unbiased estimator for $\Var(\bar{x})$.
+
+    \begin{proof}
+        First,
+        note
+        \begin{align*}
+            \E(s ^ 2) &= \frac{1}{n - 1}\E\left(\sum_{i = 1}^{n}(X_i - \bar{x}) ^ 2\right) \\
+            &= \frac{1}{n - 1}\E\left(\sum_{i = 1}^{n}(x_i ^ 2 - x_i\bar{x} + \bar{x} ^ 2)\right) \\
+            &= \frac{1}{n - 1}\left(\E\left(\sum X_i ^ 2\right) - \E\left(2\bar{X}\sum X_i\right) + \E\left(\sum \bar{X} ^ 2\right)\right) \\
+            &= \frac{1}{n - 1}\left(\sum\E(X_i ^ 2) - 2n\E(\bar{X} ^ 2) + n\E(\bar{X} ^ 2)\right) \\
+            &= \frac{n}{n - 1}(\E(X_i ^ 2) - \E(\bar{X} ^ 2).
+        \end{align*}
+        Therefore,
+        \begin{align*}
+            \E\left(\left(1 - \frac{n}{N}\right)\frac{s ^ 2}{n}\right) &= \frac{1}{n}\left(1 - \frac{n}{N}\right)\E(s ^ 2) \\
+            &= \frac{1}{n}\left(1 - \frac{n}{N}\right)\frac{n}{n - 1}(\E(X_i ^ 2) - \E(\bar{X} ^ 2).
+        \end{align*}
+        We know $\Var(X) \coloneqq \E(X ^ 2) - \E(X) ^ 2$,
+        $\E(X ^ 2) = \Var(X) - \E(X) ^ 2$.
+        \begin{align*}
+            \E\left(\left(1 - \frac{n}{N}\right)\frac{s ^ 2}{n}\right) &= \frac{1}{n - 1}\left(1 - \frac{n}{N}\right)\left(\Var(X_i) + \E(X_i) ^ 2 - \Var(\bar{X}) - \E(\bar{X}) ^ 2\right) \\
+            &= \frac{1}{n - 1}\left(1 - \frac{n}{N}\right)\left(\sigma ^ 2 + \mu ^ 2 - \frac{N - n}{n - 1}\frac{\sigma ^ 2}{n} + \mu\right) \\
+            &= \frac{\sigma ^ 2}{n}\frac{N - n}{N - 1} \equiv \Var(\bar{X})
+        \end{align*}
+        I.e.
+        \[
+        \E\left(\left(1 - \frac{n}{N}\right)\frac{s ^ 2}{n}\right) = \Var(\bar{X})
+        \]
+        so is an unbiased estimator as required.
+    \end{proof}
+\end{theorem}
+
+Therefore we can see the problem:
+\begin{enumerate}[label = (\roman*)]
+    \item Estimated Bootstrap standard error of the mean will converge to:
+    \[
+    \widehat{\Var}(S(\cdot)) \to \frac{n - 1}{n}\frac{s ^ 2}{n}.
+    \]
+
+    \item The actual standard error is properly estimated by
+    \[
+    \left(1 - \frac{n}{N}\right)\frac{s ^ 2}{n}.
+    \]
+\end{enumerate}
+
+Special case:
+If $f \equiv \frac{n}{N}$ is such that $1 - f = \frac{n - 1}{n}$ implies $f = n ^ {-1}$ so $N = n ^ 2$ then all is ok.
+
+Solution?
+Increase the size of bootstrap resamples to shrink the standard error by just the right amount.
+I.e. sample with replacement $n' > n$ times
+\[
+\widehat{\Var}(S(\cdot)) \to \frac{n - 1}{n}\frac{s ^ 2}{n'}.
+\]
+Could select $n' = \frac{n - 1}{1 - f}$ so
+\[
+\widehat{\Var}(S(\cdot)) \to \frac{n - 1}{n}\frac{s ^ 2}{n'} = (1 - f)\frac{s ^ 2}{n} = \left(1 - \frac{n}{N}\right)\frac{s ^ 2}{n}.
+\]
+But $n'$ is not always an integer and this is all for $S$ is the mean,
+but what is $S$ is the median or a quantile?
+
+We present a solution which comes down to copying the sampling set up
+(i.e. what Bootstrap does in the infinite population case).
+
+\begin{definition}
+    Assume $\vec{x} = (x_1, \dotsc, x_n)$ is drawn without replacement from a finite population of size $N$.
+    $S(\cdot)$ is the statistic of interest that we wish to use to estimate a population parameter.
+    Assume $k = \frac{N}{n}$ is integer.
+
+    Then to do population bootstrap,
+    construct a pseudo-population of size $N$ by repeating $\vec{x}$,
+    $k$ times:
+    \[
+    \tilde{\vec{x}} = (\underbrace{\underbrace{x_1, \dotsc, x_n}_{\vec{x}}, \underbrace{x_1, \dotsc, x_n}_{\vec{x}}, \underbrace{x_1, \dotsc, x_n}_{\vec{x}}}_{\text{$k$ copies of $\vec{x}$}}).
+    \]
+    Replicate finite population sampling by drawing $B$
+    "new"
+    samples of size $n$ without replacement from $\tilde{\vec{x}}$,
+    giving $\vec{x} ^ {*1}, \dotsc, \vec{x} ^ {*B}$.
+
+    Then,
+    proceed as for standard Bootstrap
+    \[
+    \widehat{\Var}(S(\cdot)) = \frac{1}{B - 1}\sum_{b = 1}^{B}(S(x ^ {*b}) - \bar{S} ^ {*}) ^ 2
+    \]
+    where,
+    \[
+    \bar{S} ^ {*} = \frac{1}{B}\sum_{b = 1}^{B}S(x ^ {*b}).
+    \]
+\end{definition}
+
+\textit{Note:
+If $n$ does not divide $N$,
+i.e. $N = kn + m$,
+$0 < m < n$,
+then before each bootstrap we create $\tilde{\vec{x}}$ by taking $k$ full copies of $\vec{x}$ and we add additional subsample of size $m$
+(without replacement)
+from $\vec{x}$.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
