@@ -153,5 +153,151 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$2$}{}}
+
+\begin{problem}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Show that the set $\{z_0\}$,
+        consisting of a single point $z_0 \in \C$,
+        is closed.
+
+        \item Show that the closed ball $\bar{B}_{r}(z_0) \coloneqq \{z \in \C\,:\,|z - z_0| \leq r\}$,
+        of radius $r > 0$ centred at $z_0 \in \C$,
+        is closed.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\roman*)]
+            \item To show that $\{z_0\}$ is closed we need to show that $\{z_0\} ^ c = \C \setminus \{z_0\}$ is open.
+            Given $z \in \{z_0\} ^ c$ we define $\varepsilon = \frac{|z - z_0|}{2} > 0$.
+            We claim that $B_{\varepsilon}(z) \subset \{z_0\} ^ c$.
+            Indeed,
+            if $w \in B_{\varepsilon}(z)$
+            \begin{align*}
+                |w - z_0| &= |(w - z) + (z - z_0)| \\
+                &\geq ||w - z| - |z - z_0|| \\
+                &= |z - z_0| - |w - z| \\
+                &\geq |z - z_0| - \varepsilon \\
+                &= \frac{|z - z_0|}{2} > 0
+            \end{align*}
+            so $w \neq z_0$.
+
+            \item We will show that if $\{z_{n}\}_{n \in \N} \subset \bar{B}_r(z_n)$ and $z_n \to z$ as $n \to \infty$ then $z \in \bar{B}_r(z_0)$.
+            We have that
+            \[
+            |z_n - z_0| \leq n
+            \]
+            and $z_n \to z$ as $n \to \infty$.
+            We want to show that
+            \[
+            |z - z_0| \leq r
+            \]
+            since then $z \in \bar{B}_r(z_0)$.
+            Recall that $f(z) = |z|$ is continuous and using COLT $z_n - z_0 \to z - z_0$ as $n \to \infty$.
+            We conclude that
+            \[
+            |z_n - z_0| \to |z - z_0| \text{ as } n \to \infty.
+            \]
+            Since
+            \[
+            0 \leq |z_n - z_0| \leq r\quad \forall n
+            \]
+            we must have that its limit also satisfies
+            \[
+            0 \leq |z - z_0| \leq r.
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    In the space $C([a, b])$ of continuous functions defined on a closed interval $[a, b]$
+    (for $a < b$),
+    let
+    \[
+    d_1(f, g) \coloneqq \int_{a}^{b}|f(t) - g(t)|\,dt.
+    \]
+    Show that $d_1$ is a metric on $C([a, b])$.
+
+    \begin{solution}
+        Positivity:
+        for any $f, g \in C([a, b])$ $|f(t) - g(t)| \geq 0$ $\forall t \in [a, b]$,
+        so $\int_{a}^{b}|f(t) - g(t)|\,dt \geq 0$.
+        Also
+        \[
+        d_1(f, g) = 0 \iff \int_{a}^{b}|f(t) - g(t)|\,dt = 0 \iff |f(t) - g(t)| = 0 \quad \forall t \in [a, b] \iff f \equiv g.
+        \]
+        Symmetry
+        \[
+        d_1(f, g) = \int_{a}^{b}|f(t) - g(t)|\,dt = \int_{a}^{b}|g(t) - f(t)|\,dt = d_1(g, f).
+        \]
+        Triangle inequality:
+        want to show $\forall f, g, h \in C([a, b])$
+        \[
+        d_1(f, g) \leq d_1(f, h) + d_1(h, g)
+        \]
+        \begin{align*}
+            \int_{a}^{b}|f(t) - g(t)|\,dt \leq \int_{a}^{b}|f(t) - h(t)|\,dt + \int_{a}^{b}|h(t) - g(t)|\,dt.
+        \end{align*}
+
+        Indeed,
+        let $f, g, h \in C([a, b])$ then for any $t \in [a, b]$
+        \[
+        |f(t) - g(t)| \leq |f(t) - h(t)| + |h(t) - g(t)|
+        \]
+        integrating over $[a, b]$ gives the desired result.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Show that a map $f : \C \to \C$ is continuous at $z_0 \in \C$ if and only if
+    \[
+    \lim_{n \to \infty}f(z_n) = f(z_0)\quad\text{for every convergent sequence $\{z_n\}_{n \in \N}$ in $\C$ with $z_n \to z_0$}.
+    \]
+
+    \begin{solution}
+        "$\implies$"
+        Assume that $f$ is continuous at $z_0$,
+        i.e. for any $\varepsilon > 0$,
+        $\exists \delta > 0$ s.t. if $|z - z_0| < \delta$ then $|f(z) - f(z_0)| < \varepsilon$.
+        Let $\{z_n\}_{n \in \N}$ be such that $z_n \to z_0$ as $n \to \infty$.
+        We would like to show that for any $\varepsilon > 0$,
+        $\exists N \in \N$ s.t. if $n > N$ then
+        \[
+        |f(z_n) - f(z_0)| < \varepsilon.
+        \]
+        Given $\varepsilon > 0$ we find $\delta > 0$ s.t. if $|z - z_0| < \delta$,
+        $|f(z) - f(z_0)| < \varepsilon$.
+        Since $z_n \to z_0$ there exists $N \in \N$ s.t. if $n > N$,
+        $|z_n - z_0| < \delta$.
+        Consequently if $n > N$,
+        \[
+        |f(z_n) - f(z_0)| < \varepsilon.
+        \]
+        As $\varepsilon > 0$ was arbitrary,
+        this direction is proved.
+        
+        "$\impliedby$".
+        We will show that if $f$ is not continuous at $z_0$,
+        then there exists a sequence $\{z_n\}_{n \in \N}$ s.t. $z_n \to z_0$ as $n \to \infty$ but $f(z_n) \not\to f(z_0)$ as $n \to \infty$.
+        $\exists \varepsilon_0 > 0$ s.t. $\forall \delta > 0$ $\exists z_{\delta}$ with $|z_{\delta} - z| < \delta$ s.t.
+        \[
+        |f(z_{\delta}) - f(z_0)| \geq \varepsilon_0.
+        \]
+        Let $\delta_n = \frac{1}{n}$ and denote $z_n = z\delta_n$ we have that
+        \[
+        0 \leq |z_n - z_0| < \delta_n = \frac{1}{n} \to 0
+        \]
+        by squeezing theorem $|z_n - z_0| \to 0$ as $n \to \infty$ i.e. $z_n \to z_0$ as $n \to \infty$.
+        However,
+        \[
+        |f(z_n) - f(z_0)| \geq \varepsilon_0\qquad \forall n \in \N
+        \]
+        which implies that $f(z_n) \not\to f(z_0)$ as $n \to \infty$.
+    \end{solution}
+\end{problem}
+
 
 \end{document}
