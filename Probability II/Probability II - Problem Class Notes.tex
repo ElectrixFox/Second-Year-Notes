@@ -158,7 +158,99 @@
     \end{solution}
 \end{problem}
 
+\newpage
 
+\section{Problems Class \texorpdfstring{$2$}{}}
+
+\begin{problem}
+    Let $X_n$ be a sequence of IID random variables with the $\Exp(1)$ distribution:
+    \[
+    \P(X_n > x) = e ^ {-x}\text{ for } x \geq 0.
+    \]
+    Show
+    \[
+    \limsup_{n \to \infty}\frac{X_n}{\log{n}} = 1\text{ with probability $1$}.
+    \]
+    \[
+    \limsup_{n \to \infty}a_n \leq a\quad \forall k \geq 1, a_n \leq a + \frac{1}{k}\text{ eventually}
+    \]
+    \[
+    \limsup_{n \to \infty}a_n \geq a\quad \forall k \geq 1, a_n \geq a - \frac{1}{k}\text{ infinitely often}.
+    \]
+    If both hold,
+    then $\limsup_{n \to \infty}a_k = a$.
+
+    \begin{solution}
+        Define some events.
+        For $n \geq 1$,
+        $k \geq 1$,
+        \begin{align*}
+            A_{n, k} &= \{X_n > (1 + 1 / k)\log{n}\} & B_{n, k} &= \{X_n > (1 - 1 / k)\log{n}\} \\
+            A_k &= \{A_{n, k}\text{ i.o in $n$}\} & B_k &= \{B_{n, k}\text{ i.o in $n$}\}\text{ for $k \geq 1$} \\
+            A &= \bigcup_{k = 1}^{\infty}A_k & B 
+            &= \bigcap_{k = 1}^{\infty}B_k.
+        \end{align*}
+        Calculate $\P$
+        \begin{align*}
+            \P(A_{n, k}) &= \P(X_n > (1 + 1 / k)\log{n}) = e ^ {-(1 + 1 / k)\log{n}} = n ^ {-(1 + 1 / k)} \\
+            \P(B_{n, k}) &=  \P(X_n > (1 - 1 / k)\log{n}) = e ^ {-(1 - 1 / k)\log{n}} = n ^ {-1 + 1 / k}.
+        \end{align*}
+        \begin{align*}
+            \sum_{n = 1}^{\infty}\P(A_{n, k}) &= \sum_{n = 1}^{\infty}n ^ {-(1 + 1 / k)} \\
+            \sum_{n = 1}^{\infty}\P(B_{n, k}) &= \sum_{n = 1}^{\infty}n ^ {-1 + 1 / k} = +\infty.
+        \end{align*}
+        The first Borel-Cantelli lemma implies $\P(A_{k}) = \P(A_{n, k}\text{ i.o in $n$}) = 0$.
+        The second Borel-Cantelli lemma implies $\P(B_k) = \P(B_{n, k}\text{ i.o in $n$}) = 1$.
+        \[
+        \P(A) = \P\left(\bigcup_{k = 1}^{\infty}A_k\right) = 0
+        \]
+        by Boole's inequality
+        \[
+        \P(B) = \P\left(\bigcap_{k = 1}^{\infty}\right) = 1.
+        \]
+        Let $C = A ^ c \cap B$
+        $\P(A ^ c) = 1$,
+        $\P(B) = 1$ imply $\P(C) = 1$.
+        De Morgan's laws:
+        $A ^ c = \bigcap_{k = 1}^{\infty}A_k ^ c$
+        \[
+        A_k ^ c = \{A_{n, k}\text{ i.o in $n$}\} ^ c = \{A_{n, k} ^ c \text{ eventually in $n$}\}.
+        \]
+        \[
+        A_{n, k}^{c} = \{X_n \leq (1 + 1 / k)\log{n}\}.
+        \]
+
+        Suppose $\omega \in C \implies \omega \in A ^ c$ and $\omega \in B$ so $\omega \in A_{k} ^ c$ for every $k$ so $\omega \in \{A_{k} ^ c\text{ eventually in $n$}$ for every $k \geq 1$ which is equivalent to $X_n(\omega) \leq (1 + 1 / k)\log{n}$ eventually in $n$ so $\frac{X_n(\omega)}{\log{n}} \leq 1 + 1 / k$ eventually in $n$.
+        $\omega \in \bigcap_{k = 1}^{\infty}A_k ^ c$ implies $\limsup_{n \to \infty}\frac{X_n(\omega)}{\log{n}} \leq 1$.
+
+        If $\omega \in B$ then $\omega \in B_k$ for every $k$ so $\omega \in \{B_{n, k}\text{ i.o}\}$ for every $k$ so $\{X_{n}(\omega) > (1 - 1 / k)\log{n}\text{ i.o}\}$ in $n$ for every $k$ then
+        \[
+        \limsup_{n \to \infty}\frac{X_n(\omega)}{\log{n}} \geq 1.
+        \]
+        $\omega \in C = A ^ c \cap B$ then $\limsup_{n \to \infty}\frac{X_n(\omega)}{\log{n}} \leq 1 \implies \limsup_{n \to \infty}\frac{X_n(\omega)}{\log{n}} = 1$ $\P(C) = 1$ which implies $\P\left(\limsup_{n \to \infty}\frac{X_n}{\log{n}} = 1\right) = 1$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    A group of $N$ students are comparing their birthdays.
+    Find the expected number of students with a common birthday.
+
+    \begin{solution}
+        Let $X = \#\text{ students that don't share any birthdays}$.
+        Want $N - X$,
+        $\E(N - X) = N - \E(X)$.
+        \begin{align*}
+            X &= \sum_{k = 1}^{N}\mathbbm{1}_{\{\text{student $k$ does not share a birthday}\}}  \\
+            \implies \E(X) &= \sum_{k = 1}^{N}\P(\text{student $k$ does not share a birthday}) \\
+            &= N\P(\text{student $1$ doesn't share a birthday})
+        \end{align*}
+        \begin{align*}
+            \P(\text{student $1$ has a different birthday to students $2, \dotsc, n$}) &= \P(\text{student $1$ and $2$ have different birthdays}) \\
+            &= \left(\frac{364}{365}\right) ^ {N - 1} \\
+            \E(X) &= N\left(\frac{364}{365}\right) ^ {N - 1} \implies \text{Want } N\left(1 - \left(\frac{364}{365}\right) ^ {N - 1}\right).
+        \end{align*}
+    \end{solution}
+\end{problem}
 
 
 
