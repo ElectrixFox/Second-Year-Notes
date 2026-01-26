@@ -259,5 +259,139 @@ as
     \end{proof}
 \end{lemma}
 
+\newpage
+
+\section{Convergence of random variables}
+
+\subsection{Main modes of convergence}
+
+\begin{definition}
+    For a sequence of random variables $(X_n)_{n \geq 1}$ converges pointwise or surely to $X$ if $X_n(\omega) \to X(\omega)$ for all $\omega \in \Omega$ as $n \to \infty$.
+\end{definition}
+
+\subsubsection{Convergence in \texorpdfstring{$L ^ r$}{}}
+\begin{definition}
+    For fixed $r > 0$,
+    let $X$ and $(X_n)_{n \geq 1}$ be random variables such that $\E(|X| ^ r)$ and all $\E(|X_n| ^ r)$ are finite.
+    Then the sequence $X_n$ converges to $X$ in $L ^ r$ as $n \to \infty$,
+    if $\E(|X_n - X| ^ r) \to 0$ as  as $n \to \infty$.
+\end{definition}
+
+\begin{example}
+    Let $(X_n)_{n \geq 1}$ be a sequence of random variables such that for some real numbers $(a_n)_{n \geq 1}$,
+    we have
+    \[
+    \P(X_n = a_n) = p_n,\qquad \P(X_n = 0) = 1 - p_n.
+    \]
+
+    $X_n \to 0$ in $L ^ r$ if and only if $\E(|X_n| ^ r) = |a_n| ^ rp_n$ as $n \to \infty$.
+\end{example}
+
+\subsubsection{Convergence in probability}
+\begin{definition}
+    We say a sequence $(X_n)_{n \geq 1}$ of random variables converges to a random variable $X$ in probability
+    (write $X_n \overset{p}{\to} X$)
+    as $n \to \infty$,
+    if for every fixed $\varepsilon > 0$
+    \[
+    \P(|X_n - X| \geq \varepsilon) \to 0\text{ as } n \to \infty.
+    \]
+\end{definition}
+
+\begin{example}
+    Let random variables $(X_n)_{n \geq 1}$ be such that for some real $(a_n)_{n \geq 1}$,
+    we have
+    \[
+    \P(X_n = a_n) = p_n,\qquad \P(X_n = 0) = 1 - p_n
+    \]
+    where $a_n \to 0$ as $n \to \infty$.
+    Does $X_n \to 0$ as $n \to \infty$ in $L ^ r$ and does $X_n \to 0$ as $n \to \infty$ in probability?
+
+    \begin{solution}
+        $X_n \to 0$ as $n \to \infty$ in $L ^ r$ if and only if
+        \[
+        \E(|X_n| ^ r) = |a_n| ^ rp_n \to 0\text{ as } n \to \infty
+        \]
+        but if $a_n \to 0$ then $|a_n| \to 0$ and hence $|a_n| ^ r \to 0$ so we get that it converges in $L ^ r$ for $r > 0$.
+    \end{solution}
+\end{example}
+
+\begin{lemma}[General Markov Inequality]
+    Let $g : [0, \infty) \to [0, \infty)$ be an increasing function.
+    Then for each random variable $X \geq 0$ and a fixed constant $a > 0$ we have
+    \[
+    \P(X \geq a) \leq \frac{\E(g(X))}{g(a)}.
+    \]
+
+    \begin{proof}
+        Since $g$ increases,
+        for each fixed $a > 0$ and all $x \geq 0$ we have $g(x) \geq g(x)\mathbbm{1}_{x \geq a} \geq g(a)\mathbbm{1}_{x \geq a} \geq 0$.
+        By applying this inequality to the random variable $X \geq 0$ and taking expectations,
+        we obtain
+        \[
+        \E(g(X)) \geq g(a)\E(\mathbbm{1}_{X \geq a}) \equiv g(a)\P(X \geq a).
+        \]
+        As $g(a) > 0$,
+        this is equivalent to the required inequality.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Let $(X_n)_{n \geq 1}$ be a sequence of random variables.
+    If $X_n \overset{L ^ r}{\to} X$ for some fixed $r > 0$,
+    then $X_n \overset{p}{\to} X$ as $n \to \infty$.
+
+    \begin{proof}
+        Applying the general Markov inequality to $g(x) = x ^ r$ and the random variable $|X_n - X| \geq 0$.
+        Then,
+        for every fixed $\varepsilon > 0$,
+        \[
+        \P(|X_n - X| \geq \varepsilon) \leq \frac{\E(|X_n - X| ^ r)}{\varepsilon ^ r} \to 0\text{ as } n \to \infty.
+        \]
+    \end{proof}
+\end{lemma}
+
+\subsubsection{Almost sure convergence}
+\begin{definition}
+    A sequence $(X_k)_{k \geq 1}$ of random variables in $(\Omega, \mathcal{F}, \P)$ converges,
+    as $n \to \infty$,
+    to a random variables $X$ with probability one
+    (or almost surely)
+    if
+    \[
+    \P\left(\{\omega \in \Omega\,:\, X_n(\omega) \to X(\omega)\text{ as } n \to \infty\}\right) = 1.
+    \]
+\end{definition}
+
+\begin{lemma}
+    Let $X$ and $(X_n)_{n \geq 1}$ be random variables.
+    If,
+    for every $\varepsilon > 0$,
+    \[
+    \sum_{n = 1}^{\infty}\P(|X_n - X| > \varepsilon) < \infty,
+    \]
+    then $X_n$ converges to $X$ almost surely.
+
+    \begin{proof}
+        Fix $\varepsilon > 0$ and let $A_n(\varepsilon) = \{\omega \in \Omega\,:\, |X_n(\omega) - X(\omega)| > \varepsilon\}$.
+        By assumption,
+        $\sum_{n}\P(A_n(\varepsilon)) < \infty$,
+        and the Borel-Cantelli lemma,
+        only finitely many $A_k(\varepsilon)$ occur with probability $1$.
+        This means that for every fixed $\varepsilon > 0$ the event
+        \[
+        A(\varepsilon) \coloneqq \{\omega \in \Omega\,:\,|X_n(\omega) - X(\omega)| \leq \varepsilon\text{ for all $n$ large enough}\}
+        \]
+        has probability one.
+        By monotonicity
+        ($A(\varepsilon_1) \subset A(\varepsilon_2)$ if $\varepsilon_1 < \varepsilon_2$),
+        the event
+        \[
+        \{\omega \in \Omega\,:\,X_n(\omega) \to X(\omega)\text{ as } n \to \infty\} = \bigcap_{\varepsilon > 0}A(\varepsilon) = \bigcap_{m \geq 1}A(1 / m)
+        \]
+        has probability one.
+        The claim follows.
+    \end{proof}
+\end{lemma}
 
 \end{document}
