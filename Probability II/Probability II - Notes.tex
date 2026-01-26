@@ -1001,4 +1001,261 @@ since
     \]
 \end{lemma}
 
+\subsection{Convergence of random variables}
+
+Pointwise convergence/
+convergence surely.
+
+$X_n \to X$ as $n \to \infty$ pointwise/
+surely if $X_n(\omega) \to X(\omega)$ for every $\omega \in \Omega$.
+
+\begin{example}
+    Let $U$ be a uniform random variable on the interval $(0, 1)$
+    \[
+    X_{n}(\omega) = n\mathbbm{1}_{\{U(\omega) \leq 1 / n\}}.
+    \]
+    Claim $X_n \to 0$ pointwise.
+
+    Fix $\omega$ and consider $U(\omega) \in (0, 1)$.
+    Suppose $n > \frac{2}{U(\omega)}$.
+    Then $U(\omega) \nleq \frac{1}{n}$.
+    So for $n > \frac{2}{U(\omega)} > X_n(\omega) = 0$.
+    Then $\lim_{n \to \infty}X_n(\omega) = 0$.
+    Note:
+    \[
+    \E(X_n) = \E(n\mathbbm{1}_{\{U \leq 1 / n\}} = n\P(U \leq 1 / n) = \frac{n}{n} = 1
+    \]
+    $\E(0) = 0$.
+\end{example}
+
+$f_n(x) \to f(x)$ as $n \to \infty \centernot\implies \int_{a}^{b}f_n(x)\,dx \to \int_{a}^{b}f(x)\,dx$.
+
+The space  $L ^ r$:
+($L$ stands for Lebesgue)
+$r > 0$ is a number.
+$X$ is in $L ^ r$ if $\E(|X| ^ r) < \infty$ $r \in (0, \infty)$.
+\begin{align*}
+    r &= 1: & \E(|X|) &< \infty & (L ^ 1) \\
+    r &= 2: & \E(X ^ 2) &< \infty & (L ^ 2)
+\end{align*}
+
+\subsubsection{Convergence in \texorpdfstring{$L ^ r$}{}}
+If $(X_n)_{n \geq 1}$ is a sequence of random variables.
+
+\begin{definition}
+    $X_n \to X$ in $L ^ r$ if
+    \begin{enumerate}[label = (\roman*)]
+        \item $\E(|X_n| ^ r) < \infty$ for every $n$.
+
+        \item $\E(|X_n - X| ^ r) \to 0$ as $n \to \infty$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    Let $U$ be uniform on $(0, 1)$ and $X_n(\omega) = n\mathbbm{1}_{U(\omega) \leq 1 / n}$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \E(|X_n| ^ r) = \E(n ^ r \mathbbm{1}_{\{U \leq 1 / n\}}) = n ^ r \P(U \leq 1 / n) = \frac{n ^ r}{n} = n ^ {r - 1}.
+        \]
+
+        \item Does $X_n$ converge to $0$ in $L ^ r$?
+        Need $\E(|X_n - 0| ^ r) = \E(|X_n| ^ r) \to 0$.
+        When $r < 1$,
+        $\E(|X_n| ^ r) \to 0$,
+        so $X_n \to 0$  in $L ^ r$ for $0 < r < 1$.
+        otherwise,
+        $X_n \centernot\to 0$ in $L ^ r$
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    Suppose $X_n \to X$ in $L ^ r$ for $r \geq 1$.
+    Then $\E(X_n) \to \E(X)$ in $L ^ r$.
+
+    \begin{proof}
+        Know $X_n \to X$ in $L ^ r$,
+        we want $\E(X_n) \to \E(X)$.
+
+        Show for any $\varepsilon > 0$:
+        $|\E(X_n) - \E(X)| < \varepsilon$ for all $n \geq N_{\varepsilon}$
+        (eventually)
+
+        Step $1$:
+        Linearity and triangle inequality
+        \[
+        0 \leq |\E(X_n) - \E(X)| = |\E(X - X_n)| \leq \E(|X_n - X|).
+        \]
+
+        Step $2$:
+        Let $\varepsilon' > 0$
+        (choose this later in terms of $\varepsilon$).
+        \[
+        A = \{|X_n - X| \leq \varepsilon'\},\quad A ^ c = \{|X_n - X| > \varepsilon'\}.
+        \]
+        \[
+        \E(|X - X_n|) \E(|X_n - X|\mathbbm{1}_{A}) + \E(|X_n - X|\mathbbm{1}_{A ^ c})
+        \]
+    	\[
+    	\E(|X_n - X|\mathbbm{1}) \leq \E(\varepsilon'\mathbbm{1}_A 	= \varepsilon\P(A) \leq \varepsilon'.
+    	\]
+        \[
+        \E(|X_n - X|\mathbbm{1}_{A ^ c})
+        \]
+        on $A ^ c$ $|X_n - X| > \varepsilon' \iff \frac{|X_n - X|}{\varepsilon} > 1$.
+        If $a \geq 1$ and $r \geq 1$ then $a ^ r \geq a$.
+
+        \[
+        \left(\frac{|X_n - X|}{\varepsilon}\right) ^ r \geq \frac{|X_n - X|}{\varepsilon}
+        \]
+        on event $A ^ c$.
+
+        \[
+        \E(|X_n - X|\mathbbm{1}_{A ^ c}) \leq \E\left(\varepsilon'\cdot\left(\frac{|X_n - X|}{\varepsilon'}\right) ^ r\mathbbm{1}_{A ^ c}\right) = (\varepsilon') ^ {1 - r}\E(|X_n - X| ^ r\mathbbm{1}_{A ^ c}) \leq (\varepsilon') ^ {1 - r}\E(|X_n - X| ^ r).
+        \]
+        Given $\varepsilon' > 0$,
+        since $\E(|X_n - X| ^ r) \to 0$,
+        there is an $N_{\varepsilon'}$ s.t. if $n \geq N_{\varepsilon'}$ then $\E(|X_n - X| ^ r) < (\varepsilon') ^ {r}$.
+        So for $n > N_{\varepsilon'}$,
+        \[
+        \E(|X_n - X|) \leq \varepsilon' + (\varepsilon') ^ {1 - r} + (\varepsilon') ^ {r} = 2\varepsilon'.
+        \]
+        Finally,
+        given $\varepsilon$,
+        choose $\varepsilon' = \frac{\varepsilon}{Q}$ so $|\E(|X_n - X|) < \varepsilon$ for $n > N_{\varepsilon / 2}$.
+    \end{proof}
+\end{proposition}
+
+\subsubsection{Convergence in probability}
+
+\begin{definition}
+    Let $(X_n)_{n \geq 1}$ be a sequence of random variables $X_n \to X$ in probability if for every $\varepsilon > 0$,
+    \[
+    \P(|X_n - X| > \varepsilon) \to 0\text{ as } n \to \infty.
+    \]
+\end{definition}
+
+\begin{example}
+    Suppose $X_n$ are random variables s.t.
+    $\P(X_n = 0) = p_n$ and $\P(X_n = 1) = 1 - p_n$.
+    \[
+    X_n = \begin{cases}
+        0 & \text{prob $p_n$} \\
+        1 & \text{prob $1 - p_n$}.
+    \end{cases}
+    \]
+    Fix $\varepsilon > 0$,
+    $\P(|X_n| > \varepsilon) = \P(X_n = 1) = 1 - p_n$.
+    So if $p_n \to 1$ as $n \to \infty$,
+    then $\lim_{n \to \infty}\P(|X_n| > \varepsilon) = 1 - 1 = 0$.
+
+    So $X_n \to 0$ in probability if and only if $p_n \to 1$.
+\end{example}
+
+\subsubsection{Relation between convergence in \texorpdfstring{$L ^ r$}{} and in probability}
+
+\begin{example}
+    $X_n$ random variables.
+    \[
+    X_n = \begin{cases}
+        a_n \neq 0 &\text{prob $p_n$}, \\
+        0 &\text{prob $1 - p_n$}.
+    \end{cases}
+    \]
+    \[
+    \P(|X_n| > \varepsilon) = \P(X_n = a_n) = p_n
+    \]
+    the above converges to $0$ as $n \to \infty$ if and only if $p_n \to 0$,
+    so $X_n \to 0$ in probability if and only if $p_n \to 0$.
+
+    \[
+    \E(|X_n| ^ r) = |a_n| ^ rp_n
+    \]
+    take $p_n = \frac{1}{n} \to 0$,
+    $a_n = n ^ {2 / r}$ so
+    \[
+    \E(|X_n| ^ r) = |a_n| ^ rp_n = (n ^ {2 / r}) ^ r \cdot \frac{1}{n} = \frac{n ^ 2}{n} = n.
+    \]
+    Then $\E(|X_n| ^ r) \centernot\to 0$ so $X_n \centernot\to 0$ in $L ^ r$ but $X_n \to 0$ in probability.
+\end{example}
+
+$X_n \to 0$ in probability doesn't imply that $X_n \to 0$ in $L ^ r$.
+
+\begin{proposition}
+    If $X_n \to X$ in $L ^ r$ then $X_n \to X$ in probability.
+
+    \begin{proof}
+        Know:
+        \[
+        \E(|X_n - X| ^ r) \to 0\text{ as } n \to \infty.
+        \]
+        Want $\P(|X_n - X| > \varepsilon) \to 0$ as $n \to \infty$.
+        Relate $\P(A) \to \E(\cdot)$.
+        If $|X_n - X| > \varepsilon \implies |X_n - X| ^ r > \varepsilon ^ r$.
+        If event $A$ implies event $B$ then $\P(A) \leq \P(B)$.
+        So
+        \[
+        \P(|X_n - X| > \varepsilon) \leq \P(|X_n - X| ^ r > \varepsilon ^ r) \leq \frac{\E(|X_n - X| ^ r)}{\varepsilon ^ r}
+        \]
+        using Markov inequality.
+
+        \[
+        0 \leq \P(|X_n - X| > \varepsilon) \leq \frac{\E(|X_n - X| ^ r)}{\varepsilon ^ r}.
+        \]
+        Since $\E(|X_n - X| ^ r) \to 0$,
+        by squeeze theorem $0 \leq \lim_{n \to \infty}\P(|X_n - X| > \varepsilon) \leq \lim_{n \to \infty}\frac{\E(|X_n - X| ^ r)}{\varepsilon ^ r}$ so $\lim_{n \to \infty}\P(|X_n - X| > \varepsilon) = 0$.
+    \end{proof}
+\end{proposition}
+
+Suppose $X_n \to X$ in $L ^ 1$ does this imply $X_n ^ 2 \to X ^ 2$ in $L ^ 1$?
+No.
+
+\begin{proposition}
+    If $X_n \to X$ in probability and $f : \R \to \R$ continuous,
+    then $f(X_n) \to f(X)$ in probability.
+
+    \begin{proof}
+        Know:
+        \[
+        \P(|X_n - X| > \varepsilon) \to 0 \text{ as } n \to \infty.
+        \]
+
+        Want:
+        \[
+        \P(|f(X_n) - f(X)| > \varepsilon) \to 0\text{ as } n \to \infty.
+        \]
+
+        $f$ continuous means
+        \[
+        \forall x, y \in \R, \forall \varepsilon > 0, \exists \delta > 0, |x - y| < \delta \implies |f(x) - f(y)| < \varepsilon.
+        \]
+        Apply to $x = X$
+        (random)
+        given $\varepsilon > 0$,
+        there exists $\delta > 0$ s.t, if $|X - y| < \delta$ then
+        \[
+        |f(X) - f(y)| < \varepsilon.
+        \]
+        \[
+        |X - y| < \delta \implies |f(X) - f(y)| < \varepsilon.
+        \]
+        If $|f(X) - f(y)| \geq \varepsilon \implies |X - y| \geq \delta$.
+        So $\P(|f(X) - f(y)| \geq \varepsilon) \leq \P(|X - y| \geq \delta)$.
+        Then
+        \[
+        \P(|f(X) - f(X_n)| \geq \varepsilon \leq \P(|X - X_n| \geq \delta).
+        \]
+        \[
+        0 \leq \lim_{n \to \infty}\P(|f(X_n) - f(X)| > \varepsilon) \leq \lim_{n \to \infty}\P(|X_n - X| \geq \delta) = 0
+        \]
+        by squeeze theorem $\lim_{n \to \infty}\P(|f(X_n) - f(X)| > \varepsilon) = 0$.
+        
+    \end{proof}
+\end{proposition}
+
+
+
+
+
 \end{document}
