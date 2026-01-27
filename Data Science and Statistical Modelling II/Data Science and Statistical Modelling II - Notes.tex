@@ -100,7 +100,9 @@ What problems remain?
     \item Still had to assume something for $F(\cdot\mid \theta)$.
 \end{enumerate}
 
-\textbf{Bootstrap}:
+\newpage
+
+\section{Bootstrap}:
 Data $\vec{x} = (x_1, \dotsc, x_n)$.
 Statistic of interest,
 $S(\cdot)$.
@@ -390,12 +392,110 @@ then before each bootstrap we create $\tilde{\vec{x}}$ by taking $k$ full copies
 (without replacement)
 from $\vec{x}$.}
 
+\subsection{Parametric bootstrap}
+\begin{definition}[Parametric bootstrap estimate and standard error]
+    Assume we are given a data set consisting of independent samples $\vec{x} = (x_1, x_2, \dotsc, x_n)$,
+    which we believe are generated from some distribution parameterised by $\theta$,
+    $F(\cdot \mid \theta)$.
+    To construct a parametric bootstrap estimate of some statistic $S(\cdot)$,
+    and an estimate of the standard error,
+    we:
+    \begin{enumerate}[label = (\roman*)]
+        \item Find the maximum likelihood estimator $\hat{\theta}$.
+
+        \item Draw $B$ new samples of size $n$ from $\hat{F}(\cdot) = F(\cdot \mid \hat{\theta})$,
+        giving $\vec{x} ^ {*1}, \dotsc, \vec{x} ^ {*B}$ and compute:
+        \[
+        \widehat{\Var}(S(\vec{x})) = \frac{1}{B - 1}\sum_{b = 1}^{B}(S(\vec{x} ^ {*b}) - \bar{S} ^ {*}) ^ 2
+        \]
+        where $\bar{S} ^ {*} = \frac{1}{B}\sum_{b = 1}^{B}S(\vec{x} ^ {*b})$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    As a simple example of parametric bootstrap,
+    assume we have data $(x_1, \dotsc, x_n)$ which we believe is drawn from a Geometric distribution,
+    and we wish to estimate the median
+    (and uncertainty in it).
+
+    Recall,
+    if $X \sim \Geo(\theta)$ then the pmf is:
+    \[
+    f_{X}(x) = \theta(1 - \theta) ^ x,\quad x \in \{0, 1, 2, 3, \dotsc\}, \quad \theta \in [0, 1].
+    \]
+
+    First step to do a parametric bootstrap requires the maximum likelihood estimator.
+    Here,
+    \begin{align*}
+        0 = \pd[\mathcal{L}]{\theta} &= \pd{\theta}\left(\sum_{i = 1}^{n}\log(\theta(1 - \theta) ^ {x_i})\right) \\
+        &= \pd{\theta}\left(n\log{\theta} + \left(\sum_{i = 1}^{n}x_i\right)\log(1 - \theta)\right) \\
+        \implies 0 &= \frac{n}{\theta} - \frac{\sum_{i = 1}^{n}x_i}{1 - \theta} \\
+        \implies \hat{\theta} &= \frac{n}{n + \sum_{i = 1}^{n}x_i}.
+    \end{align*}
+\end{example}
+
+\textbf{Bias estimation}
+
+Recall that the bias is:
+\[
+\mathrm{bias}(\theta, \hat{\theta}) = \E(\hat{\theta}) - \theta = \E(S(\vec{x})) - \theta.
+\]
+We can use bootstrap samples to provide an estimate of this bias.
+
+\begin{definition}[Basic bootstrap bias estimate]
+    Given a data set $\vec{x} = (x_1, \dotsc, x_n)$ and a parameter $\theta$ which is estimated by $\hat{\theta} = S(\vce{x})$,
+    then the basic bootstrap estimate is given by performing bootstrap resampling and computing
+    \[
+    \widehat{\mathrm{bias}}(\theta, \hat{\theta}) = \bar{S} ^ {*} - \hat{\theta} = \left(\frac{1}{B}\sum_{b = 1}^{B}S(\vec{x} ^ {*b})\right) - S(\vec{x}).
+    \]
+\end{definition}
+
+\textbf{Confidence intervals}
+
+\textbf{Normal CIs}
+
+The $100(1 - \alpha)\%$ confidence interval can be written in the usual way using the bootstrap estimate of standard error:
+\[
+\hat{\theta} \pm z_{\alpha / 2}\sqrt{\widehat{\Var}(S(\vec{x}))}.
+\]
+However,
+we should check for Normality using a quantile plot.
+Particularly in small sample settings it will often be that the sampling distribution is far away from Normality. 
 
 
 
+\textbf{Percentile CIs}
 
+If $\hat{F}$ was close to the true distribution,
+we hope that the bootstrap samples $S(\vec{x} ^ {*b})$,
+$b = 1, \dotsc, B$,
+will also then be distributed according to the sampling distribution o the statistic.
+We can simply sort the bootstrap sampled statistics and identify the quantiles to give the confidence interval.
+Let $S_{b}^{*} \coloneqq S(\vec{x} ^ {*b})$,
+then using the order statistic notation,
+let $S_{(i)}^{*}$ denote the $i$th largest value,
+so that:
+\[
+S_{(1)}^{*} \leq S_{(2)}^{*} \leq \dotsi \leq S_{(B)}^{*}.
+\]
+Then,
+the $100(1 - \alpha)\%$ confidence interval using the percentile CI method is given by the interval:
+\[
+\left[S_{((\alpha / 2)B)}^{*}, S_{((1 - \alpha / 2)B)}^{*}\right].
+\]
+That is,
+we choose for the lower end the $(\alpha / 2)B$th largest value,
+and for the upper we choose the $(1 - \alpha / 2)B$th largest value,
+choosing $B$ carefully so that these values are integers.
 
+\textbf{BC/BCa CIs}
 
+Bias corrected
+(BC)
+and bias corrected and accelerated
+(BCa)
+CIs are two more advanced methods which can make adjustments for the situation where bias or non-constant standard error arise.
+This is a non-trivial task.
 
 
 
