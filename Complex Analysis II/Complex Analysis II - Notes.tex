@@ -1256,22 +1256,356 @@ There is a simple criteria for sequential compactness in $\C$.
         \]
         i.e. $\{x_n\}$,
         $\{y_n\}$ are bounded.
+        Using Bolzano-Weierstrass we can find a subsequence $\{x_{n_k}\}_{k \in \N}$ that converges to some $x \in \R$.
+        \[
+        z_{n_k} = x_{n_k} + iy_{n_k}
+        \]
+        $\{y_{n_k}\}_{k \in \N}$ is a subsequence of $\{y_n\}_{n \in \N}$ that is bounded.
+        By Bolzano-Weierstrass there exists a subsequence of $\{y_{n_k}\}_{k \in \N}$,
+        $\{y_{n_{k_j}}\}_{j \in \N}$,
+        that converges to some $y \in \R$
+        \[
+        z_{n_{k_j}} = x_{n_{k_j}} + iy_{n_{k_j}}
+        \]
+        $x_{n_{k_j}}$ is a subsequence of $\{x_{n_k}\}_{k \in \N}$ which converges which implies it converges to $x$ too.
+
+        We conclude that $\{z_{n_{k_j}}\}_{j \in \N}$ is a subsequence of $\{z_n\}_{n \in \N}$ that converges to $z = x + iy$
+        (since $\Re(z_{n_{k_j}}) \to x$ and $\Im(z_{n_{k_j}}) \to y$).
+        Since $K$ is closed,
+        $\{z_{n_{k_j}}\}_{j \in \N} \subset K$ and $z_{n_{k_j}} \to z$ we must have that $z \in K$.
+        The result is shown.
     \end{proof}
 \end{theorem}
 The above theorem holds in $\R ^ n$ and $\C ^ n$ for any $n \in \N$.
 It is not true in general metric spaces.
 
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item $B_1(0)$ is not closed,
+        so it is not compact.
 
+        \item $\C$ is not compact since it is not bounded.
 
+        \item $\{z \in \C\,:\, 1 \leq \Re(z) \leq 3, 0 \leq \Im(z) \leq 4\}$ is closed and bounded,
+        and as such compact.
+    \end{itemize}
+\end{example}
 
+\begin{theorem}[Extreme Value Theorem]
+    Let $K$ be a sequentially compact subset of $\C$ and let $f : K \to \R$ be continuous.
+    Then $f$ attains its minimum and maximum on $K$.
+\end{theorem}
 
+\begin{corollary}
+    \begin{itemize}
+        \item If $K$ is a closed and bounded set in $\C$ then $|z|$,
+        $\Re(z)$,
+        and $\Im(z)$ attain their minimum and maximum on $K$.
 
+        \item If $K$ is a closed and bounded set in $\C$ and $f : K \to \C$ or $\R$ is continuous then $|f(z)|$ attains its minimum and maximum on $K$.
+    \end{itemize}
+\end{corollary}
 
+\newpage
 
+\section{Complex Differentiation}
 
+\subsection{Complex differentiability}
 
+\begin{definition}[Complex differentiability]
+    A function $f : U \to \C$ defined on an open set $U$ is $\C$ is
+    (complex)
+    differentiable at $z_0 \in U$ if
+    \[
+    \lim_{z \to z_0}\frac{f(z) - f(z_0)}{z - z_0}\text{ exists}.
+    \]
+    We call this limit the derivative of $f$ at $z_0$ and write $f'(z_0)$ for the limit,
+    i.e.
+    \[
+    f'(z_0) = \lim_{h \to 0}\frac{f(z_0 + h) - f(z_0)}{h}.
+    \]
+\end{definition}
 
+\begin{remark}
+    While $f'(z_0)$ looks like the derivative in $\R$ we need to remember that $z \to z_0$ or $h \to 0$ is in the complex plane,
+    i.e. we have infinitely many ways for $z$
+    (or $h$)
+    to approach $z_0$
+    (or $0$).
+    This is a two dimensional limit.
 
+    One can show that if $f$ is complex differentiable at $z_0$,
+    then it is continuous at $z_0$.
+\end{remark}
+
+\begin{example}
+    Show that $f(z) = z ^ 2$ is complex differentiable at $z = 0$.
+
+    \begin{solution}
+        We must use the definition:
+        \[
+        \frac{f(z) - f(z_0)}{z - z_0} = \frac{z ^ 2 - 0 ^ 2}{z - 0} = z
+        \]
+        so
+        \[
+        \lim_{z \to 0}\frac{f(z) - f(0)}{z - 0} = \lim_{z \to 0}z = 0.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    At which points is $f(z) = \bar{z}$ complex differentiable.
+
+    \begin{solution}
+        Let $z_0 \in \C$ be given
+        \[
+        \frac{f(z_0 + h) - f(z_0)}{h} = \frac{\bar{z}_0 + \bar{h} - \bar{z}_0}{h} = \frac{\bar{h}}{h}
+        \]
+        writing $h = re ^ {i\theta}$ we have
+        \[
+        h \to 0 \iff r \to 0\text{ and } \frac{\bar{h}}{h} = \frac{re ^ {-i\theta}}{re ^ {i\theta}} = e ^ {-2i\theta}
+        \]
+        this implies $\lim\frac{\bar{h}}{h}$ doesn't exist so $f(z)$ is not complex differentiable at any point.
+    \end{solution}
+\end{example}
+
+\begin{lemma}[COLT for complex derivatives and the chain rule]\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Let $f, g : \C \to \C$ be complex differentiable at $z_0 \in \C$.
+        Then:
+        \begin{itemize}
+            \item $f + g$ is complex differentiable at $z_0$ and
+            \[
+            (f + g)'(z_0) = f'(z_0) + g'(z_0).
+            \]
+
+            \item (product rules)
+            $fg$ is complex differentiable at $z_0$ and
+            \[
+            (fg)'(z_0) = f'(z_0)g(z_0) + g'(z_0)g(z_0).
+            \]
+
+            \item (quotient rule)
+            if $g(z_0) \neq 0$ then $f / g$ complex differentiable at $z_0$ and
+            \[
+            \left(\frac{f}{g}\right)' = \frac{f'(z_0)g(z_0) - g'(z_0)f(z_0)}{(g(z_0)) ^ 2}
+            \]
+        \end{itemize}
+
+        \item (chain rule)
+        same as in $\R$.
+    \end{enumerate}
+\end{lemma}
+
+\subsection{Cauchy-Riemann equations}
+We want to simplify the method of showing that a function is complex differentiable.
+Recall we can write
+\[
+f(z) = \Re(f(z)) + i\Im(f(z))
+\]
+with both functions being functions from $\C \to \R$.
+We can identify sets in $\C$ as sets in $\R ^ 2$ and write
+\[
+f(z) = f(x + iy) = u(x, y) + iv(x, y)
+\]
+with $u, v$ as functions of two real variables to $\R$.
+
+\begin{example}
+    Find the real and imaginary parts of $f(z) = z ^ 2$.
+
+    \begin{solution}
+        \[
+        f(z) = f(x + iy) = (x + iy) ^ 2 = x ^ 2 + 2ixy + i ^ 2y ^ 2 = (x ^ 2 - y ^ 2) + i(2xy)
+        \]
+        so $\Re(f(x + iy)) = u(x, y) = x ^ 2 - y ^ 2$,
+        $\Im(f(x + iy)) = v(x, y) = 2xy$.
+    \end{solution}
+\end{example}
+
+For functions from $\R ^ 2$ to $\R$ we have partial derivatives.
+
+Is there a connection between the complex derivative of $f$ and partial derivatives of $\Re(f)$,
+$\Im(f)$.
+
+\begin{proposition}[Cauchy-Riemann equations]
+    Let $f = u + iv$ be complex differentiable at $z_0 = x_0 + iy_0$.
+    Then the real partial derivatives $u_x, u_y, v_x, v_y$ exist at $(x_0, y_0)$ and satisfy the Cauchy-Riemann equations:
+    \[
+    u_x(x_0, y_0) = v_y(x_0, y_0)\qquad u_y(x_0, y_0) = -v_x(x_0, y_0).
+    \]
+    Furthermore,
+    the derivative of $f$ at $z_0$ can be written as
+    \begin{align*}
+        f'(z_0) &= u_x(z_0) + iv_x(z_0) = v_y(z_0) - iu_y(z_0) \\
+        &= u_x(z_0) - iu_y(z_0) = v_y(z_0) + iv_x(z_0)
+    \end{align*}
+    where we have used the shorthand notation $w(z_0) = w(x_0, y_0)$ for functions from $\R ^ 2$ to $\R$.
+
+    \begin{proof}
+        The proof relies on the realisation that since $\lim_{n \to 0}\frac{f(z_0 + h_c) - f(z_0)}{h_c}$ exists $h_c$ can go to $0$ in any
+        (complex)
+        way.
+
+        Let's consider two ways,
+        we consider $h_c = ih$,
+        $h \in \R$,
+        $h \to 0$
+        (in $\R$)
+        \begin{align*}
+            f'(z_0) &= \lim_{h \to 0}\frac{f(z_0 + ih) - f(z_0)}{ih} \\
+            &= \lim_{h \to 0}\frac{f(x_0 + i(y_0 + h)) - f(x_0 + iy_0)}{ih} \\
+            &= \lim_{h \to 0}\frac{(u(x_0, y_0 + h) + iv(x_0, y_0 + h)) - (u(x_0, y_0) + iv(x_0, y_0))}{ih} \\
+            &= \lim_{h \to 0}\left(\frac{v(x_0, y_0 + h) - v(x_0, y_0)}{h}\right) - i\left(\frac{u(x_0, y_0 + h) - u(x_0, y_0)}{h}\right).
+        \end{align*}
+        Since this limit exists
+        \[
+        \Re(f'(z)) = \lim_{h \to 0}\frac{v(x_0, y_0 + h) - v(x_0, y_0)}{h} = v_y
+        \]
+        exists and
+        \[
+        \Im(f'(z_0)) = -\lim_{h \to 0}\frac{u(x_0, y_0 + h) - u(x_0, y_0)}{h} = -u_y
+        \]
+        so we conclude $v_y(x_0, y_0)$ and $u_y(x_0, y_0)$ exist and $f'(z_0) = v(x_0, y_0) - iu_y(x_0, y_0)$.
+        
+        Similarly for $h_c = h$.
+        \[
+        f'(z_0) = \lim_{h \to 0}\frac{f(z_0 + h) - f(z)}{h} = \lim_{h \to 0}\frac{f(x_0 + h + iy_0) - f(x_0 + iy_0)}{h}
+        \]
+        continuing as above we get that $u_x(x_0, y_0), v_x(x_0, y_0)$ exist and $\Re(f'(z_0)) = u_x(x_0, y_0)$,
+        $\Im(f'(z_0)) = v_x(x_0, y_0)$,
+        i.e.
+        \[
+        f'(z_0) = u_x(x_0, y_0), + iv_x(x_0, y_0) = v_y(x_0, y_0) - iu_y(x_0, y_0)
+        \]
+        which implies $u_x(x_0, y_0) = v_y(x_0, y_0)$ and $v_x(x_0, y_0) = -u_y(x_0, y_0)$.
+    \end{proof}
+\end{proposition}
+
+\textit{Note:
+The theorem doesn't tell us when $f$ is complex differentiable.
+It tells us that if the Cauchy-Riemann equations do not hold,
+$f$ is not complex differentiable.}
+
+We need a converse
+\begin{theorem}
+    Let $f = u + iv$ be defined on an open subset $U$ of $\C$.
+    Then,
+    $f$ is complex differentiable at $z_0 = x_0 + iy_0 \in U$ if and only if $u$ and $v$ are
+    (real)
+    differentiable at $(x_0, y_0)$ and the Cauchy-Riemann equations are satisfied at that point.
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{theorem}
+We use $U$ as a subset of $\C$ and $\R ^ 2$ interchangeably.
+
+In particular:
+\begin{corollary}
+    Let $f = u + iv$ be defined on an open subset $U$ of $\C$.
+    Assume the partial derivatives $u_x, u_y, v_x, v_y$ exist,
+    are continuous,
+    and satisfy the Cauchy-Riemann equations at $z_0 \in U$.
+    Then $f$ is complex differentiable at $z_0$.
+\end{corollary}
+
+Consider $f(z) = e ^ z = e ^ xe ^ {iy} = e ^ x\cos(y) + ie ^ x\sin(y)$,
+$u(x, y) = e ^ x\cos(y)$,
+$v(x, y) = e ^ x\sin(y)$.
+$u, v \in C ^ {1}(\R ^ 2)$.
+Consequently,
+$f(z)$ is differentiable at $z_0 = x_0 + iy_0$ if and only if the Cauchy-Riemann equations hold at $(x_0, y_0)$,
+\begin{align*}
+    u_x(x, y) &= e ^ x\cos(y) & u_y(x, y) &= -e ^ x\sin(y) \\
+    v_x(x, y) &= e ^ x\sin(y) & v_y(x, y) &= e ^ x\cos(y)
+\end{align*}
+$u_x = v_y$ and $v_x = -u_y$ so Cauchy-Riemann equations satisfied at any $(x, y)$ so $e ^ z$ is complex differentiable at any $z \in \C$.
+Moreover,
+\[
+f'(z) = u_x(z) + iv_x(x) = e ^ x\cos(y) + ie ^ x\sin(y) = e ^ xe ^ {iy} = e ^ z.
+\]
+
+$f(z) = e ^ {iz}$ is complex differentiable on $\C$ by the chain rule and $f'(z) = ie ^ {iz}$ so
+\[
+\sin(z) = \frac{e ^ {iz} - e ^ {-iz}}{2i}
+\]
+is complex differentiable by COLT
+\[
+(\sin(z))' = \cos(z).
+\]
+Similarly $(\cos(z))' = -\sin(z)$.
+$(\cosh(z))' = \sinh(z)$ and $(\sinh(z))' = \cosh(z)$ by the same method.
+
+Polynomials are complex differentiable on $\C$ with
+\[
+(a_nz ^ n + \dotsi + a_1z + a_0)' = na_nz ^ {n - 1} + \dotsi + a_1.
+\]
+Any branch of $\log(z)$ on $\C \setminus R_{\theta_1}$ is complex differentiable on $\C \setminus R_{\theta_1}$ and $(\log(z))' = \frac{1}{z}$.
+
+\begin{example}
+    Let $f(z) = f(x + iy) = (x ^ 3 + 3x ^ 2y - y ^ 3 - x ^ 2 - 2y ^ 2) + i(-x ^ 3 + 3xy ^ 2 - y ^ 3 + 4xy + 3y)$.
+    At which points is $f$ complex differentiable?
+
+    \begin{solution}
+        \begin{align*}
+            u(x, y) &= x ^ 3 + 3x ^ 2y - y ^ 3 - x ^ 2 - 2y ^ 2 \\
+            v(x, y) &= -x ^ 3 + 3xy ^ 2 - y ^ 3 + 4xy + 3y
+        \end{align*}
+        $u, v \in C ^ 2(\R ^ 2)$ so $f$ is complex differentiable at $z_0 = x_0 + iy_0$ if and only if the Cauchy-Riemann equations hold at $(x_0, y_0)$.
+
+        If you do this,
+        you get the the Cauchy Riemann equations hold when
+        \[
+        3x ^ 2 - 2x = -3y ^ 2 + 4x + 3
+        \]
+        which can be written as
+        \[
+        (x - 1) ^ 2 + y ^ 2 = 2.
+        \]
+    \end{solution}
+\end{example}
+
+\subsection{Holomorphicity}
+Differentiability at one point is nice,
+but usually not enough.
+Most theorems in Real Analysis want differentiability on an interval.
+A good candidate to replace the interval with is an open ball or in general,
+an open set.
+
+\begin{definition}[Holomorphic functions]
+    A function $f : U \to \C$ defined on an open set $U \subseteq \C$ is holomorphic on $U$ if it is complex differentiable at every point in $U$.
+    
+    We say $f$ is holomorphic at $z_0$ if it is holomorphic on an open ball $B_{\varepsilon}(z_0)$ for some $\varepsilon > 0$.
+\end{definition}
+
+A function which is holomorphic on $\C$ is called an entire function.
+
+$e ^ z, \sin(z), \cos(z), \sinh(z), \cosh(z)$,
+polynomials are entire.
+
+Any branch of $\log(z)$ on $\C \setminus R_{\theta}$ is holomorphic.
+
+The function
+\[
+f(z) = f(x + iy) = (x ^ 3 + 3x ^ 2y - y ^ 3 - x ^ 2 - 2y ^ 2) + i(-x ^ 3 + 3xy ^ 2 - y ^ 3 + 4xy + 3y)
+\]
+is complex differentiable on 
+\[
+(x - 1) ^ 2 + y ^ 2 = 2
+\]
+no point of differentiability has a full open ball around it where $f$ is complex differentiable.
+So $f$ is not holomorphic at any point.
+
+Open sets are not good enough even in $\R$.
+For instance we know that $f' = 0$ on $(a, b)$ implies $f$ is constant but
+\[
+f(x) = \begin{cases}
+    1 & x \in (1, 3) \\
+    2 & x \in (4, 5)
+\end{cases}
+\]
+is $C ^ 1$ on $U = (1, 3) \cup (4, 5)$,
+$f' = 0$ but $f$ is not constant.
 
 
 
