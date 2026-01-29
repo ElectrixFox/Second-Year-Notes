@@ -1250,12 +1250,127 @@ No.
         0 \leq \lim_{n \to \infty}\P(|f(X_n) - f(X)| > \varepsilon) \leq \lim_{n \to \infty}\P(|X_n - X| \geq \delta) = 0
         \]
         by squeeze theorem $\lim_{n \to \infty}\P(|f(X_n) - f(X)| > \varepsilon) = 0$.
-        
     \end{proof}
 \end{proposition}
 
+\subsection{Laws of large numbers}
 
+Our first result is the $L ^ 2$ Weak Law of Large Numbers
+\begin{theorem}
+    Let $(X_n)_{n \geq 1}$ be uncorrelated random variables with $\E(X_n) = \mu$ and $\Var(X_n) \leq C < \infty$.
+    Denote $S_n = X_1 + \dotsi + X_n$.
+    Then $\frac{1}{n}S_n \xrightarrow[]{L ^ 2} \mu$ as $n \to \infty$.
 
+    \begin{proof}
+        As $X_k$ are uncorrelated we get $\Var(S_n) = \sum_{k = 1}^{n}\Var(X_k)$ so $\Var(S_n) \leq Cn$ and
+        \[
+        \E\left(\left(\frac{1}{n}S_n - \mu\right) ^ 2\right) = \E\left(\frac{(S_n - n\mu) ^ 2}{n ^ 2}\right) = \frac{\Var(S_n)}{n ^ 2} \leq \frac{C}{n} \to 0\text{ as } n \to \infty.
+        \]
+    \end{proof}
+\end{theorem}
+
+Under the above conditions we can see the Weak Law of Large Numbers with convergence in probability:
+\begin{theorem}
+    $\frac{1}{n}S_n \xrightarrow[]{p} \mu$ as $n \to \infty$.
+
+    \begin{proof}
+        Follows immediately from WLLN in $L ^ 2$ and our conversion lemma from $X_n \to X$ in $L ^ r$ to $X_n \to X$ in probability.
+    \end{proof}
+\end{theorem}
+
+\begin{lemma}
+    Let random variables $(S_n)_{n \geq 1}$ have two finite moments,
+    $\mu_n \equiv \E(S_n)$,
+    $\sigma_n ^ 2 \equiv \Var(S_n) < \infty$.
+    Further,
+    let $(b_n)_{n \geq 1}$ satisfy $\sigma_n / b_n \to 0$ as $n \to \infty$.
+    Then $(S_n - \mu_n) / b_n \to 0$ as $n \to \infty$,
+    both in $L ^ 2$ and in probability.
+
+    \begin{proof}
+        Similarly to WLLN in probability ,
+        the result follows from the observation
+        \[
+        \E\left(\frac{(S_n - \mu_n) ^ 2}{b_n ^ 2}\right) = \frac{\Var(S_n)}{b_n ^ 2} \to 0\text{ as } n \to \infty.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}[Cauchy-Schwarz]
+    Let $X$ and $Y$ be random variables with $\E(|X| ^ 2) < \infty$ and $\E(|Y| ^ 2) < \infty$.
+    Then
+    \[
+    \E(XY) \leq \sqrt{\E(X ^ 2)}\sqrt{\E(Y ^ 2)}.
+    \]
+
+    \begin{proof}
+        Without loss of generality,
+        assume $\E(|X| ^ 2)$ and $\E(|Y| ^ 2)$ are positive,
+        otherwise $X$ or $Y$ and therefore $XY$ vanish with probability one.
+        For positive $\lambda$,
+        consider the random variable $(X - \lambda Y) ^ 2 \geq 0$.
+        The latter has non-negative expectation,
+        equivalently,
+        \[
+        0 \leq \E(X ^ 2) - 2\lambda\E(XY) + \lambda ^ 2\E(Y ^ 2).
+        \]
+        By rearranging and simplifying,
+        we get $\E(XY) \leq \frac{1}{2\lambda}\E(X ^ 2) + \frac{\lambda}{2}\E(Y ^ 2)$.
+        The result now follows by inserting $\lambda = \sqrt{\E(X ^ 2) / \E(Y ^ 2)}$ into the last inequality.
+    \end{proof}
+\end{lemma}
+
+In the following we state and prove the strong law of large numbers in $L ^ 4$.
+\begin{theorem}[$L ^ 4$-SLLN]
+    Let variables $(X_n)_{n \geq 1}$ be independent with $\E(X_k) = \mu$ and $\E((X_k) ^ 4) \leq C$ for some constant $C > 0$ and all $k$.
+    If $S_n \coloneqq X_1 + \dotsi + X_n$,
+    then $S_n / n \to \mu$ almost surely,
+    as $n \to \infty$.
+
+    \begin{proof}
+        Suppose $\mu = \E(X_k) = 0$.
+        Now,
+        \[
+        \E((S_n) ^ 4) = \E\left(\left(\sum_{k = 1}^{n}X_k\right) ^ 4\right) = \sum_{i, j, k, l = 1}^{n}\E(X_i\ X_j\ X_k\ X_l) = \sum_{k}\E((X_k) ^ 4) + 6\sum_{1 \leq k < m \leq n}\E((X_k) ^ 2(X_m) ^ 2)
+        \]
+        where the last equality follows from the fact that if $i \notin \{j, k, l\}$,
+        we have
+        \[
+        \E(X_i\ X_j\ X_k\ X_l) = \E(X_i)\E(X_j\ X_k\ X_l) = 0,
+        \]
+        as $\E(X_i) = 0$.
+        We can see from the Cauchy-Schwarz inequality that if $\E(X ^ 4) \leq C$ and $\E(Y ^ 4) \leq C$ for some finite constant $C \geq 0$,
+        then we have $\E(X ^ 2Y ^ 2) \leq C$.
+        Applying this we get $\E((X_k) ^ 2(X_m) ^ 2) \leq C$ for all $1 \leq k < m \leq n$,
+        so that $\E((S_n) ^ 4) \leq 3Cn ^ 2$.
+        Finally,
+        the general Markov inequality with $g(x) = x ^ 4$ implies
+        \[
+        \P(|S_n| > n\varepsilon) \leq \frac{\E((S_n) ^ 4)}{(n\varepsilon) ^ 4} \leq \frac{3C}{n ^ 2\varepsilon ^ 4}
+        \]
+        and the result follows from the sufficient condition of almost sure convergence.
+    \end{proof}
+\end{theorem}
+
+We can also obtain the following SLLN:
+\begin{theorem}[$L ^ 1$-SLLN]
+    Let random variables $(X_n)_{n \geq 1}$ be iid,
+    with $\E(|X_k|) < \infty$.
+    If $S_n \coloneqq X_1 + \dotsi X_n$,
+    then $\frac{1}{n}S_n \to \mu \coloneqq \E(X_k)$ almost surely,
+    as $n \to \infty$.
+\end{theorem}
+
+\subsection{Relations between different modes of convergence}
+We know the following relations from previous verification
+\begin{align*}
+    X_n &\overset{L ^ r}{\to} X &\implies && X_n &\overset{p}{\to} X, \\
+    X_n &\overset{\text{a.s.}}{\to} X &\implies && X_n &\overset{p}{\to} X, \\
+    X_n &\overset{\text{p}}{\to} X &\centernot\implies && X_n &\overset{L ^ r}{\to} X, \\
+    X_n &\overset{\text{p}}{\to} X &\centernot\implies && X_n &\overset{\text{a.s.}}{\to} X, \\
+    X_n &\overset{L ^ r}{\to} X &\centernot\implies && X_n &\overset{\text{a.s.}}{\to} X, \\
+    X_n &\overset{\text{a.s.}}{\to} X &\centernot\implies && X_n &\overset{L ^ r}{\to} X.
+\end{align*}
 
 
 \end{document}
