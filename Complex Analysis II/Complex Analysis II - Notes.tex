@@ -1607,12 +1607,278 @@ f(x) = \begin{cases}
 is $C ^ 1$ on $U = (1, 3) \cup (4, 5)$,
 $f' = 0$ but $f$ is not constant.
 
+\begin{definition}[Connectedness]
+    A set $A \subseteq \C$ is said to be connected if $A \subseteq U_1 \cup U_2$ for some open sets $U_1$ and $U_2$ such that $U_1 \cap U_2 = \emptyset$ implies that $A \subseteq U_1$ or $A \subseteq U_2$.
+    In other words,
+    we cannot separate $A$ into two non-empty parts which lie in two disjoint open sets.
+\end{definition}
 
+Connectedness can be hard to show,
+but intuitively if we can find a nice "path" between any two points in the set,
+we think this will imply connectedness.
 
+\begin{definition}[Paths and path connectedness]
+    A path
+    (or curve)
+    in $\C$ is a continuous function $\gamma : [0, 1] \to \C$.
+    We say that the path starts at $z \in \C$ and ends at $w \in \C$ if $\gamma(0) = z$ and $\gamma(1) = w$.
+    A set $A \subseteq \C$ is said to be path connected if for any two points $z, w \in A$ there exists a path $\gamma$ that starts at $z$ and ends at $w$ such that $\gamma(t) \in A$ for all $t \in [0, 1]$
+    (i.e. the path's image lies entirely inside $A$).
+\end{definition}
 
+\begin{theorem}
+    If $A \subseteq \C$ is path connected then it is connected.
+\end{theorem}
 
+\begin{remark}
+    The converse to the above theorem is not true in general:
+    there are connected sets that are not path connected.
+\end{remark}
 
+A path $\gamma : [0, 1] \to \C$ can be thought of as two functions from $[0, 1]$ to $\R$.
+indeed $\gamma(t) = \Re(\gamma(t)) + i\Im(\gamma(t))$.
+We can use results from Real Analysis.
 
+\begin{definition}\phantom{}
+    \begin{itemize}
+        \item A path
+        (or curve)
+        in $\C$ is said to be continuously differentiable,
+        or $C ^ 1$,
+        if its real part or imaginary part are continuously differentiable on $[0, 1]$.
+        At the end points $0$ and $1$ this means that the real and imaginary parts have right-sided derivative at $0$ and left-sided derivative $1$,
+        and that the derivatives are continuous from the right at $0$ and from the left at $1$.
+        In that case we define
+        \[
+        \gamma'(t) \coloneqq (\Re(\gamma(t)))' + i(\Im(\gamma(t)))'.
+        \]
+
+        \item A path
+        (or curve)
+        in $\C$ is said to be a piecewise $C ^ 1$ path
+        (or curve)
+        or a contour if there exist
+        \[
+        0 = a_0 < a_1 < a_2 < \dotsi < a_{n - 1} < a_n = 1
+        \]
+        such that the paths $\gamma_i : [a_{i - 1}, a_i] \to \C$,
+        with $i = 1, 2, \dotsc, n$ defined by
+        \[
+        \gamma_i(t) \coloneqq \gamma(t),\qquad t \in [a_{i - 1}, a_i]
+        \]
+        are $C ^ 1$ paths.
+
+        \item We say a subset $A \subseteq \C$ is $C ^ 1$ path connected if for every pair of points $z, w \in A$ there exists a $C ^ 1$ path starts at $z$ and ends at $w$ such that $\gamma(t) \in A$ for all $t \in [0, 1]$.
+
+        \item We say that $A$ is piecewise $C ^ 1$ path connected if for every pair of points $z, w \in A$ there exists a contour that starts at $z$ and ends at $w$ such that $\gamma(t) \in A$ for all $t \in [0, 1]$.
+    \end{itemize}
+\end{definition}
+
+As any $C ^ 1$ or piecewise $C ^ 1$ path are paths $C ^ 1$ path connectedness or piecewise $C ^ 1$ path connectedness implies path connectedness.
+
+Paths are actually continuous functions $\gamma : [a, b] \to \C$.
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item Open and closed balls are $C ^ 1$ path connected
+        (every two points can be connected by a straight line inside the set).
+
+        \item $\bar{\mathbb{H}} = \{z \in \C\,:\, \Im(z) \geq 0\}$ is $C ^ 1$ path connected
+        (same as above).
+
+        \item The annulus $A = \{z \in \C\,:\, 1 < |z| < 4\}$ is $C ^ 1$ path connected
+        (but not every two points can be connected with a line).
+    \end{itemize}
+\end{example}
+
+\begin{definition}[Domains]
+    A domain
+    (sometimes called regions)
+    $D$ is an open,
+    connected subset of $\C$
+\end{definition}
+
+The geometry of $\C$ provides.
+
+\begin{theorem}
+    Any domain in $\C$ is piecewise $C ^ 1$ path connected.
+\end{theorem}
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item Open ball is a domain.
+
+        \item Closed ball is not open and as such not a domain.
+
+        \item $\C \setminus R_{\leq 0}$
+        (a branch of log)
+        is a domain.
+
+        \item Any branch of $\log(z)$ and $z ^ {w}$ is defined on a domain $\C \setminus R_{\theta}$.
+
+        \item The set $A = \{z \in \C\,:\, |z| \neq 1\}$ is not a domain
+        (it is open but not connected)
+    \end{itemize}
+\end{example}
+
+\begin{theorem}[Zero derivative theorem]\label{companalyII:thm:zerodivthm}
+    Let $f : D \to \C$ be holomorphic on a domain $D \subseteq \C$.
+    If $f'(z) = 0$ for every $z \in D$ then $f$ is constant on $\mathbb{D}$.
+\end{theorem}
+
+We will need the following in the proof:
+\begin{lemma}[Chain rule revisited
+(for paths)]
+    Let $U \subset \C$ be an open set and let $f : U \to \C$ be a holomorphic function on $U$.
+    Let $\gamma : [0, 1] \to U$ be a differentiable path
+    (i.e. its real and imaginary parts are differentiable).
+    Then for any $t_0 \in [0, 1]$ we have that
+    \[
+    (f \circ \gamma)'(t_0) = f'(\gamma(t_0))\gamma'(t_0).
+    \]
+
+    \begin{proof}
+        Like in Real Analysis.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}[continues = companalyII:thm:zerodivthm]
+    \begin{proof}
+        It is enough to show that for any $z_1, z_2 \in D$
+        \[
+        f(z_1) = f(z_2).
+        \]
+
+        Since $D$ is a domain we can find a contour $\gamma : [0, 1] \to \C$ s.t. $\gamma(0) = z_1$,
+        $\gamma(1) = z_2$.
+
+        We can find
+        \[
+        0 = a_0 < a_1 < \dotsi < a_n = 1
+        \]
+        s.t. $\gamma_i = \gamma|_{[a_{i - 1}, a_i]}$ is $C ^ 1$.
+
+        If we'll show that
+        \[
+        f(\gamma_i(a_{i - 1})) = f(\gamma_i(a_i))\qquad \forall i
+        \]
+        then
+        \[
+        f(z_1) = f(\gamma(a_0)) = f(\gamma(a_1)) = f(\gamma(a_2)) = \dotsi = f(\gamma(a_n)) = f(z_2).
+        \]
+        Indeed:
+        \[
+        f \circ \gamma_i : [a_{i - 1}, a_i] \to \C
+        \]
+        is continuous and by the chain rule for paths it is differentiable on $(a_{i - 1}, a_i)$ with $(f \circ \gamma_i)'(t) = f'(\gamma_i(t))\cdot\gamma_i'(t) = 0$ so $(\Re(f \circ \gamma_i))' = 0$,
+        $(\Im(f\circ\gamma_i))' = 0$ on $(a_{i - 1}, a_i)$ so by zero derivative theorem on $\R$.
+        $\Re(f\circ \gamma_i)$ is constant and $\Im(f \circ \gamma_i)$ is constant on $[a_{i - 1}, a_i]$,
+        completing the proof.
+    \end{proof}
+\end{theorem}
+
+The beauty of complex analysis is that to have a constant holomorphic function we only need that $f$ doesn't fill the space
+($\Re(f)$ is constant,
+$(\Re(f)) ^ 2 + (\Im(f)) ^ 2 = 1$).
+
+\subsection{The angle preserving properties of holomorphic functions}
+There is almost a purely geometric description to being holomorphic.
+For any curve $\gamma(t) : [0, 1] \to \C$ we can consider the tangent vector to $\gamma$ at $t_0$ which is
+\[
+\gamma'(t_0) = (\Re(\gamma))'(t_0) + i(\Im(\gamma))'(t_0).
+\]
+
+\begin{definition}[Conformal maps]
+    We say that a
+    (real differentiable)
+    map $f : D \to \C$ on a domain $D \subseteq \C$ is conformal at $z_0$ if it preserves the angle and orientation between any two tangent vectors at $z_0$,
+    where by orientation we mean the relative position of one vector with respect to another
+    (i.e. if the tangent vector of a curve $\gamma_1$ was to the left of the tangent vector of the curve $\gamma_2$,
+    the tangent vector of the image $\gamma_1$ by $f$ will remain to the left of the tangent vector of the image of $\gamma_2$ by $f$).
+\end{definition}
+
+We say that $f$ is conformal on $D$ if it is conformal at all points in $D$.
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item Rotations are conformal
+        \[
+        f(z) = e ^ {i\theta}z\qquad \theta \in \R.
+        \]
+
+        \item Dialation is conformal
+        \[
+        f(z) = \lambda z\qquad \lambda > 0.
+        \]
+
+        \item $f(z) = \bar{z}$ is not conformal.
+        We'll only do it at $z_0$.
+        The $C ^ 1$ paths $\gamma_1(t) = t$,
+        $\gamma_2(s) = is$,
+        $t \in [0, 1]$,
+        $s \in [0, 1]$ meet at $z = 0$
+        ($t = 0$,
+        $s = 0$)
+        with an angle $\pi / 2$.
+        However,
+        $f(\gamma_1(t)) = t$,
+        $f(\gamma_2(s)) = -is$ meet at $z = 0$ with an angle $-\pi / 2$.
+    \end{itemize}
+\end{example}
+
+\begin{lemma}[Holomorphic maps are conformal when their derivative is non-zero]
+    Let $f$ be a holomorphic map at $z_0$.
+    If $f'(z_0) \neq 0$ then $f$ is conformal at $z_0$.
+
+    \begin{proof}
+        Let $\gamma : [0, 1] \to \C$ be a differentiable curve and let $t_0 \in [0, 1]$ be such that $\gamma(t_0) = z_0$.
+        What does $f$ do to the tangent vector.
+        By the chain rule for paths
+        \[
+        (f \circ \gamma)'(t_0) = f'(\gamma / t_0) \cdot \gamma'(t_0) = f'(z_0) \cdot \gamma'(t_0).
+        \]
+        Since $f'(z_0) \neq 0$.
+        The tangent vector of $f \circ \gamma$ at $t_0$ is nothing but dialation by $|f'(z_0)|$ and rotation by $\Arg(f'(z_0))$ of the tangent $\gamma'(t_0)$.
+        Since it is the same rotation and dialation for all $\gamma$'s,
+        $f$ is conformal.
+    \end{proof}
+\end{lemma}
+
+\begin{remark}
+    The condition $f'(z_0) \neq 0$ is necessary.
+    $f(z) = z ^ 2$ satisfies $f'(0) = 0$.
+    $f$ is not conformal at $z = 0$
+    (the angle between the curves is not always preserved).
+\end{remark}
+
+Do we have a converse?
+
+\begin{proposition}[Conformal maps are holomorphic]
+    Let $D$ be a domain.
+    If $f$ is conformal at $z_0 \in D$ then $f$ is complex differentiable at $z_0$ and $f'(z_0) \neq 0$.
+    Therefore,
+    if $f$ is conformal on $D$,
+    then $f$ is holomorphic on $D$ and $f'(z) \neq 0$ for all $z \in D$.
+\end{proposition}
+
+\begin{corollary}
+    Let $D$ be a domain.
+    Then $f$ is conformal on $D$ if and only if $f$ is holomorphic on $D$ and $f'(z) \neq 0$ for all $z \in D$.
+\end{corollary}
+
+\begin{corollary}
+    Any conformal map maps orthogonal grids in the $(x, y)$-plane to orthogonal grids.
+\end{corollary}
+
+\begin{example}
+    $f(z) = z ^ 2$ and consider $z \neq 0$.
+    $x = c$,
+    $(u, v) = (c ^ 2 - y ^ 2, 2cy)$.
+    i.e. $u = c ^ 2 - \frac{v ^ 2}{4c ^ 2}$ a parabola.
+    $y = d$
+    $(u, v) = (x ^ 2 - d ^ 2, 2dx)$,
+    $u = \frac{v ^ 2}{4d ^ 2} - d ^ 2$.
+\end{example}
 
 
 

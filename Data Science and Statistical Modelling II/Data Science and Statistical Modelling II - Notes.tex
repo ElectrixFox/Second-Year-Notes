@@ -443,7 +443,7 @@ Recall that the bias is:
 We can use bootstrap samples to provide an estimate of this bias.
 
 \begin{definition}[Basic bootstrap bias estimate]
-    Given a data set $\vec{x} = (x_1, \dotsc, x_n)$ and a parameter $\theta$ which is estimated by $\hat{\theta} = S(\vce{x})$,
+    Given a data set $\vec{x} = (x_1, \dotsc, x_n)$ and a parameter $\theta$ which is estimated by $\hat{\theta} = S(\vec{x})$,
     then the basic bootstrap estimate is given by performing bootstrap resampling and computing
     \[
     \widehat{\mathrm{bias}}(\theta, \hat{\theta}) = \bar{S} ^ {*} - \hat{\theta} = \left(\frac{1}{B}\sum_{b = 1}^{B}S(\vec{x} ^ {*b})\right) - S(\vec{x}).
@@ -497,9 +497,112 @@ and bias corrected and accelerated
 CIs are two more advanced methods which can make adjustments for the situation where bias or non-constant standard error arise.
 This is a non-trivial task.
 
+\newpage
 
+\section{Monte Carlo Integration}
 
+Take that the integral we want to evaluate can be expressed as an expectation for some random variable $Y$ taking values in a sample space $\Omega$ and having pdf $f_{Y}(\cdot)$,
+then:
+\[
+\mu \coloneqq \E(Y) = \int_{\Omega}yf_{Y}(y)\,dy.
+\]
+If we assume $\mu$ exists,
+we can approximate it by:
+\[
+\mu \approx \hat{\mu}_n \coloneqq \frac{1}{n}\sum_{i = 1}^{n}Y_i
+\]
+where $Y_1, \dotsc, Y_n$ are iid draws from the distribution of $Y$.
+Then by WLLN:
+\[
+\lim_{n \to \infty}\P(|\hat{\mu}_n - \mu| \leq \varepsilon) = 1\qquad\text{for any } \varepsilon > 0.
+\]
+i.e. the probability that our approximation of the integral is out by more than $\varepsilon$ goes to zero.
+Using SLLN we can guarantee the same thing our error will drop below $\varepsilon$ and not increase:
+\[
+\P\left(\lim_{n \to \infty}|\hat{\mu}_n - \mu| = 0\right) = 1.
+\]
+Evaluating integrals of the form:
+\[
+\mu \coloneqq \E(Y) = \int_{\Omega}yf_{Y}(y)\,dy
+\]
+seems limiting,
+we often find that we can express $Y = g(X)$,
+where $X$ is a random variable having pdf $f_{X}(\cdot)$,
+so that:
+\[
+\mu \coloneqq \E(Y) = \E(g(X)) = \int g(x)f_{X}(x)\,dx.
+\]
 
+\textbf{Accuracy}
+
+If we know that $\Var(Y) = \sigma ^ 2 < \infty$,
+then we also have that:
+\[
+\E(\hat{\mu}_n) = \frac{1}{n}\sum_{i = 1}^{n}\E(Y_i) = \mu.
+\]
+Monte Carlo integration is unbiased.
+Further,
+we have
+\[
+\Var(\hat{\mu}_n) = \E((\hat{\mu}_n - \mu) ^ 2) = \frac{\sigma ^ 2}{n}.
+\]
+
+Here we will look at the root mean square error:
+\[
+\mathrm{RMSE} \coloneqq \sqrt{\E(\hat{\mu}_n - \mu) ^ 2} = \frac{\sigma}{\sqrt{n}}.
+\]
+We say that the RMSE is $\mathcal{O}(n ^ {-1 / 2})$.
+
+\begin{definition}[Order]
+    For functions $f, g$,
+    we write that $f(n) = \mathcal{O}(g(n))$ as $n \to \infty$ if $\exists C$,
+    $n_0 \in \R$ s.t.
+    \[
+    |f(n)| \leq Cg(n)\ \forall n \geq n_0.
+    \]
+    Order notation tells us the rate at which a function converges without worrying about specific constants.
+\end{definition}
+
+\textbf{Error estimation}
+
+From the Monte Carlo we can get an estimate of how accurate our integral approximation is.
+
+We can use Chebyshev's inequality to provide a probabilistic bound on the absolute error exceeding a desired tolerance:
+\[
+\P(|\hat{\mu}_n - \mu| \geq \varepsilon) \leq \frac{\E(\hat{\mu}_n - \mu) ^ 2}{\varepsilon ^ 2} = \frac{\sigma ^ 2}{n\varepsilon ^ 2}.
+\]
+We can also invoke the iid CLT so that asymptotically,
+\[
+\P\left(\frac{\hat{\mu}_n - \mu}{\sigma n ^ {-1 / 2}} \leq z\right) \to \Phi(z)\text{ as } n \to \infty.
+\]
+
+So we can be $100(1 - \alpha)\%$ confident that:
+\[
+\mu \in \hat{\mu}_n \pm z_{\alpha / 2}\frac{\sigma}{\sqrt{n}}
+\]
+where $\sigma$ is estimated using the standard sample standard deviation of $\{y_i = g(x_i)\}_{i = 1}^{n}$.
+
+There is another useful confidence interval,
+this is the special case where $g(\cdot)$ is some constant multiple of an indicator function
+\[
+g(x) = c\mathbb{1}\{A(x)\}
+\]
+for some condition $A(x)$ depending on $x$ and $c \in \R$.
+
+Ignoring the constant,
+the expectation of the indicator is effectively a probability of the indicator event.
+In this case we take $\hat{p}_n$ as the average indicator,
+\[
+\hat{p}_n = \frac{1}{n}\sum_{i = 1}^{n}\mathbb{1}\{A(x)\}
+\]
+and form a standard Binomial CI
+\[
+p \in \hat{p}_n \pm z_{\alpha / 2}\sqrt{\frac{\hat{p}_n(1 - \hat{p}_n)}{n}}
+\]
+so the overall integral is:
+\[
+\mu \in c\hat{p}_n \pm c z_{\alpha / 2}\sqrt{\frac{\hat{p}_n(1 - \hat{p}_n)}{n}}.
+\]
 
 
 
