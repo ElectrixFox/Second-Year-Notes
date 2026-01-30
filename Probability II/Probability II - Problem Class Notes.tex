@@ -280,9 +280,100 @@
             &\leq \P(|X_n - X| > \varepsilon / 2) + \P(|Y_n - Y| > \varepsilon / 2) \\
             \lim_{n \to \infty}\P(|(X_n + Y_n) - (X + Y)|) &\leq \lim_{n \to \infty}\P(|X_n - X| > \varepsilon / 2) + \P(|Y_n - Y| > \varepsilon / 2)
         \end{align*}
+        since both sides go to $0$ in probability.
     \end{solution}
 \end{problem}
 
+\begin{problem}
+    Suppose $X_n \to X$ in probability and $X_n \to Y$ in probability.
+    Show that $\P(X = Y) = 1$
+    (limits in probability are unique).
+
+    \begin{solution}
+        Know $\P(|X_n - X| > \varepsilon) \to 0$ for all $\varepsilon > 0$,
+        $\P(|X_n - Y| > \varepsilon) \to 0$ for all $\varepsilon > 0$.
+
+        Consider the event $\{|X - Y| > \varepsilon\}$.
+        \begin{align*}
+            |X - Y| &= |(X - X_n) + (X_n - Y)| \\
+            &\leq |X - X_n| + |X_n - Y| \\
+            &= |X_n - X| + |X_n - Y|.
+        \end{align*}
+        If $|X - Y| > \varepsilon$ then $|X_n - X| > \varepsilon / 2$ or $|X_n - Y| > \varepsilon / 2$.
+        \begin{align*}
+            \P(|X - Y| > \varepsilon) &\leq \P(|X_n - X| > \varepsilon / 2\text{ or }|X_n - Y| > \varepsilon / 2) \\
+            &\leq \P(|X_n - X| > \varepsilon / 2) + \P(|X_n - Y| > \varepsilon / 2) \\
+            \P(|X - Y| > \varepsilon) &\leq \lim_{n \to \infty}\P(|X_n - X| > \varepsilon / 2) + \lim_{n \to \infty}\P(|X_n - Y| > \varepsilon / 2) = 0 + 0 \\
+            \P(|X - Y| > \varepsilon) &= 0\quad \forall \varepsilon > 0.
+        \end{align*}
+
+        For integer $k \geq 1$,
+        let
+        \[
+        A_k = \{|X - Y| > 1 / k\}.
+        \]
+        Found $\P(A_k) = 0$ for every $k$.
+        \[
+        A = \bigcup_{k = 1}^{\infty}A_k
+        \]
+        claim $A = \{|X - Y| > 0\}$.
+        \[
+        \P(A) = \P\left(\bigcup_{k = 1}^{\infty}A_k\right) \leq \sum_{k = 1}^{\infty}\P(A_k) = 0.
+        \]
+        so $\P(|X - Y| > 0) = 0$.
+        Then $\P(|X - Y| = 0) = 1 - \P(|X - Y| > 0) = 1$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Suppose $X_n \to X$ in $L ^ r$ and $Y_n \to Y$ in $L ^ r$ for $r \geq 1$.
+    Show that $X_n + Y_n \to X + Y$ in $L ^ r$.
+
+    \begin{solution}
+        Want $\E(|(X_n + Y_n) - (X + Y)| ^ r) \to 0$.
+        Know $\E(|X_n - X| ^ r) \to 0$,
+        $\E(|Y_n - Y| ^ r) \to 0$.
+
+        \begin{align*}
+            |(X_n + Y_n) - (X + Y)| &= |(X_n - X) + (Y_n - Y)| \\
+            &\leq |X_n - X| + |Y_n - Y|.
+        \end{align*}
+        Fact:
+        suppose $a, b > 0$ and $r \geq 1$.
+        Then
+        \[
+        (a + b) ^ r \leq 2 ^ r(a ^ r + b ^ r).
+        \]
+        Apply this fact to $a = |X_n - X|$ and $b = |Y_n - Y|$.
+        Then
+        \begin{align*}
+            |(X_n + Y_n) - (X + Y)| ^ r &\leq (|X_n - X| + |Y_n - Y|) ^ r \\
+            &\leq 2 ^ r(|X_n - X| ^ r + |Y_n - Y| ^ r) \\
+            \E(|(X_n + Y_n) - (X + Y)| ^ r) &\leq 2 ^ r(\E(|X_n - X| ^ r) + \E(|Y_n - Y| ^ r)) \\
+            \lim_{n \to \infty}\E(|(X_n + Y_n) - (X + Y)| ^ r) &\leq 2 ^ r\left(\lim_{n \to \infty}\E(|X_n - X| ^ r) + \lim_{n \to \infty}\E(|Y_n - Y| ^ r)\right) \\
+            &= 2 ^ r \cdot 0 = 0
+        \end{align*}
+        which implies $X_n + Y_n \to X + Y$ in $L ^ r$.
+
+        Example:
+        Let $U \sim U(0, 1)$,
+        $X_n = \sqrt{n}\mathbbm{1}_{\{U \leq 1 / n\}}$,
+        $Y_n = \sqrt{n}\mathbbm{1}_{\{U \leq 1 / (2n)\}}$,
+        $X_n \to 0$ almost surely and $Y_n \to 0$ almost surely.
+        $L ^ 1$ converges
+        \[
+        \E(|X_n|) = \E(\sqrt{n}\mathbbm{1}_{\{U \leq 1 / n\}} = \sqrt{n}\P(U \leq 1 / n) = \frac{\sqrt{n}}{n} = \frac{1}{\sqrt{n}} \to 0
+        \]
+        \[
+        \E(|Y_n|) = \frac{\sqrt{n}}{2n} = \frac{1}{2\sqrt{n}} \to 0
+        \]
+        so $X_n, Y_n \to 0$ in $L ^ 1$.
+        \[
+        X_nY_n = n\mathbbm{1}_{\{U \leq 1 / n\}}\mathbbm{1}_{\{U \leq 1 / (2n)\}} = n\mathbbm{1}_{\{U \leq 1 / (2n)\}}
+        \]
+        then $\E(|X_nY_n|) = n\P(U \leq 1 / (2n)) = \frac{n}{2n} = \frac{1}{2} \centernot\to 0$.
+    \end{solution}
+\end{problem}
 
 
 \end{document}
