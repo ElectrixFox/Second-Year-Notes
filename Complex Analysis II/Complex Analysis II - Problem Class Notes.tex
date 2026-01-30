@@ -299,5 +299,146 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$3$}{}}
+
+\begin{problem}
+    At which points is the function
+    \[
+    f(z) = x\cosh{y} + y\sin(iy)\cos{x}
+    \]
+    differentiable?
+    At what point are they holomorphic?
+
+    \begin{solution}
+        \begin{align*}
+            \sin(iy) &= \frac{e ^ {i(iy)} - e ^ {-i(iy)}}{2i} \\
+            &= \frac{e ^ {-y} - e ^ {y}}{2i} \\
+            &= i\frac{e ^ y - e ^ {-y}}{2} = i\sinh(y)
+        \end{align*}
+        which implies $f(x + iy) = \frac{x\cosh(y)}{u(x, y)} + i\frac{\sinh(y)\cos(x)}{v(x, y)}$.
+
+        $u, v \in C ^ 1(z ^ 2)$ and as such by theorem from lectures $f$ is complex differentiable at $z_0 = x_0 + iy_0$ if and only if Cauchy-Riemann equations hold.
+        \begin{align*}
+            u_x(x, y) &= \cosh(y) & v_y(x, y) &= \cosh(y)\cos(x) \\
+            u_y(x, y) &= x\sinh(y) & v_x(x, y) &= -\sinh(y)\sin(x)
+        \end{align*}
+        \begin{align*}
+            u_x = v_y &\iff \cosh(y) = \cosh(y)\cos(x) \\
+            &\iff \cosh(y) = 0\text{ or } 1 = \cos(x) \\
+            &\iff \cos(x) = 1 &&(\text{as $\cosh(y) \geq 1$}) \\
+            &\iff x = 2\pi k\quad k \in \Z.
+        \end{align*}
+
+        \begin{align*}
+            u_y = -v_x &\iff x\sinh(y) = -(-\sinh(y)\cdot \sin(x)) \\
+            &\iff x\sinh(y) = \sin(x)\sinh(y) \\
+            &\iff \sinh(y) = 0\text{ or } x = \sin(x) \\
+            &\iff y = 0\text{ or } x = \sin(x).
+        \end{align*}
+        In total $x = 2\pi k$ and $y = 0$ or $x = \sin(x)$ so we conclude $x = 2\pi k$ and $y = 0$ or $2\pi k = \sin(2\pi k) = 0$.
+        We find that the set of points on which $f$ is differentiable is:
+        \[
+        \{z = 2\pi k, k \in \Z\} \cup \{\Re(z) = 0\}.
+        \]
+        Since there is no open ball around any point in $S$ that is contained in $S$,
+        $f$ is not holomorphic at any point
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $f(z)$ be a holomorphic function.
+    Prove the following variants of the zero derivative theorem,
+    which says that,
+    if any one of the following conditions hold on a domain $D$ then $f(z)$ is constant on $D$
+    \begin{enumerate}[label = (\roman*)]
+        \item $f(z)$ is a real number for all $z \in D$.
+
+        \item The real part of $f(z)$ is constant on $D$.
+
+        \item The modulus of $f(z)$ is constant on $D$.
+    \end{enumerate}
+
+    \begin{solution}
+        $\Im(f(z)) = 0$ for all $z \in D$,
+        i.e. if $f = u + v$ then $v = 0$.
+        Since $f$ is holomorphic the Cauchy-Riemann equations hold and $u_x = v_y = 0$,
+        $u_y = -v_x = 0$.
+        $u$ is differentiable on $D$ and $u_x = u_y = 0$ on $D$ which is a domain so $u$ is constant.
+        This implies $f(z) = u(x, y) + iv(x, y)$ is constant.
+
+
+        $\Re(f(z)) = c$ for some $c \in \R$ and all $z \in D$,
+        i.e. $u(x, y) = c$ which implies $u_x = u_y = 0$ and the proof follows like the previous.
+
+
+        If $f = u + iv$ we have that $\exists c \geq 0$ s.t. $|f(z)| ^ 2 = c ^ 2$,
+        i.e.
+        \[
+        u(x, y) ^ 2 + v(x, y) ^ 2 = c ^ 2.
+        \]
+        If $c = 0$ then $u = v = 0$ $\forall z \in D$.
+        Assume that $c > 0$.
+        We can differentiate our equation with respect to $x$ to get
+        \[
+        2u(x, y)u_x(x, y) + 2v(x, y)v_x(x, y) = 0.
+        \]
+        Similarly,
+        differentiating with respect to $y$ gives
+        \[
+        2u(x, y)u_y(x, y) + 2v(x, y)v_y(x, y) = 0.
+        \]
+        Using the Cauchy-Riemann equations we find that
+        \begin{align*}
+            uu_x - vu_y &= 0 \\
+            uu_y + uu_x &= 0
+        \end{align*}
+        i.e.
+        \[
+        \underbrace{\begin{pmatrix}
+            u(x, y)  & -v(x, y) \\ v(x, y) & u(x, y)
+        \end{pmatrix}}_{A(x, y)}
+        \begin{pmatrix}
+            u_x(x, y) \\ u_y(x, y)
+        \end{pmatrix} = \begin{pmatrix}
+            0 \\ 0
+        \end{pmatrix}
+        \]
+        $\det(A(x, y)) = u(x, y) ^ 2 + v(x, y) ^ 2 = c ^ 2 \neq 0$.
+        $A(x, y)$ is invertible which implies $A(x, y)\begin{pmatrix}
+            u_x \\ u_y
+        \end{pmatrix} = \begin{pmatrix}
+            0 \\ 0
+        \end{pmatrix}$ if and only if $u_x = 0$,
+        $u_y = 0$,
+        this implies that $u$ is constant and similarly $v$ is constant.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    In what subset of the complex plane is $\sinh{z}$ conformal?
+    For every point $z_0$ at which the function is not conformal,
+    give an example of two paths
+    (lines)
+    through $z_0$ such that the angle
+    (or the orientation of the angle)
+    between them is not preserved by $f(z)$ at $z_0$.
+
+    \begin{solution}
+        $f(z) = \sinh(z)$ is entire.
+        From a theorem in the lecture notes $f$ is conformal at any point $z_0$ s.t. $f'(z_0) \neq 0$.
+        We will find when $f'(z) = 0$
+        \begin{align*}
+            0 = f'(z) = \cosh(z) = \frac{e ^ z + e ^ {-z}}{2} &\iff e ^ z = -e ^ {-z} \\
+            &\iff e ^ {2z} = -1 = e ^ {i\pi} \\
+            &\iff 2z = \log(1) + i\pi + 2\pi i k\quad k \in \Z
+        \end{align*}
+        i.e. $z = i\left(\frac{\pi}{2} + \pi k\right)$.
+        $f$ is conformal on $\C \setminus \{i(\pi / 2 + \pi k), k \in \Z\}$
+    \end{solution}
+\end{problem}
+
+
 
 \end{document}

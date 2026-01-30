@@ -252,6 +252,37 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$3$}{}}
+
+\begin{problem}
+    Suppose $X_n \to X$ in probability and $Y_n \to Y$ in probability.
+    Show that $X_n + Y_n \to X + Y$ in probability.
+
+    \begin{solution}
+        We know $\P(|X_n - X| > \varepsilon) \to 0$ for every $\varepsilon > 0$.
+        $\P(|Y_n - Y| > \varepsilon) \to 0$ for every $\varepsilon > 0$.
+        Want to show $\P(|(X_n + Y_n) - (X + Y)| > \varepsilon) \to 0$ for every $\varepsilon > 0$.
+        Recall the triangle inequality for numbers:
+        \[
+        |a + b| \leq |a| + |b|
+        \]
+        where $a, b \in \R$.
+        \[
+        |(X_n + Y_n) - (X + Y)| = |(X_n - X) + (Y_n - Y)| \leq |X_n - X| + |Y_n - Y|.
+        \]
+        Suppose $|(X_n + Y_n) - (X + Y)| > \varepsilon$.
+        Then $|X_n - X| > \frac{\varepsilon}{2}$ or $|Y_n - Y| > \frac{\varepsilon}{2}$.
+        The event $\{|(X_n + Y_n) - (X + Y)| > \varepsilon\}$ implies $\{|X_n - X| > \varepsilon / 2\} \cup \{|Y_n - Y| > \varepsilon / 2\}$.
+        \begin{align*}
+            \P(|(X_n + Y_n) - (X + Y)| > \varepsilon) &\leq \P(|X_n - X| > \varepsilon / 2\text{ or } |Y_n - Y| > \varepsilon / 2) \\
+            &\leq \P(|X_n - X| > \varepsilon / 2) + \P(|Y_n - Y| > \varepsilon / 2) \\
+            \lim_{n \to \infty}\P(|(X_n + Y_n) - (X + Y)|) &\leq \lim_{n \to \infty}\P(|X_n - X| > \varepsilon / 2) + \P(|Y_n - Y| > \varepsilon / 2)
+        \end{align*}
+    \end{solution}
+\end{problem}
+
 
 
 \end{document}
