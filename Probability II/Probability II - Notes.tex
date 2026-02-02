@@ -1361,6 +1361,251 @@ We can also obtain the following SLLN:
     as $n \to \infty$.
 \end{theorem}
 
+\subsection{Laws of large numbers
+(from lecture)}
+
+\textbf{Weak law of large numbers}:
+
+\begin{definition}
+    Two random variables $X, Y$ are uncorrelated if
+    \[
+    \E(XY) = \E(X)\E(Y).
+    \]
+\end{definition}
+
+\begin{theorem}[WLLN]\footnotemark
+    \footnotetext{{Weak law of large numbers}}
+    Let $X_n$ be a sequence of random variables such that:
+    \begin{enumerate}[label = (\alph*)]
+        \item They are pairwise uncorrelated.
+
+        \item Common mean $\E(X_n) = \mu$ for every $n$.
+
+        \item Bounded variance:
+        \[
+        \Var(X_n) \leq C,\qquad \forall n
+        \]
+        with $C$ a constant.
+    \end{enumerate}
+    Under these assumptions
+    \[
+    S_n = X_1 + X_2 + \dotsi + X_n.
+    \]
+    Then $\frac{1}{n}S_n \to \mu$ as $n \to \infty$ in $L ^ 2$.
+
+    \begin{proof}
+        Want:
+        $\frac{1}{n}S_n \to \mu$ in $L ^ 2$:
+        $\E((1 / nS_n - \mu) ^ 2) \to 0$ as $n \to \infty$.
+
+        \[
+        \frac{1}{n}\underbrace{(X_1 + \dotsi + X_n)}_{S_n} - \mu = \frac{X_1 + \dotsi + X_n - n\mu}{n} = \frac{(X_1 - \mu) + \dotsi + (X_n - \mu)}{n}.
+        \]
+        Let $Y_n = X_n - \mu$ for every $n \geq 1$ $\E(Y_n) = 0$,
+        $\Var(Y_n) = \Var(X_n) \leq C$ for every $n$.
+        \begin{align*}
+            \E\left(\left(\frac{1}{n}S_n - \mu\right) ^ 2\right) &= \E\left(\left(\frac{Y_1 + \dotsi + Y_n}{n}\right) ^ 2\right) \\
+            &= \frac{1}{n ^ 2}\E((Y_1 + \dotsi + Y_n) ^ 2)
+        \end{align*}
+        \begin{align*}
+            (Y_1 + \dotsi + Y_n)(Y_1 + \dotsi + Y_n) &= \underbrace{(Y_1 ^ 2 + Y_2 ^ 2 + \dotsi + Y_n ^ 2)}_{\text{square terms}} + 2\underbrace{(Y_1Y_2 + Y_1Y_3 + \dotsi + Y_nY_{n - 1})}_{\text{cross terms}} \\
+            &= \sum_{i = 1}^{n}Y_i ^ 2 + 2\sum_{i < j}Y_{ij}
+            \intertext{taking expectations}
+            \E\left(\sum_{i = 1}^{n}Y_i ^ 2\right) + 2\E\left(\sum_{i < j}Y_{ij}\right) &= \sum_{i = 1}^{n}\E(Y_i ^ 2) + 2\sum_{i < j}\E(Y_iY_j)
+        \end{align*}
+        \begin{align*}
+            \E(Y_i ^ 2) &= \E((X_i - \mu) ^ 2) = \Var(X_i) \\
+            \E(Y_iY_j) &= \E((X_i - \mu)(X_j - \mu)) \\
+            &= \E(X_iX_j) - \mu\E(X_i) - \mu\E(X_j) + \mu ^ 2 \\
+            &= \E(X_iX_j) - \mu ^ 2 \\
+            &= \E(X_i)\E(X_j) - \mu ^ 2 &\text{(as uncorrelated)}\\
+            &= 0
+        \end{align*}
+        \begin{align*}
+            \E(\text{square terms}) &= \sum_{i = 1}^{n}\Var(X_i) \leq Cn \implies \E((Y_1 + \dotsi + Y_n) ^ 2) \leq C\\
+            \E(\text{cross terms}) &= 0.
+        \end{align*}
+        So
+        \[
+        \E\left(\left(\frac{1}{n}S_n - \mu\right) ^ 2\right) = \frac{1}{n ^ 2}\E\left(\left(\sum_{i = 1}^{n}Y_i\right) ^ 2\right) \leq \frac{Cn}{n ^ 2} = \frac{C}{n} \to 0\text{ as } n \to \infty.
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Let $X_1, X_2, X_3, \dotsc$ be iid uniform $[-1, 1]$ random variables
+    \[
+    \vec{X} = (X_1, X_2, \dotsc, X_n) \in [-1, 1] ^ n.
+    \]
+
+    $\E(X_n) = 0$.
+    Set $Y_n = X_n ^ 2$,
+    $\E(Y_n) = \frac{1}{3} = \Var(X_n)$.
+    \[
+    \Var(Y_n) = \E(Y_n ^ 2) - \E(Y_n) ^ 2 \leq \E(Y_n ^ 2) = \E(X_n ^ 4) \leq 1.
+    \]
+    Average of the $Y$s:
+    \[
+    \frac{1}{n}\sum_{i = 1}^{n}Y_i = \frac{1}{n}\sum_{i = 1}^{n}X_i ^ 2 = \frac{\|\vec{X}\| ^ 2}{n}.
+    \]
+
+    Apply WLLN to $Y_1, \dotsc, Y_n$
+    \[
+    \frac{1}{n}\left(\sum_{i = 1}^{n}Y_i\right) \overset{p}{\to} \frac{1}{3} \iff \frac{\|\vec{X}\| ^ 2}{n} \overset{p}{\to} \frac{1}{3}
+    \]
+    so
+    \[
+    \P\left(\left|\frac{\|\vec{X}\| ^ 2}{n} - \frac{1}{3}\right| > \varepsilon\right) \to 0
+    \]
+    so
+    \[
+    \P\left(\frac{1}{3} - \varepsilon \leq \frac{\|\vec{X}\| ^ 2}{n} \leq \frac{1}{3} + \varepsilon\right) \to 1\text{ as } n \to \infty
+    \]
+    (the above is the complement of the previous).
+    So
+    \[
+    \P\left(\sqrt{1 - 3\varepsilon} < \frac{\|\vec{X}\|}{\sqrt{n / 3}} \leq \sqrt{1 + 3\varepsilon}\right) \to 1\text{ as } n \to \infty
+    \]
+    $\sqrt{1 + 3\varepsilon} \to 1$ as $\varepsilon \to 0$,
+    so $\frac{\|\vec{X}\|}{\sqrt{n / 3}} \approx 1$ with probability $1$.
+\end{example}
+
+\begin{corollary}
+    Under the above assumption $\frac{1}{n}S_n \to \mu$ in probability
+    (because convergence in $L ^ r$ implies convergence in probability).
+\end{corollary}
+
+\begin{corollary}
+    Assume $X_n$s are iid.
+    Then let $\mu = \E(X_n)$ and $\sigma ^ 2 = \Var(X_n) < \infty$.
+    Then
+    \[
+    \frac{1}{n}S_n = \frac{X_1 + \dotsi + X_n}{n} \to \mu
+    \]
+    in probability.
+\end{corollary}
+
+
+\textbf{Strong law of large numbers}
+
+\begin{theorem}[SLLN]
+    Let $X_1, X_2, X_3, \dotsc$ be independent random variables.
+    Suppose $\E(X_n) = \mu$ for every $n$,
+    $\E(X_n ^ 4) \leq C$ for every $n$,
+    $C$ a constant.
+    Then $\frac{1}{n}(X_1 + X_2 + \dotsc + X_n) \to \mu$ almost surely as $n \to \infty$.
+
+    \begin{proof}
+        Recall if
+        \[
+        \sum_{n = 1}^{\infty}\P(|Z_n - Z| > \varepsilon) < \infty
+        \]
+        $\forall \varepsilon > 0$,
+        then $Z_n \to Z$ almost surely.
+        Let $X_n$ be as in SLLN.
+        Let $Y_n = X_n - \mu$.
+
+        Need to show $\frac{1}{n}(Y_1 + \dotsi + Y_n) \to 0$ almost surely.
+        \begin{align*}
+            \P\left(\left|\frac{1}{n}(Y_1 + \dotsi + Y_n)\right| > \varepsilon\right) &= \P(|Y_1 + \dotsi + Y_n| > n\varepsilon) \\
+            &= \P(|Y_1 + \dotsi + Y_n| ^ 4 > n ^ 4\varepsilon ^ 4) \\
+            &\leq \frac{\E((Y_1 + \dotsi Y_n) ^ 4)}{n ^ 4\varepsilon ^ 4} \\
+            &\leq \frac{Cn ^ 2}{n ^ 4\varepsilon ^ 4} &\text{(by one of the four lemmas below)} \\
+            \sum_{n = 1}^{\infty}\P\left(\left|\frac{1}{n}\sum_{i = 1}^{n}Y_i\right| > \varepsilon\right) &\leq \sum_{n = 1}^{\infty}\frac{C}{n ^ 2\varepsilon ^ 4} \\
+            &< \infty
+        \end{align*}
+        then apply a previous lemma to see $Z_n = \frac{1}{n}(Y_1 + \dotsi + Y_n)$,
+        $Z = 0$.
+    \end{proof}
+\end{theorem}
+
+\begin{lemma}
+    Suppose $X_n$ are as in the theorem above.
+    Let $Y_n = X_n - \mu$.
+    Then $\frac{X_1 + \dotsi + X_n}{n} \to \mu$ almost surely if and only if $\frac{Y_1 + \dotsi + Y_n}{n} \to 0$ almost surely.
+
+    \begin{proof}
+        \[
+        \frac{1}{n}(X_1 + \dotsi + X_n) - \mu = \frac{X_1 + \dotsi + X_n - n\mu}{n} = \frac{Y_1 + \dotsi + Y_n}{n}.
+        \]
+        So $\frac{1}{n}(X_1 + \dotsi + X_n) - \mu \to 0$ almost surely if and only if $\frac{Y_1 + \dotsi + Y_n}{n} \to 0$ almost surely.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Suppose $X$ and $Y$ are independent random variables such that $\E(X ^ 4), \E(Y ^ 4) \leq C$,
+    with $C$ constant.
+    Then
+    \[
+    \E(X ^ 2Y ^ 2) \leq C.
+    \]
+
+    \begin{proof}
+        \[
+        \E(X ^ 2Y ^ 2) = \E(X ^ 2)\E(Y ^ 2).
+        \]
+        Variance inequality
+        \[
+        \E(Z ^ 2) \geq \E(Z) ^ 2.
+        \]
+        Take $Z = X ^ 2$ then
+        \[
+        \E(X ^ 4) \geq \E(X ^ 2) ^ 2 \iff \E(X ^ 2) \leq \E(X ^ 4) ^ {1 / 2} \leq C ^ {1 / 2}.
+        \]
+        Doing the same to get $\E(Y ^ 2) \leq C ^ {1 / 2}$.
+        Then
+        \[
+        \E(X ^ 2Y ^ 2) \leq C.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Let $Y_1, \dotsc, Y_n$ be random variables
+    \[
+    (Y_1 + \dotsi + Y_n) ^ 4 = \sum_{i = 1}^{n}Y_i ^ 4 + \sum_{i \neq j}Y_i ^ 2Y_j ^ 2 + \sum_{\substack{i, j, k, l \\ i \neq j, k, l}}Y_iY_jY_kY_l.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            (Y_1 + Y_2 + Y_3) ^ 4 &= (Y_1 + Y_2 + Y_3)(Y_1 + Y_2 + Y_3)(Y_1 + Y_2 + Y_3)(Y_1 + Y_2 + Y_3)
+        \end{align*}
+        just take it as true and expand it if you want.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Let $Y_1, \dotsc, Y_n$ be independent random variables such that $\E(Y_i) = 0$ and $\E(Y_i ^ 4) = C$ for every $i$.
+    Then
+    \[
+    \E\left(\left(\sum_{i = 1}^{n}Y_i\right) ^ 4\right) \leq Cn ^ 2.
+    \]
+
+    \begin{proof}
+        By one of the previous three lemmas
+        \[
+        \E\left(\left(\sum_{i = 1}^{n}Y_i\right) ^ 4\right) = \E(\text{quartic}) + \E(\text{quadratic}) + \E(\text{other terms}).
+        \]
+        $\E(\text{quartic}) \leq Cn$ because $\E(Y_i ^ 4) \leq C$.
+        \[
+        \E(\text{quadratic}) = \sum_{i \neq j}\E(Y_iY_j) \leq C \cdot (\text{\# terms}) = Cn(n - 1)
+        \]
+        by a previous lemma.
+        \[
+        \E(\text{other}) = \sum_{\substack{i, j, k, l \\ i \neq j, k, l}}\E(Y_iY_jY_kY_l) = \sum_{\substack{i, j, k, l \\ i \neq j, k, l}}\E(Y_i)\E(Y_jY_kY_l) = 0
+        \]
+        as $\E(Y_i) = 0$.
+        \[
+        \E\left(\left(\sum_{i = 1}^{n}Y_i\right) ^ 4\right) \leq Cn + Cn(n - 1) = Cn ^ 2.
+        \]
+    \end{proof}
+\end{lemma}
+
+
+
+
+
+
 \subsection{Relations between different modes of convergence}
 We know the following relations from previous verification
 \begin{align*}
@@ -1371,6 +1616,35 @@ We know the following relations from previous verification
     X_n &\overset{L ^ r}{\to} X &\centernot\implies && X_n &\overset{\text{a.s.}}{\to} X, \\
     X_n &\overset{\text{a.s.}}{\to} X &\centernot\implies && X_n &\overset{L ^ r}{\to} X.
 \end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
