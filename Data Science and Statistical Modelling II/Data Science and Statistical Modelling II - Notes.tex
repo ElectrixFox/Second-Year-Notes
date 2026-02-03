@@ -604,6 +604,47 @@ so the overall integral is:
 \mu \in c\hat{p}_n \pm c z_{\alpha / 2}\sqrt{\frac{\hat{p}_n(1 - \hat{p}_n)}{n}}.
 \]
 
+To get a relative error at most $\delta$ requires
+\[
+n \geq \frac{c ^ 2z_{\alpha / 2} ^ 2}{\delta ^ 2\hat{p}_n}.
+\]
+
+\textbf{Generality of method}
+
+The formulation of Monte Carlo integration in context of estimating integrals expressed as expectations is rather restrictive:
+\[
+\mu \coloneqq \E(Y) = \int_{\Omega}yf_{Y}(y)\,dy
+\]
+however,
+$f_{Y}(y)$ can be any valid probability density function,
+considering only expectations of this form does not result in a loss of generality.
+
+For example We can do such integrals for the Bayesian posterior:
+\[
+f(\theta \mid x) = \frac{f(x \mid \theta)f(\theta)}{f(x)} = C \times f(x \mid \theta)f(\theta)
+\]
+where $C$ is the constant which ensures $f(\theta \mid x)$ is a valid pdf.
+
+Then,
+we can compute Bayesian posterior expectations:
+\[
+\int_{\Omega}\theta f(\theta \mid x)\,d\theta.
+\]
+
+We can also compute more arbitrary statements of probability as expectations.
+That is,
+\begin{align*}
+    \P(X < a) &= F_{X}(a) \\
+    &= \int_{-\infty}^{a}f_{X}(x)\,dx \\
+    &= \int_{\R}\mathbbm{1}\{x \in (-\infty, a]\}f_{X}(x)\,dx \\
+    &= \E(\mathbbm{1}\{X \in (-\infty, a]\}.)
+\end{align*}
+Indeed,
+to evaluate the probability of an arbitrary event,
+$\P(X \in E)$,
+simply Monte Carlo estimate $\E(\mathbbm{1}\{X \in E\})$.
+
+
 
 
 
