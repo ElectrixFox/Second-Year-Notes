@@ -1880,8 +1880,416 @@ Do we have a converse?
     $u = \frac{v ^ 2}{4d ^ 2} - d ^ 2$.
 \end{example}
 
+\newpage
 
+\subsection{Biholomorphic maps}
+In many cases we would like to say that two domains are holomorphically equivalent.
 
+\begin{definition}[Biholomorphic maps]
+    Let $D$ and $D'$ be domains.
+    We say that $f : D \to D'$ is biholomorphic if $f$ is holomorphic,
+    a bijection,
+    and the inverse $f ^ {-1} : D' \to D$ is also holomorphic.
+
+    A biholomorphic map $f$ is called a biholomorphism.
+    When $f$ as above exists,
+    we say that the domains $D$ and $D'$ are biholomorphic and write $f : D \tilde{\to} D'$.
+\end{definition}
+
+\begin{remark}
+    It is possible to show that if $f$ as above is holomorphic and bijective,
+    then it is automatic that its inverse is holomorphic.
+\end{remark}
+
+\begin{example}\phantom{}
+    \begin{itemize}
+        \item For any $a, b \in \C$ with $a \neq 0$
+        \[
+        f(z) = az + b
+        \]
+        is a biholomorphism between $\C$ and $\C$.
+        The inverse is
+        \[
+        f ^ {-1}(z) = \frac{z - b}{a}.
+        \]
+
+        \item $e ^ z$ is not a biholomorphism from $\C$ to $\C ^ {*}$ since it is not injective.
+        $e ^ z$ is a biholomorphism from
+        \[
+        \{z \in \C : c < \Im(z) < c + 2\pi\}
+        \]
+        to $\C \setminus R_{C}$.
+        Its inverse is the appropriate branch of $\log$.
+
+        $e ^ z$ is a bijection from $\{z \in \C\,:\, -\pi < \Im(z) \leq \pi\}$ to $\C ^ {*}$,
+        but has no holomorphic inverse.
+
+        \item $z ^ 2$ is a biholomorphism from $\mathbb{H}_{R}$ to $\C \setminus R_{\leq 0}$
+        (inverse $z ^ {1 / 2}$).
+    \end{itemize}
+\end{example}
+
+We cannot have a biholomorphic map defined on the boundary that it maps $\partial D$ to $\partial D'$.
+This is hard to prove.
+
+\begin{example}
+    $e ^ z$ takes $\{z \in \C\,:\, -\pi < \Im(z) < 2\pi\}$ to $\C ^ {*}$ not injectively.
+    \[
+    \partial D = \{z \in \C\,:\, \Im(z) = -\pi\} \cup \{z \in \C\,:\, \Im(z) = 2\pi\}.
+    \]
+    $f(\partial D) = R \setminus \{0\}$.
+    $D' = f(D) = \C ^ {*}$,
+    $\partial D' = \{0\}$.
+\end{example}
+
+\begin{example}
+    $e ^ z$ takes $D = \{z \in \C\,:\, -\pi < \Im(z) < \pi\}$ biholomorphically to $\C \setminus \R_{\leq 0}$.
+    Boundary is mapped to boundary but not injectively.
+\end{example}
+
+\begin{lemma}[Automorphism groups]
+    Let $D \subset \C$ be a domain.
+    The set of all biholomorphic maps $f : D \tilde{\to} D$ from $D$ to itself forms a group under composition.
+    We call this group the automorphism group of $D$ and denote it by $\mathrm{Aut}(D)$.
+\end{lemma}
+
+\newpage
+
+\section{M\"{o}bius transforms}
+
+\subsection{\mobius transformations}
+
+\begin{definition}[\mobius transformations]
+    Let $a, b, c, d \in \C$ be such that $ad - bc \neq 0$.
+    The map
+    \[
+    M(z) \coloneqq \frac{az + b}{cz + d}.
+    \]
+    defined on $\C \setminus \left\{-\frac{d}{c}\right\}$ when $c \neq 0$ and $\C$ when $c = 0$,
+    is called a \mobius transformation.
+\end{definition}
+
+Any \mobius transformation can be represented by a matrix $T = \begin{pmatrix}
+    a & b \\ c & d
+\end{pmatrix} \in \mathrm{GL}_2(\C)$ where
+\[
+\mathrm{GL}_2(\C) \coloneqq \left\{\begin{pmatrix}
+    a & b \\ c & d
+\end{pmatrix}\,:\, a, b, c, d \in \C, ad - bc \neq 0\right\}.
+\]
+In that case we write $M = M_T$.
+
+\begin{remark}\phantom{}
+    \begin{itemize}
+        \item Why $ad - bc \neq 0$?
+        If $ad - bc = 0$ the $(a\ b)$ is linearly dependent on $(c\ d)$ i.e. $\exists \alpha \in \C$ s.t. $a = \alpha c$ and $b = \alpha d$
+        \[
+        \frac{az + b}{cz + d} = \alpha
+        \]
+        constant.
+
+        \item Note that for any $a, b, c, d \in \C$ s.t. $ad - bc \neq 0$ and any $k \in \C ^ {*}$
+        \[
+        (ka)(kd) - (kb)(kc) \neq 0.
+        \]
+        \[
+        M_{kT}(z) = \frac{(ka)z + (kb)}{(kc)z + (kd)} = \frac{az + b}{cz + d} = M_T(z).
+        \]
+        The matrix representation is not unique.
+    \end{itemize}
+\end{remark}
+
+\begin{lemma}
+    The set of \mobius transformations form a group under composition.
+    Furthermore,
+    \begin{enumerate}[label = (\roman*)]
+        \item $M_{T_1} \circ M_{T_2} = M_{T_1T_2}$.
+
+        \item Any \mobius transformation is invertible with $(M_T) ^ {-1} = M_{T ^ {-1}}$.
+
+        \item For any $k \in \C ^ {*}$ we have that $M_{kT} = M_T$.
+        We conclude that $M_T = \mathrm{Id}$ if and only if
+        \[
+        T = k\begin{pmatrix}
+            1 & 0 \\ 0 & 1
+        \end{pmatrix}
+        \]
+        for some $k \in \C ^ {*}$.
+    \end{enumerate}
+
+    \begin{proof}
+        Exercise.
+
+        Note:
+        if (i) holds then since $T \in \mathrm{GL}_2(\C) \implies T ^ {-1} \in \mathrm{GL}_2(\C)$ and
+        \[
+        M_T \circ M_{T ^ {-1}} = M_{T \cdot T ^ {-1}} = M_{\mathrm{Id}} = \mathrm{Id}.
+        \]
+    \end{proof}
+\end{lemma}
+
+We conclude that $T = \begin{pmatrix}
+    a & b \\ c & d
+\end{pmatrix}$
+\begin{itemize}
+    \item if $c \neq 0$
+    \[
+    M_T = \C \setminus \{-d / c\} \to \C \setminus \{a / c\}
+    \]
+    is a bijection.
+    Where $(M_T) ^ {-1} = M_{T ^ {-1}}$ is defined $T ^ {-1} = \frac{1}{ad - bc}\begin{pmatrix}
+        d & -b \\ -c & a
+    \end{pmatrix}$.
+
+    \item If $c = 0$ $M_T(z) = \frac{a}{d}z + \frac{b}{d}$ is a bijection from $\C \to \C$.
+\end{itemize}
+
+We can extend \mobius transformation to $\hat{\C} = \C \cup \{\infty\}$,
+a circle with infinite radius.
+If $c \neq 0$
+\[
+\lim_{z \to - d / c}\left|\frac{az + b}{cz + d}\right| = \infty.
+\]
+\[
+\lim_{|z| \to \infty}\frac{az + b}{cz + d} = \frac{a}{c}.
+\]
+If $c = 0$
+\[
+\lim_{|z| \to \infty}\left|\frac{a}{d}z + \frac{b}{d}\right| = \infty.
+\]
+
+\begin{remark}
+    We can extend the definition of \mobius transformation to bijections from $\hat{\C}$ to $\hat{C}$:
+    Given $a, b, c, d \in \C$ such that $ad - bc \neq 0$ we define $M : \hat{\C} \to \hat{\C}$ by
+    \[
+    M(z) = \begin{cases}
+        \frac{az + b}{cz + d}, &z \neq -\frac{d}{c}, \infty \\
+        \infty, &z = -\frac{d}{c}, \\
+        \frac{a}{c}, & z = \infty,
+    \end{cases}
+    \]
+    when $c \neq 0$,
+    and
+    \[
+    M(z) \coloneqq \begin{cases}
+        \frac{az + b}{d}, &z \neq \infty \\
+        \infty, &z = \infty,
+    \end{cases}
+    \]
+    when $c = 0$.
+\end{remark}
+
+\begin{example}
+    $f(z) = \frac{1}{z}$ corresponds to $T = \begin{pmatrix}
+        0 & 1 \\ 1 & 0
+    \end{pmatrix}$.
+
+    Using polar coordinates we find that $f(z) = \frac{1}{r}e ^ {i\theta}$.
+    Segments on a concentric circle of radius $r$ go to segments of same length but opposite direction on a concentric circle of radius $\frac{1}{r}$.
+\end{example}
+
+Similarly,
+a segment on a ray of angle $\theta$ will go to a segment on a ray of angle $-\theta$.
+
+\begin{lemma}\phantom{}
+    \begin{itemize}
+        \item The map $1 / z$ injectively takes the set $\mathbb{D} \setminus \{0\} = \{z \in \C\,:\, 0 < |z| < 1\}$ to $\mathbb{D} ^ c = \{z \in \C\,:\, |z| > 1\}$.
+        When considering $1 / z$ over $\hat{\C}$ we find that it injectively takes $\mathbb{D}$ to $\mathbb{D} ^ c \cup \{\infty\}$.
+
+        \item The map $1 / z$ injectively takes the ray at angle $\theta$
+        (without the origin)
+        to the ray at angle $-\theta$
+        (without the origin).
+        On $\hat{\C}$ the statement remain the same by adding the origin and $\infty$ to the rays.
+    \end{itemize}
+\end{lemma}
+
+What about derivatives?
+
+\begin{lemma}
+    Let $M$ be a \mobius transform which is represented by the matrix $T = \begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix} \in \mathrm{GL}_2(\C)$.
+    If $c \neq 0$ the \mobius transformation $M = M_T$ is a biholomorphism
+    \[
+    M : \C \setminus \left\{-\frac{d}{c}\right\} \tilde{\to} \C \setminus \left\{\frac{a}{c}\right\}.
+    \]
+    and when $c = 0$ the \mobius transformation $M = M_T$ is a biholomorphism
+    \[
+    M : \C \tilde{\to} \C.
+    \]
+
+    \begin{proof}
+        Already shown the case $c = 0$,
+        i.e. $f(z) = \frac{a}{d}z + \frac{b}{d}$.
+
+        If $c \neq 0$ we know that
+        \[
+        M : \C \setminus \{-d / c\} \to \C \setminus \{a / c\}
+        \]
+        is a bijection
+        \[
+        M(z) = \frac{az + b}{cz + d}
+        \]
+        is a quotient of complex differentiable functions.
+        By COLT for derivatives for $z \neq -\frac{d}{c}$,
+        $M'(z) = \frac{a(cz + d) - c(az + d)}{(cz + d) ^ 2} = \frac{ad - bc}{(cz + d) ^ 2}$.
+        $M$ is holomorphic on $\C \setminus \{-d / c\}$.
+        $M ^ {-1}$ is also \mobius so holomorphic on $\C \setminus \{a / c\}$.
+        So $M$ is a biholomorphism between $\C \setminus \{-d / c\}$ and $\C \setminus \{a / c\}$.
+    \end{proof}
+\end{lemma}
+
+Behold.
+If
+\[
+M(z) = \frac{ax + b}{cz + d} = M_T(z)
+\]
+when we showed that
+\[
+M'(z) = \begin{cases}
+    \frac{ad - bc}{(cz + d) ^ 2} & c \neq 0 \\
+    \frac{a}{d} & c = 0.
+\end{cases}
+\]
+$M'(z) \neq 0$ for any $z \in \C \setminus \{-d / c\}$ when $c \neq 0$ and any $z \in \C$ when $c = 0$.
+Consequently
+
+\begin{corollary}
+    A \mobius transformation $M$ is conformal at all $z \in \C$ with $M(z) \neq \infty$.
+
+    \begin{proof}
+        $M$ is holomorphic and $M'(z) \neq 0$.
+    \end{proof}
+\end{corollary}
+
+\mobius transformation truly capture the geometry of $\hat{\C}$.
+
+\begin{proposition}
+    A \mobius transformation $M$ is a biholomorphism of $\hat{\C}$ to itself.
+    Moreover,
+    any biholomorphism between $\hat{\C}$ and itself must be a \mobius transformation.
+
+    \begin{proof}
+        Omitted.
+    \end{proof}
+\end{proposition}
+
+\subsection{The Three points theorem,
+the cross ratio,
+and fixed points for \mobius transformation}
+
+To define a \mobius transformation we seem to need $a, b, c, d \in \C$ s.t. $ad - bc \neq 0$,
+or alternatively $T \in \mathrm{GL}_2(\C)$ but since $kT$ represents the same \mobius transformation for $k \in \C ^ {*}$ we can always force one of $a, b, c$ or $d$,
+to be one.
+This means that in fact we need three points to give us a \mobius transformation
+
+\begin{theorem}[Three points Theorem]
+    Let $\{z_1, z_2, z_3\}$ and $\{w_1, w_2, w_3\}$ be two sets of three ordered distinct points in $\hat{\C}$.
+    Then there exists a unique \mobius transformation $M$ such that $M(z_i) = w_i$ for $i = 1, 2, 3$.
+\end{theorem}
+The theorem includes two things:
+existence,
+uniqueness.
+To show existence we have
+\begin{definition}
+    Given four distinct points $z_0, z_1, z_2, z_3 \in \C$ the cross-ratio of these points,
+    which we will denote by $(z_0, z_1; z_2, z_3)$,
+    is defined by
+    \[
+    (z_0, z_1; z_2, z_3) \coloneqq \frac{(z_0 - z_2)(z_1 - z_3)}{(z_0 - z_3)(z_1 - z_2)} = \frac{\frac{z_0 - z_2}{z_0 - z_3}}{\frac{z_1 - z_2}{z_1 - z_3}}.
+    \]
+\end{definition}
+
+The cross ratio can be extended to $\hat{\C}$ with the convention that if one of the points is $\infty$ we remove all the terms that involve that point.
+For example,
+\[
+(\infty, z_1; z_2, z_3) \coloneqq \frac{z_1 - z_3}{z_1 - z_2}.
+\]
+
+\textit{Proof of the existence of the \mobius transformation in the three points theorem}
+
+For a given $z_1, z_2, z_3 \in \C$ distinct define
+\[
+F(z) = (z, z_1; z_2, z_3) = \frac{(z - z_2)(z_1 - z_3)}{(z - z_3)(z_1 - z_2)}
+\]
+$F$ is \mobius and
+\[
+F(z_1) = 1,\qquad F(z_2) = 0,\qquad F(z_3) = \infty.
+\]
+With
+\[
+G(w) = \frac{(w - w_2)(w_1 - w_3)}{(w - w_3)(w_1 - w_2)}.
+\]
+$G$ is \mobius so $G ^ {-1}$ exists and is \mobius.
+So $G ^ {-1} \circ F$ is \mobius and
+\[
+G ^ {-1} \circ F(z_i) = w_i\qquad i = 1, 2, 3.
+\]
+
+What about uniqueness?
+
+\textbf{Notation:}
+For a given map $f : X \to X$ we say that $x \in X$ is a fixed point of $f$ if $f(x) = x$.
+
+\begin{lemma}[Fixed point theorem for \mobius transformations]
+    Let $M : \hat{\C} \to \hat{\C}$ be a \mobius transformation that is not the identity map.
+    Then $M$ has at most $2$ fixed points in $\hat{\C}$.
+    In other words,
+    if a \mobius transformation has three fixed points in $\hat{\C}$,
+    then it is the identity:
+
+    \begin{proof}
+        \[
+        M(z) = \frac{az + b}{cz + d}
+        \]
+        then
+        \[
+        M(z) = z \iff az + b = (cz + d)z \iff cz ^ 2 + (d - a)z - b = 0.
+        \]
+        If $c \neq 0$ there exist at most two distinct solutions on $\C$.
+        in this case $M(-d / c) = \infty$ so $\infty$ is not a fixed point.
+
+        If $c = 0$,
+        $(d - a)z - b = 0$,
+        if $d \neq a$ there is a unique solution in $\C$ which is $z = \frac{b}{d - a}$.
+        In this case $M(\infty) = \infty$ so we get two fixed points in $\hat{\C}$.
+
+        If $d = a$,
+        $-b = 0$,
+        i.e. $b = c = 0$
+        \[
+        M(z) = \frac{az + 0}{0\cdot z + a} = z
+        \]
+        the identity.
+    \end{proof}
+\end{lemma}
+
+\textit{Proof of the uniqueness of the \mobius transformation in the three points theorem}
+
+Assume there exist $M_1, M_2$ \mobius s.t.
+\[
+M_1(z_i) = M_2(z_i) = w_i\qquad i = 1, 2, 3
+\]
+so $M = M_1 \circ M_2$ is \mobius s.t. $M(z_i) = z_i$ for $i = 1, 2, 3$,
+i.e. $M$ has $3$ fixed points which implies $M = \mathrm{Id}$ i.e. $M_1 = M_2$.
+
+\subsection{Geometric properties of \mobius transformation and how to find them explicitly}
+Our existence part of the three point theorem gave us a recipe to find \mobius transformation that takes $(z_1, z_2, z_3)$ to $(w_1, w_2, w_3)$.
+We want to simplify the process.
+
+\begin{lemma}[Cross ratio is invariant under \mobius transformation]
+    The cross ratio is invariant under \mobius transformations.
+    In other words,
+    if $M :\hat{\C} \to \hat{\C}$ is a \mobius transformation then
+    \[
+    (M(z_0), M(z_1); M(z_2), M(z_3)) = (z_0, z_1; z_2, z_3).
+    \]
+
+    \begin{proof}
+        Proof relies on identifying building blocks of \mobius transformation.
+    \end{proof}
+\end{lemma}
 
 
 
