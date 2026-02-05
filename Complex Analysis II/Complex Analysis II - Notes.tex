@@ -2291,6 +2291,357 @@ We want to simplify the process.
     \end{proof}
 \end{lemma}
 
+\begin{lemma}[Building blocks of \mobius transformations]
+    Any \mobius transformation is compositions of the following four types of maps:
+
+    \begin{enumerate}[label = (\roman*)]
+        \item Shift:
+        $z \mapsto z + b$ for some $b \in \C$.
+
+        \item Dilation
+        (stretch/compression):
+        $z \mapsto \lambda z$ for some $\lambda \in \R_{> 0}$.
+
+        \item Rotation:
+        $z \mapsto e ^ {i\theta}z$ for some $\theta \in (-\pi, \pi]$.
+
+        \item Inversion:
+        $z \mapsto \frac{1}{z}$.
+    \end{enumerate}
+
+    \begin{proof}
+        For any $a \in \C$,
+        $a \neq 0$,
+        $b \in \C$ we have that
+        \[
+        az + b = |a|e ^ {i\Arg(a)}z + b
+        \]
+        well defined as $a \neq 0$.
+        The map is a composition of rotation,
+        dilation and shift.
+
+        For any $a \in \C ^ {*}$
+        ($\C ^ {*} = \C \setminus \{0\}$)
+        and $b \in \C$
+        \[
+        \frac{1}{az + b}
+        \]
+        is a composition of inversion and the previous map
+        (composition of rotation,
+        dilation and shift).
+
+        For any $a, \alpha \in \C ^ {*}$ and $b, \beta \in \C$
+        \[
+        \alpha \cdot \frac{1}{az + b} + \beta
+        \]
+        is a composition of rotation,
+        dilation,
+        shift and the previous map.
+        If we show that any \mobius is one of these maps,
+        we will conclude the proof.
+        $M(z) = \frac{az + b}{cz + d}$,
+        $ad - bc \neq 0$.
+        If $c = 0$,
+        $M(z) = \frac{a}{d}z + \frac{b}{d}$,
+        first type of map.
+        If $c \neq 0$,
+        \[
+        M(Z) = \frac{az + b}{cz + d} = \frac{\frac{a}{c}(cz + d) - \frac{ad}{c} + b}{cz + d} = \frac{a}{c} - \frac{ad - bc}{c(cz + d)}
+        \]
+        the third type of map.
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    Any \mobius transformation is compositions of the following two maps:
+
+    \begin{enumerate}[label = (\roman*)]
+        \item $z \mapsto az + b$ for some $a \in \C ^ {*}$ and $b \in \C$.
+
+        \item $z \mapsto \frac{1}{z}$.
+    \end{enumerate}
+\end{corollary}
+
+Since every \mobius transformation is a composition of maps of the form $f_1(z) = az + b$,
+$a \in \C ^ {*}$,
+$b \in \C$ and $f_2(z) = \frac{1}{z}$ it is enough to show that for any $z_0, z_1, z_2, z_3$,
+\[
+(f_1(z_0), f_1(z_1); f_1(z_2), f_1(z_2)) = (z_0, z_1; z_2, z_3) = (f_2(z_0), f_2(z_1); f_2(z_2), f_2(z_3))
+\]
+for instance
+\[
+\frac{f_1(z_0) - f_1(z_2)}{f_1(z_0) - f_1(z_3)} = \frac{a(z_0 - z_2)}{a(z_0 - z_3)} = \frac{z_0 - z_2}{z_0 - z_3}
+\]
+and similarly
+\[
+\frac{f_1(z_1) - f_1(z_2)}{f_1(z_1) - f_1(z_3)} = \frac{z_1 - z_2}{z_1 - z_3}.
+\]
+
+If we want to find a \mobius transformation $M$ s.t. $M(z_1) = w_1$,
+$M(z_2) = w_2$,
+$M(z_3) = w_3$ we see that due to the invariance of the cross-ratio for any $z \in \hat{\C}$
+\[
+(M(z), w_1; w_2, w_3) = (z, z_1; z_2, z_3).
+\]
+
+\begin{example}
+    Find the \mobius transformation that takes the points $\{1, -1, i\}$ to $\{0,\infty, 1\}$ respectively.
+    \[
+    (M(z), 0; \infty, 1) = (z, 1; -1, i)
+    \]
+    \[
+    \frac{1}{M(z) - 1}\cdot\frac{0 - 1}{1} = \frac{z - (-1)}{z - i}\cdot\frac{1 - i}{1 - (-1)}
+    \]
+    \[
+    -\frac{1}{M(z) - 1} = \frac{z + 1}{z - i}\cdot\frac{1 - i}{2},\qquad M(z) = \frac{-iz + i}{z + 1}.
+    \]
+\end{example}
+
+We now have another biholomorphic map.
+We would like to explore which domains are
+"natural"
+for \mobius transformations.
+
+\begin{lemma}
+    Let $M : \hat{\C} \to \hat{\C}$ be a \mobius transformation.
+    For any open set $D \subseteq \C$ we have that
+    \[
+    M\left(\partial D \setminus \left\{-\frac{d}{c}\right\}\right) = \partial M(D) \setminus \{\infty\}.
+    \]
+    When $c = 0$ we consider $-\frac{d}{c}$ as $\infty$ which is outside of $\C$ consequently $A \setminus \{\infty\} = A$ for any $A \subseteq \C$.
+\end{lemma}
+
+\begin{remark}
+    We can extend the above to $\hat{\C}$ by including $-\frac{d}{c}$ and $\infty$.
+\end{remark}
+
+Boundary goes to boundary under \mobius.
+We can have a method to find $M(D)$ for open $D$:
+\begin{enumerate}[label = (\arabic*)]
+    \item Find the image $M(\partial D)$ of the boundary of $D$.
+
+    \item Find the image $M(z_0)$ of a point $z_0 \in D$.
+
+    \item $M(D)$ is the set whose boundary is $M(\partial D)$ and contains $M(z_0)$.
+    Moreover,
+    \[
+    M : D \tilde{\to} M(D)
+    \]
+\end{enumerate}
+
+Do \mobius transformations have boundaries that are mapped to nice boundaries?
+
+\begin{proposition}[Circles and lines Proposition]
+    \mobius transformation map circles and lines in $\hat{\C}$ to circles and lines in $\hat{\C}$,
+    where we consider any line to pass through infinity and where by circles in $\hat{\C}$ we simply mean circles in $\C$.
+    Moreover,
+    a circle or a line would be mapped to a line if and only if there is a point on it that is mapped to $\infty$.
+\end{proposition}
+
+\begin{lemma}[Equation of circles and lines in $\C$]
+    Given $\gamma, \beta \in \R$ and $\alpha \in \C$,
+    the equation
+    \[
+    \gamma z\bar{z} - \alpha\bar{z} - \bar{\alpha}z + \beta = 0
+    \]
+    describes a circle is $\gamma \neq 0$ and $|\alpha| ^ 2 - \beta\gamma > 0$,
+    and a line if $\gamma = 0$ and $\alpha \neq 0$.
+    Conversely,
+    any circle or line can be described by an equation of this form.
+\end{lemma}
+
+The term circline is used to refer to an object that is either a circle or line.
+
+\begin{example}
+    The Cayley map is defined to be
+    \[
+    M_c(z) \coloneqq \frac{z - i}{z + i}.
+    \]
+    It is a \mobius transformation which is represented by a matrix $C = \begin{pmatrix}
+        1 & -i \\ 1 & i
+    \end{pmatrix}$.
+    A straight forward calculation shows that its inverse is given by
+    \[
+    M_{C} ^ {-1}(z) \coloneqq \frac{iz + i}{1 - z}.
+    \]
+\end{example}
+
+\begin{lemma}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item The image of upper half plane $\mathbb{H}$ under the Cayley map is the unit disk,
+        $\mathbb{D}$.
+
+        \item The image of unit disk,
+        $\mathbb{D}$,
+        under the Cayley map is the left half plane,
+        $\mathbb{H}_{L}$.
+
+        \item The image of the first quadrant,
+        \[
+        \Omega_1 = \left\{z \in \C,\:\, 0 < \Arg(z) < \frac{\pi}{2}\right\} = \{z \in \C\mid \Re(z) > 0, \Im(z) > 0\},
+        \]
+        under the Cayley map is the lower unit disk
+        \[
+        \mathbb{D}_{-} = \{z \in \mathbb{D} \mid \Im(z) > 0\}
+        \]
+
+        \item The image of the upper unit disk,
+        \[
+        \mathbb{D}_{+} = \{z \in \mathbb{D} \mid \Im(z) > 0\}
+        \]
+        under the Cayley map is the left unit disk
+        \[
+        \mathbb{D}_{L} = \{z \in \mathbb{D} \mid \Re(z) < 0\}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        Showing (i) and (iii).
+
+        $M_C$ is \mobius and as such takes boundary to boundary and we get $\partial M(\mathbb{H}) = M(\partial \mathbb{H})$.
+        $\partial H$ is a line and as such will go to a line or a circle by a \mobius transformation.
+        The image will be a line if and only if it contains $\infty$.
+        $M_C$ takes $-i$ to $\infty$ and $-i \notin \partial \mathbb{H}$ so $M(\partial \mathbb{H})$ is a circle.
+        To find the circle we'll find three points on it
+        \[
+        M_C(-1) = \frac{-1 - i}{-1 + i} = i ,\qquad M_C(0) = -1,\qquad M_C(1) = -i.
+        \]
+        This implies $M(\partial \mathbb{H})$ is the unit circle.
+        To find if we get $\mathbb{D}$ or $\mathbb{D} ^ c$ we take an interior point to $\mathbb{H}$.
+        $i \in \mathbb{H}$,
+        $M_C(i) = 0$ which implies $M(\mathbb{H}) = \mathbb{D}$.
+        \mobius will take a part of a circle or line to a part of a circle or line.
+        $\Omega_1 = \mathbb{H} \cap \mathbb{H}_R$,
+        $M_C$ is a bijection so $M(\Omega_1) = M(\mathbb{H}) \cap M(\mathbb{H}_R)$/
+        Only need to find $M_C(\mathbb{H}_R)$.
+        \[
+        M_C(\partial \mathbb{H}_R) = \partial M(\mathbb{H}_R)
+        \]
+        which implies $\partial M_C(\mathbb{H}_R)$ is a line.
+        $M_C(i) = 0$,
+        $M_C(0) = -1$ so $\partial M_C(\mathbb{H}_R) = \text{real axis}$.
+        $M_C(1 + i)  = \frac{2}{5} - \frac{i}{5}$ so $M_C(\mathbb{H}_R)$ which is the lower half plane.
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    Let $M_C$ be the Cayley map.
+    Then
+    \begin{itemize}
+        \item $M_C ^ {-1}(\mathbb{D}) = \mathbb{H}$.
+
+        \item $M_C ^ {-1}(\mathbb{H}_L) = \mathbb{D}$.
+
+        \item $M_C ^ {-1}(\mathbb{D}_{-}) = \Omega_1$.
+        
+        \item $M_C ^ {-1}(\mathbb{D}_{L}) = \mathbb{D}_{+}$.
+    \end{itemize}
+\end{corollary}
+
+\begin{proposition}[H$2$H]
+    Every \mobius transformation mapping $\mathbb{H}$ to $\mathbb{H}$ is of the form $M_T$ with $T$ in the group
+    \[
+    \mathrm{SL}_2(\R) \coloneqq \left\{T = \begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix}\,:\, a, b, c, d \in \R,\ \det{T} = ad - bc = 1\right\}.
+    \]
+    Conversely,
+    every such \mobius transformation maps $\mathbb{H}$ to $\mathbb{H}$,
+    and hence gives a biholomorphism from $\mathbb{H}$ to $\mathbb{H}$.
+
+    \begin{proof}
+        We will only show that if $M$ takes $\mathbb{H}$ to $\mathbb{H}$ then $M = M_t$ for $T \in \mathrm{SL}_2(\R)$.
+
+        $M$ is \mobius so $\partial H$ must go to $\partial M(\mathbb{H}) = \partial \mathbb{H}$.
+        There exist $x_1, x_2, x_3 \in \R \cup \{\infty\}$ s.t. $M(x_1) = 1$,
+        $M(x_2) = 0$,
+        $M(x_3) = \infty$.
+        Assuming $x_1, x_2, x_3 \neq \infty$ we find that
+        \[
+        (M(z), 1; 0, \infty) = (z, x_1; x_2, x_3)
+        \]
+        \[
+        M(z) = \frac{M(z) - 0}{1} \cdot \frac{1}{1 - 0} = \frac{z - x_2}{z - x_3}\cdot\frac{x_1 - x_3}{x_1 - x_2}
+        \]
+        so
+        \[
+        M(z) = \frac{(x_1 - x_3)z - x_2(x_1 - x_3)}{(x_1 - x_2)z - x_3(x_1 - x_2)}
+        \]
+        so $M = M_T$ for $T \in \mathrm{GL}_2(\R)$.
+        same holds if one of the $x_i$s is $\infty$.
+        Since $\mathbb{H}$ goes to $\mathbb{H}$,
+        $M(i) \in \mathbb{H}$ i.e. $\Im(M(i)) > 0$.
+        Writing $M(z) = \frac{az + b}{cz + d}$,
+        $a, b, c, d \in \R$,
+        $ad - bc \neq 0$ we get
+        \[
+        M(i) = \frac{ai + b}{ci + d} = \frac{(ai + b)(d - ci)}{c ^ 2 + d ^ 2} = \frac{db + ac}{c ^ 2 + d ^ 2} + i\frac{ad - bc}{c ^ 2 + d ^ 2}
+        \]
+        so $\Im(M(i)) > 0 \iff ad - bc > 0$.
+        The matrix $\tilde{T} = \frac{1}{\sqrt{ad - bc}}T$ satisfies
+        \[
+        M_{\tilde{T}} = M_T
+        \]
+        and $\tilde{T} \in \mathrm{GL}_2(\R)$.
+        In fact
+        \[
+        \det{\tilde{T}} = \left(\frac{1}{\sqrt{ad - bc}}\right) ^ 2\det{T} = 1.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[D$2$D]
+    Every \mobius transformation from the unit disk $\mathbb{D}$ to itself is of the form $M_T$ with $T$ in the set
+    \[
+    \mathrm{SU}(1, 1) \coloneqq \left\{T = \begin{pmatrix}
+        \alpha & \beta \\ \bar{\beta} & \bar{\alpha}
+    \end{pmatrix}\,:\, \alpha, \beta \in \C, \det{T} = |\alpha| ^ 2 - |\beta| ^ 2 = 1\right\}.
+    \]
+    Conversely,
+    every such \mobius transformation maps $\mathbb{D}$ to $\mathbb{D}$ and hence gives a biholomorphic automorphism of $\mathbb{D}$.
+
+    \begin{proof}
+        We recall that $M_C(\mathbb{H}) = \mathbb{D}$ and $(M_C) ^ {-1} = M_{C ^ {-1}}$ takes $\mathbb{D}$ to $\mathbb{H}$.
+        Given \mobius $M$ from $\mathbb{D}$ to $\mathbb{D}$ the map
+        \[
+        f = (M_C) ^ {-1} \circ M \circ M_C.
+        \]
+        $f$ is \mobius
+        (composition of \mobius\!\!)
+        that takes $\mathbb{H}$ to $\mathbb{H}$.
+        By $H2H$ theorem $\exists T \in \mathrm{SL}_2(\R)$ s.t. $f = M_t$,
+        i.e. $M_{C ^ {-1}} \circ M \circ M_C = M_T$ i.e.
+        \[
+        M = M_C \circ M_T \circ M_{C ^ {-1}} = M_{CTC ^ {-1}}
+        \]
+        $T = \begin{pmatrix}
+            a & b \\ c & d
+        \end{pmatrix}$,
+        $a, b, c, d \in \R$ $ad - bc = 1$,
+        $C = \begin{pmatrix}
+            1 & -i \\ 1 & i
+        \end{pmatrix}$
+        which implies
+        \[
+        CTC ^ {-1} = \frac{1}{2}\begin{pmatrix}
+            (a + d) + i(b - c) & (a - d) - i(c + b) \\ (a - d) + i(c + b) & (a + d) - i(b - c)
+        \end{pmatrix}.
+        \]
+    \end{proof}
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
