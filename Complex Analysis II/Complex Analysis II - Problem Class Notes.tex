@@ -439,6 +439,144 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$4$}{}}
+
+\begin{problem}
+    Find the image of the unit circle and the unit disc under the \mobius transformation $f(z) = w = \frac{z + i}{z - i}$.
+
+    \begin{solution}
+        $f$ is \mobius and as such will take circlines to circlines as well as boundary to boundary.
+        A circline will go to a line under $f$ if and only if it contains a point that $f$ takes to $\infty$.
+        $f(i) = \infty$ and $i \in \partial \mathbb{D}$,
+        so $f(\partial \mathbb{D})$ is a line.
+        $-i \in \partial \mathbb{D}$ and $f(-i) = 0$.
+        $1 \in \partial \mathbb{D}$ and
+        \[
+        f(1) = \frac{1 + i}{1 - i} = \frac{(1 + i)(1 + i)}{|1 - i| ^ 2} = \frac{1 ^ 2+ 2i + i ^ 2}{1 ^ 2 + (-1) ^ 2} = i.
+        \]
+        So $f(\partial \mathbb{D})$ is the imaginary axis.
+        Since boundary goes to boundary $\partial f(\mathbb{D}) = f(\partial \mathbb{D})$ which is the imaginary axis,
+        $f(\mathbb{D})$ will contain $f(\text{interior point})$ and be bounded by the imaginary axis
+        \[
+        f(0) = \frac{0 + i}{0 - i} = -1
+        \]
+        so $f(\mathbb{D}) = \mathbb{H}_L$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Is there a \mobius transformation which maps the sides of the triangle with vertices at $-1, i$ and $1$ to the sides of an equilateral triangle
+    (all sides of equal length)?
+    Either give an example of such a \mobius transformation,
+    or explain why it is not possible.
+
+    \begin{solution}
+        \mobius transformations are conformal and as such angles between curves must be preserved.
+        This is not the case here.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Find the \mobius transformation taking the ordered set of points $\{-i, 1, i\}$ to the ordered set of points $\{-i, 0, i\}$.
+    What is the image of the unit disc under this map?
+    Which point is sent to $\infty$?
+
+    \begin{solution}
+        We will use the cross-ratio.
+        \[
+        (z_0, z_1; z_2, z_3) = \frac{z_0 - z_2}{z_0 - z_3}\cdot \frac{z_1 - z_3}{z_1 - z_2}.
+        \]
+        If one of the points is $\infty$ we remove the affected parts or write $1$ instead.
+        \[
+        (z_0, \infty; z_2, z_3) = \frac{z_0 - z_2}{z_0 - z_3}\cdot \frac{1}{1}.
+        \]
+        Cross ratio is invariant under \mobius so
+        \begin{align*}
+            (z, -i; -1, i) = (M(z), -i; 0, i) &\iff \frac{z - (-1)}{z - i}\cdot\frac{-i - i}{-i - (-1)} = \frac{M(z) - 0}{M(z) - i}\cdot \frac{-i - i}{-i - 0} \\
+            &\iff (z + 1)(-i)(M(z) - i) = (z - i)M(z)(1 - i) \\
+            &\iff M(z)(-iz - i) - (z + 1) = M(z)(z - iz - i - 1) \\
+            &\iff M(z)(-iz - i - z + iz + i + 1) = z +  1 \\
+            &\iff M(z) = \frac{z + 1}{1 - z}.
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Find a \mobius transformation $f$ from the upper half-plane $\mathbb{H}$ onto the unit disk $\mathbb{D}$ that takes $1 + i$ to $0$ and
+    (when considered as a map $\hat{\C} \to \hat{\C}$)
+    also takes $1$ to $-i$.
+    Give an explicit formula for $f(z)$.
+
+    \begin{solution}
+        Recall that the Cayley map $M_C(z)$ takes $\mathbb{H}$ to $\mathbb{D}$.
+        \[
+        f : \mathbb{H} \to \mathbb{D}
+        \]
+        so $(M_C) ^ {-1} \circ f : \mathbb{H} \to \mathbb{H}$ by $H2H$ theorem $\exists S \in \mathrm{SL}_2(\R)$ s.t. $(M_C) ^ {-1} \circ f = M_S$ so $f = M_C \circ M_S = M_{CS}$.
+        \[
+        S = \begin{pmatrix}
+            a & b \\ c & d
+        \end{pmatrix}
+        \]
+        $a, b, c, d \in \R$,
+        $ad - bc = 1$.
+        \[
+        C = \begin{pmatrix}
+            1 & -i \\ 1 & i
+        \end{pmatrix}.
+        \]
+        \[
+        CS = \begin{pmatrix}
+            a - ic & b - id \\
+            a + ic & b + id
+        \end{pmatrix}
+        \]
+        i.e.
+        \[
+        f(z) = \frac{(a - ic)z + (b - id)}{(a + ic)z + (b + id)}
+        \]
+        $a, b, c, d \in \R$,
+        $ad - bc = 1$.
+        Plug in the points and find appropriate parameters.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Does there exist a biholomorphic map taking the closed upper half of the unit disc onto the closed unit disc;
+    i.e. from $\{z \in \C\,:\,|z| \leq 1,\ \Im{z} \geq 0\}$ onto $\{w \in \C\,:\,|w| \leq 1\}$?
+    Either find an example of such a map or show that none exists.
+
+    \begin{solution}
+        Biholomorphic implies conformal cannot have this.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Consider the region $P \subset \C$ defined by
+    \[
+    P = \left\{z \in \mathbb{D}\,:\,-\frac{3\pi}{4} < \Arg{z} < \frac{3\pi}{4}\right\}.
+    \]
+    \begin{enumerate}[label = (\alph*)]
+        \item Draw $P$.
+
+        \item Find a biholomorphic map from $P$ onto the upper half-plane $\mathbb{H}$.
+        
+        \item Find a biholomorphic map from $P$ onto the lower half-plane $\mathbb{H}_{-} \coloneqq \{w \in \C\,:\,\Im(z) < 0\}$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\alph*)]
+            \item Looks like a Pacman from the $-$ve imaginary axis to the $+$ve imaginary axis on the left hand side of the origin.
+
+            \item Open to semicircle on the y-axis using $z ^ {2 / 3}$,
+            branch on $\C \setminus \R_{\leq 0}$.
+
+            \item Rotation by $e ^ {-\pi / 2}z$ then $M_C ^ {-1}$ then $z ^ 2$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
 
 
 \end{document}
