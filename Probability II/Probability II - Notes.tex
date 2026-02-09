@@ -1601,11 +1601,6 @@ We can also obtain the following SLLN:
     \end{proof}
 \end{lemma}
 
-
-
-
-
-
 \subsection{Relations between different modes of convergence}
 We know the following relations from previous verification
 \begin{align*}
@@ -1617,14 +1612,301 @@ We know the following relations from previous verification
     X_n &\overset{\text{a.s.}}{\to} X &\centernot\implies && X_n &\overset{L ^ r}{\to} X.
 \end{align*}
 
+\newpage
 
+\section{Elements of integration}
 
+\begin{theorem}[Monotone Convergence Theorem
+(MON)]
+    Let random variables $X_n \geq 0$ be such that $X_n \to X ^ {+}$ as $n \to \infty$.
+    For each $\omega \in \Omega$ the real sequence $X_n(\omega)$ is non-decreasing and converges to $X(\omega)$ as $n \to \infty$.
+    Then $\E(X_n) \to \E(X) ^ {+} \leq \infty$ as $n \to \infty$.
+\end{theorem}
 
+\begin{theorem}[Bounded Convergence Theorem
+(BDD)]
+    Let $X$ and $(X_n)_{n \geq 1}$,
+    and a finite constant $M \geq 0$ be such that $|X_n(\omega)| \leq M$ for all $\omega \in \Omega$ and $n \geq 1$.
+    If $X_n(\omega) \to X(\omega)$ for each $\omega \in \Omega$,
+    then $\E(X_n) \to \E(X)$ as $n \to \infty$.
+\end{theorem}
 
+\begin{theorem}[Dominated Convergence Theorem
+(DOM)]
+    Let random variables $X, Y$,
+    and $(X_n)_{n \geq 1}$ be such that for all $\omega \in \Omega$
+    \[
+    X_n(\omega) \overset{a.s}{\to} X(\omega)\text{ and } |X_n(\omega)| \leq Y(\omega), \forall n \geq 1.
+    \]
+    If $\E(Y) < \infty$,
+    then $\E(X_n) \to \E(X)$ as $n \to \infty$.
 
+    \begin{proof}
+        Know $X_n \to X$ almost surely and $|X_n| \leq Y$ and $\E(Y) < \infty$.
+        \[
+        \lim_{n \to \infty}|X_n| = |X| \leq Y.
+        \]
+        So $|X_n| \leq Y$ and $|X| \leq Y$.
+        Take $\varepsilon > 0$.
+        Want $|\E(X_n) - \E(X)| \leq \varepsilon$ for all large $n$.
+        Define two events.
+        \[
+        A = \{|X_n - X| \leq \varepsilon / 3\}
+        \]
+        \[
+        B = \{|X_n - X| > \varepsilon / 3\}
+        \]
+        $A$ and $B$ are disjoint and exhaustive.
+        \begin{align*}
+            |\E(X_n) - \E(X)| &\leq \E(|X_n - X|) \\
+            &= \E(|X_n - X|\mathbbm{1}_{A}) + \E(|X_n - X|\mathbbm{1}_{B})
+        \end{align*}
+        \[
+        |X_n - X|\mathbbm{1}_{A} \leq \varepsilon / 3 + \mathbbm{1}_A
+        \]
+        \[
+        \E(|X_n - X|\mathbbm{1}_{A}) \leq \varepsilon / 3 \cdot \P(A) \leq \frac{\varepsilon}{3}
+        \]
+        so $\E(|X_n - X|\mathbbm{1}_{A}) \leq \varepsilon / 3$.
+        \[
+        |X_n - X|\mathbbm{1}_{B} \leq (|X_n| + |X|)\mathbbm{1}_{B} \leq 2Y\mathbbm{1}_{B}
+        \]
+        \[
+        \E(|X_n - X|\mathbbm{1}_{B}) \leq 2\E(Y\mathbbm{1}_{B}).
+        \]
+        $\P(B) = \P(|X_n - X| > \varepsilon / 3) \to 0$ as $n \to \infty$ since $X_n \to X$ almost surely implies $X_n \to X$ in probability too.
 
+        Let $X_n = \P(B) \to 0$ as $n \to \infty$.
+        For $\delta > 0$.
+        $M_{\delta} = \sup\{E(Y\mathbbm{1}_{E})\text{ $E$ is any event of $\P(E) \leq \delta$}\}$.
+        In particular $\E(Y\mathbbm{1}_{B}) \leq M_{\delta_n} \to 0$ as $n \to \infty$.
+        $\forall n$ large $M_{\delta_n} \leq \varepsilon / 3$.
+        Then
+        \[
+        \E(|X_n - X|\mathbbm{1}_{B}) \leq 2\cdot\frac{\varepsilon}{3}
+        \]
+        then
+        \[
+        \E(|X_n - X|\mathbbm{1}_{A}) + \E(|X_n - X|\mathbbm{1}_{B}) = \frac{\varepsilon}{3} + 2\cdot\frac{\varepsilon}{3} = \varepsilon
+        \]
+        $\forall n$ large.
+    \end{proof}
+\end{theorem}
 
+\begin{lemma}\footnote{Follows from monotone convergence theorem.}
+    Since $\E(Y) < \infty$,
+    \[
+    \lim_{\delta \to 0}M_{\delta} = 0.
+    \]
+\end{lemma}
 
+\begin{example}
+    Let $X$ be a random variable
+    \[
+    X_n = \frac{n\sin\left(\frac{X}{n}\right)}{X(1 + X ^ 2)},\quad n \geq 1.
+    \]
+    Find $\lim_{n \to \infty}\E(X_n)$.
+
+    \begin{solution}
+        \[
+        |\sin{y}| \leq 1,\qquad |\sin{y}| \leq |y|
+        \]
+        \[
+        \lim_{y \to 0}\frac{\sin{y}}{y} = 1.
+        \]
+        \[
+        X_n = \frac{\sin\left(\frac{X}{n}\right)}{\frac{X}{n}(1 + X ^ 2)} = \frac{\sin\left(\frac{X}{n}\right)}{\frac{X}{n}}\cdot\frac{1}{(1 + X ^ 2)}
+        \]
+        \[
+        |X_n| = \left|\frac{\sin\left(\frac{X}{n}\right)}{\frac{X}{n}}\right| \cdot \left|\frac{1}{1 + X ^ 2}\right| \leq 1 \cdot \frac{1}{1 + X ^ 2} \leq 1.
+        \]
+        \[
+        \lim_{n \to \infty}X_n = \lim_{n \to \infty}\left(\frac{\sin\left(\frac{X}{n}\right)}{\frac{X}{n}}\right)\cdot\frac{1}{(1 + X ^ 2)} = 1 \cdot \frac{1}{1 + X ^ 2}
+        \]
+        so $X_n \to \frac{1}{1 + X ^ 2}$ almost surely and $|X_n| \leq 1$.
+
+        By DOM
+        \[
+        \lim_{n \to \infty}\E(X_n) = \E\left(\frac{1}{1 + X ^ 2}\right).
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Improving on Markov's inequality.
+    Suppose random variable $X \geq 0$.
+    Then for $a \geq 0$,
+    \[
+    \P(X \geq a) \leq \frac{\E(X)}{a}.
+    \]
+    It also holds that
+    \[
+    \P(X \geq a) \leq \frac{\E(X\mathbbm{1}_{\{X \geq a\}})}{a}
+    \]
+    and assume $\E(X) < \infty$.
+    Claim that the second is better than the first equation as $\lim_{a \to \infty}\E(X\mathbbm{1}_{\{X \geq a\}}) = 0$.
+
+    \begin{solution}
+        $X\mathbbm{1}_{\{X \geq a\}} \geq a \mathbbm{1}_{\{X \geq a\}}$.
+        \[
+        \E(X\mathbbm{1}_{\{X \geq a\}}) \geq \E(a\mathbbm{1}_{\{X \geq a\}}) = a\P(X \geq a).
+        \]
+
+        Let $X_a = X\mathbbm{1}_{\{X \geq a\}}$ for $a > 0$.
+        \[
+        |X_a| = |X||\mathbbm{1}_{\{X \geq a\}}| = X\cdot\mathbbm{1}_{\{X \geq a\}} \leq X,
+        \]
+        $\E(X) < \infty$.
+        \[
+        \lim_{a \to \infty}X_a(\omega) = \lim_{a \to \infty}X(\omega)\mathbbm{1}_{\{X(\omega) \geq a\}} = 0,\quad X_a \overset{a.s}{\to} 0
+        \]
+        but $\mathbbm{1}_{\{a > X(\omega)\}} = 0$.
+        By DOM
+        \[
+        \lim_{a \to \infty}\E(X_a) = 0
+        \]
+        which is equivalent to $\E(X\cdot\mathbbm{1}_{\{X \geq a\}} \to 0$ as $a \to \infty$.
+    \end{solution}
+\end{example}
+
+\newpage
+
+\section{Generating functions}
+
+Useful to study random variables that take integer values i.e. values in the set $\N_0$.
+
+\begin{definition}
+    Let $X$ be a random variable taking values in the set $\N_0$.
+    The probability generating function
+    (pgf)
+    of $X$ is
+    \[
+    G_{X}(s) = \E(s ^ X) = \sum_{k = 0}^{\infty}\P(X = k)s ^ k.
+    \]
+\end{definition}
+The series converges for $|s| \leq 1$
+\[
+|G_X(s)| \leq \sum_{k = 0}^{\infty}\P(X = k)|s| ^ k \leq \sum_{k = 0}^{\infty}\P(X = k) = 1.
+\]
+\begin{example}\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item $X \equiv 0$.
+        \[
+        G_X(s) = \E(s ^ 0) = \E(1) = 1.
+        \]
+
+        \item Suppose $X \sim \mathrm{Ber}(p)$,
+        $\P(X = 0) = 1 - p$,
+        $\P(X = 1) = p$,
+        \[
+        G_{X}(s) = \E(s ^ X) = \P(X = 0)s ^ 0 + \P(X = 1)s ^ 1 = 1 - p + ps = 1 + p(s - 1).
+        \]
+
+        \item Suppose $X \sim \Bin(n, p)$,
+        $\P(X = k) = \binom{n}{k}p ^ k(1 - p) ^ {n - k}$,
+        $0 \leq k \leq n$.
+        \[
+        G_X(s) = \sum_{k = 0}^{n}\P(X = k)s ^ k = \sum_{k = 0}^{n}\binom{n}{k}p ^ k(1 - p) ^ {n - k}s ^ k = \sum_{k = 0}^{n}\binom{n}{k}(1 - p) ^ {n - k}(ps) ^ k
+        \]
+        using the binomial theorem
+        \[
+        G_X(s) = (1 - p + ps) ^ n = (1 + p(s - 1)) ^ n.
+        \]
+
+        \item $X \sim \Po(\lambda)$ $\P(X = k) = e ^ {-\lambda}\frac{\lambda ^ k}{k!}$,
+        $k \geq 0$.
+        \[
+        G_X(s) = \sum_{k = 0}^{\infty}e ^ {-\lambda}\frac{\lambda ^ k}{k!}s ^ k = e ^ {-\lambda}\sum_{k = 0}^{\infty}\frac{(\lambda s) ^ k}{k!} = e ^ {-\lambda}e ^ {\lambda s} = e ^ {\lambda(s - 1)}.
+        \]
+
+        \item $X \sim \Geo(p)$
+        \[
+        \P(X = k) = (1 - p)p ^ k.
+        \]
+        \[
+        G_X(s) = \sum_{k = 0}^{\infty}(1 - p)p ^ ks ^ k = (1 - p)\sum_{k = 0}^{\infty}(ps) ^ k = \frac{1 - p}{1 - ps}
+        \]
+        with $|ps| < 1$ or $|s| < 1 / p$.
+    \end{enumerate}
+\end{example}
+
+\subsection{Relation between pgf and mgf}
+$X \in \{0, 1, 2, \dotsc\}$,
+\[
+G_X(s) = \E(s ^ x) = \sum_{k = 0}^{\infty}\P(X = k)s ^ k
+\]
+\[
+M_X(t) = \E(e ^ {tX}) = \sum_{k = 0}^{\infty}\E(X ^ k)\frac{t ^ k}{k!}
+\]
+\[
+M_X(t) = G_X(e ^ t).
+\]
+\[
+G_X(s) = M_X(\log{s}).
+\]
+
+\subsection{Generating functions and independence}
+Suppose $X$ and $Y$ are independent.
+Then $G_{X + Y}(s) = G_X(s)G_{Y}(s)$
+\[
+G_{X + Y}(s) = \E(s ^ {X + Y}) = \E(s ^ Xs ^ Y) = \E(s ^ X)\E(s ^ Y) = G_X(s)G_Y(s).
+\]
+
+\begin{theorem}[Uniqueness theorem]
+    Suppose $G_X(s) = G_Y(s)$.
+    Then $X$ has the same distribution as $Y$ i.e.
+    \[
+    \P(X = k) = \P(Y = k)\qquad\forall k \geq 0.
+    \]
+
+    \begin{proof}
+        \[
+        G_X(s) = \sum_{k = 0}^{\infty}\P(X = k)s ^ k = \sum_{k = 0}^{\infty}\P(Y = k)s ^ k = G_Y(s)
+        \]
+        $\P(X = k) = \frac{G_{X}^{(k)}(0)}{k!}$.
+        So if $G_X(s) = G_Y(s)$ then
+        \[
+        \frac{d ^ k}{ds ^ k}G_X(s)\bigr|_{s = 0} = \frac{d ^ k}{ds ^ k}G_Y(s)\bigr|_{s = 0}.
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Let $X_1, \dotsc, X_n$ be iid Bernoulli random variables.
+    \[
+    G_{X_k}(s) = 1 + (s - 1)p.
+    \]
+    Additionally,
+    \[
+    X = X_1 + X_2 + \dotsi + X_n \sim \Bin(n, p).
+    \]
+    
+    \begin{solution}
+        \[
+        G_X(s) = G_{X_1 + X_2 + \dotsi X_n}(s) = \prod_{k = 1}^{n}G_{X_k}(s) = (1 + (s - 1)p) ^ n.
+        \]
+        Recall $G_{\Bin(n, p)}(s) = (1 + (s - 1)p) ^ n$.
+        So $X \sim \Bin(n, p)$
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Let $X \sim \Po(\lambda_1)$,
+    $Y \sim \Po(\lambda_2)$.
+    Assume $X, Y$ independent.
+    Then $X + Y \sim \Po(\lambda_1 + \lambda_2)$.
+
+    \begin{solution}
+        \[
+        G_{X}(s) = e ^ {\lambda_1(s - 1)},\qquad  G_{Y}(s) = e ^ {\lambda_2(s - 1)}
+        \]
+        \[
+        G_{X + Y}(s) = G_X(s)G_Y(s) = e ^ {\lambda_1(s - 1)}e ^ {\lambda_2(s - 1)} = e ^ {(\lambda_1 + \lambda_2)(s - 1)}.
+        \]
+        $G_{\Po(\lambda_1 + \lambda_2)}(s) = e ^ {(\lambda_1 + \lambda_2)(s - 1)}$.
+        So $X + Y \sim \Po(\lambda_1 + \lambda_2)$.
+    \end{solution}
+\end{example}
 
 
 
