@@ -2630,18 +2630,427 @@ The term circline is used to refer to an object that is either a circle or line.
     \end{proof}
 \end{proposition}
 
+\begin{example}
+    Find a biholomorphic map that takes $\C \setminus \R_{\leq 0}$ to $\mathbb{D}$.
 
+    \begin{solution}
+        First the principal $z ^ {1 / 2}$.
+        Rotate to $e ^ {i\pi / 2}z = iz$.
+        Then $M_C$ the Cayley map to get the unit disc.
 
+        Composing $z ^ {1 / 2}$,
+        $e ^ {i\pi / 2}z$ and $M_C$ to get the unit disc.
 
+        \[
+        f(z) = M_C(iz ^ {1 / 2}) = \frac{iz ^ {1 / 2} - i}{iz ^ {1 / 2} + i} = \frac{z ^ {1 / 2} - 1}{z ^ {1 / 2} + 1}.
+        \]
+    \end{solution}
+\end{example}
 
+\newpage
 
+\section{Notions of Convergence in Complex Analysis and power series}
+We are moving towards a fundamental result in Complex Analysis:
+any holomorphic function in a domain can be written as a power series or extended power series.
 
+To do this we need notions of convergence for sequences and series of functions.
 
+\subsection{Pointwise and uniform convergence}
 
+\begin{definition}[Pointwise convergence]
+    Let $D \subseteq \C$ be a given set and let $\{f_n\}_{n \in \N}: D \to \C$ be a sequence of functions.
+    We say that $\{f_n\}_{n \in \N}$ converges pointwise on $D$ to $f : D \to \C$ if for any $z \in D$ the limit function
+    \[
+    f(z) \coloneqq \lim_{n \to \infty}f_n(z)
+    \]
+    exists.
 
+    For any $z \in D$ and any $\varepsilon > 0$,
+    there exists $N(\varepsilon, z) \in \N$ such that if $n > N(\varepsilon, z)$
+    \[
+    |f_n(z) - f(z)| < \varepsilon.
+    \]
 
+    We say the series $\sum_{n = 1}^{\infty}f_n(z)$ converges pointwise on $D$ to $S : D \to \C$ if the sequence of functions $\{S_N\}_{N \in \N} : D \to \C$ defined by
+    \[
+    S_N(z) = \sum_{n = 1}^{N}f_n(z)
+    \]
+    converges pointwise to the function $S(z)$.
+\end{definition}
 
+\begin{example}
+    $f_n(z) = z ^ n$ we have
+    \[
+    f_n(z) \underset{n \to \infty}{\to} \begin{cases}
+        0 & |z| < 1, \\
+        \infty & |z| > 1, \\
+        1 & |z| = 1, \\
+        \text{no limit} & z \neq 1, |z| = 1.
+    \end{cases}
+    \]
 
+    $|f_n(z)| = |z ^ n| \to 0$ as $n \to \infty$ if $|z| < 1$ which implies
+    \[
+    |f_n(z) - 0| \to 0\text{ if } |z| < 1
+    \]
+    i.e. $f_n(z) \to 0$ as $n \to \infty$.
+    Note:
+    $|f_n(z) - 0| = |z| ^ k < \varepsilon \iff n > \frac{\log(\varepsilon)}{\log(|z|)}$
+    when $|z| < 1$,
+    $\varepsilon < 1$.
+    $|f_n(z)| = |z| ^ n \to \infty$ as $n \to \infty$ if $|z| > 1$ i.e. $f_n(z) \to \infty$ as $n \to \infty$.
+    $f_n(1) = 1 ^ n = 1 \to 1$ as $n \to \infty$.
+    If $f_n(z) = z ^ n \to \xi$ as $n \to \infty$ then $|z| = 1$ but $z \neq 1$ then $f_{n + 1}(z) \to \xi$ as $n \to \infty$.
+
+    $f_n(z)$ was continuous on $\C$ converges on $\mathbb{D} \cup \{1\}$ but the limit is not continuous
+\end{example}
+
+\begin{definition}[Uniform convergence]
+    Let $D \subseteq \C$ be a given set and let $\{f_n\}_{n \in \N} : D \to \C$ be a sequence of functions.
+    We say that $\{f_n\}_{n \in \N}$ converges uniformly to
+    (the limit function)
+    $f : D \to \C$ on $D$ if we have that
+    \[
+    \sup_{z \in D}|f_n(z) - f(z)| \to 0\text{ as } n \to \infty.
+    \]
+    In other words,
+    for any $\varepsilon > 0$ there exists $N(\varepsilon) \in \N$ such that if $n > N(\varepsilon)$
+    \[
+    |f_n(z) - f(z)| < \varepsilon,\qquad \forall z \in D.
+    \]
+
+    We say that the series $\sum_{n = 1}^{\infty}f_n(z)$ converges uniformly to $S : D \to \C$ on $D$ if the sequence of functions $\{S_N\}_{N \in \N} : D \to \C$ defined by
+    \[
+    S_N(z) = \sum_{n = 1}^{N}f_n(z)
+    \]
+    converges uniformly to the function $S(z)$ on $D$.
+\end{definition}
+
+\begin{theorem}[Uniform limits of continuous functions are continuous]
+    Let $\{f_n\}_{n \in \N} : D \to \C$  be a sequence of continuous functions that converges uniformly to $f$ on $D$.
+    Then $f$ is continuous on $D$.
+\end{theorem}
+
+Do we have simple criteria to check uniform convergence?
+
+\begin{lemma}[Criteria for uniform convergence and lack of uniform convergence for sequences]
+    Let $\{f_n\}_{n \in \N} : D \to \C$ be a sequence of functions that converges pointwise to a limit function $f$ on $D$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item If there exists a non-negative sequence of real numbers $\{s_n\}_{n \in \N}$ that converges to zero and $n_0 \in \N$ such that for all $n \geq n_0$
+        \[
+        |f_n(z) - f(z)| \leq s_n,\qquad \forall z \in D,
+        \]
+        then the sequence of functions $\{f_n\}_{n \in \N}$ converges uniformly to $f$ on $D$.
+
+        \item If there exists a non-negative sequence of real numbers $\{s_n\}_{n \in \N}$ that converges to $c > 0$,
+        $n_0 \in \N$,
+        and a sequence $\{z_n\}_{n \in \N} \subset D$ such that for all $n \geq n_0$
+        \[
+        |f_n(z_n) - f(z_n)| \geq s_n
+        \]
+        then the sequence of functions $\{f_n\}_{n \in \N}$ does not converge uniformly to $f$ on $D$.
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = (\roman*)]
+            \item For any $z \in D$
+            \[
+            |f_n(z) - f(z)| \leq s_n
+            \]
+            \[
+            0 \leq \sup_{z \in D}|f_n(z) - f(z)| \leq \sup_{z \in D}(s_n) = s_n \to 0
+            \]
+            as $n \to \infty$.
+            By squeezing lemma
+            \[
+            \sup_{z \in D}|f_n(z) - f(z)| \to 0\text{ as } n \to \infty.
+            \]
+
+            \item We have that
+            \[
+            \sup_{z \in D}|f_n(z) - f(z)| \geq |f_n(z_n) - f(z_0)| \geq s_n
+            \]
+            if $f_n$ converged uniformly to $f$ then
+            \[
+            \sup_{z \in D}|f_n(z) - f(z)| \geq s_n
+            \]
+            then the first goes to $0$ but $s_n \to c > 0$ but this is a contradiction.
+        \end{enumerate}
+    \end{proof}
+\end{lemma}
+
+\begin{remark}\phantom{}
+    \begin{itemize}
+        \item In many cases we have $n_0 = 1$ in the conditions for the lemma above.
+
+        \item Simpler version of second part of lemma is:
+        If $\exists c > 0$ and $\{z_n\}_{n \in \N} \subset D$ such that $\forall n \in \N$
+        \[
+        |f_n(z_n) - f(z_n)| \geq c,
+        \]
+        then the sequence of functions $\{f_n\}_{n \in \N}$ does not converge uniformly to $f$ on $D$.
+    \end{itemize}
+\end{remark}
+
+\begin{example}
+    Show the sequence of functions $f_n(z) = e ^ z + \frac{1}{n}$ converges to $e ^ z$ uniformly on $\C$.
+
+    \begin{solution}
+        $|f_n(z) - f(z)| = \frac{1}{n} = s_n$,
+        $s_n > 0$ $\forall n$,
+        $s_n$ is $z$ independent and $s_n \to 0$ as $n \to \infty$ so by previous theorem the convergence is uniform.
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Show that for any $R > 0$ the sequence of functions $f_n(z) = e ^ z + \frac{z}{n}$ converges to $e ^ z$ uniformly on $B_R(0)$.
+    Does it converge uniformly on $\C$?
+
+    \begin{solution}
+        \[
+        |f_n(z) - f(z)| = \left|\frac{z}{n}\right| = \frac{|z|}{n}.
+        \]
+        If $z \in B_R(0)$
+        \[
+        |f_n(z) - f(z)| \leq \frac{R}{n} = s_n(R)
+        \]
+        $s_n(R) > 0$,
+        $S_n(R)$ is $z$ independent.
+        $S_n(R) \to 0$ as $n \to \infty$.
+        By our theorem $f_n \to f$ uniformly on $B_R(0)$.
+
+        Note that $z_n = n$ satisfies
+        \[
+        |f_n(z_n) - f(z_n)| = \left|\frac{z_n}{n}\right| = 1\quad \forall n
+        \]
+        $\{z_n\} \subset \C$ so no uniform convergence.
+    \end{solution}
+\end{example}
+
+\begin{theorem}[Criteria for uniform convergence of a series -
+Weierstrass $M$-test]
+    Let $\{f_n\}_{n \in \N} : D \to \C$ be a given sequence of functions.
+    Assume that there exists a sequence of non-negative real numbers $\{M_n\}_{n \in \N}$ and $n_0 \in \N$ such that for all $n \geq n_0$
+    \[
+    |f_n(z)| \leq M_n,\quad \forall z \in D,
+    \]
+    and
+    \[
+    \sum_{n = n_0}^{\infty}M_n < \infty.
+    \]
+    Then $S_N(z) = \sum_{n = 1}^{N}f_n(z)$ converges uniformly on $D$ to some limit function $S : D \to \C$ which we denote by
+    \[
+    S(z) = \sum_{n = 1}^{\infty}f_n(z).
+    \]
+    In particular,
+    if all functions $f_n(z)$ are continuous on $D$ then $S(z)$ is also continuous on $D$.
+\end{theorem}
+
+We also have
+\begin{theorem}[Criteria for lack of uniform convergence of a series]
+    Let $\{f_n\}_{n \in \N} : D \to \C$ be a given sequence of functions.
+    If $\{f_n\}_{n \in \N}$ doesn't converge uniformly to $f(z) = 0$ on $D$ then the sequence $S_N(z) = \sum_{n = 1}^{N}f_n(z)$ does not converge uniformly on $D$.
+
+    \begin{proof}
+        \textit{Sketch}.
+        If $S_n(z)$ converges uniformly to $S(z)$ then $f_n(z) = S_n(z) - S_{n - 1}(z)$ converges uniformly to $S(z) - S(z) = 0$.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Show that
+    \[
+    \sum_{n = 1}^{\infty}\frac{|2z| ^ {3n}}{3 ^ {2n}n ^ 2}
+    \]
+    converges uniformly to a continuous function on $\mathbb{D}$.
+
+    \begin{solution}
+        $f_n(z) = \frac{(2z) ^ {3n}}{3 3^ {2n}n ^ 2}$ is continuous on $\mathbb{D}$,
+        \[
+        |f_n(z)| = \frac{2 ^ {3n}|z| ^ {3n}}{3 ^ {2n}n ^ 2} \leq \frac{2 ^ {3n}}{3 ^ {2n}n ^ 2}\quad \forall z \in \mathbb{D}
+        \]
+        $M_n = \frac{2 ^ {3n}}{3 ^ {2n}n ^ 2} > 0$,
+        $M_n$ is $z$ independent.
+        \[
+        M_n = \left(\frac{8}{9}\right) ^ n\frac{1}{n ^ 2} \leq \left(\frac{8}{9}\right) ^ n\quad \forall n
+        \]
+        as $\sum_{n = 1}^{\infty}\left(\frac{8}{9}\right) ^ n < \infty$,
+        $\sum_{n = 1}^{\infty}M_n < \infty$ by Weierstrass $M$-test the series converges uniformly.
+        As $f_n$ was continuous for all $n$ so is the series limit.
+    \end{solution}
+\end{example}
+
+Uniform convergence is very hard to get.
+The main problem with it is that it automatically includes the boundary of $\mathbb{D}$.
+
+Consider $f_n(z) = z ^ n$ on $\mathbb{D}$
+$f_n(z) \to 0$ as $n \to \infty$ on $\mathbb{D}$.
+$f_n(z) \centernot\to 0$ uniformly.
+This is since we can approach $z = 1$ by a bad sequence $\{z_n\}$.
+Indeed,
+let $z_n = \left(\frac{1}{2}\right) ^ {1 / n}$.
+\[
+|f_n(z_n) - f(z_n)| = \left(\left(\frac{1}{2}\right) ^ {1 / n}\right) ^ n = \frac{1}{2}\quad \forall n.
+\]
+By our theorem,
+$f_n \centernot\to 0$ uniformly.
+
+\subsection{Locally uniform convergence}
+
+\begin{definition}[Locally uniform convergence]
+    Let $D \subseteq \C$ be a given set and let $\{f_n\}_{n \in \N} : D \to \C$ be a sequence of functions.
+    We say $\{f_n\}_{n \in \N}$ converges locally uniformly to
+    (the limit function)
+    $f$ on $D$,
+    if for every $z_0 \in D$ there exists an open set $U_{z_0} \subset \C$
+    (that can depend on $z_0$)
+    which contains $z_0$ such that $\{f_n\}_{n \in \N}$ converges uniformly to $f$ on $U_{z_0} \cap D$.
+\end{definition}
+
+\begin{remark}
+    We need to deal with the intersection of $U_{z_0}$ with out set $D$ to make sure we take into account all the different type of points in $D$
+    (interior and boundary).
+\end{remark}
+
+\begin{example}
+    Show that the sequence of functions $f_n(z) = z ^ n$ converges locally uniformly to $f(z) = 0$ on $\mathbb{D}$.
+
+    \begin{solution}
+        We claim that it is enough to show that $f_n(z)$ converges to $f(z)$ uniformly on $B_r(0)$ where $0 < r < 1$.
+        $B_r(0)$ is a family of open sets in $\mathbb{D}$ s.t. any $z_0 \in \mathbb{D}$ belongs to one of these sets.
+
+        Indeed,
+        given $z_0 \in \mathbb{D}$,
+        $z_0 \in B_{\frac{|z_0| + 1}{2}}(0) \subset \mathbb{D}$.
+        On $B_r(0)$
+        \[
+        |f_n(z) - f(z)| = |z| ^ n \leq r ^ n = s_n
+        \]
+        $s_n > 0$,
+        $s_n$ independent of $z$,
+        $s_n \to 0$ as $n \to \infty$.
+        So by our theorem $f_n(z)$ converges to $f(z)$ uniformly on $B_r(0)$,
+        $0 < r < 1$.
+    \end{solution}
+\end{example}
+
+\begin{theorem}
+    Let $\{f_n\}_{n \in \N} : D \to \C$ be a sequence of continuous functions that converges locally uniformly to a limit function $f$ on $D$.
+    Then $f : D \to \C$ is continuous on $D$.
+
+    \begin{proof}
+        Let $z_0 \in D$.
+        There exists open $U_{z_0}$ s.t. $f_n$ converges to $f$ uniformly on $D \cap U_{z_0}$.
+        Since $\{f_n\}$ continuous on $D \cap U_{z_0}$ so is $f$.
+        Thus implies that $f$ is continuous at $z_0$.
+        $z_0$ was arbitrary so $f$ is continuous on $D$.
+    \end{proof}
+\end{theorem}
+
+\begin{lemma}[Criteria for local uniform convergence and lack of local uniform convergence for sequences]
+    Let $\{f_n\}_{n \in \N} : D \to \C$ be a sequence of functions that converges pointwise to a limit function $f$ on $D$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item If for any $z_0 \in D$ there exist an open set $U_{z_0} \subset D$ which contains $z_0$,
+        a non-negative sequence of real numbers $\{s_n(U_{z_0})\}_{n \in \N}$ that converges to zero and $n_0(U_{z_0}) \in \N$ that may depend on $U_{z_0}$ such that for all $n \geq n_0(U_{z_0})$
+        \[
+        |f_n(z) - f(z)| \leq s_n(U_{z_0}),\qquad \forall z \in U_{z_0} \cap D,
+        \]
+        then the sequence of functions $\{f_n\}_{n \in \N}$ converges locally uniformly to $f$ on $D$.
+
+        \item If there exists a non-negative sequence of real numbers $\{s_n\}_{n \in \N}$ that converges to $c > 0$,
+        $n_0 \in \N$,
+        and a sequence $\{z_n\}_{n \in \N} \subset D$ that converges to $z_0 \in D ^ 0$ such that for all $n \geq n_0$
+        \[
+        |f_n(z_n) - f(z_n)| \geq s_n
+        \]
+        then the sequence of functions $\{f_n\}_{n \in \N}$ does not converge locally uniformly to $f$ on $D$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{example}
+    Show that the series $\sum_{n = 1}^{\infty}\frac{(z + 1 / z) ^ n}{n!}$ converges locally uniformly to a continuous function on $\C ^ {*}$.
+
+    \begin{solution}
+        $f_n(z) = \frac{(z + 1 / z) ^ n}{n!}$ is continuous on $\C ^ {*}$ for any $n \in \N$.
+        If we show locally uniform convergence,
+        then the limit will be continuous by a previous theorem.
+        \[
+        |f_n(z)| = \frac{|z + 1 / z| ^ n}{n!} \leq \frac{\left(|z| + \frac{1}{|z|}\right) ^ n}{n!}.
+        \]
+        Consider the open sets
+        \[
+        A_{r, R} = \{z \in \C : r < |z| < R\}
+        \]
+        on $A_{r, R}$
+        \[
+        |f_n(z)| \leq \frac{(R + 1 / r) ^ n}{n!} = M_n(r, R).
+        \]
+        $M_n(r, R) > 0$,
+        independent in $z$ and
+        \[
+        \sum_{n = 1}^{\infty}M_n(r, R) \leq \sum_{n = 0}^{\infty}\frac{(R + 1 / r) ^ n}{n!} = e ^ {R + 1 / r} < \infty.
+        \]
+        By Weierstrass $M$-test $\sum_{n = 1}^{\infty}\frac{(z + 1 / z) ^ n}{n!}$ converges uniformly in $A_{r, R}$ for any $0 < r < R$.
+
+        We will show that any $z_0 \in \C ^ {*}$ belongs to some $A_{r, R}$.
+        Indeed $z_0 \in A_{|z_0| / 2}$,
+        $2|z_0|$.
+    \end{solution}
+\end{example}
+
+\subsection{Complex power series}
+\begin{definition}
+    A
+    (complex)
+    power series is an expression of the form
+    \[
+    S(z) \coloneqq \sum_{n = 0}^{\infty}a_n(z - c) ^ n
+    \]
+    where $\{a_n\}_{n \in \N}$ is a sequence of complex numbers and $c \in \C$.
+\end{definition}
+
+\begin{theorem}
+    For any sequence of complex numbers $\{a_n\}_{n \in \N}$ there exists $R \in \R_{\geq 0} \cup \{\infty\}$ such that
+    \begin{itemize}
+        \item If $R = 0$ then $S(z)$ converges only for $z = c$.
+        In this case $S(c) = a_0$.
+
+        \item If $R > 0$ then $S(z)$ converges absolutely for all $|z - c| < R$.
+        When $R = \infty$ this condition holds for any $z$.
+
+        \item If $0 < R < \infty$ then $S(z)$ diverges for $|z - c| > R$.
+    \end{itemize}
+    $R$ is called the radius of convergence of the power series and $B_R(c)$ is called the disc of convergence.
+\end{theorem}
+
+Radius of convergence can be found using
+\[
+R = \frac{1}{\limsup_{n \to \infty}\sqrt[n]{|a_n|}}.
+\]
+The following holds when the limit exist:
+\[
+R = \lim_{n \to \infty}\frac{|a_n|}{|a_{n + 1}|}.
+\]
+
+\begin{theorem}
+    A power series $\sum_{n = 0}^{\infty}a_n(z - c) ^ n$ with radius of convergence $0 < R \leq \infty$ converges uniformly on any ball $B_r(c)$ with $0 < r < R$.
+    This implies that the power series is locally uniformly convergent on its disk of convergence.
+\end{theorem}
+
+\begin{example}
+    Show that the power series $\sum_{n = 0}^{\infty}\frac{z ^ n}{n!}$ converges locally uniformly on $\C$.
+
+    \begin{solution}
+        Using the above theorem it is enough to show $R = \infty$.
+        $a_n = \frac{1}{n!}$,
+        \[
+        \left|\frac{a_n}{a_{n + 1}}\right| = n + 1 \to \infty\text{ as } n \to \infty
+        \]
+        so $R = \infty$.
+    \end{solution}
+\end{example}
 
 
 \end{document}
