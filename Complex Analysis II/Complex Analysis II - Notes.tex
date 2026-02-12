@@ -3052,5 +3052,383 @@ R = \lim_{n \to \infty}\frac{|a_n|}{|a_{n + 1}|}.
     \end{solution}
 \end{example}
 
+\newpage
+
+\section{Complex Integration}
+
+\subsection{Definition of contour integrals}
+Now that we measured complex differentiability we ask ourselves if we can define a notation of integration that would lead to something like the FTC.
+An immediate issue is that the FTC speaks about $\int_{a}^{x}f(t)\,dt$ which connects $a$ and $x$ via the interval $[a, x]$ which is the only option on $\R$.
+On $\C$,
+however there are infinitely many ways to connect $z_0$ and $z$.
+
+\begin{definition}
+    Consider a continuous function $f : [a, b] \to \C$ where $[a, b] \subset \R$.
+    We define
+    \[
+    \int_{a}^{b}f(t)\,dt = \int_{a}^{b}(\Re(f(t)) + i\Im(f(t)))\,dt \coloneqq \int_{a}^{b}\Re(f(t))\,dt + i\int_{a}^{b}\Im(f(t))\,dt.
+    \]
+\end{definition}
+By definition
+\begin{align*}
+    \Re\left(\int_{a}^{b}f(t)\,dt\right) &= \int_{a}^{b}\Re(f(t))\,dt \\
+    \Im\left(\int_{a}^{b}f(t)\,dt\right) &= \int_{a}^{b}\Im(f(t))\,dt.
+\end{align*}
+
+\begin{example}
+    Find $\int_{0}^{1}f(t)\,dt$ where $f(t) = t + it$.
+
+    \begin{solution}
+        By definition
+        \begin{align*}
+            \int_{0}^{1}f(t)\,dt &= \int_{0}^{1}(t + it)\,dt \\
+            &= \int_{0}^{1}t\,dt + i\int_{0}^{1}t\,dt \\
+            &= \left[\frac{t ^ 2}{2} + i\frac{t ^ 2}{2}\right]_{0}^{1} \\
+            &= \frac{1}{2}(1 + i).
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\begin{lemma}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Let $f_1$ and $f_2$ be continuous functions from $[a, b]$ to $\C$.
+        Then
+        \[
+        \int_{a}^{b}(f_1(t) + f_2(t))\,dt = \int_{a}^{b}f_1(t)\,dt + \int_{a}^{b}f_2(t)\,dt.
+        \]
+    
+        \item For any complex number $c \in \C$,
+        and continuous function $f : [a, b] \to \C$
+        \[
+        \int_{a}^{b}cf(t)\,dt = c\int_{a}^{b}f(t)\,dt.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        For part
+        (ii)
+        $c = \alpha + i\beta$,
+        $\alpha, \beta \in \R$
+        \[
+        f(t) = u(t) + iv(t).
+        \]
+        \[
+        cf(t) = (\alpha u(t) - \beta v(t)) + i(\alpha v(t) + \beta u(t)).
+        \]
+        By definition
+        \begin{align*}
+            \int_{a}^{b}cf(t)\,dt &= \int_{a}^{b}(\alpha u(t) - \beta v(t))\,dt + i\int_{a}^{b}(\alpha v(t) + \beta u(t))\,dt \\
+            &= \alpha\int_{a}^{b}u(t)\,dt - \beta\int_{a}^{b}v(t)\,dt + i\left(\alpha\int_{a}^{b}v(t)\,dt + \beta\int_{a}^{b}u(t)\,dt\right) \\
+            &= (\alpha + i\beta)\int_{a}^{b}(u(t) + iv(t))\,dt \\
+            &= c\int_{a}^{b}f(t)\,dt.
+        \end{align*}
+    \end{proof}
+\end{lemma}
+
+We want to extend this to integrations over curves.
+
+\begin{example}
+    The path $\gamma : [0, 2\pi] \to \C$ given by $\gamma(\theta) = a + re ^ {i\theta}$ where $a \in \C$ and $r > 0$ are given describes a circle of radius $r$ centred at $a$.
+    As $\theta$ increases we move in an anticlockwise direction.
+    What is $\gamma'(\theta)$?
+    \[
+    \gamma(\theta) = (a_1 + ia_2) + (r\cos{\theta} + ir\sin{\theta}) = (a_1 + r\cos{\theta}) + i(a_2 + r\sin{\theta})
+    \]
+    \[
+    \gamma'(\theta) = -r\sin{\theta} + ir\cos{\theta} = ir(\cos{\theta} + i\sin{\theta}) = ire ^ {i\theta}.
+    \]
+
+    $\gamma$ is $C ^ 1$.
+\end{example}
+
+\begin{example}
+    The curve $\gamma : [0, 2\pi] \to \C$ given by $\gamma(\theta) = a + re ^ {-i\theta}$ where $a \in \C$ and $r > 0$ are given plots the same image but in a clockwise manner.
+
+    $\gamma'(\theta) = -ire ^ {-i\theta}$.
+    $\gamma$ is $C ^ 1$.
+\end{example}
+
+\begin{example}
+    $\gamma : [0, 2] \to \C$ defined by
+    \[
+    \gamma(t) = \begin{cases}
+        t + it & 0 \leq t \leq 1 \\
+        t + i & 1 \leq t \leq 2.
+    \end{cases}
+    \]
+    $\gamma$ is piecewise $C ^ 1$,
+    \[
+    \gamma'(t) = \begin{cases}
+        1 + i & 0 < t < 1 \\
+        1 & 1 < t < 2.
+    \end{cases}
+    \]
+\end{example}
+
+\begin{definition}
+    Let $U \subseteq \C$ be an open set and let $f : U \to \C$ be a continuous function.
+    Let $\gamma : [a, b] \to U$ be a $C ^ 1$-curve.
+    Then we define the integral of $f$ along the curve $\gamma$ by
+    \[
+    \int_{\gamma}f(z)\,dz \coloneqq \int_{a}^{b}f(\gamma(t))\gamma'(t)\,dt.
+    \]
+    If $\gamma : [a. b] \to U$ is a contour with partition $a = a_0 < a_1 < a_2 < \dotsi < a_{n - 1} < a_n = b$ such that $\gamma_{[a_{i - 1}, a_i]} \to \C$ are $C ^ 1$ curves for $i = 1, \dotsc, n$ then we define
+    \[
+    \int_{\gamma}f(z)\,dz = \sum_{i = 1}^{n}\int_{\gamma_i}f(z)\,dz.
+    \]
+    Such integral is sometimes known as contour integral.
+\end{definition}
+
+\textit{Note:}
+$f\circ \gamma$ and $\gamma'$ or $\gamma_i'$ are all continuous so the above is well defined.
+
+\begin{lemma}[Basic properties]
+    Assuming that $f_1, f_2$ and $f$ are continuous on $U$ we find that for any $C ^ 1$ curve $\gamma : [a, b] \to U$:
+
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        \int_{\gamma}(f_1(z) + f_2(z))\,dz = \int_{\gamma}f_1(z)\,dz + \int_{\gamma}f_2(z)\,dz.
+        \]
+
+        \item For any $c \in \C$
+        \[
+        \int_{\gamma}cf(z)\,dz = c\int_{\gamma}f(z)\,dz.
+        \]
+
+        \item Defining $(-\gamma) : [-b, -a] \to U$ by $(-\gamma)(t) = \gamma(-t)$ we have that
+        \[
+        \int_{\gamma}f(z)\,dz = -\int_{-\gamma}f(z)\,dz.
+        \]
+    \end{enumerate}
+\end{lemma}
+
+\begin{example}
+    Consider the path $\gamma : [0, 2\pi] \to \C$ defined by $\gamma(\theta) = re ^ {i\theta}$ with $r > 0$.
+    Find $\int_{\gamma}\,dz$ and $\int_{\gamma}\bar{z}\,dz$.
+
+    \begin{solution}
+        $\gamma'(\theta) = ire ^ {i\theta}$.
+        \[
+        \int_{\gamma}\,dz = \int_{\gamma}1\,dz = \int_{0}^{2\pi}1\cdot\gamma'(\theta)\,d\theta = \int_{0}^{2\pi}ire ^ {i\theta}\,d\theta = ir\left(\int_{0}^{2\pi}\cos{\theta}\,d\theta + i\int_{0}^{2\pi}\sin{\theta}\,d\theta\right) = 0.
+        \]
+        \[
+        \int_{\gamma}\bar{z}\,dz = \int_{0}^{2\pi}\overline{\gamma(\theta)} \cdot \gamma'(\theta)\,d\theta = \int_{0}^{2\pi}re ^ {-i\theta}\cdot ire ^ {i\theta}\,d\theta = ir ^ 2\int_{0}^{2\pi}1\,d\theta = 2\pi ir ^ 2
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Consider the path $\gamma : [0, 2\pi] \to \C$ defined by $\gamma(\theta) = a + re ^ {i\theta}$ with $a \in \C$ and $r > 0$.
+    Find $\int_{\gamma}(z - a) ^ n\,dz$ for $n \in \Z$.
+
+    \begin{solution}
+        \begin{align*}
+            \int_{\gamma}(z - a) ^ n\,dz &= \int_{0}^{2\pi}(\gamma(\theta) - a) ^ n\gamma'(\theta)\,d\theta \\
+            &= \int_{0}^{2\pi}(re ^ {i\theta}) ^ n\cdot ire ^ {i\theta}\,d\theta \\
+            &= \int_{0}^{2\pi}r ^ ne ^ {in\theta}\cdot ire ^ {i\theta}\,d\theta \\
+            &= ir ^ {n + 1}\int_{0}^{3\pi}e ^ {i(n + 1)\theta}\,d\theta \\
+            &= ir ^ {n + 1}\left(\int_{0}^{2\pi}(\cos((n + 1)\theta) + i\int_{0}^{2\pi}\sin((kn+ 1)\theta)\,d\theta)\right) \\
+            &= \begin{cases}
+                ir ^ 0\left(\int_{0}^{2\pi}\cos(0)\,d\theta + i\int_{0}^{2\pi}\sin(0)\,d\theta\right) & n + 1 = 0 \\
+                ir ^ {n + 1}\left[\frac{\sin((n + 1)\theta)}{n + 1}\right]_{0}^{2\pi} - i\left[\frac{\cos((n + 1)\theta)}{n + 1}\right]_{0}^{2\pi} & n + 1 \neq 0
+            \end{cases} \\
+            &= \begin{cases}
+                2\pi i & n = -1 \\
+                0 & n \in \Z \setminus \{-1\}.
+            \end{cases}
+        \end{align*}
+    \end{solution}
+\end{example}
+
+It appears that integration over $\gamma$ depends on the parameter.
+However,
+consider
+\begin{align*}
+    \gamma : &[0, 2\pi] \to \C & \delta : &[0, 1] \to \C \\
+    \gamma(\theta) &= e ^ {i\theta} & \delta(t) &= e ^ {2\pi it}
+\end{align*}
+Seem to both give the unit circle almost bijectively
+(besides $\theta = 2\pi$,
+$t = 1$).
+They
+"feel"
+similar.
+Will they give the same integral?
+
+\begin{lemma}[Reparameterisation of curves]
+    Let $U \subset \C$ be an open set,
+    $f : U \to \C$ be continuous,
+    and let $\gamma : [a, b] \to U$ be a $C ^ 1$ curve.
+    If $\varphi : [a', b'] \to [a, b]$ is continuously differentiable bijection with $\varphi(a') = a$ and $\varphi(b') = b$ and we define $\delta : [a', b'] \to \C$ by
+    \[
+    \delta(t) \coloneqq \gamma(\varphi(t)) = (\gamma \circ \varphi)(t)
+    \]
+    then
+    \[
+    \int_{\gamma}f(z)\,dz = \int_{\delta}f(z)\,dz.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \int_{\gamma}f(z)\,dz &= \int_{a'}^{b'}f(\delta(t))\delta'(t)\,dt \\
+            &= \int_{a'}^{b'}f(\delta(\varphi(t))\delta'(\varphi(t))\varphi'(t)\,dt \\
+            &= \int_{\varphi(a')}^{\varphi(b')}f(\gamma(s))\gamma'(s)\,ds \\
+            &= \int_{a}^{b}f(\gamma(s))\gamma'(s)\,ds \\
+            &= \int_{\delta}f(z)\,dz.
+        \end{align*}
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    $\gamma'(\theta) = e ^ {i\theta}$,
+    $\theta \in [0, 2\pi]$,
+    $\delta(t) = e ^ {2\pi it}$,
+    $t \in [0, 1]$.
+
+    $\delta(t) = \gamma(\varphi(t))$,
+    $\varphi(t) = 2\pi t$.
+\end{example}
+
+Given a domain $D$ such that there exists a bijective contour $\gamma : [a, b] \to \partial D$ with a continuous inverse $\gamma ^ {-1} : \partial D \to [a, b]$ and such that $\gamma'(t) \neq 0$,
+we define
+\[
+\int_{\partial D}f(z)\,dz = \int_{\gamma}f(z)\,dz
+\]
+where we assume we start at $\gamma(a)$ and end at $\gamma(b)$.
+Notion well defined and doesn't depend on $\gamma$ due to reparametrisation of curves lemma.
+When boundary has no end points,
+such as a circle,
+can extend above definition to case where $\gamma : [a, b) \to \partial D$ with previous properties $\gamma(a) = \gamma(b)$.
+E.g.
+when $D = B_r(a)$ with $a \in \C$ and $r > 0$ we have that
+\[
+\partial D = \{z \in \C\,:\,|z - a| = r\}
+\]
+bijective image of the $C ^ 1$ curve $\gamma : [0, 2\pi) \to \C$
+\[
+\gamma_{a, r}(\theta) = a + re ^ {i\theta}
+\]
+going in anticlockwise direction.
+Consequently
+\[
+\int_{|z - a| = r}f(z)\,dz = \int_{\gamma_{a, r}}f(z)\,dz = \int_{0}^{2\pi}f(a + re ^ {i\theta})ire ^ {i\theta}\,d\theta.
+\]
+The last element of definition for integration is:
+
+\begin{definition}
+    Let $\gamma : [a, b] \to \C$ and $\delta : [c, d] \to \C$ be two contours such that $\gamma(b) = \delta(c)$.
+    The addition of these contours,
+    denoted by $\gamma \cup \delta$,
+    is the contour defined by $\gamma \cup \delta : [a, b + d - c] \to \C$
+    \[
+    \gamma \cup \delta(t) \coloneqq \begin{cases}
+        \gamma(t), &a \leq t \leq b, \\
+        \delta(t + c - b), & b \leq t \leq b + d - c.
+    \end{cases}
+    \]
+\end{definition}
+
+\begin{lemma}
+    Let $f : U \to \C$ be a continuous function and let $\gamma : [a, b] \to U$ and $\delta : [c, d] \to U$ be two contours such that $\gamma(b) = \delta(c)$.
+    Then
+    \[
+    \int_{\gamma \cup \delta}f(z)\,dz = \int_{\gamma}f(z)\,dz + \int_{\delta}f(z)\,dz.
+    \]
+\end{lemma}
+
+\subsection{The Fundamental Theorem of Calculus}
+FTC on $\R$ has two parts:
+\begin{itemize}
+    \item If $f$ is continuous on $[a, b]$ then
+    \[
+    F(x) = \int_{a}^{x}f(t)\,dt
+    \]
+    is differentiable on $(a, b)$ and $F' = f$.
+
+    \item If $f$ is continuous on $[a, b]$ and $F$ is the anti-derivative of $f$ then
+    \[
+    \int_{a}^{b}f(t)\,dt = F(b) - F(a).
+    \]
+    This is sometimes known as the Newton-Leibniz formula.
+\end{itemize}
+
+We want to show these in complex setting.
+
+\begin{theorem}[Newton-Leibniz theorem]
+    Let $U \subset \C$ be an open set and let $F : U \to \C$ be holomorphic function with continuous derivative $f$.
+    Then for any contour $\gamma : [a, b] \to U$ we have
+    \[
+    \int_{\gamma}f(z)\,dz = F(\gamma(b)) - F(\gamma(a)).
+    \]
+    In particular if $\gamma$ is closed,
+    that is $\gamma(a) = \gamma(b)$,
+    then we have that
+    \[
+    \int_{\gamma}f(z)\,dz = 0.
+    \]
+
+    \begin{proof}
+        Assume that $\gamma$ is $C ^ 1$.
+        \begin{align*}
+            \int_{\gamma}f(z)\,dz &= \int_{a}^{b}f(\gamma(t))\cdot\gamma'(t)\,dt \\
+            &= \int_{a}^{b}F'(\gamma(t))\cdot\gamma'(t)\,dt \\
+            &= \int_{a}^{b}\frac{d}{dt}F(\gamma(t))\,dt \\
+            &= \int_{a}^{b}\Re(F(\gamma(t))'\,dt + i\int_{a}^{b}\Im(F(\gamma(t))'\,dt \\
+            &= \Re(F(\gamma(t))\big|_{a}^{b} + i\Im(F(\gamma(t))\big|_{a}^{b} \\
+            &= F(\gamma(b)) - F(\gamma(a)).
+        \end{align*}
+
+        Assume $\gamma$ is a contour with partition $a = a_0 < a_1 < \dotsi < a_n = b$.
+        By definition
+        \[
+        \int_{\gamma}f(z)\,dz = \sum_{i = 1}^{n}\int_{\gamma|_{[a_{i - 1}, a_i]}}f(z)\,dz = \sum_{i = 1}^{n}(F(\gamma(a_i)) - F(\gamma(a_{i - 1}))) = F(\gamma(a_n)) - F(\gamma(a_0)) = F(\gamma(b)) - F(\gamma(a)).
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{remark}\phantom{}
+    \begin{itemize}
+        \item We will show that if $F$ is holomorphic it is infinitely many times differentiable and as such $f = F'$ is continuous.
+        The continuity of $f$ is,
+        in the end,
+        redundant.
+
+        \item If $\gamma_1, \gamma_2$ are contours such that $\gamma_1(a) = \gamma_2(a')$,
+        $\gamma_1(b) = \gamma_2(b')$ then if $f$ is continuous and $f = F'$ where $F$ is holomorphic then
+        \[
+        0 = \int_{\gamma_1 \cup (-\gamma_2)}f(z)\,dz  = \int_{\gamma_1}f(z)\,dz + \int_{-\gamma_2}f(z)\,dz = \int_{\gamma_1}f(z)\,dz - \int_{\gamma_2}f(z)\,dz
+        \]
+        i.e.
+        \[
+        \int_{\gamma_1}f(z)\,dz = \int_{\gamma_2}f(z)\,dz.
+        \]
+    \end{itemize}
+\end{remark}
+
+\[
+\int_{|z - a| = r}(z - a) ^ n\,dz = \int_{\gamma}(z - a) ^ n\,dz
+\]
+$\gamma(\theta) = a + re ^ {i\theta}$,
+$\theta \in [0, 2\pi]$,
+$n \in \Z$.
+$(z - a) ^ n$ is holomorphic in $\C \setminus \{a\}$ for all $n \in \Z$.
+Moreover,
+\[
+F(z) = \frac{(z - a) ^ {n + 1}}{n + 1},\qquad n \neq -1
+\]
+is a holomorphic function in $\C \setminus \{a\}$ and $F' = f$ which implies by Newton-Leibniz as $\{|z - a| = r\} \subset \C \setminus\{a\}$
+\[
+\int_{|z - a| = r}(z - a) ^ n\,dz = 0.
+\]
+Note that for $n = -1$ the anti-derivative for $\frac{1}{z - a}$ will be some form of logarithm.
+But there exists no holomorphic logarithm in $\C \setminus \{a\}$.
+We cannot use the Newton-Leibniz theorem.
+
+
+
+
+
+
 
 \end{document}
