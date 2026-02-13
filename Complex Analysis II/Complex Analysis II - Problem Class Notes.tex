@@ -578,5 +578,180 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$5$}{}}
+
+\begin{problem}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Show that for any $\rho > 0$ the sequence $\left\{\frac{1}{nz}\right\}_{n \in \N}$ converges uniformly on $A = \{z \in \C\,:\, |z| \geq \rho\}$.
+
+        \item Does $\left\{\frac{1}{nz}\right\}_{n \in \N}$ converges uniformly on $\C ^ {*} \coloneqq \C \setminus \{0\}$.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \[
+            f_n(z) = \frac{1}{nz}
+            \]
+            for $z \in \C ^ {*}$ we have that
+            \[
+            f_n(z) \to 0\text{ as } n \to \infty
+            \]
+            pointwise.
+            \[
+            |f_n(z) - f(z)| = \left|\frac{1}{nz} - 0\right| = \frac{1}{n|z|} \leq \frac{1}{n\rho} = s_n
+            \]
+            On $A = \{z \in \C\,:\, |z| > \rho\}$.
+            $s_n > 0$,
+            $s_n(\rho)$ is $z$ independent and $s_n \to 0$ as $n \to \infty$.
+            By theorem from lecture notes $f_n(z) \to f(z)$ as $n \to \infty$ uniformly.
+
+            \item The convergence is not uniform on $\C ^ {*}$.
+            To show that we will find $\{z_n\}_{n \in \N}$ in $\C ^ {*}$ such that
+            \[
+            |f_n(z_n) - f(z_n)| \geq c > 0
+            \]
+            for some $c > 0$.
+
+            Indeed,
+            $z_n = \frac{1}{n}$,
+            \[
+            |f_n(z_n) - f(z_n)| = \frac{1}{n\cdot\frac{1}{n}} = 1.
+            \]
+            Also for $z_n = \frac{1}{n ^ 2}$,
+            $\{z_n\}_{n \in \N}$ is in $\C ^ {*}$ and
+            \[
+            |f_n(z_n) - f(z_n)| = n \to \infty\text{ as } n \to \infty.
+            \]
+            Note:
+            $f_n$ converges to $f$ uniformly on $A_{\rho} = \{z \in \C\,:\, |z| > \rho\}$ for any $\rho > 0$.
+            $A_{\rho}$ is an open set and any $z_0 \in \C ^ {*}$ belongs to some $A_{\rho}$
+            (indeed $z_0 \in A_{|z_0| / 2}$).
+            This implies $f_n$ converges to $f$ locally uniformly.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    For every $n \in \N$,
+    let $f_n(z) = \sin(z / n)$ for $z \in \C$.
+    Show that $\{f_n\}_{n \in \N}$ converges pointwise on $\C$.
+    Let $\rho$ be a positive real number.
+    Show that $\{f_n\}_{n \in \N}$ converges uniformly on $A = \{z\,:\,|z| \leq \rho\}$.
+    Show that $\{f_n\}_{n \in \N}$ does not converge uniformly on $\C$.
+
+    \begin{solution}
+        For any $z \in \C$
+        \[
+        \frac{z}{n} \to 0\text{ as } n \to \infty
+        \]
+        pointwise.
+        This implies due to the continuity of sine
+        \[
+        \sin\left(\frac{z}{n}\right) \to 0\text{ as } n \to \infty
+        \]
+        pointwise.
+
+        We have that
+        \[
+        \sin(z) = \sin(x)\cosh(y) + i\cos(x)\sinh(y).
+        \]
+        \[
+        \sin(z / n) = \sin(x / n)\cosh(y / n) + i\cos(x / n)\sinh(y / n).
+        \]
+        \begin{align*}
+            |\sin(z / n) - 0| &= \sqrt{\sin ^ 2\left(\frac{x}{n}\right)\cosh ^ 2\left(\frac{x}{n}\right) + \cos ^ 2\left(\frac{x}{n}\right)\sinh ^ 2\left(\frac{x}{n}\right)} \\
+            &\leq \sqrt{\sin ^ 2\left(\frac{x}{n}\right)\cosh ^ 2\left(\frac{y}{n}\right) + \sinh ^ 2\left(\frac{y}{n}\right)} \\
+            &\leq \sqrt{\frac{x ^ 2}{n ^ 2}\cosh ^ 2\left(\frac{y}{n}\right) + \sinh ^ 2\left(\frac{y}{n}\right)} \\
+            &= \sqrt{\frac{x ^ 2}{n ^ 2}\cosh ^ 2\left(\frac{|y|}{n}\right) + \left(\sinh\left(\frac{|y|}{n}\right)\right) ^ 2} \\
+            &\leq \sqrt{\frac{\rho ^ 2}{n ^ 2}\cosh ^ 2\left(\frac{\rho}{n}\right) + \sinh ^ 2\left(\frac{\rho}{n}\right)}.
+        \end{align*}
+        $s_n(\rho) > 0$,
+        $s_n(\rho)$ is $z$ independent.
+        $s_n(\rho) \to 0$ as $n \to \infty$.
+        By a theorem from lecture notes,
+        $\sin\left(\frac{z}{n}\right)$ converges uniformly to $0$ on $A_{\rho}$ for any $\rho > 0$.
+        $\sin\left(\frac{z}{n}\right)$ will not converge to $0$ uniformly on $\C$.
+        Indeed,
+        $z_n = n$ is in $\C$ and
+        \[
+        |f_n(z_n) - f(z_n)|\left|\sin\left(\frac{n}{n}\right)\right| = |\sin(1)|
+        \]
+        can do worse with $z_n = in ^ 2$
+        \[
+        |f_n(z_n) - f(z_n)| = \sinh(n).
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Prove that $\sum_{n = 0}^{\infty}e ^ {nz}$ converges uniformly on $A = \{z \in \C\,:\,\Re(z) \leq -1\}$,
+    but not on $B = \{z \in \C\,:\, \Re(z) \leq 0\}$.
+
+    \begin{solution}
+        $f_n(z) = e ^  {nz}$.
+        \[
+        |f_n(z)| = |e ^ {nz}| = e ^ {\Re(nz)} = e ^ {n\Re(z)}
+        \]
+        on $A$
+        \[
+        |f_n(z)| = e ^ {n\Re(z)} \leq e ^ {-n} = M_n
+        \]
+        $M_n > 0$,
+        $M_n$ is $z$ independent.
+        \[
+        \sum_{n = 1}^{\infty}M_n = \sum_{n = 1}^{\infty}e ^ {-n} < \infty
+        \]
+        geometric series with $q = e ^ {-1} < 1$.
+        By Weierstrass $M$-test.
+        \[
+        \sum_{n = 1}^{\infty}f_n(z)
+        \]
+        converges uniformly on $A$.
+
+        If $\Re(z) = 0$
+        \[
+        |f_n(z)| = e ^ {n\cdot 0} = 1 \to 0\text{ as } n \to \infty
+        \]
+        so $\sum_{n = 1}^{\infty}f_n(z)$ doesn't converge pointwise when $\Re(z) = 0$ so $\sum f_n(z)$ cannot converge uniformly on $B$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $R$ satisfy $0 < R < 1$.
+    Show that the series $\displaystyle\sum_{n = 1}^{\infty}\frac{z ^ n}{1 + z ^ n}$ converges uniformly on $A = \{z \in \C\,:\,|z| < R\}$.
+    Conclude that the infinite series defines a continuous function on the unit disc $\mathbb{D}$.
+
+    \begin{solution}
+        \[
+        \left|\frac{z ^ n}{1 + z ^ n}\right| = \frac{|z| ^ n}{|1 + z ^ n|} \leq \frac{R ^ n}{|1 + z ^ n|}.
+        \]
+        The reverse triangle inequality states
+        \[
+        |1 + z ^ n| \geq ||1| - |z ^ n|| = |1 - |z| ^ n|
+        \]
+        on $A_R$,
+        $|z| < R < 1$ so $|z| ^ n < R ^ n < 1$ so
+        \[
+        |1 + z ^ n| \geq 1 - |z| ^ n \geq 1 - R ^ n.
+        \]
+        We conclude that on $A_R$
+        \[
+        \left|\frac{z ^ n}{1 + z ^ n}\right| \leq \frac{R ^ n}{1 + R ^ n} = M_n(R).
+        \]
+        $M_n(R) > 0$,
+        $M_n(R)$ is $z$ independent
+        (in $A_R$).
+        \[
+        \frac{M_{n + 1}(R)}{M_n(R)} = \frac{R(1 - R ^ {n + 1})}{1 - R ^ n} \to R\text{ as } n \to \infty
+        \]
+        so $R < 1$ thus $\sum_{n = 1}^{\infty}M_n(R) < \infty$ and by Weierstrass $M$-test $\sum_{n = 1}^{\infty}\frac{z ^ n}{1 + z ^ n}$ converges uniformly on $A_R$.
+        As $R < 1$ is arbitrary this shows local uniform convergence in $\mathbb{D}$.
+        As $f_n(z) = \frac{z ^ n}{1 + z ^ n}$ is continuous on $\mathbb{D}$,
+        the theorem from lecture notes implies the limit of the series is continuous on $\mathbb{D}$.
+    \end{solution}
+\end{problem}
 
 \end{document}
