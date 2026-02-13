@@ -483,4 +483,58 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$5$}{}}
+
+\begin{problem}
+    Let $X$ be a random variable such that $\E(|X|) < \infty$.
+    Let $Y_n = \{X, n\}$ for $n \geq 1$,
+    $Z_n = X\cdot\mathbbm{1}_{\{|X| \leq n\}}$,
+    $n \geq $.
+    Show $\E(Y_n) \to \E(X)$ and $\E(Z_n) \to \E(X)$.
+
+    \begin{solution}
+        Consider $Y_n$.
+        Is MON applicable?
+        $Y_{n + 1} = \min\{X, n + 1\} \geq \min\{X, n\} = Y_n$.
+        It can happen that $Y_n < 0$.
+        Is BDD applicable?
+        Need $|Y_n| \leq M$ for every $n$
+        \[
+        |Y_n| = |\min\{X, n\}| = \min\{|X|, n\} \leq n.
+        \]
+        $M$ cannot depend on $n$ so BDD is not applicable.
+        Let's try DOM
+        \[
+        |Y_n| = \min\{|X|, n\} \leq |X|
+        \]
+        $\E(|X|) < \infty$ by assumption.
+        Use $|X|$ as the dominating random variable.
+        Does $\lim_{n \to \infty}Y_n = X$ almost surely?
+        \[
+        \lim_{n \to \infty}Y_n(\omega) = \lim_{n \to \infty}\min\{X(\omega), n\}.
+        \]
+        When $n \geq X(\omega)$,
+        $\min\{X(\omega), n\} = X(\omega)$.
+        So $Y_n(\omega) = X(\omega)$ for $n \geq X(\omega)$.
+        So $Y_n \to X$ almost surely.
+        By DOM $\E(Y_n) \to \E(X)$.
+
+        $Z_n = X\cdot\mathbbm{1}_{\{|X| \leq n\}}$
+        \[
+        |Z_n| = |X|\cdot\mathbbm{1}_{\{|X| \leq n\}} \leq |X|
+        \]
+        $|X|$ is the dominating random variable since $\E(|X|) < \infty$.
+
+        \[
+        \lim_{n \to \infty}Z_n(\omega) = \lim_{n \to \infty}X(\omega)\cdot\mathbbm{1}_{\{|X(\omega)| \leq n\}} = X(\omega),\qquad n \geq X(\omega)
+        \]
+        when $n \geq X(\omega)$,
+        $\mathbbm{1}_{\{|X(\omega)| \leq n\}} = 1$.
+        So $Z_n \to X$ almost surely.
+        By DOM $\E(Z_n) \to \E(X)$.
+    \end{solution}
+\end{problem}
+
 \end{document}
