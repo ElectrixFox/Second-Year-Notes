@@ -1908,15 +1908,295 @@ G_{X + Y}(s) = \E(s ^ {X + Y}) = \E(s ^ Xs ^ Y) = \E(s ^ X)\E(s ^ Y) = G_X(s)G_Y
     \end{solution}
 \end{example}
 
+\newpage
 
+\section{Markov chains}
+Recall a graph $G = (V, E)$ $V$ countable,
+$V$ -
+vertices,
+$E \subseteq V \times V$.
+E.g.
+$V = \{a, b, c\}$,
+$E = \{\{a, b\}, \{b, b\}, \{b, c\}, \{a, c\}\}$.
+Directed graphs have edges with direction,
+using an arrow to point in the direction.
+$E = \{(a, b), (b, a), (a, c)\}$.
 
+\begin{example}
+    Let $G$ be a directed graph with:
+    $V = \{a, b, c\}$,
+    $E = \{(a, b), (a, c), (b, a), (b, c), (c, a), (c, b)\}$.
+    Starting at $a$ at time $0$,
+    so $X_0 = 0$.
+    At each step,
+    given current position $X_n \in \{a, b, c\}$,
+    jump to one of the other $2$ location with probability $1 / 2$ independently of the previous position.
 
+    $\P(X_0 = a) = 1$,
+    \[
+    \P(X_1 = b) = 1 / 2 = \P(X_1 = c).
+    \]
+    What about $\P(X_2 = c)$?
+    \begin{align*}
+        \P(X_2 = c) &= \P(X_2 = c \mid X_0 = a, X_1 = b)\P(X_0 = a, X_1 = b) + \P(X_2 = c \mid X_0 = a, X_1 = c)\P(X_0 = a, X_1 = c) \\
+        &= \frac{1}{2}\cdot\frac{1}{2} + \frac{1}{2}\cdot 0 = \frac{1}{4}.
+    \end{align*}
+\end{example}
+Probability independent of previous action is the Markov property.
 
+Assumptions:
+\begin{enumerate}[label = (\arabic*)]
+    \item $I$ countable collection of states.
 
+    \item We consider $I$ valued random variables $X : \Omega \to I$.
 
+    \item The distribution of $X$ will be the vector $\lambda : I \to [0, 1]$ given by $\lambda(i) = \P(X = i)$.
+    \textit{Think of the distributions of row vectors.}
+\end{enumerate}
+So if $I = \{a, b, c\}$,
+$\lambda = \left(\frac{1}{2}, \frac{1}{3}, \frac{1}{6}\right)$ then $\P(X(\omega) = a) = \frac{1}{2}$.
 
+We encode random choices using stochastic matrices.
+\begin{definition}
+    A matrix $P = (P_{ij})_{i, j \in I}$ is stochastic if every row is a distribution,
+    i.e. $\forall i, j$ then $P_{ij} \geq 0$,
+    $\forall i, \sum_{j \in I}P_{ij} = 1$.
+\end{definition}
 
+\begin{example}
+    For our previous example we would have:
+    \[
+    P = \begin{pmatrix}
+        P_{AA} & P_{AB} & P_{AC} \\
+        P_{BA} & P_{BB} & P_{BC} \\
+        P_{CA} & P_{CB} & P_{CC}
+    \end{pmatrix} =
+    \begin{pmatrix}
+        0 & \frac{1}{2} & \frac{1}{2} \\
+        \frac{1}{2} & 0 & \frac{1}{2} \\
+        \frac{1}{2} & \frac{1}{2} & 0
+    \end{pmatrix}.
+    \]
+\end{example}
 
+\begin{definition}
+    Given a stochastic matrix,
+    $P = (P_{ij})_{i, j \in I}$,
+    we draw its diagram by drawing a directed graph whose vertices are $V = I$ and by drawing an edge from $i$ to $j$ labelled with $P_{ij}$ for $P_{ij} > 0$.
+\end{definition}
+For example
+\[
+P = \begin{pmatrix}
+    0 & 1 & 0 \\
+    0 & \frac{1}{2} & \frac{1}{2} \\
+    \frac{1}{2} & \frac{1}{2} & 0
+\end{pmatrix}
+\]
+each row sums to $1$,
+so stochastic.
+
+\begin{definition}
+    A Markov chain on $I$ with initial distribution $\lambda$ and transition matrix $P = (P_{ij})_{i, j \in I}$ is a sequence $(X_n)_{n \in \N_0}$ of $I$-valued random variables such that.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item $\P(X_0 = i_0) = \lambda_{i_0}$ for any $i_0 \in I$.
+
+        \item For $n \in \N_0$ and any $i_0, i_1, \dotsc, i_n, i_{n + 1} \in I$ with $\P(X_0 = i_0, \dotsc, X_n = i_n) > 0$,
+        we have
+        \[
+        \P(X_{n + 1} = i_{n + 1} \mid X_0 = i_0, \dotsc, X_n = i_n) = P_{i_ni_{n + 1}}.
+        \]
+        \textit{This only depends on $i_n$,
+        $i_{n + 1}$,
+        not $i_0, \dotsc, i_{n - 1}$,
+        i.e. the Markov property}.
+    \end{enumerate}
+    We say that $(X_n)_{n \in \N_0}$ is $\mathrm{Markov}(\lambda, P)$.
+\end{definition}
+The same definition for $(X_n)_{n \leq 0 \leq n}$ a finite sequence satisfying the above for $0 \leq n \leq N$.
+
+\begin{theorem}
+    $(X_n)_{0 \leq n < \infty}$ is $\mathrm{Markov}(\lambda, P)$ if and only if
+    \[
+    \P(X_0 = i_0, X_1 = i_1, \dotsc, X_n = i_n) = \lambda_{i_0}P_{i_0i}\dotsi P_{i_ni},
+    \]
+    for all $i_0, \dotsc, i_n \in I$ and $n \geq 0$.
+
+    \begin{proof}
+        "$\implies$".
+        Induction.
+        $n = 0$.
+        Nothing to prove.
+
+        Assume true for all $i_0, \dotsc, i_n \in I$ for some $n$.
+        Take arbitrary $i_{n + 1} \in I$.
+
+        Two cases:
+        $\P(X_0 = i_0, \dotsc, X_n = i_n) > 0$ or $\P(X_0 = i_0, \dotsc, X_n = i_n) = 0$.
+        $\P(X_0 = i_0, \dotsc, X_n = i_n) > 0$,
+        \begin{align*}
+            \P(X_0 = i_0, \dotsc, X_{n + 1} = i_{n + 1}) &= \P(X_{n + 1} = i_{n + 1} \mid X_n = i_n, \dotsc, X_0 = i_0)\P(X_n = i_n, \dotsc, X_0 = i_0) \\
+            &= \P(X_{n + 1} = i_{n + 1} \mid X_n = i_n)\cdot(\lambda_{i_0}P_{i_0i}\dotsi P_{i_ni}) \\
+            &= \lambda_{i_0}P_{i_0i}\dotsi P_{i_{n - 1}i_n}P_{i_ni_{n + 1}}.
+        \end{align*}
+        For $\P(X_0 = i_0, \dotsc, X_n = i_n) = 0$ then
+        \[
+        \P(X_0 = i_0, \dotsc, X_n = i_n, X_{n + 1} = i_{n + 1}) \leq \P(X_0 = i_0, \dotsc, X_n = i_n) = 0.
+        \]
+        \[
+        \lambda_{i_0}P_{i_0i} \dotsi P_{i_{n - 1}i_n}P_{i_ni_{n + 1}} = \lambda_{i_0}P_{i_0i} \dotsi P_{i_{n - 1}i_n}P_{i_ni_{n + 1}} = 0.
+        \]
+        In both cases induction step is proven.
+
+        "$\impliedby$".
+        Suppose $\P(X_0 = i_0, \dotsc, X_n = i_n) = \lambda_{i_0}P_{i_0i}\dotsi P_{i_{n - 1}i_n}$ for all $i_0, \dotsc, i_n \in I$.
+
+        Initial condition:
+        $\P(X_0 = i_0) = \lambda_{i_0}$ by $n = 0$.
+        Suppose $\P(X_0 = i_0, \dotsc, X_n = i_n) > 0$ and $i_{n + 1} \in I$.
+        Then
+        \[
+        \P(X_{n + 1} = i_{n + 1} \mid X_0 = i_0, \dotsc, \lambda_n = i_n) = \frac{\P(X_{n + 1} = i_{n + 1}, X_0 = i_0, \dotsc, X_n = i_n)}{\P(X_0 = i_0, \dotsc, X_n = i_n)} = \frac{\lambda_{i_0}P_{i_0i}, \dotsi P_{i_{n - 1}i_n}P_{i_ni_{n + 1}}}{\lambda_{i_0}P_{i_0i}\dotsi P_{i_{n + 1}}i_n} = P_{i_ni_{n + 1}}.
+        \]
+    \end{proof}
+\end{theorem}
+
+Recall:
+distributions are row vectors.
+By convention
+\[
+P ^ 0 = \mathrm{Id} \in M_{n \times n}.
+\]
+Notation:
+\[
+\P_i(A) = \P(A \mid X_0 = i).
+\]
+
+\begin{theorem}
+    Let $(X_n)_{n \in \N_0}$ be $\mathrm{Markov}(\lambda, P)$.
+    For $n, m \geq 0$,
+    \begin{enumerate}[label = (\roman*)]
+        \item $\P(X_n = j) = (\lambda p ^ n)_j$.
+
+        \item $\P_i(X_n = j) = \P(X_n = j \mid X_0 = i) = (P ^ n)_{ij}$.
+    \end{enumerate}
+\end{theorem}
+
+Check:
+if $|I| < \infty$,
+these are vector-matrix and matrix-matrix products.
+If $|I| = \infty$,
+use the same formula:
+\[
+(\lambda P_j) = \sum_{i \in I}\lambda_{i}P_{ij}
+\]
+\[
+(P ^ 2)_{ij} = \sum_{k \in I}P_{ik}P_{kj}.
+\]
+
+\begin{example}
+    $I = \{A, B\}$ and $P = \begin{pmatrix}
+        P_{AA} & P_{AB} \\ P_{BA} & P_{BB}
+    \end{pmatrix} = \begin{pmatrix}
+        1 - \alpha & \alpha \\ \beta & 1 - \beta
+    \end{pmatrix}$.
+    Set up and solve the recurrence relation for $P_{AA} ^ n$.
+\end{example}
+
+In general
+\[
+P_{ij} ^ {n + m} = \sum_{k \in I}P_{ik} ^ nP_{kj} ^ m.
+\]
+Which says
+\[
+\P(X_{n + m} = j \mid X_0 = i) = \sum_{k}\P(X_m = j \mid X_0 = k)\P(X_n = k \mid X_0 = i) = \P(X_{n + m} = j \mid X_n = k).
+\]
+These are the Chapman-Kolmogorov equations.
+
+The Markov property formalises the
+"memoryless"
+aspects of Markov chains.
+Notation
+\[
+\delta_{ij} \coloneqq \begin{cases}
+    0, & i \neq j \\
+    1, & i = j.
+\end{cases}
+\]
+
+\begin{theorem}
+    If $(X_n)_{n \geq 0}$ is $\mathrm{Markov}(\lambda, P)$ and $\P(X_m = i) > 0$,
+    then conditional on $X_m = i$ the sequence $(X_{m + n})_{n \geq 0}$ is $\mathrm{Markov}(\delta_i, P)$ and is independent of $X_0, \dotsc, X_{m - 1}$.
+
+    This means for all $i_0, \dotsc, i_{m - 1} \in I$ and $j_1, \dotsc, j_k \in I$,
+    \begin{align*}
+        \P(X_0 = i_0, \dotsc, X_{m - 1} = i_{m - 1}, X_{m + 1} = j_1,&\dotsc, X_{m + k} = j_m \mid X_m = i) \\
+        &= \P(X_0 = i_0, \dotsc, X_{m - 1} = i_{m - 1} \mid X_m = i_m) \\
+        &\cdot \P(X_{m + 1} = j_1, \dotsc, X_{m + k} = j_k \mid X_m = i_m).
+    \end{align*}
+
+    \begin{proof}
+        For the proof,
+        we will make use of notion of an event determined by $X_0, \dotsc, X_{m - 1}$.
+        Elementary event $A_k : A_k = \{\omega : X_0(\omega) = i_0, \dotsc, X_{m - 1}(\omega) = i_{m - 1}\}$ for some $i_0, \dotsc, i_{m - 1} \in I$.
+        An event $A$ determined by $X_0, \dotsc, X_{m - 1}$ is some union of some choice of different elementary events $A = \bigcup_{k}A_k$,
+        note disjoint union.
+
+        Goal:
+        for any event $A$ determined by $X_0, \dotsc, X_{m - 1}$ and all $i_m, \dotsc, i_{m + n} \in I$.
+        \[
+        \P(A \cap \{X_m = i_m, \dotsc, X_{m + n} = i_{m + n}\} \mid X_m = i) = \delta_{ii_m}P_{i_{m}i_{m + n + 1}}\dotsi P_{i_{m + n - 1}i_{m + n}}\P(A \mid X_m = i).
+        \]
+        Idea is to replace $A$ with $A_k$ an elementary event then take the sum.
+
+        Take $A_k = \{X_0 = i_0, \dotsc, X_{m - 1} = i_{m - 1}\}$,
+        some $i_0, \dotsc, i_{m - 1}$.
+        Want to replace our $A$ with $A_k$.
+        If $i \neq i_m$ then both sides are zero.
+        So take $i = i_m$.
+        LHS is equal to
+        \begin{align*}
+            \frac{\P(A_k \cap \{X_m = i_m, \dotsc, X_{m + n} = i_{m + n}\})}{\P(X_m = i_m)}\delta_{ii_m} &= \frac{\P(\lambda_0 = i_0, \dotsc, X_{m - 1} = i_{m - 1}, X_m = i_m, \dotsc, X_{m + n} = i_{m + n})\delta_{ii_m}}{\P(X_m = i_m)} \\
+            &= \frac{\lambda_{i_0}P_{i_0i}\dotsi P_{i_{m - 1}i_m}P_{i_mi_{m + 1}}\dotsi P_{i_{m + n - 1}i_{m + n}}}{\P(X_m = i_m)}  \\
+            &= \frac{\lambda_{i_0}P_{i_0i} \dotsi P_{i_{m - 1}i_m}}{\P(X_m = i_m)} \delta_{ii_m}P_{i_mi_{m + 1}}\dotsi P_{i_{m + n - 1}i_{m + n}} \\
+            &= \P(A_k \mid X_m = i)\delta_{ii_m}P_{i_mi_{m + 1}}\dotsi P_{i_{m + n - 1}i_{m + n}} = \text{RHS}.
+        \end{align*}
+        Now use $A$ being a countable union of disjoint elementary events to get
+        \[
+        \P(A_k \cap \{X_m = i_m, \dotsc, X_{m + n} = i_{m + n}\} \mid X_m = i) = \delta_{ii_m}P_{i_mi_{m + 1}}\dotsi P_{i_{m + n - 1}i_{m + n}}\P(A_k \mid X_m = i).
+        \]
+        Take sums then you get what you need.
+    \end{proof}
+\end{theorem}
+
+\newpage
+
+\section{Class structure}
+
+We say that $i$ leads to $j$,
+written $i \to j$,
+if $\P_i(X_n = j) > 0$ for some $n \geq 0$.
+We say $i$ communicates with $j$ written $i \leftrightarrow j$,
+if $i \to j$ and $j \to i$.
+
+\begin{theorem}
+    For disjoint states $i, j$,
+    the following are equivalent:
+
+    \begin{enumerate}[label = (\roman*)]
+        \item $i \to j$.
+
+        \item $\exists n, i_0, \dotsc, i_n$ with $i_0 = i, i_n = j$ and $P_{i_0i_1}\dotsi P_{i_{n - 1}i_n} > 0$.
+
+        \item $P_{ij}^{n} > 0$ for some $n > 0$.
+    \end{enumerate}
+\end{theorem}
+
+$\leftrightarrow$ is an equivalence relation:
+$i \leftrightarrow j$ and $j \leftrightarrow k$ implies $i \leftrightarrow k$.
+For each $i \in I$,
+define $C_i \coloneqq \{j \in I : i \leftrightarrow j\}$.
+Then for any $i, j \in I$ either $C_i = C_j$ or $C_i \cap C_j = \emptyset$.
 
 
 
