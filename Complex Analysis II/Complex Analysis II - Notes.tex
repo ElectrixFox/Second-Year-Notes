@@ -3425,6 +3425,235 @@ Note that for $n = -1$ the anti-derivative for $\frac{1}{z - a}$ will be some fo
 But there exists no holomorphic logarithm in $\C \setminus \{a\}$.
 We cannot use the Newton-Leibniz theorem.
 
+\begin{definition}
+    Let $U \subset \C$ be open and $g : U \to \R$ be continuous.
+    If $\gamma : [a, b] \to U$ be a $C ^ 1$ curve then
+    \[
+    \int_{\gamma}g(z)\,d|z| = \int_{a}^{b}g(\gamma(t))|\gamma'(t)|\,dt.
+    \]
+\end{definition}
+
+For a contour
+\[
+\int g(z)\,d|z| = \sum_{i = 1}^{n}\int_{\gamma_i}g(\gamma_i(t))|\gamma_i'(t)|\,dt.
+\]
+
+\begin{lemma}[Estimate lemma]
+    Let $f : U \to \C$ be a continuous function on an open set $U \subset \C$.
+    Then for any $\gamma : [a, b] \to \C$,
+    \[
+    \left|\int_{\gamma}f(z)\,dz\right| \leq \int_{\gamma}|f(z)|\,d|z|.
+    \]
+
+    \begin{proof}
+        Claim:
+        for any $h : [a, b] \to \C$,
+        $|\int_{a}^{b}h(t)\,dt| \leq \int_{a}^{b}|h(t)|\,dt$.
+        Note $\int_{a}^{b}h(t)\,dt$ is a complex number,
+        which we can write as $re ^ {i\theta} = \left|\int_{a}^{b}h(t)\,dt\right|e ^ {i\theta}$.
+        So
+        \begin{align*}
+            \left|\int_{a}^{b}h(t)\,dt\right| &= e ^ {-i\theta}\int_{a}^{b}h(t)\,dt \\
+            &= \Re\left(e ^ {-i\theta}\int_{a}^{b}h(t)\,dt\right) \\
+            &= \Re\left(\int_{a}^{b}e ^ {-i\theta}h(t)\,dt\right) \\
+            &= \int_{a}^{b}\Re(e ^ {-i\theta}h(t))\,dt \\
+            &\leq \int_{a}^{b}|e ^ {-i\theta}h(t)|\,dt \\
+            &= \int_{a}^{b}|h(t)|\,dt.
+        \end{align*}
+        So
+        \[
+        \left|\int_{\delta}f(z)\,dz\right| = \left|\int_{a}^{b}f(\gamma(t))\gamma'(t)\,dt\right| \leq \int_{a}^{b}|f(\gamma(t))||\gamma'(t)|\,dt = \int_{\gamma}|f(z)|\,d|z|.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}[ML inequality]
+    Let $f : U \to \C$ be continuous on an open set $U$ and let $\gamma : [a, b] \to U$ be a contour.
+    Then
+    \[
+    \left|\int_{\delta}f(z)\,dz\right| \leq ML = M(\gamma, f)\cdot L(\gamma)
+    \]
+    where $L(\gamma) = \int_{\gamma}\,d|z| = \int_{a}^{b}|\gamma'(t)|\,dt$ is the length of the contour,
+    and $M(\delta, f) = \sup_{z \in \gamma}|f(z)|$.
+
+    \begin{proof}
+        $|f(z)| \leq \sup_{z \in \gamma}|f(z)|$ so by the estimate lemma
+        \[
+        \left|\int_{\gamma}f(z)\,dz\right| \leq \int_{\gamma}|f(z)|\,d|z| \leq M\int_{\gamma}\,d|z| = ML.
+        \]
+    \end{proof}
+\end{corollary}
+
+\begin{example}
+    Let $\gamma : [0, \pi / 2] \to \C$ be $\gamma(\theta) = 2e ^ {i\theta}$.
+    Then
+    \[
+    L(\gamma) = \int_{0}^{\pi / 2}|\gamma'(\theta)|\,d\theta = \int_{0}^{\pi}|2ie ^ {i\theta}|\,d\theta = \int_{0}^{\pi / 2}2\,d\theta = \pi.
+    \]
+    $M \leq \frac{|z| + 4}{|z| ^ 3 - 1} = \frac{6}{7}$
+    So
+    \[
+    \left|\int_{\gamma}\frac{z + 4}{z ^ 3 - 1}\,dz\right| \leq \pi\sup_{z \in \gamma}\left|\frac{z + 4}{z ^ 3 - 1}\right| \leq \frac{6}{7}\pi.
+    \]
+\end{example}
+
+\begin{theorem}[Newton-Leibniz,
+closed contour case]
+    Let $f : U \to \C$ be a continuous function on an open set $U \in \C$.
+    If $f$ has a holomorphic antiderivative $F$ on $U$.
+    Then
+    \[
+    \int_{\gamma}f(z)\,dz = 0\qquad\forall\text{closed } \gamma \subset U.
+    \]
+\end{theorem}
+
+Next question is when does a complex function have a holomorphic antiderivative?
+
+Note $f(z) = \frac{1}{z}$ is holomorphic on $\C \setminus \{0\}$ but it doesn't have a holomorphic antiderivative on $\C \setminus \{0\}$
+(since $\int_{|z| = 1}\frac{1}{z}\,dz = 2\pi i$,
+by a previous example).
+
+Broadly we will prove a version of Cauchy's theorem,
+which states roughly:
+"for any holomorphic function and any closed contour $\int_{\gamma}f(z) = 0$ so long as the domain has no holes in it".
+
+\begin{theorem}[Complex Fundamental Theorem of Calculus]
+    Let $f : D \to \C$ be continuous on a domain $D$.
+    If
+    \[
+    \int_{\gamma}f(z)\,dz = 0\quad\text{for all closed contours in $D$}
+    \]
+    then there exists a holomorphic antiderivative on $D$.
+
+    \begin{proof}
+        Fix $a \in D$.
+        Think about a point $z \in D$.
+        By definition of domain there exists a contour $\gamma_z$ in $D$,
+        joining $a$ to $z$.
+        Define
+        \[
+        F(z) = \int_{\gamma_z}f(\xi)\,d\xi.
+        \]
+        The assumption ensures this is well defined:
+        If $\gamma$ was another contour joining $a$ to $z$.
+        So by assumption
+        \[
+        0 = \int_{\gamma_z \cup (-\gamma)}f(\xi)\,d\xi = \int_{\gamma_z}f(\xi)\,d\xi - \int_{\gamma}f(\xi)\,d\xi.
+        \]
+        To show $F$ is an antiderivative,
+        need to show $F'(w) = \lim_{z \to w}\frac{F(z) - F(w)}{z - w} = f(w)$.
+        Define $\delta(t) = w + t(z - w)$,
+        $t \in [0, 1]$.
+        Consider
+        \[
+        F(z) - F(w) = \int_{\gamma_z}f(\xi)\,d\xi - \int_{\gamma_w}f(\xi)\,d\xi = \int_{\gamma_z\cup(-\gamma_w)}f(\xi)\,d\xi.
+        \]
+        \[
+        0 = \int_{\text{loop}} f = \int_{\gamma_z \cup (-\gamma_w)}f - \int_{\delta}f
+        \]
+        so $F(z) - F(w) = \int_{\delta}f(\xi)\,d\xi$.
+        Sneakily notice that
+        \begin{align*}
+            f(w)(z - w) &= f(w)(z - w)\int_{0}^{1}1\,dt \\
+            &= \int_{0}^{1}f(w)(z - w)\,dt \\
+            &= \int_{0}^{1}f(w)\delta'(t)\,dt \\
+            &= \int_{\delta}f(w)\,d\xi.
+        \end{align*}
+        So
+        \begin{align*}
+            \left|\frac{F(z) - F(w)}{z - w} - f(w)\right| &= \frac{1}{|z - w|}|F(z) - F(w) - f(w)(z - w)| \\
+            &= \frac{1}{|z - w|}\left|\int_{\delta}(f(\xi) - f(w))\,d\xi\right| \\
+            &\leq \frac{|z - w|}{|z - w|}\sup_{\xi \in \delta}|f(\xi) - f(w)| \\
+            &\overset{z \to w}{\to} 0\text{ by continuity}.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\subsection{First version of the Cauchy-Goursat Theorem}
+To prove a version of Cauchy's theorem,
+Goursat observed:
+
+\begin{lemma}[Continuity of the difference quotient function]
+    Suppose $f : U \to \C$ is holomorphic on an open set.
+    Then the difference quotient function $g : U \to \C$ given by
+    (for any $w \in U$)
+    \[
+    g(z) = \begin{cases}
+        \frac{f(z) - f(w)}{z - w}, & z \in U \setminus \{w\} \\
+        f'(w), & z = w
+    \end{cases}
+    \]
+    is holomorphic on $U \setminus \{w\}$ and continuous at $z = w$.
+\end{lemma}
+
+\begin{lemma}[Goursat's lemma]
+    Let $f : U \to \C$ be holomorphic on an open set $U$.
+    Then,
+    for any triangular region $\Delta \subset U$,
+    we have
+    \[
+    \int_{\partial\Delta}f(z)\,dz = 0.
+    \]
+
+    \begin{proof}
+        Let $\Delta$ be a triangular region on which $f$ is holomorphic.
+        Divide $\Delta$ into smaller triangles,
+        with $\Delta ^ {(i)}$ being the $i$th inner triangle
+        \begin{align*}
+            \left|\int_{\partial\Delta}f(z)\,dz\right| &= \left|\sum_{i = 1}^{4}\int_{\partial\Delta ^ {(i)}}f(z)\,dz\right| \\
+            &\leq 4\left|\int_{\partial\Delta_1}f(z)\,dz\right|.
+        \end{align*}
+        \[
+        L(\partial\Delta_1) = \frac{1}{2}L(\partial\Delta).
+        \]
+        Continue this,
+        to get sequence of triangles $\Delta \supset \Delta_1 \supset \Delta_2 \supset \dotsi \supset \Delta_n$ satisfying $L(\partial\Delta_n) = \frac{1}{2 ^ n}L(\partial\Delta)$ and
+        \[
+        \left|\int_{\partial\Delta}f(z)\,dz\right| \leq 4 ^ n\left|\int_{\partial\Delta_n}f(z)\,dz\right|.
+        \]
+        There exists a unique point $w \in D$ such that $\bigcap_{n = 1}^{\infty}\Delta_n = \{w\}$.
+        Consider the difference quotient function $g$ of $f$ at $w$.
+        \[
+        \int_{\partial\Delta_n}(z - w)(g(z) - g(w))\,dz.
+        \]
+        Note $\int_{\partial\Delta_n}f(w)\,dz = 0$,
+        $\int_{\partial\Delta_n}(z - w)g(w)\,dz$.
+        Since holomorphic antiderivatives.
+        So
+        \begin{align*}
+            \int_{\partial\Delta_n}(z - w)\left(\frac{f(z) - f(w)}{z - w} - g(w)\right)\,dz &= \int_{\partial\Delta_n}(f(z) - f(w) - (z - w)g(w))\,dz \\
+            &= \int_{\partial\Delta_n}f(z)\,dz.
+        \end{align*}
+        \begin{align*}
+            \left|\int_{\partial\Delta}f(z)\,dz\right| &\leq 4 ^ n\left|\int_{\partial\Delta_n}f(z)\,dz\right| \\
+            &> 4 ^ n\left|\int_{\partial\Delta_n}(z - w)(g(z) - g(w))\,dz\right| \\
+            &\leq 4 ^ nL(\partial\Delta_n)\sup_{z \in \partial\Delta_n}|z - w||g(z) - g(w)| \\
+            &\leq 4 ^ nL(\partial\Delta_n) ^ 2\sup_{z \in \partial\Delta_n}|g(z) - g(w)| \\
+            &= L(\partial\Delta) ^ 2\sup_{z \in \partial\Delta_n}|g(z) - g(w)| \underset{\substack{n \to \infty \\ z \to w}}{\to} 0
+        \end{align*}
+        by continuity of difference quotient function.
+    \end{proof}
+\end{lemma}
+
+When given a triangle,
+can we guarantee the interior is also in the domain?
+
+\begin{definition}[Starlike domain]
+    A domain $D$ is called starlike if there exists a point
+    "central"
+    point $a_0 \in D$ such that for any $z \in D$,
+    the line connecting $a_0$ to $z$ is entirely contained in $D$.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
 
 
 
