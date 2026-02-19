@@ -3645,13 +3645,219 @@ can we guarantee the interior is also in the domain?
     the line connecting $a_0$ to $z$ is entirely contained in $D$.
 \end{definition}
 
+Examples:
+$\C$ is starlike.
+$B_r(a)$ is starlike.
 
+\begin{theorem}[Cauchy-Goursat's Theorem
+    (for starlike domains)]
+    If $f : D \to \C$ is holomorphic on a starlike domain,
+    then for any closed contour $\gamma \subset D$,
+    \[
+    \int_{\gamma}f(z)\,dz = 0.
+    \]
 
+    \begin{proof}
+        Assume we can show that $f$ has a holomorphic antiderivative on $D$,
+        then by Newton-Leibniz,
+        $\int_{\gamma}f(z)\,dz = 0$.
+        Following proof of FTC:
+        Let $a_0$ be the
+        "central"
+        point of starlike domain.
+        Then by definition $\exists L_z$ joining $a_0$ to $z$.
+        Define
+        \[
+        F(z) = \int_{L_z}f(\xi)\,d\xi.
+        \]
+        By Goursat's lemma
+        \[
+        \int_{\Delta}f(\xi)\,d\xi = 0
+        \]
+        so $F(z) - F(w) = \int_{L_z}f - \int_{L_w}f$.
+        And
+        \[
+        \int_{\Delta}f = \int_{L_z \cup (-\delta) \cup (-L_w)} = \int_{L_z}f - \int_{L_w}f - \int_{\delta}f.
+        \]
+    \end{proof}
+\end{theorem}
 
+\begin{example}
+    \[
+    \int_{|z| = g}\frac{(z ^ 3 + 5z)\sin ^ {30}(\cos(z))}{e ^ {10z + z ^ {10000}}}\,dz = 0.
+    \]
+    Holomorphic on $\C$
+    (starlike).
+\end{example}
 
+\subsection{Cauchy's Integral Formula}
 
+\begin{lemma}[Exchange of integral and uniform limit]
+    Let $f_n : U \to \C$ be a sequence of continuous functions on an open set and let $\gamma$ be a contour in $U$.
+    If $f_n \to f$ uniformly on $\gamma$ then
+    \[
+    \lim_{n \to \infty}\int_{\gamma}f_n(z)\,dz = \int_{\gamma}\lim_{n \to \infty}f_n(z)\,dz = \int_{\gamma}f(z)\,dz.
+    \]
 
+    \begin{proof}
+        By the ML inequality
+        \[
+        \left|\int_{\gamma}f_n(z)\,dz - \int_{\gamma}f(z)\,dz\right| = \left|\int_{\gamma}f_m(z) - f(z)\,dz\right| \leq L(\gamma)\sup_{z \in \gamma}|f_n(z) - f(z)|.
+        \]
+    \end{proof}
+\end{lemma}
 
+Classic example of power series is $\displaystyle\sum_{n = 0}^{\infty}z ^ n$ which converges locally uniformly on $|z| < 1$.
+And in fact
+\[
+\lim_{N \to \infty}f_N(z) = \lim_{N \to \infty}\sum_{n = 0}^{N}z ^ n = \lim_{N \to \infty}\frac{1 - z ^ {N + 1}}{1 - z} = \frac{1}{1 - z}.
+\]
+In particular,
+for any contour $\gamma$ in unit disc
+\[
+\int_{\gamma}\sum_{n = 0}^{\infty}z ^ n\,dz = \sum_{n = 0}^{\infty}\int_{\gamma}z ^ n\,dz.
+\]
+
+\begin{proposition}[Integral of Cauchy Kernel]
+    Let $w \in B_r(a)$ in $\C$.
+    Then
+    \[
+    \int_{|z - a| = r}\frac{1}{z - w}\,dz = 2\pi i.
+    \]
+
+    \begin{proof}
+        For $w \in B_r(a)$ and pick $z$ on $|z - a| = r$.
+        Then
+        \[
+        \frac{1}{z - w} = \frac{1}{z - a + a - w} = \frac{1}{z - a}\frac{1}{1 - \left(\frac{w - a}{z - a}\right)} = \frac{1}{z - a}\sum_{n = 0}^{\infty}\left(\frac{w - a}{z - a}\right) ^ n
+        \]
+        $\left|\frac{w - a}{z - a}\right| = \frac{|w - a|}{r} < 1$.
+        Note $M(z) = \frac{w - a}{z - a}$ is a \mobius transformation,
+        $[a, w, \infty] \to [\infty, 1, 0]$.
+        $\gamma(t) = a + re ^ {i\theta}$,
+        $\theta \in [0, 2\pi]$.
+        \[
+        \delta = M(\gamma) = \frac{w - a}{r}e ^ {-i\theta}
+        \]
+        and
+        \[
+        \left|\frac{w - a}{r}\right| < 1.
+        \]
+        \begin{align*}
+            \int_{\gamma}\frac{1}{z - w}\,dz &= \int_{\gamma}\frac{1}{z - a}\sum_{n = 0}^{\infty}\left(\frac{w - a}{z - a}\right) ^ n\,dt \\
+            &= \int_{0}^{2\pi}\frac{\gamma'(t)}{\gamma(t) - a}\sum_{n = 0}^{\infty}\left(\frac{w - a}{\gamma(t) - a}\right) ^ n\,dt \\
+            &= \int_{0}^{2\pi}\frac{ire ^ {it}}{re ^ {it}}\cdot\sum_{n = 0}^{\infty}\left(\frac{w - a}{re ^ {it}}\right) ^n\,dt \\
+            &= \int_{0}^{2\pi}\frac{-\delta'(t)}{\delta(t)}\sum_{n = 0}^{\infty}(\delta(t)) ^ n\,dt \\
+            &= \int_{\delta}-\frac{1}{z}\sum_{n = 0}^{\infty}z ^ n\,dz \\
+            &= \sum_{n = 0}^{\infty}\int_{\delta}-\frac{1}{z}z ^ n\,dz \\
+            &= 2\pi i.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[Cauchy's Integral formula
+    (CIF)]
+    If $f$ is holomorphic on some ball $B_r(a)$,
+    and $\gamma$ is the contour $|z - a| = \rho$.
+    Then for every $w \in B_{\rho}(a)$ we have
+    \[
+    f(w) = \frac{1}{2\pi i}\int_{\gamma}\frac{f(z)}{z - w}\,dz.
+    \]
+    
+    \begin{proof}
+        By the remark about Cauchy-Goursat,
+        we have
+        \[
+        \int_{\gamma}g(z)\,dz = 0
+        \]
+        where $g(z)$ is the different quotient function.
+        So
+        \begin{align*}
+            \int_{\gamma}\frac{f(z) - f(w)}{z - w}\,dz &= 0 \iff \int_{\gamma}\frac{f(z)}{z - w}\,dz \\
+            &= \int_{\gamma}\frac{f(w)}{z - w}\,dz \\
+            &= f(w)\int_{\gamma}\frac{1}{z - w}\,dz \\
+            &= f(w)2\pi i.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    $\sin(z)$ is holomorphic on $\C$
+    (starlike),
+    so $\int_{|z| = 1}\sin(z)\,dz = 0$ and
+    \[
+    \int_{|z| = 1}\frac{\sin{z}}{z}\,dz = 2\pi i\sin(0) = 0.
+    \]
+    \[
+    \int_{|z| = 2}\frac{\sin(z)}{z - \frac{\pi}{2}}\,dz = 2\pi i\sin\left(\frac{\pi}{2}\right) = 2\pi i.
+    \]
+\end{example}
+
+\newpage
+
+\section{Features of Holomorphic Functions}
+
+\subsection{The Cauchy-Taylor Theorem and Morera's Theorem}
+
+\begin{theorem}[Cauchy-Taylor Theorem]
+    Let $f : U \to \C$ be holomorphic on some ball $B_r(a)$,
+    then $f$ can be represented by a power series on $B_r(a)$
+    \[
+    f(w) = \sum_{n = 0}^{\infty}c_n(w - a) ^ n.
+    \]
+    In particular,
+    $f$ is infinitely many times complex differentiable at $a$ and
+    \[
+    c_n = \frac{f ^ {(n)}(a)}{n!} = \frac{1}{2\pi i}\int_{|z - a| = \rho}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz
+    \]
+    for any $0 < \rho < r$.
+
+    \begin{proof}
+        We know by CIF
+        \begin{align*}
+            f(w) &= \frac{1}{2\pi i}\int_{\gamma}\frac{f(z)}{z - w}\,dz \\
+            &= \frac{1}{2\pi i}\int_{\gamma}\frac{f(z)}{z - a}\sum_{n = 0}^{\infty}\left(\frac{w - a}{z - a}\right) ^ n\,dz \\
+            &= \sum_{n = 0}^{\infty}\underbrace{\frac{1}{2\pi i}\int_{\gamma}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz}_{c_n}\cdot (w - a) ^ n
+        \end{align*}
+        with $\gamma = |z - a| = \rho$.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}[Holomorphic functions have infinitely many holomorphic derivatives]
+    If $f : U \to \C$ is holomorphic on an open set $U$.
+    Then it has derivatives of all orders and they are all holomorphic too.
+\end{corollary}
+
+\begin{example}
+    \[
+    e ^ z = \sum_{n = 0}^{\infty}\frac{f ^ {(n)}(0)}{n!}z ^ n = \sum_{n = 0}^{\infty}\frac{z ^ n}{n!}.
+    \]
+\end{example}
+
+\begin{corollary}[CIF for derivatives]
+    Suppose $f$ is holomorphic on some ball $B_r(a)$.
+    Then
+    \[
+    \int_{|z - a| = \rho}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz = 2\pi i\frac{f ^ {(n)}(a)}{n!}.
+    \]
+\end{corollary}
+
+\begin{example}
+    \[
+    \int_{|z| = 1}\frac{\sin{z}}{z ^ 2}\,dz = 2\pi i\sin'(z)\big|_{z = 0} = 2\pi i\cos(0) = 2\pi i.
+    \]
+\end{example}
+
+\begin{theorem}[Morera's Theorem]
+    Let $f$ be continuous on a domain $D$.
+    If $\int_{\delta}f(z)\,dz = 0$ for every closed contour then $f$ is holomorphic on $D$.
+
+    \begin{proof}
+        By FTC there exists a holomorphic antiderivative $F$.
+        By the previous corollary $F$ has holomorphic derivative.
+        But $F' = f$.
+    \end{proof}
+\end{theorem}
 
 
 
