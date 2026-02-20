@@ -754,4 +754,172 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$6$}{}}
+
+\begin{problem}
+    Let $\gamma$ be the curve $\gamma(\theta) = 2e ^ {i\theta}$,
+    with $\theta \in [0, 2\pi]$.
+    Show that
+    \[
+    \left|\int_{\gamma}\frac{e ^ z}{z ^ 2 + 1}\right| \leq \frac{4\pi}{3}e ^ 2.
+    \]
+
+    \begin{solution}
+        \[
+        \left|\int_{\gamma}\frac{e ^ z}{z ^ 2 + 1}\right| \leq L(\gamma)\sup_{z \in \gamma}\left|\frac{e ^ z}{z ^ 2 + 1}\right|
+        \]
+        $L(\gamma) = 4\pi$ as circle.
+        For $z \in \gamma$,
+        so points with $|z| = 2$,
+        \[
+        \left|\frac{e ^ z}{z ^ 2 + 1}\right| = \left|\frac{e ^ {x + iy}}{z ^ 2 + 1}\right| = \frac{e ^ x}{|z ^ 2 + 1|} \leq \frac{e ^ x}{||z| ^ 2 - 1|} = \frac{e ^ x}{3} \leq \frac{e ^ 2}{3}.
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Evaluate the following contour integrals:
+    \[
+    \int_{|z + i| = 3}\frac{\sin(z)}{z + i}\,dz.
+    \]
+    \[
+    \int_{|z| = 2}\frac{1}{z ^ 2 + 1}\,dz.
+    \]
+
+    \begin{solution}
+        \[
+        f(z) = \sin(z)
+        \]
+        using CIF
+        \[
+        \int_{|z + i| = 3}\frac{\sin(z)}{z + i}\,dz = 2\pi i \sin(-i) = 2\pi i\sinh(1).
+        \]
+
+        \[
+        \frac{1}{z ^ 2 + 1} = \frac{1}{(z - i)(z + i)} = \frac{A}{z - i} + \frac{B}{z + i} = \frac{1}{2i}\frac{1}{z - i} - \frac{1}{2i}\frac{1}{z + i}
+        \]
+        $A = \frac{1}{z + i}\big|_{i} = \frac{1}{2i}$,
+        $B = \frac{1}{z - i}\big|_{-i} = -\frac{1}{2i}$.
+        \[
+        \int_{|z| = 2}\frac{1}{z ^ 2 + 1}\,dz = \frac{1}{2i}\int_{|z| = 2}\frac{1}{z - i}\,dz - \frac{1}{2i}\int_{|z| = 2}\frac{1}{z + i}\,dz
+        \]
+        by CIF both $2\pi i \cdot 1$ so integral is $0$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Show the following function does not have a holomorphic anti-derivative on the indicated domain
+    \[
+    \frac{z}{1 + z ^ 2}\qquad(1 < |z| < \infty).
+    \]
+
+    \begin{solution}
+        By Newton-Leibniz just need to show one integral is not zero
+        (closed contour)
+        $\gamma$ circle radius $2$.
+        \[
+        \frac{z}{z ^ 2 + 1} = \frac{1}{2i}\frac{z}{z - i} - \frac{1}{2i}\frac{z}{z + i}.
+        \]
+        \[
+        \int_{|z| = 2}\frac{z}{z ^ 2 + 1}\,dz = \frac{1}{2i}\int_{|z| = 2}\frac{z}{z - i}\,dz - \frac{1}{2i}\int_{|z| = 2}\frac{z}{z + i}\,dz = \frac{1}{2i}\cdot 2\pi i\cdot i - \frac{1}{2i}\cdot 2\pi i\cdot (-i) = \pi i - (-\pi i) = 2\pi i \neq 0.
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}\phantom{}
+    \begin{enumerate}[label = (\roman*)]
+        \item Explain why the domain $\C \setminus \R_{\leq 0}$ is starlike,
+        where as usual $\R_{\leq 0} = \{x \in \R\,:\,x \leq 0\}$.
+
+        \item Let $z = re ^ {i\theta}$ be a point in $\C \setminus \R_{\leq 0}$ such that $r > 0$.
+        Consider the closed contour $\gamma$ in $\C \setminus \R_{\leq 0}$ consisting of the following three curves:
+        straight line segment $[1, r]$ in $\R$ connecting $1$ to $r$.
+        Circular arc
+        (radius $r$,
+        centred at origin)
+        in $\C \setminus \R_{\leq 0}$ connecting $r$ with the point $z$.
+        Straight line segment $[z, 1]$ reconnecting $z$ to $1$.
+
+        Use Cauchy-Goursat to show
+        \[
+        \int_{[1, z]}\frac{1}{w}\,dw = \Log(z),
+        \]
+        where $\Log$ denotes the principal branch of logarithm and $[1, z]$ is the straight line connecting $1$ to $z$.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item Diagram sees it.
+
+            \item Note $\frac{1}{w}$ is holomorphic on $\C \setminus \R_{\leq 0}$.
+            So by Cauchy-Goursat starlike
+            \[
+            \int\frac{1}{w}\,dw = 0
+            \]
+            with the integral being over the whole shape
+            (denoted $\psi$).
+            \[
+            0 = \int_{\psi}\frac{1}{w}\,dz = \int_{[1, r]}\frac{1}{w}\,dw + \int_{\gamma}\frac{1}{w}\,dw - \int_{[1, z]}\frac{1}{w}\,dw
+            \]
+            so
+            \[
+            \int_{[1, 2]}\frac{1}{w}\,dw = \int_{[1, r]}\frac{1}{w}\,dw + \int_{\gamma}\frac{1}{w}\,dw = \ln{r} + i\Arg(\theta) = \Log(z).
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Find Taylor series about $0$ of:
+    \[
+    f(z) = \frac{1}{1 - z ^ 2}.
+    \]
+    \[
+    f(z) = \frac{1}{(1 - z) ^ 2}
+    \]
+
+    \begin{solution}
+        \[
+        \frac{1}{1 - z ^ 2} = \frac{1}{1 - (z ^ 2)} = \sum_{n = 0}^{\infty}(z ^ 2) ^ n = \sum_{n = 0}^{\infty}z ^ {2n}.
+        \]
+
+        \[
+        \frac{1}{(1 - z) ^ 2} = \frac{d}{dz}\frac{1}{1 - z} = \frac{d}{dz}\sum_{n = 0}^{\infty}z ^ n = \sum_{n = 1}^{\infty}nz ^ {n - 1}.
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $D \subseteq \C$ be a starlike domain.
+    For each $n \geq 1$,
+    suppose $f_n : D \to \C$ is holomorphic,
+    and suppose that the sequence $\{f_n\}_{n \in \N}$ converges uniformly on $D$ to some limit function $f : D \to \C$.
+    Show that $f$ is holomorphic on $D$.
+
+    \begin{solution}
+        Know by Cauchy-Goursat that $\int_{\gamma} f_n\,dz = 0$ for all closed contours in $D$.
+        So for any closed $\gamma$
+        \[
+        \int_{\gamma}f(z)\,dz = \int_{\gamma}\lim_{n \to \infty}f_n(z)\,dz = \lim_{n \to \infty}\int_{\gamma}f_n(z)\,dz = \lim_{n \to \infty}0 = 0.
+        \]
+        By Morera $f$ is holomorphic.
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
