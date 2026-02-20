@@ -537,4 +537,173 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\begin{problem}
+    Show that $\leftrightarrow$ is an equivalence relation on $I$,
+    meaning that $i \leftrightarrow j$ and $j \leftrightarrow k$ implies $i \leftrightarrow k$,
+    for any $i, j, k \in I$.
+
+    \begin{solution}
+        Recall $i \sim j$ means $\P_i(X_n = j) > 0$ for some $j$ and $\P_j(X_m = i) > 0$ for some $i$.
+        $\P_i(X_0 = i) = 1$.
+        $i \sim j$ and $j \sim k$ implies $i \sim k$.
+        From previous theorem
+        \[
+        \exists n, m > 0, P_{ij}^{n} > 0\text{ and } P_{jk}^{n} > 0.
+        \]
+        Therefore
+        \[
+        P_{ik}^{n + m} = \sum_{l}P_{il}^{n}P_{lk}^{m} \geq P_{ij}^{n}P_{jk}^{m} > 0 \implies \P_i(X_r = k\text{ for some $r$}) > 0
+        \]
+        using the same theorem.
+        Same argument in the opposite direction:
+        $\P_k(X_s = i\text{ for some $s$}) > 0$.
+
+        $i \sim j \implies j \sim i$,
+        $i \sim j \implies \P_i(X_n = j\text{ some $n$}) > 0$ and $\P_j(X_m = i\text{ for some $m$}) > 0$ so $j \sim i$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Recall method for compute $P_{ij}^{n}$:
+    \begin{enumerate}[label = (\arabic*)]
+        \item Compute the eigenvalues of $x_1, \dotsc, x_N$ where $N = |i|$.
+
+        \item If all distinct,
+        $P_{ij}^{m} = \alpha_1x_1 ^ {m} + \dotsi + \alpha_Nx_N ^ m$.
+    \end{enumerate}
+    If they aren't distinct,
+    so if $x_j$ has multiplicity $r_j$,
+    then replace $\alpha_jx_j ^ m$ with $(\tilde{\alpha}_1 + \tilde{\alpha}_2n + \dotsi + \tilde{\alpha}_{r_j}m ^ {r_j - 1})x_{j}^{n}$.
+    Why?
+
+    \begin{solution}
+        Jordan normal form:
+        if for $2 \times 2$:
+        Given $P$,
+        either
+        \[
+        P = U\begin{pmatrix}
+            x_1 & 0 \\ 0 & x_2
+        \end{pmatrix}U ^ {-1}
+        \]
+        or
+        \[
+        P = U\underbrace{\begin{pmatrix}
+            x_1 & 1 \\ 0 & x_1
+        \end{pmatrix}}_{D}U ^ {-1}.
+        \]
+
+        Product:
+        \[
+        P ^ m = \underbrace{UDU ^ {-1}(UDU ^ {-1})(UDU ^ {-1})\dots (UDU ^ {-1})}_{\text{$m$ times}} = UD ^ mU ^ {-1}.
+        \]
+        Viewed with $U$ fixed,
+        $USU ^ {-1}$ is a linear function on elements of $S$.
+        \[
+        S = \begin{pmatrix}
+            a & b \\ c & d
+        \end{pmatrix},
+        \]
+        \begin{align*}
+            P ^ n &= aU\begin{pmatrix}
+                1 & 0 \\ 0 & 0
+            \end{pmatrix}U ^ {-1} \\
+            &= bU\begin{pmatrix}
+                0 & 1 \\ 0 & 0
+            \end{pmatrix} + cU\begin{pmatrix}
+                0 & 0 \\ 1 & 0
+            \end{pmatrix} + d\begin{pmatrix}
+                0 & 0 \\ 0 & 1
+            \end{pmatrix} \\
+            &= aM_1 + bM_2 + cM_3 + dM_4
+        \end{align*}
+        for some fixed matrices $M_1, \dotsc, M_3$.
+        So $D ^ m = UD ^ mU ^ {-1}$ is a linear function of elements of $D ^ n$.
+        So $P_{ij}^{m}$ is a linear combination of elements of $D ^ n$ where
+        \[
+        D = \begin{pmatrix}
+            x_1 & 1 \\ 0 & x_1
+        \end{pmatrix}
+        \]
+        with $x_1$ the eigenvalue.
+        \[
+        D ^ 2 = \begin{pmatrix}
+            x_1 & 1 \\ 0 & x_1
+        \end{pmatrix}\begin{pmatrix}
+            x_1 & 1 \\ 0 & x_1
+        \end{pmatrix} = \begin{pmatrix}
+            x_1 ^ 2 & 2x_1 \\
+            0 & x_1 ^ 2
+        \end{pmatrix}
+        \]
+        after a while you see a pattern
+        \[
+        D ^ m = \begin{pmatrix}
+            x_1 ^ m & mx_1 ^ {m - 1} \\ 0 & x_1 ^ m
+        \end{pmatrix}.
+        \]
+        So $P_{ij}^{m}$ is a linear combination of $x_1 ^ m$ and $mx_1 ^ {m - 1}$ so equal to $\tilde{\alpha}_1x ^ m + \tilde{\alpha}_2mx_1 ^ {m - 1}$ for some $\tilde{\alpha}_1, \tilde{\alpha}_2$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    A flea jumps randomly on the vertices of a triangle,
+    hopping clockwise with twice the probability of hopping anticlockwise.
+    What is the probability it is back where it started after $n$ steps?
+
+    \begin{solution}
+        \[
+        P = \begin{pmatrix}
+            0 & \frac{2}{3} & \frac{1}{3} \\
+            \frac{1}{3} & 0 & \frac{2}{3} \\
+            \frac{2}{3} & \frac{1}{3} & 0
+        \end{pmatrix}
+        \]
+        Eigenvalues
+        \[
+        \det(P - tI) = \begin{vmatrix}
+            -t & \frac{2}{3} & \frac{1}{3} \\
+            \frac{1}{3} & -t & \frac{2}{3} \\
+            \frac{2}{3} & \frac{1}{3} & -t
+        \end{vmatrix} = -t(t ^ 2 - 2 / 9) + 1 / 3(2t / 3 + 1 / 9) - 2 / 3(4 / 9 + t / 3) = -t ^ 3 + \frac{2}{3}t + \frac{1}{3}
+        \]
+        $t = 1$ is an eigenvalue.
+        \[
+        -t ^ 3 + \frac{2}{3}t + \frac{1}{3} = (1 - t)\left(t ^ 2 + t + \frac{1}{3}\right)
+        \]
+        getting eigenvalues $t = 1, \frac{1}{\sqrt{3}}e ^ {\pm i\pi / 6}$.
+        \[
+        P_{11}^{m} = \alpha_11 ^ m + \alpha_2x_1 ^ m + \alpha_3x_2 ^ m
+        \]
+        $x_1 = \frac{1}{\sqrt{3}}e ^ {i\pi / 6}$,
+        $x_2 = \frac{1}{\sqrt{3}}e ^ {-i\pi / 6}$.
+        $P_{11}^{0} = 1$,
+        $\alpha_1 + \alpha_2 + \alpha_3 = 1$,
+        $P_{11}^{1} = 0$ so $\alpha_1 + \alpha_2x_2 + \alpha_3x_3 = 0$,
+        $P_{11}^{2} = \frac{2}{3}\frac{1}{3} + \frac{1}{3}\frac{2}{3} = \frac{4}{9}$ so $\alpha_1 + \alpha_2x_2 ^ 2 + \alpha_3x_3 ^ 2 = \frac{4}{9}$.
+        Solving these equations gets the necessary parts to work out $P_{11}^{n}$.
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
