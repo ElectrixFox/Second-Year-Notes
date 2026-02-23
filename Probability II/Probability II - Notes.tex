@@ -2198,8 +2198,68 @@ For each $i \in I$,
 define $C_i \coloneqq \{j \in I : i \leftrightarrow j\}$.
 Then for any $i, j \in I$ either $C_i = C_j$ or $C_i \cap C_j = \emptyset$.
 
+\newpage
 
+\section{Hitting times}
 
+Let $A \subseteq I$.
+The hitting time of $A \subseteq I$ is the random variable $H ^ A \eqqcolon \min\{n \geq 0 \mid X_n \in A\}$,
+$H ^ A : \Omega \to \{0, 1, \dotsc\} \cup \{\infty\}$
+($\infty$ means never hits $A$).
+
+\begin{definition}
+    $h_{i}^{A} \eqqcolon \P_i(H ^ A < \infty)$ is the hitting probability/
+    probability of hitting $A$ starting from $i$.
+    $k_{i}^{A} \eqqcolon \E_{i}(H ^ A)$ is the expected hitting time of $A$ started from $i$,
+    equal to infinity if $\P(H ^ A = \infty) > 0$.
+\end{definition}
+
+\begin{theorem}
+    The vector of hitting probabilities $(h_{i}^{A})_{i \in I}$ is the minimal non-negative solution to the linear system
+    \[
+    \begin{cases}
+        h_{i}^{A} = 1, & i \in A \\
+        h_{i}^{A} = \sum_{j \in I}P_{ij}h_{j}^{A}, & i \notin A.
+    \end{cases}
+    \]
+    By minimal non-negative solution,
+    we mean that if $(X_i)_{i \in I}$ solves the above equation and $X_i \geq 0$ $\forall i \in I$,
+    then $h_{i}^{A} \leq x_i$ $\forall i \in I$.
+\end{theorem}
+
+\begin{example}
+    At each time step,
+    a gambler bets $\pounds 1$,
+    winning $\pounds 2$ with probability $p$ and $\pounds 0$ with probability $q = 1 - p$ with $X_n$ wealth at time step $n$,
+    takes values in $N = \{0, 1, 2, \dotsc\}$.
+    What is the probability of bankruptcy $\P(H ^{\{0\}} < \infty)$?
+
+    \begin{solution}
+        \[
+        P_{i, i + 1} = p,\quad P_{i, i - 1} = q,\quad i > 0.
+        \]
+        Need minimal non-negative solution to $h_0 = 1$,
+        $h_i = ph_{i + 1} + qh_{i - 1}$,
+        $i \geq 1$.
+        Using the general solution:
+        \[
+        h_i = \begin{cases}
+            1 - B + B(q / p) ^ i, & q \neq p \\
+            1 - B + Bi, & q = p.
+        \end{cases}
+        \]
+        Now three cases $p < q$,
+        since $h_i \in [0, 1]$ $B = 0$ and hence $h_i = 1$.
+        $p = q$,
+        since $h_i \in [0, 1]$,
+        $B = 0$ so $h_i = 1$.
+
+        If $p > q$,
+        $h_i = 1 - B(1 - (q / p) ^ i)$,
+        so minimal non-negative solution is $B = 1$.
+        Therefore $h_i = (q / p) ^ i$.
+    \end{solution}
+\end{example}
 
 
 
