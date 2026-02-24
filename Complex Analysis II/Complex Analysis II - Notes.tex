@@ -3859,6 +3859,278 @@ for any contour $\gamma$ in unit disc
     \end{proof}
 \end{theorem}
 
+Recall:
+A function $f : \C \to \C$ that is holomorphic is called entire.
+Notation:
+If there exists $N > 0$ s.t. $|f(z)| \leq M$ for all $z \in \C$ then we say that $f$ is bounded.
+
+\begin{theorem}[Liouville's Theorem]
+    Every bounded entire function is constant.
+
+    \begin{proof}
+        Let $f$ be entire and let $M$ be the constant such that $|f(z)| \leq M$.
+        Strategy is to show $f(w) = f(0)$ for every $w \in \C$.
+        We have
+        \begin{align*}
+            |f(w) - f(0)| &= \left|\frac{1}{2\pi i}\int_{|z| = \rho}\frac{f(z)}{z - w}\,dz - \frac{1}{2\pi i}\int_{|z| = \rho}\frac{f(z)}{z}\,dz\right| \\
+            &= \frac{1}{2\pi}\left|\int_{|z| = \rho}f(z)\left(\frac{1}{z - w} - \frac{1}{z}\right)\,dz\right| \\
+            &= \frac{1}{2\pi}\left|\int_{|z| = \rho}f(z)\frac{w}{z(z - w)}\,dz\right| \\
+            &= \frac{|w|}{2\pi}\left|\int_{|z| = \rho}f(z)\frac{1}{z(z - w)}\,dz\right| \\
+            &\leq \frac{|w|}{2\pi}2\pi \rho\cdot\sup_{|z| = \rho}\left|\frac{f(z)}{z(z - w)}\right| &\text{(ML inequality)}\\
+            &\leq |w|\rho\frac{M}{\rho}\sup_{|z| = \rho}\frac{1}{|z - w|} \\
+            &\leq |w|M\cdot\sup_{|z| = \rho}\frac{1}{||z| - |w||} \\
+            &= \frac{|w|M}{\rho - |w|}.
+        \end{align*}
+        As $\rho \to \infty$ $|f(w) - f(0)| \to 0$.
+    \end{proof}
+\end{theorem}
+Holomorphic is vital,
+e.g. $f(x + iy) = \sin(x) + i\sin(y)$.
+
+An important class of entire functions are non-constant polynomials,
+of the form
+\[
+p(z) = c_dz ^ d + c_{d - 1}z ^ {d - 1} + \dotsi + c_1z + c_0
+\]
+where $c_i \in \C$,
+$c_d \neq 0$,
+and $d \geq 1$ is the degree.
+
+\begin{proposition}
+    If $p : \C \to \C$ is a non-constant polynomial
+    (with complex coefficients),
+    then
+    \[
+    |p(z)| \to \infty\text{ as } |z| \to \infty.
+    \]
+\end{proposition}
+
+\begin{theorem}[Fundamental Theorem of Algebra
+(FTA)]
+    Every non-constant polynomial
+    (with complex coefficients)
+    has a complex root.
+    That is,
+    there exists $a \in \C$ s.t. $p(a) = 0$.
+
+    \begin{proof}
+        Contradiction.
+        First note by the previous proposition,
+        $\exists R > 0$ s.t. $|p(z)| > 1$ whenever $|z| > R$.
+        Fix this $R$.
+        Assume $p$ has no root
+        (so $p(z) \neq 0$ on $\C$).
+        In particular $f(z) \coloneqq \frac{1}{p(z)}$ is entire.
+        Aim to show $f$ is bounded.
+        Note,
+        for $|z| > R$,
+        we have $|f(z)| = \dfrac{1}{|p(z)|} < 1$.
+        All that remains is to show $f$ is bounded on $|z| \leq R$,
+        i.e. $\overline{B}_{R}(0)$.
+        By the extreme value theorem,
+        $|f|$
+        (being continuous)
+        attains a maximum value on the closed,
+        bounded set $\overline{B}_{R}(0)$,
+        i.e. $\exists K > 0$ s.t. $|f(z)| \leq k$ on $\overline{B}_{R}(0)$.
+        Thus $|f(z)| \leq \max\{1, k\}$ for $z \in \C$.
+        Liouville $f$
+        (and so $p$)
+        is constant.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    Suppose $p(z) = c_dz ^ d + c_{d - 1}z ^ {d - 1} + \dotsi + c_1z + c_0$.
+    Then
+    (if $d \geq 1$)
+    then there exists $1 \leq n \leq d$ and complex numbers $a_1, \dotsc, a_n$ and $k_1, \dotsc, k_n \in \N$ s.t.
+    \[
+    p(z) = c_d(z - a_1) ^ {k_1}(z - a_2) ^ {k_2} \dotsi (z - a_n) ^ {k_n}
+    \]
+    with $k_1 + \dotsi + k_n = d$ and $a_i$,
+    $k_i$ are unique up to reordering.
+\end{corollary}
+
+\begin{example}
+    $p(z) = z ^ 2 - 4iz - 4 - 2i$.
+
+    This is zero when
+    \[
+    0 = z ^ 2 - 4iz - 4 - 2i = (z - 2i) ^ 2 - 4 - 2i + 4 
+    \]
+    so $(z - 2i) ^ 2 = 2i = 2e ^ {i\pi / 2}$.
+    So $z - 2i = \sqrt{2}e ^ {i\pi / 4 + 2\pi ik / 4}$,
+    $n = 0, 1$.
+    Then $z = 2i + \sqrt{2}e ^ {i\pi / 4}$ or $z = 2i + \sqrt{2}e ^ {5i\pi / 4}$.
+    $z = 1 + 3i$ or $z = i - 1$.
+    So $p(z) = (z - (1 + 3i))(z + (1 - i))$.
+\end{example}
+
+If $p(a) = 0$ then there is a $k \in \N$ such that
+\[
+p(z) = (z - a) ^ kQ(z),
+\]
+where $Q$ is a polynomial with $Q(a) \neq 0$.
+
+\begin{definition}[Order of a zero]
+    Suppose $f : U \to \C$ is holomorphic on an open set $U$ and $f(a) = 0$ for some $a \in U$.
+    If there exists $k \in \N$ such that
+    \[
+    f(a) = f'(a) = \dotsi = f ^ {(k - 1)}(a) = 0,\qquad\text{but } f ^ {(k)}(a) \neq 0,
+    \]
+    then we say $f$ has a zero of order $k$ at $z = a$.
+\end{definition}
+
+\begin{lemma}
+    If $f$ is holomorphic on some ball $B_r(a)$ with $f(a) = 0$.
+    Then either $f(z) = 0$ for all $z \in B_r(a)$ or there exists $k \in \N$ s.t. $f$ has a zero of order $k$ at $z = a$.
+
+    \begin{proof}
+        If $f$ is holomorphic on $B_r(a)$,
+        then by Cauchy-Taylor it has a convergent power series representation of the form
+        \[
+        f(z) = \sum_{n = 0}^{\infty}\frac{f ^ {(n)}(a)}{n!}(z - a) ^ n.
+        \]
+        So if $z$ were not of finite order then $f ^ {(n)}(a) = 0$ for every $n$.
+        But then $f(z) = 0$ for all $z$.
+    \end{proof}
+\end{lemma}
+
+A function is identically $0$ on $B_r(a)$ if it is zero on a whole set.
+\begin{lemma}[Characterisation lemma for zeros]
+    Suppose $f$ is holomorphic on some ball.
+    Then $f$ has a zero of order $k$ at $z = a$ if and only if there exists a holomorphic $g : B_r(a) \to \C$ with
+    \[
+    f(z) = (z - a) ^ kg(z),\qquad \forall z \in B_r(a)
+    \]
+    with $g(a) \neq 0$.
+
+    \begin{proof}
+        By Cauchy-Taylor $f(z) = \sum_{n = 0}^{\infty}c_n(z - a) ^ n$ where $c_n = \frac{f ^ {(n)}(a)}{n!}$.
+        If $f$ has a zero of order $k$,
+        then $k = \min\{n \geq 0\,:\, c_n \neq 0\}$.
+        Thus
+        \begin{align*}
+            f(z) &= \sum_{n = k}^{\infty}c_n(z - a) ^ n \\
+            &= (z - a) ^ k\sum_{n = k}^{\infty}c_n(z - a) ^ {n - k} \\
+            &= (z - a) ^ k\underbrace{\sum_{m = 0}^{\infty}c_{m + k}(z - a) ^ m}_{g(z)} & m = n - k
+        \end{align*}
+        we know power series are holomorphic,
+        $g(a) = c_k \neq 0$.
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Consider $f(z) = z(e ^ z - 1)$.
+    This has a zero at $z = 0$.
+
+    $f'(z) = (e ^ z - 1) + ze ^ z$ so $f'(0) = 0$.
+    $f''(z) = e ^ z + e ^ z + ze ^ z$ so $f''(0) = 1 + 1 + 0 = 2 \neq 0$ so order is $2$.
+
+    Can we write as $f(z) = (z - a) ^ kg(z)$?
+    Note
+    $\displaystyle e ^ z = \sum_{n = 0}^{\infty}\frac{z ^ n}{n!}$,
+    so
+    \begin{align*}
+        f(z) &= z\left(\sum_{n = 0}^{\infty}\frac{z ^ n}{n!} - 1\right) \\
+        &= z\sum_{n = 1}^{\infty}\frac{z ^ n}{n!} \\
+        &= z ^ 2\sum_{n = 1}^{\infty}\frac{z ^ {n - 1}}{n!} \\
+        &= z ^ 2\sum_{m = 0}^{\infty}\frac{z ^ m}{(m + 1)!} & m = n - 1.
+    \end{align*}
+\end{example}
+
+\begin{theorem}[L'H\^opital's rule]
+    Suppose $f, h : D \to \C$ be holomorphic on a domain $D$.
+    If $a \in D$ is a zero of order $k$ of $f$ and a zero of order $m$ of $h$.
+    Then
+    \begin{align*}
+        \lim_{z \to a}\frac{f(z)}{h(z)} &= 0,&\text{if } k > m \\
+        \lim_{z \to a}\frac{f(z)}{h(z)} &= \frac{f ^ {(k)}(a)}{h ^{(k)}(a)} &\text{if } k = m \\
+        \lim_{z \to a}\left|\frac{f(z)}{h(z)}\right| &= \infty &\text{if } k < m.
+    \end{align*}
+\end{theorem}
+For example
+\[
+\lim_{z \to 0}\frac{\sin(z)}{z} = \frac{f(z)}{h(z)}.
+\]
+Then $f'(z) = \cos(z)$,
+$f'(0) = 1 \neq 0$.
+Since order $1$ zero at $h$.
+So
+\[
+\lim_{z \to 0}\frac{\sin(z)}{z} = \frac{\cos(0)}{1} = 1.
+\]
+
+\begin{lemma}[Continuous functions are locally bounded]
+    If $f$ is continuous on an open set $U$,
+    then for any point $a$ there exists $\rho > 0$,
+    $k > 0$ such that $|f(z)| \leq k$ on $B_p(a)$.
+    In particular,
+    if $f(a) \neq 0$,
+    there exists,
+    $\rho > 0$,
+    $k > 0$,
+    $M < 0$ such that
+    \[
+    K \geq |f(z)| \geq M > 0\text{ on }B_{\rho}(a).
+    \]
+\end{lemma}
+
+\begin{definition}[Isolated points and discrete sets]
+    Given a set $S \subset \C$,
+    we say $w \in S$ is an isolated point of $S$ if there exists $\rho > 0$ such that
+    \[
+    B_p(w) \cap S = \{w\}.
+    \]
+    If every point of $S$ is an isolated point of $S$ then we say $S$ is a discrete set.
+\end{definition}
+
+\begin{proposition}[Principle of isolated zeros]
+    Suppose $f$ is holomorphic on some ball $B_r(a)$ and not identically zero.
+    If $f(a) = 0$,
+    then there exists $\rho \in (0, r)$ such that $f(z) \neq 0$ for all $z \in B_{\rho}(a) \setminus \{a\}$.
+    In other words,
+    zeros at holomorphic functions form a discrete set.
+
+    \begin{proof}
+        If $f(a) = 0$.
+        By a previous lemma,
+        $z = a$ is a zero of finite order,
+        $k$.
+        By characterisation lemma for zeros,
+        there is $g : B_r(a) \to \C$ such that
+        \[
+        f(z) = (z - a) ^ kg(z)
+        \]
+        for all $z \in B_r(a)$ and $g(a) \neq 0$.
+        By continuous functions locally bounded,
+        there is a $\rho > 0$ such that $g \neq 0$ on $B_{\rho}(a)$.
+        So on $B_{\rho}(a) \setminus \{a\}$,
+        $f(z) \neq 0$.
+    \end{proof}
+\end{proposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
