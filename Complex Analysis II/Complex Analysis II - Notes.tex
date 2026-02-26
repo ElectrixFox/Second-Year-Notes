@@ -4111,9 +4111,118 @@ So
     \end{proof}
 \end{proposition}
 
+Given a function $f : U \to \C$,
+when can we find another function on a larger domain that matches $f$ on $U$?
 
+\begin{definition}[Analytic continuation]
+    If $f : U \to \C$ is holomorphic on an open set $U$,
+    and if $V$ is an open set containing $U$,
+    then a holomorphic function
+    \[
+    g : V \to \C \text{ such that } g(z) = f(z)\qquad \forall z \in U
+    \]
+    is called an analytic continuation of $f$ to $V$.
+\end{definition}
 
+\begin{definition}[Accumulation point]
+    Given a set $S \subset \C$ we say a point $w \in \C$ is an accumulation point of $S$ if for every $\rho > 0$ there exists $z \in S \setminus\{w\}$ such that $z \in B_{\rho}(w)$.
+\end{definition}
 
+\textit{Note:
+Accumulation points of $S$ need not lie in $S$}.
+Can show $w \in \C$ is an accumulation point of $S$ if and only if it is the limit point of some convergent sequence of points in $S$.
+
+\begin{lemma}[Principle of Analytic continuation]
+    Let $f, g : D \to \C$ be holomorphic on a domain $D$.
+    If there exists a ball $B_r(a) \subset D$ on which
+    \[
+    f(z) = g(z)\qquad \forall z \in B_r(a).
+    \]
+    Then $f(z) = g(z)$ on $D$.
+
+    \begin{proof}
+        Recall,
+        a domain is connected so if we could write $D = U_1 \cup U_2$ for disjoint open sets $U_1$ and $U_2$,
+        then we must have that one of $U_1, U_2$ is empty.
+
+        Let $h(z) = f(z) - g(z)$.
+        So that $h(z) = 0$ on $B_r(a)$.
+        Aim:
+        To show $h(z) = 0$ on $D$.
+        Let $S = \{z \in D\,:\,h(z) = 0\}$ be the set of zeros.
+        Let
+        \begin{align*}
+            U_1 &= \{z \in D\,:\,z\text{ is an accumulation point of $S$}\} \\
+            U_2 &= \{z \in D\,:\,z\text{ is not an accumulation point of $S$}\}.
+        \end{align*}
+        These are disjoint and $D = U_1 \cup U_2$.
+
+        Note $U_1$ is non-empty,
+        namely $B_r(a) \subset U_1$,
+        and $U_1 \subset S$.
+        Claim:
+        $U_1$ is open.
+        Pick $z \in U_1$.
+        Let $\varepsilon > 0$,
+        and consider $B_{\varepsilon}(z)$.
+        Note,
+        if $z$ is an accumulation point of zeros of $h$ then $h(z) = 0$ by continuity.
+        If $h(z) = 0$ then by PIZ there is a ball around $z$ containing no other zeros of $h$.
+        This contradicts $h$ being an accumulation point of zeros.
+        Claim:
+        $U_2$ is open.
+        Suppose $z \in U_2$,
+        by PIZ or by continuous functions are locally bounded we have a ball around $z$ on which $h$ is non-zero.
+        So this ball contains no zeros
+        (apart from at $z$)
+        so all points are not accumulation points of zeros.
+        Since $U_1, U_2$ are open and disjoint and $U_1$ is non-empty,
+        then by connectedness $D = U_1$.
+        So $h = 0$ on $D$.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}[Uniqueness of analytic continuation]
+    Let $f : D \to \C$ be holomorphic on a domain.
+    Then if $D'$ is a domain containing $D$,
+    there is at most one analytic continuation of $f$ to $D'$.
+\end{theorem}
+
+If there is an analytic continuation $g$ of $f$ to $D'$,
+we say it is \textbf{the} analytic continuation of $f$ to $D'$.
+Also say $f$ "extends" to a holomorphic function on $D'$ or that $f$ is the "restriction" of $g$ to $D$.
+
+\begin{theorem}[Identity Theorem]
+    Let $f, g : D \to \C$ be holomorphic on a domain $D$.
+    If $D$ contains an accumulation point of the set
+    \[
+    S = \{z \in D\,:\, f(z) = g(z)\}.
+    \]
+    Then $f(z) = g(z)$ on $D$.
+
+    \begin{proof}
+        Suppose $w \in D$ is an accumulation point of $S$.
+        Write $h(z) = f(z) - g(z)$.
+        By continuity,
+        $h(w) = 0$.
+        By PIZ there is a ball around $w$,
+        say $B_{\rho}(w)$ for which $h(z) = 0$ when $z \in B_{\rho}(w) \setminus \{w\}$.
+        But contradicts $f$ being an accumulation point.
+        In particular,
+        $h$ is identically zero on some ball $B_r(a)$ by PIZ.
+        By Principle of Analytic continuation,
+        $h(z) = 0$ on $D$.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Let $f : \C \to \C$ be entire satisfying
+    \[
+    f\left(\frac{1}{n}\right) = e ^ {i / n} - e ^ {-i / n}
+    \]
+    for all $n \in \N$.
+    Identify $f$.
+\end{example}
 
 
 
