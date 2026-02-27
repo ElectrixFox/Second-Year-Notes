@@ -908,7 +908,122 @@
     \end{solution}
 \end{problem}
 
+\newpage
 
+\section{Problem Class \texorpdfstring{$7$}{}}
+
+\begin{problem}
+    Suppose $f$ is an entire function with the property that $\lim_{|z| \to \infty}f(z) = 0$.
+    That is,
+    for any $\varepsilon > 0$ there exists an $R > 0$ such that for all $z \in \C$ with $|z| > R$ we have $|f(z)| < \varepsilon$.
+    Use Liouville's Theorem to show that $f$ must be constant on $\C$,
+    and find this value.
+
+    \begin{solution}
+        Suppose $f$ is entire with $\lim_{|z| \to \infty}f(z) = 0$.
+
+        $\forall \varepsilon > 0$ there exists $R > 0$ such that $|z| > R$ we have $|f(z)| < \varepsilon$.
+
+        Fix $\varepsilon > 0$ then take $R$ from the definition.
+        Then for $z$ in region $\{z\,:\,|z| > R\}$ $|f|$ is bounded by $\varepsilon$.
+        Just need to show $f$ is bounded on $\overline{B_{R}(0)} = \{z \in \C\,:\,|z| \leq R\}$.
+        By EVT,
+        $|F|$ attains a max value,
+        say $K$,
+        on the compact set $\overline{B_{R}(0)}$.
+        In particular,
+        for $z \in \C$,
+        \[
+        |f(z)| \leq \max\{K, \varepsilon\}.
+        \]
+        So $F$ is bounded on $\C$ and constant by Liouville.
+    \end{solution}
+\end{problem}
+
+\begin{problem}\phantom{}
+    \begin{enumerate}[label = (\alph*)]
+        \item Suppose $P(z) = a_dz ^ d + a_{d - 1}z ^ d + \dotsi + a_1z + a_0$ is a non-constant polynomial of degree $d \geq 1$ with real coefficients.
+
+        \begin{enumerate}[label = (\roman*)]
+            \item Show that if $w \in \C$ is a root of $P$ then $\bar{w}$ is also a root of $P$.
+
+            \item Hence,
+            show that if $P$ has an odd number of roots then it must have a real root.
+        \end{enumerate}
+
+        \item Find roots $P(z) = 2z ^ 4 - 4z ^ 3 + 3z ^ 2 + 2z - 2$ given $P(1 + i) = 0$
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item
+            \begin{enumerate}[label = (\roman*)]
+                \item If $P(w) = 0$ then
+                \[
+                c_dw ^ d + c_{d - 1}w ^ {d - 1} + \dotsi + c_1w + c_0 = 0.
+                \]
+                \begin{align*}
+                    P(\bar{w}) &= c_d\bar{w} ^ d + c_{d - 1}\bar{w} ^ {d - 1} + \dotsi + c_1\bar{w} + c_0 \\
+                    &= \overline{\bar{c}_dw ^ d + \bar{c}_{d - 1}w ^ {d - 1} + \dotsi + \bar{c}_1w + \bar{c}_0} \\
+                    &= \overline{c_dw ^ d + c_{d - 1}w ^ {d - 1} + \dotsi + c_1w + c_0} \\
+                    &= \bar{0} = 0.
+                \end{align*}
+
+                \item 
+            \end{enumerate}
+
+            \item By part a $P(\overline{1 + i}) = 0$ so $P(1 - i) = 0$ and
+            \begin{align*}
+                P(z) &= 2(z - (1 + i))(z - (1 - i))(z - a)(z - b) \\
+                &= 2(z ^ 2 - (a + b)z + ab)(z ^ 2 - 2z + 2).
+            \end{align*}
+            Comparing $z ^ 3$ and constant term gets us $ab = -1 / 2$,
+            $a + b = 0$ getting $a = 1 / \sqrt{2}, b = -1 / \sqrt{2}$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Prove that the function $f : \C \setminus \{0\} \to \C$ defined by $f(z) = \frac{\sin{z}}{z}$ has an analytic continuation to $\C$.
+
+    \begin{solution}
+        Start with $\sin{z} = \frac{e ^ {iz} - e ^ {-iz}}{2i}$.
+        \begin{align*}
+            \sin(z) &= \frac{1}{2i}\left(\sum_{n = 0}^{\infty}\frac{(iz) ^ n}{n!} - \sum_{n = 0}^{\infty}\frac{(-iz) ^ n}{n!}\right) \\
+            &= \frac{1}{2i}\sum_{n = 0}^{\infty}\frac{i ^ n - (-i) ^ n}{n!}z ^ n \\
+            &= \frac{1}{2i}\sum_{k = 0}^{\infty}\frac{i ^ {2k + 1} - (-i) ^ {2k + 1}}{(2k + 1)!}z ^ {2k + 1} \\
+            &= \sum_{k = 0}^{\infty}\frac{(-1) ^ k}{(2k + 1)!}z ^ {2k + 1}.
+        \end{align*}
+        Thus
+        \[
+        \frac{\sin{z}}{z} = \sum_{k = 0}^{\infty}\frac{(-1) ^ k}{(2k + 1)!}z ^ {2k}
+        \]
+        converges on $\C$.
+        
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Find a holomorphic function $f : B_1(0) = \{z \in \C\,:\,|z| < 1 \to \C\}$ such that
+    \[
+    f(x) = |x|,\quad x \in (-1, 1),
+    \]
+    or explain why no such function exists.
+
+    \begin{solution}
+        Note that $f(z) = z$ on $(0, 1)$,
+        $f(z) = -z$ on $(-1, 0)$.
+        So
+        \begin{align*}
+            S_1 &= \{z \in B_1(0)\,:\, f(z) = z\} \supset (0, 1) \\
+            S_2 &= \{z \in B_1(0)\,:\, f(z) = -z\} \supset (-1, 0).
+        \end{align*}
+        Note $z = 0$ is an accumulation point of $S_1$ and $S_2$.
+        By identity theorem,
+        $f(z) = z$ on $B_1(0)$ and $f(z) = -z$ on $B_1(0)$.
+        Contradiction.
+    \end{solution}
+\end{problem}
 
 
 
