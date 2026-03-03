@@ -687,6 +687,42 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problems Class \texorpdfstring{$6$}{}}
+
+\begin{problem}
+    Let $(X_n)_{n \geq 0}$ be a Markov chain.
+    Recall the passage time
+    (to $j$)
+    $T_j = T_{j}^{(1)}$ is defined to be $\inf\{n \geq 1 \mid X_n = j\}$.
+    The $k$th passage time is defined to be $T_{j}^{(k)} = \inf\{n > T_{j}^{(k - 1)} \mid X_n = j\}$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item Show the $k$th passage time is a stopping time.
+
+        \item First and $k$th passage times can be generalised to sets of states $J \subset I$ by $T_{j}^{(1)} = \inf\{n \geq 1 \mid X_n \in J\}$ and $T_{J}^{(k)} = \int\{n > T_{J}^{(k - 1)} \mid X_n \in J\}$.
+        Show these generalisation also define stopping times.
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item
+            \[
+            \]
+            \begin{align*}
+                \{T_{J}^{(1)} = k\} &= \{X_0 \notin J, X_1 \notin J, \dotsc, X_{k - 1} \notin J, X_k \in J\} \\
+                \{T_{J}^{(k)} = n\} &= \bigcup_{i = 0}^{n - 1}\{T_{J}^{(k)} = n, T_{J}^{(k - 1)} = i\} \\
+                &= \bigcup_{i = 0}^{n - 1}\{T_{J}^{(k - 1)} = i, X_{i + 1} \notin J, \dotsc, X_{n - 1} \notin J, X_n \in J\}.
+            \end{align*}
+            As $T_{J}^{(k - 1)}$ depends only on $X_1, \dotsc, X_i$.
+            By induction,
+            $T_{J}^{(k)}$ is a stopping time for all $k$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+
 
 
 

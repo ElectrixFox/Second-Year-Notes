@@ -4224,20 +4224,271 @@ Also say $f$ "extends" to a holomorphic function on $D'$ or that $f$ is the "res
     Identify $f$.
 \end{example}
 
+\newpage
 
+\section{General forms of Cauchy-Goursat and CIF}
 
+What is a contour?
+Note,
+its not just the line drawn in $\C$:
+\[
+\gamma_1(t) = e ^ {2\pi it},\qquad \gamma_2(t) = e ^ {-4\pi it}.
+\]
+Note,
+it is easy to write circular contours as
+\[
+\gamma(t) = w + re ^ {i2\pi t}.
+\]
+It turns out
+\begin{theorem}
+    Let $\gamma : [a, b] \to \C$ be a path
+    (continuous function $[a, b] \to \C$)
+    and let $w \notin \gamma$.
+    Then let $r(t) = |\gamma(t) - w| > 0$ be the continuous function representing the distance from $\gamma(t)$ to $w$.
+    Then there exists a continuous function $\theta : [a, b] \to \R$ such that
+    \[
+    \gamma(t) = w + r(t)e ^ {i\theta(t)},\qquad t \in [a, b].
+    \]
+\end{theorem}
 
+\begin{definition}[Winding number]
+    Let $\gamma : [a, b] \to \C$ be a path in the form of the previous theorem.
+    Then the quantity
+    \[
+    I_{\gamma}(w) = \frac{\theta(b) - \theta(a)}{2\pi}\qquad w \notin \gamma
+    \]
+    is called the winding number of $\gamma$ around $w$.
+\end{definition}
 
+\begin{example}
+    $\gamma_1(t) = e ^ {2\pi it}$,
+    $[a, b] = [0, 1]$,
+    is in right form with $w = 0$,
+    $r(t) = 1$ and $\theta(t) = 2\pi t$.
+    So
+    \[
+    I_{\gamma_1}(0) = \frac{\theta(1) - \theta(0)}{2\pi} = \frac{2\pi - 0}{2\pi} = 1
+    \]
+    \[
+    \gamma_2(t) = e ^ {-4\pi it},\qquad r(t) = 1, w = 0, \theta(t) = -4\pi t
+    \]
+    so
+    \[
+    I_{\gamma_2}(0) = \frac{\theta(1) - \theta(0)}{2\pi} = \frac{-4\pi - 0}{2\pi} = -2.
+    \]
+\end{example}
 
+\begin{remark}\phantom{}
+    \begin{itemize}
+        \item The function $\theta$ is unique up to additive constant.
 
+        \item If $\gamma$ is a contour,
+        can show $r, \theta$ are piecewise $C ^ 1$.
+    \end{itemize}
+\end{remark}
 
+\begin{proposition}
+    If $\gamma$ is closed then for all $w \notin \gamma$ we have $I_{\gamma}(w) \in \Z$.
 
+    \begin{proof}
+        Since contour $\gamma(t) = w + r(t)e ^ {i\theta(t)}$ is closed,
+        we have $r(a) = r(b)$
+        (since $\gamma(a) = \gamma(b)$)
+        and so
+        \begin{align*}
+            r(a)e ^ {i\theta(a)} = r(b)e ^ {i\theta(b)} &\iff e ^ {i\theta(a)} = e ^ {i\theta(b)} \\
+            &\iff e ^ {i(\theta(b) - \theta(a))} = 1 \\
+            &\iff i(\theta(b) - \theta(a)) = 2n\pi i &\text{for some  $n \in \Z$} \\
+            &\iff \frac{\theta(b) - \theta(a)}{2\pi} = n&\text{for some $n \in \Z$}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
 
+\begin{lemma}
+    Let $\gamma : [a, b] \to \C$ be a closed contour.
+    Then for any $w \notin \gamma$
+    \[
+    I_{\gamma}(w) = \frac{1}{2\pi i}\int_{\gamma}\frac{1}{z - w}\,dz.
+    \]
 
+    \begin{proof}
+        By the previous theorem,
+        we can write $\gamma(t) = w + r(t)e ^ {i\theta(t)}$ where $r, \theta$ are piecewise $C ^ 1$.
+        \begin{align*}
+            \int_{\gamma}\frac{1}{z - w}\,dz &= \int_{a}^{b}\frac{\gamma'(t)}{\gamma(t) - w}\,dt \\
+            &= \int_{a}^{b}\frac{r'(t)e ^ {i\theta(t)} + i\theta'(t)r(t)e ^ {i\theta(t)}}{r(t)e ^ {i\theta t}}\,dt \\
+            &= \int_{a}^{b}\frac{r'(t)}{r(t)}\,dt + i\int_{a}^{b}\theta'(t)\,dt \\
+            &= \left[\log(r(t))\right]_{a}^{b} + i\left[\theta(t)\right]_{a}^{b} \\
+            &= 0 + i(\theta(b) - \theta(a)) \\
+            &= 2\pi i\left(\frac{\theta(b) - \theta(a)}{2\pi}\right) \\
+            &= 2\pi iI_{\gamma}(w).
+        \end{align*}
+    \end{proof}
+\end{lemma}
 
+\begin{definition}[Simple closed path]
+    Let $\gamma : [a, b] \to \C$.
+    A closed path $\gamma$ is simple if $\gamma(t_1) = \gamma(t_2)$ for some $t_1 < t_2$,
+    then $t_1 = a$ and $t_2 = b$.
+\end{definition}
 
+\begin{theorem}[Jordan Curve Theorem]
+    Let $\gamma$ be a simple closed path in $\C$,
+    then the complement $\C \setminus \gamma$ is the disjoint union of two domains,
+    exactly one of which is bounded.
+\end{theorem}
 
+\textbf{Notation}:
+\begin{itemize}
+    \item  We call the bounded domain $D_{\gamma}$,
+    or the "inside" of $\gamma$.
+    
+    \item We say $w \in \C$ is inside $\gamma$ if $w \in D_{\gamma}$.
+    
+    \item We say $w \in \C$ is outside $\gamma$ if $w \in \C \setminus (D_{\gamma} \cup \gamma)$.
+    
+    \item We say a function $f$ is holomorphic on and inside $\gamma$ if there exists a domain $D$ on which it is holomorphic,
+    satisfying $D \supset D_{\gamma} \cup \gamma$.
+\end{itemize}
 
+\begin{proposition}
+    Given a simple closed contour $\gamma$,
+    one can place an orientation on $\gamma$ such that for all $w \notin \gamma$,
+    we have
+    \[
+    I_{\gamma}(w) = \begin{cases}
+        1, &\text{if $w \in D_{\gamma}$} \\
+        0, &\text{if $w \in \C \setminus (D_{\gamma} \cup \gamma)$}.
+    \end{cases}
+    \]
+\end{proposition}
+
+\begin{theorem}[Cauchy-Goursat for SCCs]
+    Suppose $f$ is holomorphic on and inside a SCC $\gamma$.
+    Then
+    \[
+    \int_{\gamma}f(z)\,dz = 0.
+    \]
+\end{theorem}
+
+\begin{proposition}
+    Let $D$ be a starlike domain,
+    then for any closed contour $\gamma$ in $D$,
+    $I_{\gamma}(w) = 0$ for every $w \notin D$.
+
+    \begin{proof}
+        If $D = \C$ there are no points to check.
+        Otherwise $\frac{1}{z - w}$ is holomorphic on and inside $\gamma$.
+        So
+        \[
+        \int_{\gamma}\frac{1}{z - w}\,dz = 0
+        \]
+        by Cauchy-Goursat starlike.
+        By the previous lemma the winding number is $0$.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}[Simply connected]
+    An open set $U$ is simply connected if for every closed contour in $U$,
+    we have $I_{\gamma}(w) = 0$ for every $w \notin U$.
+\end{definition}
+
+\begin{example}
+    By the previous proposition,
+    all starlike domains are simply connected.
+    But consider $\C ^ {*} = \C \setminus \{0\}$.
+    This is not simply connected because $0 \notin \C ^ {*}$ but for $\gamma(t) = e ^ {it}$
+    \[
+    I_{\gamma}(0) = \int_{|z| = 1}\frac{1}{z}\,dz = 2\pi i \neq 0.
+    \]
+\end{example}
+
+\begin{theorem}[Cauchy-Goursat Theorem]
+    Let $f$ be holomorphic on a simply connected domain $D$.
+    Then for any closed contour $\gamma \subset D$
+    \[
+    \int_{\gamma}f(z)\,dz = 0.
+    \]
+\end{theorem}
+
+\begin{corollary}[Generalised CIF]
+    Let $f$ be holomorphic on a simply connected domain.
+    Then for any closed contour $\gamma$ and $w \notin \gamma$ we have
+    \[
+    \int_{\gamma}\frac{f(z)}{z - w}\,dz = 2\pi if(w)\cdot I_{\gamma}(w).
+    \]
+    In particular,
+    if $f$ is holomorphic on and inside a simple closed contour
+    (SCC)
+    $\gamma$.
+    Then
+    \[
+    \int_{\gamma}\frac{f(z)}{z - w}\,dz = 2\pi if(w).
+    \]
+\end{corollary}
+
+\begin{example}
+    Let $g(z) = \frac{\cos(z)}{z(z ^ 2 + 2)}$ and let $\gamma$ be the square with vertices $\pm 1 \pm i$.
+    Calculate $\int_{\gamma}g(z)\,dz$.
+
+    \begin{solution}
+        $g$ is not holomorphic at $z = 0$,
+        $z = \pm\sqrt{2}i$.
+        Let $f(z) = \frac{\cos(z)}{z ^ 2 + 2}$,
+        then $f$ is holomorphic on and inside $\gamma$,
+        which is a SCC.
+        So by Generalised CIF
+        \[
+        \int_{\gamma}g(z)\,dz = \int_{\gamma}\frac{f(z)}{z}\,dz = 2\pi if(0) = 2\pi i\frac{\cos(0)}{0 ^ 2 + 2} = \pi i.
+        \]
+    \end{solution}
+
+    Consider $\gamma(t) = e ^ {-4\pi it}$,
+    $t \in [0, 1]$.
+    Calculate
+    \[
+    \int_{\gamma}\frac{e ^ {iz}}{z(z - 4)}\,dz.
+    \]
+
+    \begin{solution}
+        We say $I_{\gamma}(0) = -2$.
+        By General CIF,
+        since $f(z) = \frac{e ^ {iz}}{z - 4}$ is holomorphic on $B_2(0)$ which contains $\gamma$.
+        So
+        \[
+        \int_{\gamma}\frac{f(z)}{z}\,dz = 2\pi if(0)I_{\gamma}(0) = 2\pi i\frac{e ^ 0}{0 - 4} \cdot (-2) = \pi i.
+        \]
+    \end{solution}
+\end{example}
+
+\newpage
+
+\section{Laurent series}
+An important class of sets that are not simply connected are
+
+\begin{definition}[Annulus]
+    For $0 \leq r < R \leq \infty$ and $a \in \C$,
+    the set
+    \[
+    A_{r, R}(a) = \{z \in \C\,:\, r < |z| < R\}
+    \]
+    is the annulus with centre $a$.
+    internal radius $r$,
+    and external radius $R$.
+    Because of "$\leq \infty$",
+    these include $\C ^ {*} = A_{0, \infty}(0)$ and "punctured ball" $A_{0, R}(a) = B_R(a)\setminus \{a\}$.
+\end{definition}
+
+\begin{proposition}
+    Let $f : A_{r, R}(a) \to \C$ be holomorphic on some annulus.
+    Then for any $r < \rho_1 < \rho_2 < R$ and any $w \in A_{\rho_1, \rho_2}(a)$ we have
+    \[
+    f(w) = \frac{1}{2\pi i}\int_{\gamma_1}\frac{f(z)}{z - w}\,dz + \frac{1}{2\pi i}\int_{\gamma_2}\frac{f(z)}{z - w}\,dz
+    \]
+    where $\gamma_1(t) = a + \rho_1e ^ {-2\pi it}$,
+    $\gamma_2(t) = a + \rho_2e ^ {2\pi it}$,
+    $t \in [0, 1]$.
+\end{proposition}
 
 
 
