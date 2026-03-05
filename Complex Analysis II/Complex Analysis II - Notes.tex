@@ -4488,7 +4488,238 @@ An important class of sets that are not simply connected are
     where $\gamma_1(t) = a + \rho_1e ^ {-2\pi it}$,
     $\gamma_2(t) = a + \rho_2e ^ {2\pi it}$,
     $t \in [0, 1]$.
+
+    \begin{proof}
+        By Generalised CIF and Cauchy-Goursat for SCCs
+        \[
+        \int_{\gamma_1}\frac{f(z)}{z - w}\,dz + \int_{\gamma_2}\frac{f(z)}{z - w}\,dz = 2\pi i f(w) + 0 = 2\pi if(w).
+        \]
+    \end{proof}
 \end{proposition}
+
+Laurent polynomial is a polynomial with negative powers allowed.
+E.g. $3z ^ {-2} + 2z ^ {-1} + 1 + 2z - 4z ^ 7$.
+
+\begin{definition}[Laurent series
+(LS)]
+    A Laurent series is an expression of the form
+    \[
+    \sum_{n = -\infty}^{\infty}c_n(z - a) ^ n
+    \]
+    where $c_n, a \in \C$ and $z$ is the complex variable.
+\end{definition}
+
+\textbf{Notation}:
+\begin{itemize}
+    \item We call $z = a$ the centre of the LS/
+
+    \item We call $\sum_{n = 0}^{\infty}c_n(z - a) ^ n \eqqcolon \mathrm{AP}(z)$ the Analytic part.
+
+    \item We call $\sum_{n = -\infty}^{-1}c_n(z - a) ^ n \eqqcolon \mathrm{PP}(z)$ the principal part.
+
+    \item A Laurent series converges if and only if both
+    \[
+    \sum_{n = 0}^{N}c_n(z - a) ^ n\quad\text{and}\quad\sum_{n = -M}^{-1}c_n(z - a) ^ n
+    \]
+    converge as $N \to \infty$ and $M \to \infty$ respectively.
+    That is LS converges if and only if $\mathrm{AP}$ and $\mathrm{PP}$ converge.
+\end{itemize}
+
+\begin{proposition}
+    Given a LS of form $\sum_{n = -\infty}^{\infty}c_n(z - a) ^ n$ that is not a power series
+    (so $\mathrm{PP} \neq 0$)
+    then either
+    \begin{itemize}
+        \item The LS converges nowhere.
+
+        \item There exists an annulus $A_{r, R}(a)$ such that the LS converges absolutely on $A_{r, R}(a)$ and diverges when $|z - a| < r$ or $|z - a| > R$.
+        In this case $A_{r, R}(a)$ is called the annulus of convergence of the LS
+        (around $z = a$).
+    \end{itemize}
+
+    \begin{proof}
+        The LS converges if and only if $\mathrm{AP}$ and $\mathrm{PP}$ converge at $z$.
+        $\mathrm{AP}$.
+        This is a power series.
+        So it converges just at $z = a$
+        (in which case the LS never converges)
+        or there exists an $R > 0$ such that $\mathrm{AP}(z)$ converges when $|z - a| < R$,
+        $B_R(a)$.
+
+        $\mathrm{PP}$.
+        \begin{align*}
+            \mathrm{PP}(z) &= \sum_{n = -\infty}^{-1}c_n(z - a) ^ n \\
+            &= \sum_{m = 1}^{\infty}c_{-m}\left(\frac{1}{z - a}\right) ^ m &(m = -n) \\
+            &= \sum_{m = 1}^{\infty}c_{-m}w ^ m &\left(\text{with $w = \frac{1}{z - a}$}\right).
+        \end{align*}
+        This is a power series,
+        which converges at just $w = 0$
+        (in which case LS never converges,
+        there is no $z$ for which $\frac{1}{z - a} = 0$)
+        or there exists $R' > 0$ such that the power series converges when $|w| < R'$.
+        Let
+        \[
+        r = \begin{cases}
+            \frac{1}{R'}, &\text{if } R' < \infty, \\
+            0, &\text{if } R' = \infty.
+        \end{cases}
+        \]
+        Then $\mathrm{PP}(z)$ converges when $\frac{1}{|z - a|} < R'$ equivalent to
+        \[
+        |z - a| > \frac{1}{R'} = r.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    A LS is holomorphic on its annulus of convergence.
+    (In particular,
+    a LS converges locally uniformly on the disc of convergence for a holomorphic function).
+\end{corollary}
+
+\begin{example}
+    Find the annulus of convergence of the LS
+    \begin{align*}
+        \sum_{n = -\infty}^{1}3 ^ nz ^ n &= 3z + 1 + \frac{1}{3}\frac{1}{z} + \frac{1}{9}\frac{1}{z ^ 2} + \dotsi \\
+        &= 3z + 1 + \sum_{n = -\infty}^{-1}3 ^ nz ^ n \\
+        &= 3z + 1 + \sum_{m = 1}^{\infty}\left(\frac{1}{3z}\right) ^ m &(m = -n)
+    \end{align*}
+    $3z + 1$ converges on $\C$,
+    $\sum_{m = 1}^{\infty}\left(\frac{1}{3z}\right) ^ m$ converges when $|z| < 3$.
+    So the LS converges on the annulus $A_{1 / 3, \infty}(0)$.
+\end{example}
+
+Note,
+we have the closed form expression
+\[
+\sum_{n = -\infty}^{1}3 ^ nz ^ n = 3z + \sum_{m = 0}^{\infty}\left(\frac{1}{3z}\right) ^ m = 3z + \frac{1}{1 - \frac{1}{3z}} = \frac{9z ^ 2}{3z - 1}.
+\]
+
+\begin{proposition}[Uniqueness of Laurent series]
+    Given a LS of the form $f(z) = \sum_{n = -\infty}^{\infty}c_n(z - a) ^ n$ with annulus of convergence $A_{r, R}(a)$.
+    Then the constants $c_n$ are unique and given,
+    for any $r < \rho < R$ by
+    \[
+    c_n = \frac{1}{2\pi i}\int_{|z - a| = \rho}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz\qquad (n \in \Z).
+    \]
+
+    \begin{proof}
+        Assume there is another expression on $A_{r, R}(a)$ of the form $f(z) = \sum_{n = -\infty}^{\infty}d_n(z - a) ^ n$.
+        Aim:
+        show $c_n = d_n$.
+        We have for any $r < \rho < R$,
+        \begin{align*}
+            \int_{|z - a| = \rho}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz &= \int_{|z - a| = \rho}\frac{1}{(z - a) ^ {n + 1}}\sum_{m = -\infty}^{\infty}c_m(z - a) ^ m\,dz \\
+            &= \int_{|z - a| = \rho}\sum_{n = -\infty}^{\infty}c_m(z - a) ^ {m - n - 1}\,dz \\
+            &= \sum_{n = -\infty}^{\infty}\int_{|z - a| = \rho}c_m(z - a) ^ {m - n - 1}\,dz \\
+            &= 2\pi ic_n &(\text{$= 0$ if $n \neq m$)}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[Holomorphic functions on annuli have Laurent series]
+    Let $f : A_{r, R}(a) \to \C$ be holomorphic on an annulus $A_{r, R}(a)$.
+    Then there exist unique $c_n \in \C$ such that
+    \[
+    f(z) = \sum_{n = -\infty}^{\infty}c_n(z - a) ^ n.
+    \]
+    This is called the Laurent series of $f$ on $A_{r, R}(a)$.
+
+    \begin{proof}
+        Let $w \in A_{r, R}(a)$ pick $r < \rho_1 < |w - a| < \rho_2 < R$.
+        We will show $f$ has a LS expansion on $A_{\rho_1, \rho_2}(a)$.
+        First consider $f_2(w) = \frac{1}{2\pi i}\int_{\gamma_2}\frac{f(w)}{z - w}\,dz$ where $\gamma_2 = a + \rho_2e ^ {2\pi it}$.
+        Recall we wrote
+        \[
+        \frac{1}{z - w} = \frac{1}{z - a}\sum_{n = 0}^{\infty}\left(\frac{w - a}{z - a}\right) ^ n
+        \]
+        so
+        \begin{align*}
+            \frac{1}{2\pi i}\int_{\gamma_2}\frac{f(z)}{z - w}\,dz &= \frac{1}{2\pi i}\int_{\gamma_2}\frac{f(z)}{z - a}\sum_{n = 0}^{\infty}\left(\frac{w - a}{z - a}\right) ^ n\,dz \\
+            &= \sum_{n = 0}^{\infty}\left(\frac{1}{2\pi i}\int_{\gamma_2}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz\right)(w - a) ^ n.
+        \end{align*}
+        This is $\mathrm{AP}$ of LS.
+
+        Note:
+        \[
+        \frac{1}{z - w} = -\frac{1}{w - a + a - z} = \left(-\frac{1}{w - a}\right)\frac{1}{1 - \left(\frac{z - a}{w - a}\right)} = -\frac{1}{w - a}\sum_{n = -}^{\infty}\left(\frac{z - a}{w - a}\right) ^ n.
+        \]
+        Repeat:
+        get
+        \[
+        f_1(w) = \sum_{m = -\infty}^{-1}\left(-\frac{1}{2\pi i}\int_{\gamma_1}\frac{f(z)}{(z - a) ^ {m + 1}}\,dz\right)(w - a) ^ m.
+        \]
+        This is $\mathrm{AP}$ of LS.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Find the Ls of $f(z) = \frac{1}{1 - z}$
+    ($|z| > 1$)
+    on the annulus $A_{1, \infty}(0)$.
+
+    \begin{solution}
+        Since $|z| > 1$ on annulus,
+        $\left|\frac{1}{z}\right| < 1$,
+        so
+        \begin{align*}
+            f(z) &= \frac{1}{1 - z} \\
+            &= \frac{\frac{1}{z}}{\frac{1}{z} - 1} \\
+            &= -\frac{1}{z}\frac{1}{1 - \frac{1}{z}} \\
+            &= -\frac{1}{z}\sum_{n = 0}^{\infty}\left(\frac{1}{z}\right) ^ n \\
+            &= \sum_{n = 0}^{\infty}(-1)z ^ {-n - 1} \\
+            &= \sum_{m = -\infty}^{-1}(-1)z ^ m &(m = -n - 1).
+        \end{align*}
+    \end{solution}
+\end{example}
+
+\section{Isolated singularities}
+Consider the simplest case of an annulus,
+a punctured ball $B_{R}^{*}(a) = B_R(a) \setminus \{a\}$.
+
+\begin{definition}[Types of isolated singularity]
+    A complex function $f$ has an isolated singularity at $z = a$ if it is not defined at $z = a$ but is holomorphic on some punctured ball $B_{R}^{*}(a)$.
+\end{definition}
+Let $f(z) = \sum_{n = -\infty}^{\infty}c_n(z - a) ^ n$ be the LS of $f$ on $B_{R}^{*}(a)$.
+Then we say
+\begin{enumerate}[label = (\roman*)]
+    \item $f$ has a removable singularity at $z = a$ if $c_n = 0$ for every $n \leq -1$
+    (so it is a power series)
+
+    \item $f$ has a pole of order $k > 0$ at $z = a$ if $c_{-k} \neq 0$ but $c_n = 0$ $\forall n < -k$
+    (so $f(z) = \sum_{n = -k}^{\infty}c_n(z - a) ^ n$).
+
+    \item $f$ has an essential singularity at $z = a$ if there are infinitely many $n < 0$ such that $c_n \neq 0$.
+\end{enumerate}
+
+\begin{example}
+    All of the following have isolated singularities at $z = 0$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item
+        \[
+        f(z) = \frac{e ^ z - 1}{z} = \frac{\sum_{n = 0}^{\infty}\frac{z ^ n}{n!} - 1}{z} = \sum_{n = 1}^{\infty}\frac{z ^ {n - 1}}{n!} = \sum_{m = 0}^{\infty}\frac{z ^ m}{(m + 1)!}
+        \]
+        $m = n - 1$.
+        No $\mathrm{PP}$ so removable.
+
+        \item
+        \[
+        \f(z) = \frac{e ^ z - 1}{z ^ 2} = \frac{\sum_{n = 1}^{\infty}z ^ {n - 2}}{n!} = \sum_{m = -1}^{\infty}\frac{z ^ m}{(m + 2)!} = \frac{1}{z} + \dotsi
+        \]
+        $m = n - 2$.
+        Pole of order $1$.
+
+        \item
+        \[
+        f(z) = e ^ {1 / z} = \sum_{n = 0}^{\infty}\frac{\left(\frac{1}{z}\right) ^ n}{n!} = \sum_{m = -\infty}^{0}\frac{z ^ m}{(-m)!}
+        \]
+        $m = -n$.
+        Essential singularity.
+    \end{enumerate}
+\end{example}
+
+
 
 
 
