@@ -1025,12 +1025,145 @@
     \end{solution}
 \end{problem}
 
+\newpage
 
+\section{Problem Class \texorpdfstring{$8$}{}}
 
+\begin{problem}
+    Find the winding number of the following contour $\gamma : [0, 2\pi] \to \C$ around the point $z = 0$
+    \[
+    \gamma(t) = e ^ {e ^ {it}}.
+    \]
 
+    \begin{solution}
+        \[
+        \gamma(t) = e ^ {e ^ {it}} = e ^ {\cos{t} + i\sin{t}} = e ^ {\cos{t}}e ^ {i\sin{t}} = 0 + r(t)e ^ {i\theta(t)}.
+        \]
+        In right form with $r(t) = e ^ {\cos{t}} > 0$,
+        $\theta(t) = \sin{t}$ continuous
+        \[
+        I_{\gamma}(0) = \frac{\theta(2\pi) - \theta(0)}{2\pi} = \frac{\sin(2\pi) - \sin(0)}{2\pi} = 0.
+        \]
+    \end{solution}
+\end{problem}
 
+\begin{problem}
+    Assume $\gamma : [0, 2\pi] \to \C$ and $\alpha : [0, 2\pi] \to \C$ are two closed contours not passing through the origin,
+    and let $\gamma\alpha : [0, 2\pi] \to \C$ be the closed contour defined by $(\gamma\alpha)(t) = \gamma(t)\alpha(t)$.
+    Show that
+    \[
+    I_{\gamma\alpha}(0) = I_{\gamma}(0) + I_{\alpha}(0),
+    \]
+    using the property that $I_{\gamma}(w) = \frac{1}{2\pi i}\int_{\gamma}\frac{1}{z - w}\,dz$.
 
+    \begin{solution}
+        Want to show $I_{(\gamma\alpha)}(0) = I_{\gamma}(0) + I_{\alpha}(0)$.
+        By a lemma from the lecture notes
+        \begin{align*}
+            I_{(\gamma\alpha)}(0) &= \frac{1}{2\pi i}\int_{(\gamma\alpha)}\frac{1}{z}\,dz \\
+            &= \frac{1}{2\pi i}\int_{0}^{2\pi}\frac{(\gamma\alpha)'(t)}{(\gamma\alpha)(t)}\,dt \\
+            &= \frac{1}{2\pi i}\int_{0}^{2\pi}\frac{\gamma'(t)\alpha(t) + \gamma(t)\alpha'(t)}{\gamma(t)\alpha(t)}\,dt \\
+            &= \frac{1}{2\pi i}\int_{0}^{2\pi}\frac{\gamma'(t)}{\gamma(t)}\,dt + \frac{1}{2\pi i}\int_{0}^{2\pi}\frac{\alpha'(t)}{\alpha(t)}\,dt \\
+            &= \frac{1}{2\pi i}\int_{\gamma}\frac{1}{z}\,dz + \frac{1}{2\pi i}\int_{\alpha}\frac{1}{z}\,dz \\
+            &= I_{\gamma}(0) + I_{\alpha}(0).
+        \end{align*}
+    \end{solution}
+\end{problem}
 
+\begin{problem}
+    We define the complex-valued function $\arctan$ by the formula
+    \[
+    \arctan(z) = \frac{i}{2}\Log(1 - iz) - \frac{i}{2}\Log(1 + iz).
+    \]
+    Here,
+    $\Log$ denotes the principal branch of the logarithm.
+
+    \begin{enumerate}[label = (\alph*)]
+        \item Find the largest domain $D \subset \C$ on which $\arctan(z)$ is holomorphic and calculate $\arctan(1)$.
+
+        \item Let $\gamma$ be the curve which traces
+        (anti-clockwise)
+        the ellipse $\frac{x ^ 2}{2} + 2y ^ 2 = 1$ in $\C$.
+        Use part (a) to show that
+        \[
+        \int_{\gamma}\frac{\arctan(z)}{z - 1}\,dz = \frac{i\pi ^ 2}{2}.
+        \]
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\alph*)]
+            \item This is holomorphic when $\Log(1 - iz)$ and $\Log(1 + iz)$ are both holomorphic.
+            $\Log(w)$ is holomorphic on $\C \setminus \R_{\leq 0}$.
+            So $\Log(1 - iz)$ is holomorphic whenever $1 - iz \neq t$,
+            $t \leq 0$,
+            so
+            \begin{align*}
+                \iff i + z &\neq it& t &\leq 0 \\
+                \iff z &\neq (t - 1)i& t &\leq 0 \\
+                \iff z &\neq si & s &\leq -1.
+            \end{align*}
+            Similarly $\Log(1 + iz)$ is holomorphic whenever $1 + iz \neq t$,
+            $t \leq 0$.
+
+            \[
+            1 - z \neq it \iff z \neq (1 - t)i \iff z \neq si
+            \]
+            with $s \geq 1$.
+            Combining them we get the region that $\arctan$ is holomorphic on.
+
+            \item $f(z) > \arctan(z)$ is holomorphic on and inside the ellipse $\gamma$,
+            so
+            \[
+            \int_{\gamma}\frac{\arctan(z)}{z - 1}\,dz = 2\pi if(1) = 2\pi i\arctan(1) = \frac{i\pi ^ 2}{2}.
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Compute the principal part of the LS of the following functions on $B_{1}^{*}(0) = B_1(0) \setminus \{0\}$.
+    State the type of isolated singularity the function has at $z = 0$,
+    \[
+    f(z) = \frac{e ^ z}{z ^ 4}.
+    \]
+
+    \begin{solution}
+        \begin{align*}
+            f(z) &= \frac{e ^ z}{z ^ 4} \\
+            &= \frac{1}{z ^ 4}\sum_{n = 0}^{\infty}z ^ n \\
+            &= \sum_{n = 0}^{\infty}\frac{z ^ {n - 4}}{n!} \\
+            &= \sum_{m = -4}^{\infty}\frac{z ^ m}{(m + 4)!} &(m = n - 4)
+        \end{align*}
+        \[
+        \mathrm{PP}(z) = \sum_{m = -4}^{-1}\frac{z ^ m}{(m + 4)!} = z ^ {-4} + z ^ {-3} + \frac{1}{2}z ^ {-2} + \frac{1}{6}z ^ {-1}.
+        \]
+        Pole of order $4$ at $z = 0$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Find the annulus of convergence of
+    \[
+    \sum_{n = -\infty}^{\infty}\frac{z ^ n}{2 ^ {|n|}}.
+    \]
+
+    \begin{solution}
+        \begin{align*}
+            \sum_{n = -\infty}^{\infty}\frac{z ^ n}{2 ^ {|n|}} &= \sum_{n = -\infty}^{-1}\frac{z ^ n}{2 ^ {|n|}} + \sum_{n = 0}^{\infty}\frac{z ^ n}{2 ^ {|n|}} \\
+            &= \sum_{n = -\infty}^{-1}(2z) ^ n + \sum_{n = 0}^{\infty}\left(\frac{z}{2}\right) ^ n \\
+            &= \sum_{m = 1}^{\infty}\left(\frac{1}{2z}\right) ^ m + \sum_{n = 0}^{\infty}\left(\frac{z}{2}\right) ^ n &(m = -n)
+        \end{align*}
+        converges when $|1 / (2z)| < 1 \iff |z| > 1 / 2$ and $|z| < 2$ so
+        \[
+        \frac{1}{2} < |z| < 2.
+        \]
+
+        On the annulus,
+        \[
+        f(z) = \sum_{m = 0}^{\infty}\left(\frac{1}{2z}\right) ^ m - 1 + \sum_{n = 0}^{\infty}\left(\frac{z}{2}\right) ^ n = \frac{1}{1 - \frac{1}{2z}} - 1 + \frac{1}{1 - \frac{z}{2}} = \frac{3z}{(2z - 1)(2 - z)}.
+        \]
+    \end{solution}
+\end{problem}
 
 
 
