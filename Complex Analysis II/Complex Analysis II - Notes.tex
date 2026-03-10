@@ -4719,6 +4719,256 @@ Then we say
     \end{enumerate}
 \end{example}
 
+\begin{lemma}
+    Suppose $f$ has an isolated singularity at a point $a$.
+    The singularity is removable if and only if $f$ extends to a holomorphic function at $z = a$.
+
+    \begin{proof}
+        By definition there exists $R > 0$ such that $f$ is holomorphic on $B_{R}^{*}(a)$.
+        So it has a LS on $B_{R}^{*}(a)$ by a previous theorem.
+        This LS is a power series $g(z) = \sum_{n = 0}^{\infty}c_n(z - a) ^ n$.
+        By another previous theorem,
+        $g$ converges on $B_R(a)$
+        (and matches $f$ on $B_{R}^{*}(a)$)
+        so $g$ is the analytic continuation of $f$ to $B_R(a)$.
+
+        If $f$ extends to a holomorphic function $g$ on $B_R(a)$.
+        Then by Cauchy-Taylor,
+        $g$ has a power series on $B_R(a)$ which matches $f$ on $B_{R}^{*}(a)$.
+        This is the Laurent series of $f$.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    Suppose $f$ has an isolated singularity at $z = a$.
+    This singularity is removable if and only if
+    \[
+    \lim_{z \to a}(z - a)f(z) = 0.
+    \]
+
+    \begin{proof}
+        "$\implies$".
+        Assume removable.
+        By the previous lemma,
+        $f$ extends to a holomorphic function at $z = a$,
+        by defining say $f(a) \coloneqq w$.
+        Then by continuity
+        \[
+        \lim_{z \to a}(z - a)f(z) = (a - a)f(a) = 0 \cdot w = 0.
+        \]
+
+        "$\impliedby$".
+        Suppose $\lim_{z \to 0}(z - a)f(z) = 0$.
+        Let $f(z) = \sum_{n = -\infty}^{\infty}c_n(z - a) ^ n$ be the LS of $f$ around $z = a$.
+        If it has coefficients given by
+        \[
+        c_n = \frac{1}{2\pi i}\int_{|z - a| = \rho}\frac{f(z)}{(z - a) ^ {n + 1}}\,dz\qquad (n \in \Z)
+        \]
+        for any $\rho \in B_{R}^{*}(a)$.
+        We need to show $c_n = 0$ for all $n \leq -1$.
+        By ML inequality,
+        for $n \leq -1$
+        \[
+        0 \leq |c_n| \leq \frac{\text{Length}(\text{contour})}{2\pi}\cdot\sup_{|z - a| = \rho}\left|\text{Integral}\right|.
+        \]
+        So
+        \begin{align*}
+            |c_n| &\leq \frac{2\pi \rho}{2\pi}\sup_{|z - a| = \rho}\left|\frac{f(z)}{(z - a) ^ {n + 1}}\right| \\
+            &= \rho\sup_{|z - a| = \rho}\frac{|(z - a)f(z)|}{|z - a| ^ {n + 2}} \\
+            &= \frac{1}{\rho ^ {n + 1}}\sup_{|z - a| = \rho}|(z - a)f(z)|.
+        \end{align*}
+        Let $\rho \to 0$
+        (so $z \to a$ in supremum).
+        If $n = -1$,
+        $\frac{1}{\rho ^ {n + 1}} \to 1$ and if $n \leq -1$ it tends to $0$ as $\rho \to 0$.
+        So the whole thing tends to $0$ as $\rho \to 0$.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    $f(z) = \frac{\sin{z}}{z}$ has a singularity at $z = 0$.
+    We have $\lim_{z \to 0}zf(z) = \lim_{z \to 0}\sin{z} = \sin{0} = 0$.
+
+    $f(z) = \frac{e ^ z - 1}{z}$.
+    Now $\lim_{z \to 0}zf(z) = \lim_{z \to 0}(e ^ z - 1) = 1 - 1 = 0$.
+\end{example}
+
+\begin{example}
+    Suppose $f : 0 \to \C$ is holomorphic on a domain and pick $w \in D$.
+    Define the difference quotient function
+    \[
+    g(z) = \frac{f(z) - f(w)}{z - w}.
+    \]
+    This is holomorphic on $0 \setminus \{w\}$.
+    Then $z = w$ is an isolated singularity of $g$.
+    Moreover
+    \[
+    \lim_{z \to w}(z - w)g(z) = \lim_{z \to w}f(z) - f(w) = f(w) - f(w) = 0.
+    \]
+    So removable.
+\end{example}
+
+\begin{theorem}[Riemann Extension Theorem]
+    If $f$ is holomorphic and bounded on some punctured ball $B_{R}^{*}(a)$,
+    then $f$ extends to a holomorphic function at $z = a$.
+
+    \begin{proof}
+        If $|f(z)| \leq M$ for some $M > 0$,
+        when $z \in B_{R}^{*}(a)$.
+        Then
+        \[
+        0 \leq |(z - a)f(z)| \leq M|z - a| \to 0\text{ as } z \to 0
+        \]
+        so $\lim_{z \to a}(z - a)f(z) = 0$,
+        so singularity is removable by previous proposition,
+        so $f$ extends to a holomorphic function at $z = a$ by a previous lemma.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    Suppose $f : D \to \C$ is holomorphic on $D \setminus S$ where $S$ is a discrete set on which $f$ is continuous.
+    Then $f$ is actually holomorphic on $D$.
+\end{corollary}
+
+\begin{lemma}[Characterisation Lemma for Poles]
+    Suppose $f$ has an isolated singularity at $z = a$
+    (so $\exists R > 0$ such that $f$ is holomorphic on $B_{R}^{*}(a)$).
+    This singularity is a pole of order $k$ if and only if there exists a holomorphic $g : B_R(a) \to \C$ with $g(a) \neq 0$ such that
+    \[
+    f(z) = (z - a) ^ {-k}g(z)\qquad \text{for } z \in B_{R}^{*}(a).
+    \]
+
+    \begin{proof}
+        "$\implies$".
+        If $f$ has a pole of order $k$ then on $B_{R}^{*}(a)$ it has a LS of the form
+        \begin{align*}
+            f(z) &= \sum_{n = -k}^{\infty}c_n(z - a) ^ n \\
+            &= (z - a) ^ {-k}\sum_{n = -k}^{\infty}c_n(z - a) ^ {n + k} \\
+            &= (z - a) ^ {-k}\underbrace{\sum_{m = 0}^{\infty}c_{m - k}(z - a) ^ m}_{\text{Power series}} &(m = n + k).
+        \end{align*}
+        Define $g(z) = \sum_{m = 0}^{\infty}c_{m - k}(z - a) ^ m$,
+        then $g$ is holomorphic with $g(a) = c_{-k} \neq 0$.
+
+        "$\impliedby$".
+        Do same in reverse.
+        If $g$ holomorphic,
+        then $g$ has a Taylor series by Cauchy-Taylor,
+        so $f(z) = (z - a) ^ {-k}\sum_{n = 0}^{\infty}d_n(z - a) ^ n$.
+    \end{proof}
+\end{lemma}
+
+Observation:
+Assume $h$ has a zero of order $k$ at $z = a$.
+Then by characterisation lemma for zeros,
+$\exists g$ holomorphic with $g(a) \neq 0$ such that $h(z) = (z - a) ^ kg(z)$ on $B_R(a)$.
+By continuity,
+$\exists B_r(a)$ on which $g(z) \neq 0$.
+But then $f(z) \coloneqq \frac{1}{h(z)} = (z - a) ^ {-k}\left(\frac{1}{g(z)}\right)$
+(with $\frac{1}{g(z)}$ holomorphic on $B_r(a)$ and non-zero)
+so $f$ has a pole of order $k$ at $z = a$.
+
+\begin{proposition}
+    Suppose $f$ has an isolated singularity at $z = a$.
+    Then it is a pole if and only if there exists $r > 0$ and a holomorphic function $h : B_r(a) \to \C$ such that
+    \[
+    f(z) = \frac{1}{h(z)}\text{ on } B_{r}^{*}(a)
+    \]
+    and $h$ has a zero of order $k$ at $z = a$.
+
+    \begin{proof}
+        "$\impliedby$".
+        Done in the observation above.
+
+        "$\implies$".
+        Suppose $f$ has a pole at $z = a$,
+        and let $R > 0$ be such that $f$ is holomorphic on $B_{R}^{*}(a)$.
+        Then by characterisation lemma for poles,
+        $\exists g : B_{R}(a) \to \C$ such that $g(a) \neq 0$ and $f(z) = (z - a) ^ {-k}g(z)$ for $z \in B_{R}^{*}(a)$.
+        By continuity $\exists r > 0$ such that $g(z) \neq 0$ on $B_r(a)$ and so the function
+        \[
+        h(z) \coloneqq \frac{1}{f(z)} = (z - a) ^ k\frac{1}{g(z)}
+        \]
+        satisfies property of having a zero of order $k$.
+        Finally,
+        note on $B_{r}^{*}(a)$,
+        $f(z) = \frac{1}{h(z)}$.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    $f(z) = \frac{\tan{z}}{z} = \frac{\sin{z}}{z\cos{z}}$.
+\end{example}
+
+Almost all functions we see will look like $f(z) = \frac{g(z)}{h(z)}$ for $g, h$ holomorphic.
+
+\begin{corollary}
+    Let $g, h$ be holomorphic on some domain $D$.
+    Let $S_g \coloneqq \{z \in D\,:\, g(z) = 0\}$,
+    $S_h \coloneqq \{z \in D\,:\, h(z) = 0\}$.
+    Then the function $f : D \setminus S_h \to \C$ defined by
+    \[
+    f(z) = \frac{g(z)}{h(z)}
+    \]
+    is holomorphic with isolated singularities at all $z \in S_h$.
+    Moreover,
+    the singularity at a point $z = a$ is a pole of order $k$ if $a \in S_h \setminus S_g$ and $a$ is a zero of $h$ of order $k$.
+    Also,
+    $f$ has a zero of order $k$ at $z = a$ if $a \in S_g \setminus S_h$ and $a$ is a zero of $g$ of order $k$.
+    (If $a \in S_g \cup S_h$ then investigate further).
+\end{corollary}
+
+\begin{example}
+    \[
+    f(z) = \frac{\tan{z}}{z} = \frac{\sin{z}}{z\cos{z}}.
+    \]
+    By the corollary,
+    we need to find the zeros of $f(z) = \sin(z)$ and $g(z) = z\cos(z)$.
+    Zeros of $f$ are $n\pi$
+    ($n \in \Z$)
+    and zeros of $g$ are $z = 0$ or $\pi / 2 + n\pi$
+    ($n \in \Z$).
+    By corollary,
+    $f$ has poles of order $1$ at $z = \frac{\pi}{2} + n\pi$
+    (since $\frac{d}{dz}(z\cos(z))\big|_{z = \pi / 2 + n\pi} \neq 0$)
+    and $f$ has zeros at $z = n\pi$ of order $1$ since $\frac{d}{dz}\sin{z}\big|_{n\pi} = \cos(n\pi) = (-1) ^ n \neq 0$.
+    At $z = 0$,
+    we need to investigate.
+    Note
+    \[
+    \lim_{z \to 0}zf(z) = \lim_{z \to 0}\frac{\sin{z}}{\cos{z}} = \frac{\sin(0)}{\cos(0)} = \frac{0}{1} = 0
+    \]
+    so removable singularity.
+\end{example}
+
+\begin{proposition}
+    Suppose $f$ has an isolated singularity at $z = a$.
+    Then the singularity is a pole if and only if
+    \[
+    \lim_{z \to a}|f(z)| = \infty.
+    \]
+
+    \begin{proof}
+        "$\implies$".
+        Assume $f$ has a pole at $z = a$.
+        Then $\exists g$ holomorphic $g(a) \neq 0$ such that $f(z) = \frac{1}{(z - a) ^ k}g(z)$.
+        Then by continuity $\exists B_r(a)$ such that $|g(z)| \geq M > 0$ on $B_r(a)$.
+        So,
+        \begin{align*}
+            \lim_{z \to a}|f(z)| &= \lim_{z \to a}\frac{1}{|z - a| ^ k}|g(z)| \\
+            &\geq M\lim_{z \to a}\frac{1}{|z - a| ^ k} = \infty.
+        \end{align*}
+
+        "$\impliedby$".
+        If $\lim_{z \to a}|f(z)| = \infty$ then $\exists r > 0$ such that $f(z) \neq 0$ when $z \in B_{r}^{*}(a)$.
+        Consider $h(z) = \frac{1}{f(z)}$.
+        This is holomorphic on $B_{r}^{*}(a)$ and
+        \[
+        0 \leq |(z - a)h(z)| \leq \frac{|z - a|}{|f(z)|} \to 0\text{ as } z \to a.
+        \]
+    \end{proof}
+\end{proposition}
+
+
 
 
 
