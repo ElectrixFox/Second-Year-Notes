@@ -4968,6 +4968,289 @@ Almost all functions we see will look like $f(z) = \frac{g(z)}{h(z)}$ for $g, h$
     \end{proof}
 \end{proposition}
 
+\begin{theorem}[Casorati-Weierstrass]
+    Let $f$ has an essential singularity at $z = a$,
+    and let $R > 0$ such that $f$ is holomorphic on $B_{R}^{*}(a)$.
+    Then for any $w \in \C$ and all $0 < r < R$ and all $\varepsilon > 0$ there exists $z \in B_{r}^{*}(a)$ such that $f(z) \in B_{\varepsilon}(w)$.
+
+    \begin{proof}
+        Argue by contradiction.
+        That is,
+        assume there is $b \in \C$ and $r > 0$ and $\varepsilon > 0$ such that $f$ is holomorphic on $B_{r}^{*}(a)$ but $f(z) \notin B_{\varepsilon}(b)$ for every $z \in B_{r}^{*}(a)$.
+
+        Consider $g(z) = \frac{1}{f(z) - b}$.
+        This is holomorphic on $B_{r}^{*}(a)$ and
+        \[
+        |g(z)| = \frac{1}{|f(z) - b|} \leq \frac{1}{\varepsilon}.
+        \]
+        By Riemann extension theorem $g$ extends to a holomorphic function at $z = a$.
+        We need to give $g$ a value at $z = a$.
+        Case $1$:
+        $g(a) = 0$.
+        Here $bg(a) + 1 \neq 0$,
+        so $f$ has a pole at $z = a$.
+        Contradiction.
+        
+        Case $2$:
+        $g(a) \neq 0$.
+        Here
+        \[
+        \lim_{z \to a}(z - a)f(z) = \lim_{z \to a}\frac{(z - a)(bg(z) + 1)}{g(z)} = \frac{(a - a)(bg(a) + 1)}{g(a)} = 0.
+        \]
+        So $f$ has a removable singularity at $z = a$.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}[Great Picard Theorem]
+    Suppose $f$ has an essential singularity at $z = a$.
+    Then there exists a point $b \in \C$ such that for any $B_{r}^{*}(a)$ we have $f(B_{r}^{*}(a)) = \C \setminus \{b\}$.
+\end{theorem}
+
+\begin{example}
+    We know $e ^ {1 / z} \neq 0$ so the image of $\C \setminus \{0\}$ under $f(z) = e ^ {1 / z}$ is $\C \setminus \{0\}$ by Great Picard Theorem.
+\end{example}
+
+\newpage
+
+\section{Cauchy's Residue Theorem and its applications}
+
+\begin{definition}[Meromorphic]
+    Let $D$ be a domain and let $S \subset D$ be a discrete set.
+    Then a function $f$ is meromorphic on $D$ if it is holomorphic on $D \setminus S$ and has poles at all points in $S$.
+\end{definition}
+
+Motivation:
+If $f$ has a pole at $z = a$ and $\gamma$ is a circular contour around $a$ in annulus of convergence of the LS of $f$ around $a$.
+Then
+\begin{align*}
+    \int_{\gamma}f(z)\,dz &= \int_{\gamma}\sum_{n = -k}^{\infty}c_n(z - a) ^ n\,dz \\
+    &= \sum_{n = -k}^{\infty}c_n\int_{\gamma}(z - a) ^ n\,dz \\
+    &= c_{-1}\int_{\gamma}\frac{1}{z - a}\,dz = 2\pi ic_{-1}.
+\end{align*}
+
+\begin{definition}[Residue]
+    We call the constant $c_{-1}$ the Residue of $f$ at $z = a$,
+    denoted by $\mathrm{Res}_{z = a}(f)$.
+\end{definition}
+
+\begin{proposition}[Rules for calculating residues]
+    Suppose $f$ is meromorphic on a domain with a pole at $z = a$.
+    Then
+    \begin{enumerate}[label = Rule \arabic*]
+        \item If the pole is order $1$ then
+        \[
+        \mathrm{Res}_{z = a}(f) = \lim_{z \to a}(z - a)f(z).
+        \]
+
+        \item If we can write $f(z) = \frac{g(z)}{h(z)}$ where $g, h$ holomorphic,
+        $g(a) \neq 0$ and $h$ has zero of order $1$ at $z = a$
+        \[
+        \mathrm{Res}_{z = a}(f) = \frac{f(a)}{h'(a)}.
+        \]
+
+        \item If $f(z) = \frac{g(z)}{(z - a) ^ k}$ for some $k > 0$,
+        $g$ holomorphic at $z = a$.
+        Then
+        \[
+        \mathrm{Res}_{z = a}(f) = \frac{g ^ {(k - 1)}(a)}{(k - 1)!}.
+        \]
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}[label = Rule \arabic*]
+            \item We have $f(z) = \sum_{n = -1}^{\infty}c_n(z - a) ^ n$ so
+            \begin{align*}
+                (z - a)f(z) &= \sum_{n = -1}^{\infty}c_n(z - a) ^ {n + 1} \\
+                &= \sum_{m = 0}^{\infty}c_{m - 1}(z - a) ^ m &(m = n + 1) \\
+            \end{align*}
+            This power series is holomorphic at $z = a$ with value
+            \[
+            \lim_{z \to a}(z - a)f(z) = c_{-1}.
+            \]
+
+            \item By rule $1$
+            \begin{align*}
+                \Res_{z = a}(f) &= \lim_{z \to a}(f - a)f(z) \\
+                &= \lim_{z \to a}\frac{(z - a)g(z)}{h(z)} \\
+                &= \lim_{z \to a}\frac{g(z) + (z - a)g'(z)}{h'(z)} \\
+                &= \frac{g(a) + (a - a)g'(a)}{h'(a)} \\
+                &= \frac{g(a)}{h'(a)}.
+            \end{align*}
+
+            \item $f(z) = \frac{g(z)}{(z - a) ^ k}$,
+            $g$ is holomorphic so has Taylor series at $z = a$,
+            say $g(z) = \sum_{n = 0}^{\infty}a_n(z - a) ^ n$.
+            So
+            \begin{align*}
+                f(z) &= \sum_{n = 0}^{\infty}a_n(z - a) ^ {n - k} \\
+                &= \sum_{m = -k}^{\infty}\underbrace{a_{m + k}}_{c_m \coloneqq a_{m + k}}(z - a) ^ m
+            \end{align*}
+            we want $c_{-1} = a_{k - 1} = \frac{g ^ {(k - 1)}(a)}{(k - 1)!}$.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    \[
+    f(z) = \frac{1}{z ^ 2 - 9} = \frac{1}{(z - 3)(z + 3)}
+    \]
+    poles of order $1$ at $z = \pm 3$.
+    By rule $1$,
+    \[
+    \Res_{z = 3}(f) = \lim_{z \to 3}(z - 3)f(z) = \lim_{z \to 3}\frac{1}{z + 3} = \frac{1}{6}.
+    \]
+
+    \[
+    f(z) = \frac{1}{\sin(z)}.
+    \]
+    Denominator has zeros at $z = n\pi$
+    ($n \in \Z$)
+    and these are order $1$,
+    so simple zeros.
+    By rule $2$ with $g(z) = 1$,
+    $h(z) = \sin(z)$,
+    \[
+    \Res_{z = n\pi}(f) = \frac{g(n\pi)}{h'(n\pi)} = \frac{1}{\cos(n\pi)} = (-1) ^ n.
+    \]
+\end{example}
+
+Notation:
+Given a simple closed contour $\gamma$,
+we say that $f$ is meromorphic on and inside $\gamma$ if there exists a domain $D \supset D_{\gamma} \cup \gamma$ on which $f$ is meromorphic.
+
+\begin{theorem}[Cauchy's Residue Theorem]
+    Suppose $f$ is meromorphic on and inside a positively oriented simple closed contour $f$,
+    and assume $f$ has no poles on $\gamma$,
+    then
+    \[
+    \int_{\gamma}f(z)\,dz = 2\pi i\sum_{j = 1}^{m}\Res_{z = a_j}(f)
+    \]
+    where $a_1, \dotsc, a_m$ are the poles of $f$ inside $\gamma$.
+
+    \begin{proof}
+        If $S_{\gamma} = \{a_1, \dotsc, a_m\}$ is empty,
+        done by Cauchy-Goursat.
+        Otherwise for each pole $z = a_j$ we have a LS around $z = a_j$ on some ball.
+        Let
+        \[
+        \mathrm{PP}_j(z) = \sum_{n = -k_j}^{-1}c_{a_j}(z - a_j) ^ n
+        \]
+        be the principle part of the LS around $z = a_j$.
+        Each $\mathrm{PP}_j(z)$ is just a finite sum of reciprocals of $(z - a_j)$.
+        So extend to holomorphic functions on $\C \setminus \{a_j\}$.
+        So it makes sense to consider
+        \begin{align*}
+            \int_{\gamma}\mathrm{PP}_j(z)\,dz &= \int_{\gamma}\sum_{n = -k_j}^{-1}c_{n_j}(z - a_j) ^ n \\
+            &= \sum_{n = -k_j}^{-1}c_{n_j}\int_{\gamma}(z - a_j) ^ n\,dz \\
+            &= 2\pi ic_{-1, j} \\
+            &= 2\pi i\Res_{z = a_j}(f).
+        \end{align*}
+        Cauchy considered
+        \[
+        g(z) = f(z) - \sum_{j = 1}^{m}\mathrm{PP}_j(z).
+        \]
+        Around $z = a_i$,
+        \[
+        g(z) = f(z) - \mathrm{PP}_i(z) - \sum_{j \neq i}\mathrm{PP}_j(z) = \mathrm{AP}_i(z) - \sum_{j \neq i}\mathrm{PP}_j(z).
+        \]
+        So $g$ extends to a holomorphic function on $D$.
+        So by Cauchy-Goursat,
+        \begin{align*}
+            0 &= \int_{\gamma}g(z)\,dz \\
+            &= \int_{\gamma}\left(f(z) - \sum_{j = 1}^{m}\mathrm{PP}_j(z)\right)\,dz \\
+            &= \int_{\gamma}f(z)\,dz - \sum_{j = 1}^{m}\int_{\gamma}\mathrm{PP}_j(z)\,dz \\
+            &= \int_{\gamma}f(z)\,dz - 2\pi i\sum_{j = 1}^{m}\Res_{z = a_j}(f).
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    Compute
+    \[
+    \int_{|z| = 1}\frac{1}{\sin{z}}\,dz.
+    \]
+
+    \begin{solution}
+        Poles at $z = n\pi$.
+        By CRT,
+        \[
+        \int_{|z| = 1}\frac{1}{\sin{z}}\,dz = 2\pi i\Res_{z = 0}(f) = 2\pi i\cdot 1 = 2\pi i.
+        \]
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Calculate
+    \[
+    \int_{\gamma}\frac{e ^ z}{z ^ 2 + z ^ 3}\,dz
+    \]
+    where $\gamma$ is any positively oriented SCC such that $0$ is inside $\gamma$ and $-1$ is outside.
+
+    \begin{solution}
+        We have
+        \[
+        f(z) = \frac{e ^ z}{z ^ 2(z + 1)}.
+        \]
+        So
+        \[
+        \int_{\gamma}f(z)\,dz = 2\pi i\Res_{z = 0}(f)
+        \]
+        write $f(z) = \frac{g(z)}{z ^ 2}$ where $g(z) = \frac{e ^ z}{z + 1}$ then $g$ is holomorphic on and inside $\gamma$ so by rule $3$
+        \[
+        \Res_{z = 0}(f) = \frac{g ^ {(2 - 1)}(0)}{(2 - 1)!} = g'(0)
+        \]
+        $g'(z) = \frac{e ^ z}{1 + z} - \frac{e ^ z}{(1 + z) ^ 2}$,
+        so $g'(0) = 0$ so $\int_{\gamma}f = 0$.
+    \end{solution}
+\end{example}
+
+\begin{example}[Integrals of rational real functions of $\cos$ and $\sin$]
+    Show that $\displaystyle\int_{0}^{2\pi}\frac{1}{a\sin(\theta)}\,d\theta = \frac{2\pi}{\sqrt{1 - a ^ 2}}$ for $a \in (-1, 1)$.
+
+    \begin{solution}
+        We know
+        \[
+        \sin(\theta) = \frac{e ^ {i\theta} - e ^ {-i\theta}}{2i}.
+        \]
+        Assume $a \neq 0$.
+        Then
+        \begin{align*}
+            \int_{0}^{2\pi}\frac{1}{1 + a\sin(\theta)}\,d\theta &= \int_{0}^{2\pi}\frac{1}{1 + a\left(\frac{e ^ {i\theta} - e ^ {-i\theta}}{2i}\right)}\,d\theta \\
+            &= \int_{0}^{2\pi}\frac{2ie ^ {i\theta}}{2ie ^ {i\theta} + ae ^ {2i\theta} - a}\,d\theta \\
+            &= \int_{0}^{2\pi}\frac{2\gamma(\theta)}{a(\gamma(\theta) ^ 2 + 2i(\gamma(\theta)) - a}\,d\theta &\gamma(\theta) = e ^ {i\theta}, \theta \in [0, 2\pi] \\
+            &= \int_{|z| = 1}\frac{2}{az ^ 2 + 2iz - a}\,dz \\
+            &= \int_{|z| = 1}\underbrace{\frac{2}{a(z - z_1)(z - z_2)}}_{f(z)}\,dz
+        \end{align*}
+        where $z_1 = i\left(\frac{-1 + \sqrt{1 - a ^ 2}}{a}\right)$,
+        $z_2 = i\left(\frac{-1 - \sqrt{1 - a ^ 2}}{a}\right)$.
+        Note $|z_2| > 1$,
+        and $z_1z_2 = -1$ so $|z_1| < 1$.
+        By CRT
+        \[
+        \int_{0}^{2\pi}\frac{1}{1 + a\sin(\theta)}\,d\theta = 2\pi i\Res_{z = z_1}(f)
+        \]
+        by rule $1$ we get
+        \[
+        \frac{2\pi i}{\sqrt{1 - a ^ 2}}.
+        \]
+        
+    \end{solution}
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
