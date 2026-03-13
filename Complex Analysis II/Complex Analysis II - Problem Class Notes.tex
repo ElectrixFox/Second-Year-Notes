@@ -1165,6 +1165,202 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$9$}{}}
+
+\begin{problem}
+    Suppose $D \subseteq \C$ is a simply connected domain,
+    and let $a \in D$.
+    Assume $f : D \setminus \{a\} \to \C$ is holomorphic and has a removable singularity at $z = a$.
+    Calculate
+    \[
+    \int_{\gamma}f(z)\,dz,
+    \]
+    where $\gamma$ is any closed contour in $D \setminus \{a\}$.
+
+    \begin{solution}
+        $f$ is holomorphic on $D \setminus \{a\}$ with removable singularity at $z = a$.
+        By a lemma from the lecture notes,
+        $f$ extends to a holomorphic function on $D$,
+        call this function $g$.
+        Then
+        \[
+        \int_{\gamma}f(z)\,dz = \int_{\gamma}g(z)\,dz = 0
+        \]
+        by Cauchy-Goursat for all closed contours.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Determine all zeros and isolated singularities
+    (with orders where appropriate)
+    of the following
+    \[
+    f(z) = \frac{ze ^ {iz}}{\sin(z)}.
+    \]
+
+    \begin{solution}
+        \[
+        f(z) = \frac{ze ^ {iz}}{\sin(z)} \eqqcolon \frac{g(z)}{h(z)}.
+        \]
+        By result in lectures,
+        zeros of $f$ occur when $g = 0$ but $h \neq 0$,
+        poles of $f$ do occur when $h = 0$ but $g \neq 0$.
+        Zeros of $g$ are just $z = 0$ since $e ^ {iz} \neq 0$.
+        Zeros of $h$ are $z = n\pi$,
+        for $n \in \Z$.
+        Thus $f$ has pole at $z = n\pi$,
+        $n \neq 0$,
+        and these are order $1$ since $h'(n\pi) = \cos(n\pi) \neq 0$.
+        No zeros.
+        Investigate $z = 0$.
+        We have
+        \[
+        \lim_{z \to 0}zf(z) = \lim_{z \to 0}\frac{e ^ 2e ^ {iz}}{\sin(z)} = \lim_{z \to 0}\frac{2ze ^ {iz} + iz ^ 2e ^ {iz}}{\cos(z)} = \frac{0 + 0}{1} = 0
+        \]
+        so removable singularity.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $f$ be a non-constant entire function.
+    so that $g(z) \coloneqq f(1 / z)$ is holomorphic on $\C \setminus \{0\}$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item Suppose $f$ is a polynomial of degree $n$.
+        What type of isolated singularity would $g$ have at $z = 0$?
+
+        \item Assume $f$ is 'transcendental',
+        that is,
+        the Taylor series expansion $f(z) = \sum_{n = 0}^{\infty}a_nz ^ n$ contains infinitely many $a_n \neq 0$.
+        What type of isolated singularity would $g$ have at $z = 0$?
+
+        \item Using the Great Picard Theorem,
+        show that $f$ is not a polynomial,
+        then the image of $f$ contains $\C \setminus \{b\}$ for some $b \in \C$.
+
+        \item If $f$ is a polynomial then what is the image of $f$?
+    \end{enumerate}
+
+    \begin{solution}
+        $f$ non-constant and entire,
+        define $g(z) = f\left(\frac{1}{z}\right)$ which is holomorphic on $\C \setminus \{0\}$.
+        
+        \begin{enumerate}[label = (\roman*)]
+            \item Suppose $f$ is a polynomial,
+            so $f(z) = c_0 + c_1z + \dotsc + c_nz ^ n$.
+            Then
+            \begin{align*}
+                g(z) &= f\left(\frac{1}{z}\right) \\
+                &= c_0 + \frac{c_1}{z} + \dotsi + \frac{c_n}{z ^ n} \\
+                &= c_0 + \sum_{k = 1}^{n}c_kz ^ {-k} \\
+                &= c_0 + \sum_{m = -n}^{-1}c_{-m}z ^ m
+            \end{align*}
+            so $g$ has a pole of order $n$ at $z = 0$.
+
+            \item Suppose $f$ is "transcendental",
+            that is the Taylor series contains infinitely many terms,
+            so $f(z) = \sum_{n = 0}^{\infty}c_nz ^ n$.
+            In this case
+            \begin{align*}
+                g(z) &= f\left(\frac{1}{z}\right) \\
+                &= \sum_{n = 0}^{\infty}c_n\left(\frac{1}{z}\right) ^ n \\
+                &= \sum_{m = -\infty}^{0}c_{-m}z ^ m
+            \end{align*}
+            principle part contains infinitely many terms so essential singularity.
+
+            \item Find image of $f$ when $f$ is transcendental.
+            We know $g(z) = f(1 / z)$ has an essential singularity at $z = 0$.
+            We have
+            \[
+            f(z) = g\left(\frac{1}{z}\right) = (g\circ h)(z),
+            \]
+            where $h(z) = \frac{1}{z}$.
+            $|z| = 1$ then $|h(z)| = \frac{1}{|z|} = 1$.
+            By Great Picard Theorem,
+            there exists $b \in \C$ such that $g(B_1(0)) \supset \C \setminus \{b\}$.
+            Thus $f : \C \setminus \overline{B_1(0)} \to \C \setminus \{b\}$ surjectively.
+
+            \item We've just seen if $f$ is not a polynomial then $f(\C) \supset \C \setminus \{b\}$.
+            What if $f$ is a polynomial
+            (non-constant)?
+            Let $w \in \C$.
+            When can we find $z_0 \in \C$ such that $f(z_0) = w$?
+            Let $g(z) = f(z) - w$,
+            then $g$ is a non-constant polynomial and we seek a zero of $g$.
+            By FTA,
+            every polynomial has a root in $\C$,
+            so $\exists z_0 \in \C$ such that $g(z_0) = 0$ so $f(z_0) = w$.
+            So $f(\C) = \C$.
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Evaluate the contour integral of the following function around the contour $\gamma$ with equation $|z| = 2$ of
+    \[
+    \int_{\gamma}\frac{1}{(z ^ 2 - 1) ^ 2}\,dz.
+    \]
+
+    \begin{solution}
+        Note
+        \[
+        f(z) = \frac{1}{(z ^ 2 - 1) ^ 2} = \frac{1}{(z - 1) ^ 2(z + 1) ^ 2}.
+        \]
+        Thus,
+        $f$ has poles of order $2$ at $z = \pm 1$
+        (because they are zeros of order $2$ of the denominator).
+        By CRT
+        \[
+        \int_{|z| = 2}f(z)\,dz = 2\pi i(\Res_{z = 1}(f) + \Res_{z = -1}(f)).
+        \]
+        We can write $f(z) = \frac{g_1(z)}{(z - 1) ^ 2}$ where $g_1(z) = \frac{1}{(z + 1) ^ 2}$ holomorphic at $z = 1$.
+        By Rule $3$,
+        \[
+        \Res_{z = 1}(f) = \frac{g_1'(1)}{1!} = g_1'(1) =  -\frac{2}{2 ^ 3} = -\frac{1}{4}
+        \]
+        since $g)1''(z) = -\frac{2}{(z + 1) ^ 3}$.
+        Similarly,
+        $\Res_{z = -1}(f) = \frac{1}{4}$,
+        so integral is $0$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    By converting it into a complex contour integral of some meromorphic function,
+    evaluate the real integral
+    \[
+    \int_{0}^{\pi}\frac{1}{4 + \sin ^ 2(\theta)}\,d\theta.
+    \]
+
+    \begin{solution}
+        \[
+        \sin(\theta) = \frac{e ^ {i\theta} - e ^ {-i\theta}}{2i}
+        \]
+        \begin{align*}
+            \int_{0}^{\pi}\frac{1}{4 + \sin ^ 2(\theta)}\,d\theta &= \int_{0}^{\pi}\frac{1}{4 - \frac{1}{4}\left(e ^ {2i\theta} + e ^ {-2i\theta} - 2\right)}\,d\theta \\
+            &= \int_{0}^{\pi}\frac{4e ^ {2i\theta}}{16e ^ {2i\theta} - e ^ {4i\theta} - 1 + 2e ^ {2i\theta}}\,d\theta \\
+            &= \int_{0}^{\pi}\frac{-2i\gamma'(\theta)}{18\gamma(\theta) - \gamma(\theta) ^ 2 - 1}\,d\theta &(\gamma(\theta) = e ^ {2i\theta},\quad \theta \in [0, \pi], \gamma'(\theta) = 2ie ^ {2i\theta}) \\
+            &= \int_{|z| = 1}\frac{-2iz}{18z - z ^ 2 - 1}\,dz \\
+            &= \int_{|z| = 1}\frac{2iz}{z ^ 2 - 18z + 1}\,dz \\
+            &= \int_{|z| = 1}\frac{2iz}{(z - (9 - \sqrt{80}))(z - (9 - \sqrt{80})}\,dz \\
+            &= 2\pi i\Res_{z = 9 - \sqrt{80}}(f) = \frac{\pi}{2\sqrt{5}}.
+        \end{align*}
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
