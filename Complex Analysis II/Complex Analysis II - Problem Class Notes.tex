@@ -1350,6 +1350,191 @@
     \end{solution}
 \end{problem}
 
+\newpage
+
+\section{Problem Class \texorpdfstring{$10$}{}}
+
+\begin{problem}
+    For $R > 0$ let $C_R : [0, \pi] \to \C$ be the arc $C_R(t) = Re ^ {it}$.
+    For the integral $I_R$ show that $|I_R| \to 0$ as $R \to \infty$.
+    \[
+    I_R = \int_{C_R}\frac{e ^ {iz}}{z ^ 2 + z + 7}\,dz.
+    \]
+
+    \begin{solution}
+        \[
+        I_R = \int_{C_R}\frac{e ^ {iz}}{z ^ 2 + z + 7}\,dz.
+        \]
+        ML inequality
+        \[
+        |I_R| \leq L(C_R) \cdot \sup_{z \in C_R}\left|\frac{e ^ {iz}}{z ^ 2 + z + 7}\right|.
+        \]
+        Notice for $z \in C_R$,
+        we $|z| = 12$ and $z = x + iy$,
+        $y \geq 0$.
+        So $|e ^ {iz}| = |e ^ {i(x + iy)}| = e ^ {-y} \leq 1$.
+        and
+        \[
+        |z ^ 2 + z + 7| \overset{R\text{ large}}{\geq} |z ^ 2| - |z + 7| \geq |z| ^ 2 - |z| - 7 = R ^ 2 - R - 7
+        \]
+        so $|I_R| \leq \pi R\cdot\frac{1}{R ^ 2 - R - 7} \to 0$ as $R \to \infty$.
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $n > 1$ be a positive integer and write $w = e ^ {\pi i / n}$,
+    so that $w ^ n = -1$.
+    For any $R > 1$,
+    consider the integral $\displaystyle I_R = \int_{0}^{R}\frac{1}{x ^ n + 1}\,dx$ and let $\gamma_{R}$ be the straight line segment connecting $0$ and $w ^ 2R$ in $\C$.
+
+    \begin{enumerate}[label = (\roman*)]
+        \item Show that
+        \[
+        \int_{\gamma_R}\frac{1}{z ^ n + 1}\,dz = w ^ 2I_R.
+        \]
+
+        \item Let $\Gamma_R \coloneqq L_R \cup C_R \cup (\gamma_R)$ be the SCC consisting of the straight line segment $L_R$ connecting $0$ with $R$,
+        then the circular arc $C_R$ of radius $R$ connecting $R$ with $w ^ 2R$ and finally the straight line segment connecting $w ^ 2R$ back with $0$
+        (that is,
+        $-\gamma_R$).
+        Show that
+        \[
+        \int_{\Gamma_R}\frac{1}{z ^ n + 1}\,dz = \frac{2\pi i}{nw ^ {n - 1}}.
+        \]
+
+        \item By letting $R \to \infty$ conclude
+        \[
+        \int_{0}^{\infty}\frac{1}{x ^ n + 1}\,dz = \frac{\pi}{n\sin\left(\frac{\pi}{n}\right)}.
+        \]
+    \end{enumerate}
+
+    \begin{solution}\phantom{}
+        \begin{enumerate}[label = (\roman*)]
+            \item Let $\gamma_R(t) = tw ^ 2$ for $t \in [0, R]$.
+            Then
+            \begin{align*}
+                \int_{\gamma_R}\frac{1}{z ^ n + 1}\,dz &= \int_{0}^{R}\frac{\gamma_R'(t)}{(\gamma_R(t)) ^ n + 1}\,dt \\
+                &= \int_{0}^{R}\frac{w ^ 2}{t ^ nw ^ {2n} + 1}\,dt \\
+                &= w ^ 2\int_{0}^{R}\frac{1}{t ^ n + 1}\,dt.
+            \end{align*}
+
+            \item $\Gamma_{R} = L_R \cup C_R \cup (-\gamma_{R})$
+            \[
+            \int_{\Gamma_{R}}\frac{1}{z ^ n + 1}\,dz
+            \]
+            where are the poles of $f(z) = \frac{1}{z ^ n + 1}$?
+            They occur when $z ^ n = -1 = e ^ {i\pi}$.
+            $z = e ^ {i\pi / n + 2m\pi i / n}$ for $m = 0, \dotsc, n - 1$.
+            By CRT,
+            \[
+            \int_{\Gamma_{R}}\frac{1}{z ^ n + 1}\,dz = 2\pi i\Res_{z = w}(f) = 2\pi i\frac{1}{nz ^ {n - 1}}\Big|_{z = w} = \frac{2\pi i}{nw ^ {n - 1}}.
+            \]
+
+            \item
+            \[
+            \int_{\Gamma_R} = \int_{L_R} + \int_{C_R} - \int_{\gamma_R}
+            \]
+            Note
+            \[
+            |\int_{C_R}\frac{1}{z ^ n + 1}\,dz| \leq \pi R\sup_{z \in C_R}\frac{1}{|z ^ n + 1|} \leq \pi R\frac{1}{R ^ n - 1} \to 0
+            \]
+            as $R \to \infty$.
+            So
+            \[
+            \lim_{R \to \infty}\int_{\Gamma_R} = \lim_{R \to \infty}\left(\int_{L_R} - \int_{\gamma_R}\right) = (1 - w ^ 2)\int_{0}^{\infty}\frac{1}{x ^ n + 1}\,dz
+            \]
+            so
+            \[
+            \frac{2\pi i}{nw ^ {n - 1}} = (1 - w ^ 2)\int_{0}^{\infty}\frac{1}{x ^ n + 1}\,dx.
+            \]
+            So
+            \[
+            \int_{0}^{\infty}\frac{1}{x ^ n + 1}\,dx = \frac{2\pi i}{nw ^ {n - 1}(1 - w ^ 2)} = \frac{\pi}{n\sin\left(\frac{\pi}{n}\right)}
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    Let $a_n = (n + 1 / 3)\pi$ for each $n \geq 0$.
+    By writing the integral in the form
+    \[
+    \int_{|z| = a_n}\frac{f'(z)}{f(z)}\,dz,\qquad\text{where } f(z) = \frac{\sin(z)}{\cos(z)},
+    \]
+    show that for all $n \geq 0$ we have
+    \[
+    \int_{|z| = a_n}\frac{1}{\sin(z)\cos(z)}\,dz = 2\pi i.
+    \]
+
+    \begin{solution}
+        \[
+        \frac{f'(z)}{f(z)} = \frac{\frac{\cos(z)}{\cos(z)} - \frac{(-\sin(z))\sin(z)}{\cos ^ 2(z)}}{\sin(z) / \cos(z)} = \frac{\cos ^ 2(z) + \sin ^ 2(z)}{\sin(z)\cos(z)} = \frac{1}{\sin(z)\cos(z)}.
+        \]
+        Zeros of $f$ are at $z = n\pi$,
+        $n \in \Z$.
+        Poles of $f$ are at $z = n\pi + \pi / 2$,
+        $n \in \Z$.
+        So by the Argument Principle
+        \[
+        \frac{1}{2\pi i}\int_{|z| = a_n}\frac{1}{\sin(z)\cos(z)}\,dz = 1.
+        \]
+    \end{solution}
+\end{problem}
+
+\begin{problem}
+    By considering a
+    'D-shaped'
+    contour composed of the line segment joining $-iR$ to $iR$ and the semicircle $|z| = R$ with $\Re(z) \leq 0$,
+    prove that the function $f(z) = z ^ 5 + 2 + e ^ z$ has exactly three zeros in the left half-plane $\{z \in \C\,:\,\Re(z) < 0\}$.
+
+    \begin{solution}
+        Try $g(z) = z ^ 5 + 2$,
+        where are the zeros?
+        \[
+        z ^ 5 = -2 = 2e ^ {i\pi},
+        \]
+        $z = 2 ^ {\frac{1}{5}}e ^ {\frac{i\pi}{5} + \frac{2mi\pi}{5}}$.
+        It has three zeros in the D-shaped contour
+        (so long as $R > 2$)
+        Split D into $C$ and $I$.
+        On the curved part,
+        $|z| = R > 2$ and so
+        \[
+        |g(z)| = |z ^ 5 + 2| \geq |z| ^ 5 - 2 > 2 ^ 5 - 2 = 32 - 2 = 30
+        \]
+        on straight line part,
+        $z = iy$ for $y \in [-R, R]$.
+        So
+        \[
+        |g(z)| = |(iy) ^ 5 + 2| = |iy ^ 5 + 2| = \sqrt{4 + y ^ {10}} \geq \sqrt{4} = 2.
+        \]
+        But,
+        on D-shaped contour
+        \[
+        |f(z) - g(z)| = |e ^ z| = |e ^ {x + iy}| = e ^ x \leq 1 < 2\text{ and } 30.
+        \]
+        Conclude $f$ and $g$ have same number of zeros in D-shaped contour.
+        For all $R$.
+        So $3$ in $\mathbb{H}_{\leq 0}$.
+    \end{solution}
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
