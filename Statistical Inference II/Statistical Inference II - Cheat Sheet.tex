@@ -1,19 +1,682 @@
-\documentclass[10pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
+
+% ─── Packages ───────────────────────────────────────────────────────────────
+\usepackage[margin=2.2cm, top=2.5cm, bottom=2.8cm]{geometry}
 \usepackage{preamble}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{array}
 
-\title{Statistical Inference II \\
-    \large Cheat Sheet}
-\author{Luke Phillips}
-\date{November 2025}
+\tcbuselibrary{skins, breakable, theorems}
 
+% ─── Maths shortcuts (replacing preamble.sty) ───────────────────────────────
+\newcommand{\Bias}{\operatorname{Bias}}
+\newcommand{\MSE}{\operatorname{MSE}}
+\newcommand{\iid}{\overset{\text{i.i.d.}}{\sim}}
+\newcommand{\dconv}{\overset{d}{\longrightarrow}}
+\newcommand{\pconv}{\overset{p}{\longrightarrow}}
+\newcommand{\hth}{\hat{\theta}}
+\newcommand{\tth}{\tilde{\theta}}
+\newcommand{\Inn}{\mathcal{I}_n}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calL}{\mathcal{L}}
+
+% ─── Colours ────────────────────────────────────────────────────────────────
+\definecolor{navyblue}{RGB}{25, 55, 110}
+\definecolor{steelblue}{RGB}{52, 101, 164}
+\definecolor{skyblue}{RGB}{220, 234, 252}
+\definecolor{emerald}{RGB}{5, 110, 75}
+\definecolor{mintgreen}{RGB}{215, 245, 230}
+\definecolor{amber}{RGB}{140, 90, 10}
+\definecolor{cream}{RGB}{255, 250, 235}
+\definecolor{crimson}{RGB}{150, 30, 40}
+\definecolor{blush}{RGB}{252, 230, 232}
+\definecolor{teal}{RGB}{10, 105, 120}
+\definecolor{teallight}{RGB}{220, 245, 248}
+\definecolor{darkgray}{RGB}{50, 50, 55}
+\definecolor{lightgray}{RGB}{245, 245, 248}
+\definecolor{rulegray}{RGB}{180, 185, 195}
+\definecolor{plum}{RGB}{90, 30, 110}
+\definecolor{lavender}{RGB}{240, 230, 252}
+
+% ─── Page Style ─────────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegray}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\small\color{darkgray}\textit{Statistical Inference II --- MATH2711 Revision Sheet}}
+\fancyhead[R]{\small\color{darkgray}\thepage}
+\fancyfoot[C]{\small\color{rulegray}\rule{4cm}{0.3pt}}
+
+% ─── Section Formatting ─────────────────────────────────────────────────────
+\titleformat{\section}
+  {\large\bfseries\color{navyblue}}
+  {\llap{\color{steelblue}\S\thesection\hspace{0.6em}}}
+  {0pt}{}
+  [\vspace{-4pt}{\color{steelblue}\rule{\linewidth}{1.5pt}}]
+\titlespacing{\section}{0pt}{18pt}{8pt}
+
+% ─── tcolorbox Environments ─────────────────────────────────────────────────
+
+% Definition (blue)
+\newtcolorbox{defbox}[1][]{
+  enhanced, breakable,
+  colback=skyblue, colframe=steelblue,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Theorem / Lemma / Proposition (amber)
+\newtcolorbox{thmbox}[1][]{
+  enhanced, breakable,
+  colback=cream, colframe=amber,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Method (green)
+\newtcolorbox{methodbox}[1][]{
+  enhanced, breakable,
+  colback=mintgreen, colframe=emerald,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Remark / Warning (crimson)
+\newtcolorbox{warnbox}[1][Remark]{
+  enhanced, breakable,
+  colback=blush, colframe=crimson,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Example (teal)
+\newtcolorbox{exbox}[1][]{
+  enhanced, breakable,
+  colback=teallight, colframe=teal,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt,
+  title={\small\color{white}\textbf{Example}\ifx&#1&\else\ --- #1\fi},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Formula highlight (gray)
+\newtcolorbox{formulabox}{
+  enhanced, colback=lightgray, colframe=rulegray,
+  arc=4pt, top=6pt, bottom=6pt, left=10pt, right=10pt,
+  before skip=8pt, after skip=8pt
+}
+
+% ─── List styling ────────────────────────────────────────────────────────────
+\setlist[enumerate]{label=\textbf{\arabic*.}, itemsep=3pt, parsep=0pt, topsep=4pt}
+\setlist[itemize]{itemsep=2pt, parsep=0pt, topsep=4pt}
+
+\hypersetup{colorlinks=true, linkcolor=steelblue, urlcolor=steelblue}
+
+% ─── Document ────────────────────────────────────────────────────────────────
 \begin{document}
 
-\maketitle
+% ══════════════════ TITLE ════════════════════════════════════════════════════
+\begin{center}
+  {\color{navyblue}\rule{\linewidth}{2pt}}\\[10pt]
+  {\LARGE\bfseries\color{navyblue} Statistical Inference II --- MATH2711}\\[4pt]
+  {\large\color{darkgray} Revision Sheet}\\[4pt]
+  {\small\color{rulegray} Cumming, 2025--2026}\\[6pt]
+  {\small\color{darkgray}
+    Hypothesis Testing $\cdot$ Neyman--Pearson Lemma $\cdot$
+    Most Powerful Tests $\cdot$ Likelihood Ratio Tests $\cdot$ Conjugate Priors}\\[10pt]
+  {\color{navyblue}\rule{\linewidth}{2pt}}
+\end{center}
 
+\tableofcontents
+\vspace{10pt}{\color{rulegray}\hrule}\vspace{10pt}
+
+% ══════════════════════════════════════════════════════════════
 \newpage
+\section{Hypothesis Testing --- Framework}
+% ══════════════════════════════════════════════════════════════
 
-\section{Cheat Sheet}
+\subsection*{Hypotheses and Errors}
 
+\begin{defbox}[Definition --- Hypotheses]
+A \textbf{statistical hypothesis} is a statement about the parameter $\theta \in \Omega$.
+\begin{itemize}
+  \item $H_0$ (null hypothesis): the default assumption, which we seek evidence against.
+  \item $H_1$ (alternative hypothesis): the claim we wish to support.
+\end{itemize}
+A hypothesis is \textbf{simple} if it specifies a single value, e.g.\ $\theta = \theta_0$; otherwise it is \textbf{composite}, e.g.\ $\theta > \theta_0$ or $\theta \neq \theta_0$.
+\end{defbox}
 
+\begin{defbox}[Definition --- Critical Region and Test Statistic]
+A \textbf{test} partitions the sample space into the \textbf{critical (rejection) region} $C$ and its complement. We reject $H_0$ if and only if $\mathbf{x} \in C$.
+
+A \textbf{test statistic} $T = T(\mathbf{x})$ reduces the data to a single number; the critical region then takes the form $\{T > c\}$, $\{T < c\}$, or $\{|T| > c\}$ for some critical value $c$.
+\end{defbox}
+
+\begin{defbox}[Definition --- Type I Error, Type II Error, Size, and Power]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+ & $H_0$ \textbf{true} & $H_0$ \textbf{false} \\
+\midrule
+\textbf{Reject} $H_0$ & Type I error & Correct \\
+\textbf{Fail to reject} $H_0$ & Correct & Type II error \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4pt}
+\[
+  \alpha \;=\; P(\text{Type I error}) \;=\; P(\mathbf{X} \in C \mid H_0),
+  \qquad
+  \text{Power} \;=\; 1 - P(\text{Type II error}) \;=\; P(\mathbf{X} \in C \mid H_1).
+\]
+A test has \textbf{size} $\alpha$ if $\sup_{\theta \in \Omega_0} P_\theta(\mathbf{X} \in C) = \alpha$.
+\end{defbox}
+
+\begin{warnbox}[Remark]
+There is always a trade-off: reducing $\alpha$ (fewer false rejections) typically increases the Type II error (more missed detections). The Neyman--Pearson approach fixes $\alpha$ and maximises power subject to this constraint.
+\end{warnbox}
+
+\subsection*{The Power Function}
+
+\begin{defbox}[Definition --- Power Function]
+The \textbf{power function} of a test with critical region $C$ is
+\[
+  \pi(\theta) \;=\; P_\theta(\mathbf{X} \in C), \qquad \theta \in \Omega.
+\]
+At $\theta \in \Omega_0$: ideally $\pi(\theta) \leq \alpha$ (controlled Type I error). At $\theta \in \Omega_1$: we want $\pi(\theta)$ as large as possible.
+\end{defbox}
+
+\begin{exbox}[Power function for a one-sided Normal test]
+Let $X_1,\ldots,X_n \iid N(\mu, \sigma^2)$ with $\sigma^2$ known. Test $H_0\colon \mu = \mu_0$ vs $H_1\colon \mu > \mu_0$ at level $\alpha$. Reject when $Z = \sqrt{n}(\bar{X} - \mu_0)/\sigma > z_\alpha$.
+
+The power function is
+\[
+  \pi(\mu) = P_\mu(Z > z_\alpha)
+  = 1 - \Phi\!\left(z_\alpha - \frac{\sqrt{n}(\mu - \mu_0)}{\sigma}\right).
+\]
+At $\mu = \mu_0$: $\pi(\mu_0) = 1 - \Phi(z_\alpha) = \alpha$. As $\mu \to \infty$: $\pi(\mu) \to 1$ (the test is consistent). The power increases with $n$ (larger samples $\Rightarrow$ sharper discrimination).
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{The Neyman--Pearson Lemma}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{Statement and Proof Sketch}
+
+\begin{thmbox}[Theorem --- Neyman--Pearson Lemma]
+Consider testing $H_0\colon \theta = \theta_0$ vs $H_1\colon \theta = \theta_1$ (both simple). The \textbf{most powerful} (MP) level-$\alpha$ test has critical region
+\[
+  C \;=\; \left\{\mathbf{x} : \frac{f(\mathbf{x} \mid \theta_1)}{f(\mathbf{x} \mid \theta_0)} > k\right\},
+\]
+where $k \geq 0$ is chosen so that $P_{\theta_0}(\mathbf{X} \in C) = \alpha$. No other level-$\alpha$ test has strictly greater power against $\theta_1$.
+\end{thmbox}
+
+\begin{warnbox}[Remark --- Why this works]
+The ratio $\Lambda(\mathbf{x}) = f(\mathbf{x} \mid \theta_1)/f(\mathbf{x} \mid \theta_0)$ measures how much more plausible $\theta_1$ is than $\theta_0$ given the data. Rejecting when this ratio is large exactly targets the region of the sample space where $H_1$ best explains the observations, making it the most efficient use of the significance budget $\alpha$. In practice one works with $\log \Lambda = \ell(\theta_1) - \ell(\theta_0)$, which after simplification almost always reduces to a condition on a natural sufficient statistic.
+\end{warnbox}
+
+\begin{methodbox}[Method: Applying the Neyman--Pearson Lemma]
+\begin{enumerate}
+  \item Write the log-likelihood ratio:
+        \[
+          \log \Lambda(\mathbf{x}) = \sum_{i=1}^n \log f(x_i \mid \theta_1)
+                                    - \sum_{i=1}^n \log f(x_i \mid \theta_0).
+        \]
+  \item Simplify. The expression will reduce to a linear function of some statistic $T(\mathbf{x})$ (e.g.\ $\bar{x}$ or $\sum x_i$) plus terms that are constant in the data.
+  \item Determine the direction: $\log \Lambda > \log k$ reduces to $T > c$ or $T < c$ depending on whether the coefficient of $T$ is positive or negative.
+  \item Calibrate the threshold: choose $c$ from the null distribution of $T$ so that $P_{\theta_0}(T > c) = \alpha$ (or $P_{\theta_0}(T < c) = \alpha$).
+\end{enumerate}
+\end{methodbox}
+
+\subsection*{Worked Examples}
+
+\begin{exbox}[Exponential rate --- simple vs.\ simple]
+Let $X_1,\ldots,X_n \iid \operatorname{Exp}(\lambda)$, pdf $f(x \mid \lambda) = \lambda e^{-\lambda x}$. Test $H_0\colon \lambda = \lambda_0$ vs $H_1\colon \lambda = \lambda_1 > \lambda_0$.
+
+\textbf{Step 1.} The log-likelihood ratio is
+\[
+  \log \Lambda = n\log\frac{\lambda_1}{\lambda_0} - (\lambda_1 - \lambda_0)\sum_{i=1}^n x_i.
+\]
+\textbf{Step 2.} The data enter only through $T = \sum x_i$ (equivalently $\bar{x}$).
+
+\textbf{Step 3.} Since $\lambda_1 > \lambda_0$ the coefficient of $T$ is \emph{negative}, so $\log \Lambda > \log k$ iff $\bar{x} < c$ for some $c$.
+
+\textbf{Step 4.} Under $H_0$: $2\lambda_0 \sum X_i \sim \chi^2_{2n}$, so choose $c$ such that $P_{\lambda_0}(\bar{X} < c) = \alpha$, i.e.\ the lower-$\alpha$ quantile of $\operatorname{Gamma}(n, \lambda_0)$ divided by $n$.
+
+\textbf{Conclusion.} Reject $H_0$ when $\bar{x} < c$. This is the MP level-$\alpha$ test.
+\end{exbox}
+
+\begin{exbox}[Normal mean --- known variance]
+Let $X_i \iid N(\mu, \sigma^2)$ with $\sigma^2$ known. Test $H_0\colon \mu = \mu_0$ vs $H_1\colon \mu = \mu_1 > \mu_0$.
+
+\textbf{Steps 1--2.}
+\[
+  \log \Lambda = -\frac{1}{2\sigma^2}\sum(x_i - \mu_1)^2 + \frac{1}{2\sigma^2}\sum(x_i - \mu_0)^2 = \frac{\mu_1 - \mu_0}{\sigma^2}\sum x_i + \text{const}.
+\]
+\textbf{Step 3.} Since $\mu_1 > \mu_0$, the coefficient of $\sum x_i$ is positive: reject when $\bar{x} > c$.
+
+\textbf{Step 4.} Under $H_0$, $\bar{X} \sim N(\mu_0, \sigma^2/n)$, so $c = \mu_0 + z_\alpha \sigma/\sqrt{n}$.
+
+\textbf{Conclusion.} Reject $H_0$ when $Z = \sqrt{n}(\bar{x} - \mu_0)/\sigma > z_\alpha$. This recovers the standard $z$-test as the MP test.
+\end{exbox}
+
+\begin{exbox}[Poisson mean --- simple vs.\ simple]
+Let $X_1,\ldots,X_n \iid \operatorname{Po}(\lambda)$. Test $H_0\colon \lambda = \lambda_0$ vs $H_1\colon \lambda = \lambda_1 > \lambda_0$.
+\[
+  \log \Lambda = n(\lambda_0 - \lambda_1) + \log\!\left(\frac{\lambda_1}{\lambda_0}\right)\sum x_i.
+\]
+Since $\lambda_1 > \lambda_0$ we have $\log(\lambda_1/\lambda_0) > 0$, so reject when $\sum x_i > c$. Under $H_0$: $\sum X_i \sim \operatorname{Po}(n\lambda_0)$; choose $c$ from the Poisson tables so that $P(T > c \mid H_0) = \alpha$.
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Most Powerful Tests}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{Uniformly Most Powerful Tests}
+
+\begin{defbox}[Definition --- Uniformly Most Powerful Test]
+A level-$\alpha$ test with critical region $C$ is \textbf{uniformly most powerful} (UMP) for $H_0$ vs $H_1\colon \theta \in \Omega_1$ if for every $\theta_1 \in \Omega_1$ it achieves at least as high power as any other level-$\alpha$ test:
+\[
+  P_{\theta_1}(\mathbf{X} \in C) \;\geq\; P_{\theta_1}(\mathbf{X} \in C')
+  \quad \text{for all level-}\alpha \text{ tests } C' \text{ and all } \theta_1 \in \Omega_1.
+\]
+\end{defbox}
+
+\begin{warnbox}[When does a UMP test exist?]
+A UMP test exists when the Neyman--Pearson rejection region $\{T > c\}$ (or $\{T < c\}$) is the \emph{same} for every $\theta_1 \in \Omega_1$. This happens whenever:
+\begin{itemize}
+  \item The alternative $\Omega_1$ is \textbf{one-sided} (e.g.\ $\theta > \theta_0$), and
+  \item The family has a \textbf{monotone likelihood ratio} in $T$ --- common for exponential-family distributions.
+\end{itemize}
+For \textbf{two-sided} alternatives ($\theta \neq \theta_0$) or when nuisance parameters are present, a UMP test generally \textbf{does not} exist.
+\end{warnbox}
+
+\begin{thmbox}[Theorem --- UMP via Neyman--Pearson]
+Suppose that for every fixed $\theta_1 \in \Omega_1$, the NP test of $H_0\colon \theta = \theta_0$ vs $H_1\colon \theta = \theta_1$ yields the same critical region $C$ (independent of $\theta_1$). Then $C$ is the \textbf{UMP} critical region for the composite alternative $H_1\colon \theta \in \Omega_1$.
+\end{thmbox}
+
+\begin{methodbox}[Method: Establishing a UMP Test]
+\begin{enumerate}
+  \item Apply the NP Lemma to the simple-vs-simple problem for a general $\theta_1 \in \Omega_1$.
+  \item Check that the rejection region (e.g.\ $\{T > c\}$) does \emph{not} depend on the specific value of $\theta_1$ --- only the direction $\Omega_1$ matters for the form of the region.
+  \item The calibration threshold $c$ is still determined by $P_{\theta_0}(T > c) = \alpha$, which depends only on $\theta_0$ and $\alpha$.
+  \item Conclude the test is UMP for the one-sided composite $H_1$.
+\end{enumerate}
+\end{methodbox}
+
+\subsection*{Worked Examples}
+
+\begin{exbox}[Exponential rate --- one-sided composite alternative]
+For $X_i \iid \operatorname{Exp}(\lambda)$, test $H_0\colon \lambda = \lambda_0$ vs $H_1\colon \lambda > \lambda_0$ (composite).
+
+For any fixed $\lambda_1 > \lambda_0$, the NP lemma gives rejection region $\{\bar{x} < c\}$, with $c$ depending only on $\lambda_0$ and $\alpha$ --- \emph{not} on $\lambda_1$. Since the same region applies for every $\lambda_1 > \lambda_0$, the test $\{\bar{x} < c\}$ is \textbf{UMP} for the composite alternative.
+\end{exbox}
+
+\begin{exbox}[Normal mean --- UMP $z$-test]
+For $X_i \iid N(\mu, \sigma^2)$ ($\sigma^2$ known), the NP rejection region for $H_0\colon \mu = \mu_0$ vs $H_1\colon \mu = \mu_1 > \mu_0$ is always $\{\bar{x} > \mu_0 + z_\alpha\sigma/\sqrt{n}\}$, regardless of $\mu_1$. Hence the one-sided $z$-test is \textbf{UMP} for $H_1\colon \mu > \mu_0$.
+
+\textbf{Two-sided case.} For $H_1\colon \mu \neq \mu_0$, no UMP test exists. The standard test $\{|Z| > z_{\alpha/2}\}$ is used as a reasonable compromise (it is the uniformly most powerful \emph{unbiased} test).
+\end{exbox}
+
+\begin{exbox}[Weibull --- UMP for a scale parameter (past paper style)]
+Let $X_1,\ldots,X_n \iid f(x \mid \lambda) = \frac{k}{\lambda}x^{k-1}e^{-x^k/\lambda}$ (Weibull, fixed shape $k$). Test $H_0\colon \lambda = \lambda_0$ vs $H_1\colon \lambda = \lambda_1 < \lambda_0$.
+
+\[
+  \log \Lambda = n\log\frac{\lambda_0}{\lambda_1} + \left(\frac{1}{\lambda_0} - \frac{1}{\lambda_1}\right)\sum x_i^k.
+\]
+Since $\lambda_1 < \lambda_0$: $1/\lambda_0 - 1/\lambda_1 > 0$, so reject when $\sum x_i^k > c$. The region $\{\sum x_i^k > c\}$ does not depend on $\lambda_1$, so the test is \textbf{UMP} for $H_1\colon \lambda < \lambda_0$.
+\end{exbox}
+
+\begin{exbox}[Lognormal --- UMP (2024 exam, Q7)]
+Let $X_i \iid \operatorname{Lognormal}(\theta)$ with $f(x \mid \theta) = \sqrt{\frac{\theta}{2\pi}}\frac{1}{x}\exp\!\bigl(-\frac{\theta}{2}(\log x)^2\bigr)$, so $\E[X] = e^{1/(2\theta)}$. Test $H_0\colon \E[X] = c_0$ vs $H_1\colon \E[X] = c_1 < c_0$ (i.e.\ $\theta_1 > \theta_0$).
+
+\[
+  \log \Lambda = \frac{n}{2}\log\frac{\theta_1}{\theta_0} - \frac{\theta_1 - \theta_0}{2}\sum_{i=1}^n (\log x_i)^2.
+\]
+Since $\theta_1 > \theta_0$ the coefficient of $\ell = \sum(\log x_i)^2$ is negative, so reject when $\ell < c$. The region $\{\ell < c\}$ is UMP for $H_1\colon \E[X] < c_0$.
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Likelihood Ratio Tests}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{The Generalised Likelihood Ratio Statistic}
+
+\begin{defbox}[Definition --- Generalised Likelihood Ratio Statistic]
+For composite hypotheses $H_0\colon \theta \in \Omega_0$ vs $H_1\colon \theta \in \Omega$ (with $\Omega_0 \subset \Omega$), the \textbf{generalised likelihood ratio} (GLR) statistic is
+\[
+  \Lambda(\mathbf{x}) \;=\;
+  \frac{\sup_{\theta \in \Omega_0} L(\theta)}{\sup_{\theta \in \Omega} L(\theta)}
+  \;=\; \frac{L(\tth)}{L(\hth)},
+\]
+where $\hth$ is the (unconstrained) MLE and $\tth$ is the \textbf{restricted MLE} (MLE subject to $H_0$). Since $\Omega_0 \subseteq \Omega$, we always have $\Lambda \in (0,1]$. We reject $H_0$ when $\Lambda$ is small.
+\end{defbox}
+
+\begin{warnbox}[Remark --- Equivalent formulation]
+It is almost always easier to work with
+\[
+  W \;=\; -2\log\Lambda \;=\; 2\bigl[\ell(\hth) - \ell(\tth)\bigr] \;\geq\; 0.
+\]
+Small $\Lambda$ $\Leftrightarrow$ large $W$; we reject $H_0$ for large values of $W$.
+\end{warnbox}
+
+\begin{thmbox}[Theorem --- Wilks' Theorem]
+Suppose $H_0$ imposes $p$ restrictions on $\theta$, where $p = \dim\Omega - \dim\Omega_0$. Under $H_0$, as $n \to \infty$:
+\[
+  W = -2\log\Lambda \;\dconv\; \chi^2_p.
+\]
+Reject $H_0$ at significance level $\alpha$ if $W > \chi^2_{p,\,\alpha}$, the upper-$\alpha$ critical value of $\chi^2_p$.
+\end{thmbox}
+
+\begin{methodbox}[Method: Performing a Generalised Likelihood Ratio Test]
+\begin{enumerate}
+  \item Write the log-likelihood $\ell(\theta) = \sum_{i=1}^n \log f(x_i \mid \theta)$.
+  \item Find the unconstrained MLE $\hth$ and compute $\ell(\hth)$.
+  \item Find the restricted MLE $\tth$ under $H_0$ and compute $\ell(\tth)$.
+  \item Form the test statistic $W = 2[\ell(\hth) - \ell(\tth)]$.
+  \item Count restrictions: $p = \dim\Omega - \dim\Omega_0$.
+  \item Reject $H_0$ at level $\alpha$ if $W > \chi^2_{p,\,\alpha}$.
+\end{enumerate}
+\end{methodbox}
+
+\subsection*{Worked Examples}
+
+\begin{exbox}[Normal mean, known variance --- recovering the $z$-test]
+Let $X_i \iid N(\mu, \sigma^2)$, $\sigma^2$ known. Test $H_0\colon \mu = \mu_0$ vs $H_1\colon \mu \in \R$.
+\begin{itemize}
+  \item Unconstrained MLE: $\hth = \bar{x}$, so $\ell(\bar{x}) = -\frac{n}{2}\log(2\pi\sigma^2) - 0$.
+  \item Restricted MLE: $\tth = \mu_0$ (forced by $H_0$).
+\end{itemize}
+\[
+  W = 2[\ell(\bar{x}) - \ell(\mu_0)] = \frac{n(\bar{x} - \mu_0)^2}{\sigma^2} = Z^2,
+  \qquad Z = \frac{\sqrt{n}(\bar{x} - \mu_0)}{\sigma}.
+\]
+Under $H_0$: $W = Z^2 \sim \chi^2_1$, consistent with $Z \sim N(0,1)$. ($p = 1$ restriction.) This recovers the standard two-sided $z$-test.
+\end{exbox}
+
+\begin{exbox}[Two Exponential rates --- $H_0\colon \lambda_X = \lambda_Y$]
+Independent samples $x_1,\ldots,x_n \iid \operatorname{Exp}(\lambda_X)$ and $y_1,\ldots,y_m \iid \operatorname{Exp}(\lambda_Y)$. Test $H_0\colon \lambda_X = \lambda_Y$ vs $H_1\colon \lambda_X \neq \lambda_Y$.
+
+\textbf{Log-likelihood:}
+$\ell(\lambda_X, \lambda_Y) = n\log\lambda_X - \lambda_X \sum x_i + m\log\lambda_Y - \lambda_Y \sum y_i.$
+
+\textbf{Unconstrained MLEs} (2 free parameters):
+$\hat{\lambda}_X = 1/\bar{x}$, $\hat{\lambda}_Y = 1/\bar{y}$.
+
+\textbf{Restricted MLE} ($\lambda_X = \lambda_Y = \lambda$, 1 free parameter):
+$\tilde{\lambda} = (n+m)/(\sum x_i + \sum y_i)$.
+
+\textbf{Test statistic} ($p = 2 - 1 = 1$ restriction):
+\[
+  W = 2\!\left[n\log\frac{\hat{\lambda}_X}{\tilde{\lambda}} + m\log\frac{\hat{\lambda}_Y}{\tilde{\lambda}}
+              + (n+m) - n\hat{\lambda}_X/\tilde\lambda - m\hat{\lambda}_Y/\tilde\lambda\right].
+\]
+After simplification: $W = 2[n\log(\hat\lambda_X/\tilde\lambda) + m\log(\hat\lambda_Y/\tilde\lambda)]$. Reject at 5\% if $W > 3.841$.
+\end{exbox}
+
+\begin{exbox}[Multinomial / birth data --- likelihood ratio (2025 exam, Q5)]
+A model for sibling births has likelihood $L(\theta) \propto \theta^s(1-\theta)^{2n-s}$ for known $s$ and $n$. Test $H_0\colon \theta = 1/2$.
+
+\textbf{Unconstrained MLE}: $\hth = s/(2n)$.
+
+\textbf{Restricted MLE}: $\tth = 1/2$.
+
+\[
+  W = 2\!\left[s\log\frac{\hth}{1/2} + (2n-s)\log\frac{1-\hth}{1/2}\right] \;\approx\; \chi^2_1.
+\]
+Alternatively, use the Wald test: $(\hth - 1/2)^2 / [\hth(1-\hth)/(2n)] \approx \chi^2_1$.
+\end{exbox}
+
+\subsection*{Profile Likelihood and Nuisance Parameters}
+
+\begin{defbox}[Definition --- Profile Likelihood]
+When $\boldsymbol\theta = (\psi, \lambda)$ with $\psi$ the parameter of interest and $\lambda$ a \textbf{nuisance parameter}, eliminate $\lambda$ by maximising:
+\[
+  \ell_p(\psi) \;=\; \max_\lambda\,\ell(\psi, \lambda) \;=\; \ell\!\bigl(\psi,\,\hat{\lambda}_\psi\bigr),
+\]
+where $\hat{\lambda}_\psi$ is the MLE of $\lambda$ for fixed $\psi$. Treat $\ell_p$ as an ordinary log-likelihood for inference on $\psi$ alone.
+\end{defbox}
+
+\begin{exbox}[Profile log-likelihood for $\sigma$ (2023 exam, Q5)]
+Given $n = 27$ observations with log-likelihood $\calL(\boldsymbol\theta)$ where $\boldsymbol\theta = (\beta_1, \beta_2, \sigma)$, fixing $\sigma$ and maximising over $(\beta_1, \beta_2)$ yields profile log-likelihood
+\[
+  L_\sigma(\sigma) = \text{const} - \frac{n}{2}\log\sigma^2 - \frac{\hat{\sigma}^2}{2\sigma^2}\cdot n.
+\]
+Differentiating gives $\hat{\sigma}^2_\text{profile} = \hat{\sigma}^2$ (same as joint MLE). The profile observed information gives $\widehat{\operatorname{sd}}(\hat{\sigma}) = \hat{\sigma}/\sqrt{2n}$, which can be compared to the Wald standard error from the inverse Hessian.
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Conjugate Priors}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{What is a Conjugate Prior?}
+
+\begin{defbox}[Definition --- Conjugate Prior]
+A prior family $\mathcal{F}$ is \textbf{conjugate} to a likelihood $f(\mathbf{x} \mid \theta)$ if the posterior $f(\theta \mid \mathbf{x})$ belongs to the same family $\mathcal{F}$ for any data $\mathbf{x}$.
+
+\medskip
+\textbf{Why it matters:} Bayesian updating reduces to updating the hyperparameters of the prior analytically. No numerical integration is required.
+\end{defbox}
+
+\begin{methodbox}[Method: Showing a Prior is Conjugate]
+\begin{enumerate}
+  \item Write the likelihood $L(\theta) = f(\mathbf{x} \mid \theta)$.
+  \item Write the prior $f(\theta)$.
+  \item Form the unnormalised posterior: $f(\theta \mid \mathbf{x}) \propto L(\theta) \cdot f(\theta)$.
+  \item Simplify, treating all functions of $\mathbf{x}$ only as constants (they disappear into the normalising constant).
+  \item Recognise the result as proportional to a standard pdf in $\theta$.
+  \item Read off the updated hyperparameters (in terms of prior parameters and sufficient statistics).
+\end{enumerate}
+\end{methodbox}
+
+\subsection*{Beta -- Binomial}
+
+\begin{thmbox}[Theorem --- Beta Prior is Conjugate for Binomial Likelihood]
+Let $X \mid \pi \sim \operatorname{Bin}(n, \pi)$ with prior $\pi \sim \operatorname{Beta}(a, b)$. Then
+\[
+  \pi \mid x \;\sim\; \operatorname{Beta}(a + x,\; b + n - x).
+\]
+\end{thmbox}
+
+\begin{exbox}[Derivation --- Beta--Binomial conjugate update]
+The likelihood is $L(\pi) = \binom{n}{x}\pi^x(1-\pi)^{n-x}$ and the prior is $f(\pi) \propto \pi^{a-1}(1-\pi)^{b-1}$.
+
+The unnormalised posterior is
+\[
+  f(\pi \mid x) \;\propto\; \pi^x(1-\pi)^{n-x} \cdot \pi^{a-1}(1-\pi)^{b-1}
+  \;=\; \pi^{(a+x)-1}(1-\pi)^{(b+n-x)-1}.
+\]
+This is the kernel of $\operatorname{Beta}(a+x,\, b+n-x)$, confirming conjugacy. \medskip
+
+\textbf{Interpretation of the update:}
+\begin{itemize}
+  \item Prior successes $a \to a + x$ (add observed successes).
+  \item Prior failures $b \to b + n - x$ (add observed failures).
+  \item Posterior mean $= (a+x)/(a+b+n)$, a weighted average of prior mean and sample proportion.
+\end{itemize}
+\end{exbox}
+
+\begin{exbox}[Application --- Bayesian CI for allele frequency (2023 exam, Q6)]
+With $n = 3$, $X = 3$ (all $A$ alleles), and prior $\pi \sim \operatorname{Beta}(2,1)$, the posterior is $\pi \mid x \sim \operatorname{Beta}(5, 1)$.
+
+\textbf{Prior 95\% CI:} find $q_{0.025}$ and $q_{0.975}$ of $\operatorname{Beta}(2,1)$.
+
+\textbf{Posterior 95\% CI:} find $q_{0.025}$ and $q_{0.975}$ of $\operatorname{Beta}(5,1)$. Since $\operatorname{Beta}(a,1)$ has CDF $F(\pi) = \pi^a$, the quantiles are $q_p = p^{1/a}$, so the 95\% posterior CI is $(0.025^{1/5},\, 0.975^{1/5}) \approx (0.549, 0.995)$.
+
+The posterior is more concentrated near $\pi = 1$, reflecting the strong data signal.
+\end{exbox}
+
+\subsection*{Gamma -- Poisson}
+
+\begin{thmbox}[Theorem --- Gamma Prior is Conjugate for Poisson Likelihood]
+Let $X_1,\ldots,X_n \mid \lambda \iid \operatorname{Po}(\lambda)$ with prior $\lambda \sim \operatorname{Gamma}(\alpha, \beta)$. Then
+\[
+  \lambda \mid \mathbf{x} \;\sim\; \operatorname{Gamma}\!\left(\alpha + \textstyle\sum x_i,\;\; \beta + n\right).
+\]
+\end{thmbox}
+
+\begin{exbox}[Derivation --- Gamma--Poisson conjugate update]
+The likelihood is $L(\lambda) \propto e^{-n\lambda}\lambda^{\sum x_i}$ and the prior is $f(\lambda) \propto \lambda^{\alpha-1}e^{-\beta\lambda}$.
+
+\[
+  f(\lambda \mid \mathbf{x}) \;\propto\; e^{-n\lambda}\lambda^{\sum x_i} \cdot \lambda^{\alpha-1}e^{-\beta\lambda}
+  \;=\; \lambda^{(\alpha + \sum x_i)-1}e^{-(\beta+n)\lambda},
+\]
+which is the kernel of $\operatorname{Gamma}(\alpha + \sum x_i,\, \beta + n)$. \medskip
+
+\textbf{Interpretation:} Total events $\sum x_i$ are added to shape $\alpha$; number of observations $n$ is added to rate $\beta$. The posterior mean $(\alpha + \sum x_i)/(\beta + n)$ shrinks the MLE $\bar{x}$ towards the prior mean $\alpha/\beta$.
+\end{exbox}
+
+\subsection*{Normal -- Normal (known precision)}
+
+\begin{thmbox}[Theorem --- Normal Prior is Conjugate for Normal Likelihood]
+Let $X_i \mid \mu \iid N(\mu, 1/\tau)$ with known precision $\tau > 0$, and prior $\mu \sim N(m_0, 1/t_0)$ with known prior precision $t_0 > 0$. Then
+\[
+  \mu \mid \mathbf{x} \;\sim\; N\!\left(m_1,\; \frac{1}{t_1}\right),
+  \qquad t_1 = t_0 + n\tau, \qquad m_1 = \frac{t_0 m_0 + n\tau\bar{x}}{t_1}.
+\]
+\end{thmbox}
+
+\begin{exbox}[Derivation --- Normal--Normal conjugate update (completing the square)]
+The log-likelihood contributes $-\frac{n\tau}{2}(\mu - \bar{x})^2$ and the log-prior contributes $-\frac{t_0}{2}(\mu - m_0)^2$. Adding and collecting terms in $\mu$:
+
+\[
+  \log f(\mu \mid \mathbf{x}) \;\propto\; -\frac{1}{2}\bigl[n\tau(\mu-\bar{x})^2 + t_0(\mu-m_0)^2\bigr].
+\]
+Expanding the bracket and completing the square in $\mu$:
+\[
+  n\tau(\mu-\bar{x})^2 + t_0(\mu-m_0)^2 = (t_0+n\tau)\!\left(\mu - \frac{t_0m_0+n\tau\bar{x}}{t_0+n\tau}\right)^{\!2} + \text{const},
+\]
+which is the kernel of $N(m_1, 1/t_1)$ with $t_1 = t_0+n\tau$ and $m_1 = (t_0m_0+n\tau\bar{x})/t_1$. \medskip
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item Posterior precision $t_1$ is the \emph{sum} of prior and data precisions.
+  \item Posterior mean is a precision-weighted average: $m_1 = \lambda\bar{x} + (1-\lambda)m_0$, where $\lambda = n\tau/t_1$.
+  \item As $n \to \infty$: $m_1 \to \bar{x}$ (data dominate). As $t_0 \to \infty$: $m_1 \to m_0$ (dogmatic prior).
+\end{itemize}
+\end{exbox}
+
+\begin{exbox}[Application --- Caffeine concentration (2025 exam, Q2)]
+With $n = 26$ observations, $\bar{x} = 12.04$, $\sigma^2 = 2.5$ known, and prior $\mu \sim N(10, 1)$:
+\[
+  \tau = 1/2.5 = 0.4, \quad t_0 = 1, \quad
+  t_1 = 1 + 26(0.4) = 11.4, \quad
+  m_1 = \frac{1(10) + 26(0.4)(12.04)}{11.4} = \frac{10 + 125.216}{11.4} \approx 11.861.
+\]
+Posterior: $\mu \mid \mathbf{x} \sim N(11.861,\, 1/11.4)$.
+
+95\% HPD interval: $11.861 \pm 1.96/\sqrt{11.4} \approx 11.861 \pm 0.581$, i.e.\ $(11.280,\, 12.442)$.
+\end{exbox}
+
+\subsection*{Inverse-Gamma -- Normal Variance}
+
+\begin{thmbox}[Theorem --- Inverse-Gamma Prior is Conjugate for Normal Variance]
+Let $X_i \mid \sigma^2 \iid N(\mu, \sigma^2)$ with $\mu$ known, and prior $\sigma^2 \sim \operatorname{IG}(a, b)$, i.e.\ $f(\sigma^2) \propto (\sigma^2)^{-(a+1)}\exp(-b/\sigma^2)$. Then
+\[
+  \sigma^2 \mid \mathbf{x} \;\sim\; \operatorname{IG}\!\left(a + \frac{n}{2},\;\; b + \frac{1}{2}\sum_{i=1}^n(x_i - \mu)^2\right).
+\]
+\end{thmbox}
+
+\begin{exbox}[Derivation --- Inverse-Gamma conjugate update]
+The likelihood is $L(\sigma^2) \propto (\sigma^2)^{-n/2}\exp\!\bigl(-\frac{\sum(x_i-\mu)^2}{2\sigma^2}\bigr)$. Multiplying by the prior:
+\[
+  f(\sigma^2 \mid \mathbf{x}) \;\propto\;
+  (\sigma^2)^{-(a + n/2 + 1)}\exp\!\left(-\frac{b + \frac{1}{2}\sum(x_i-\mu)^2}{\sigma^2}\right),
+\]
+which is the kernel of $\operatorname{IG}(a + n/2,\; b + \frac{1}{2}\sum(x_i - \mu)^2)$.
+\end{exbox}
+
+\subsection*{Gamma -- Gamma (known shape)}
+
+\begin{thmbox}[Theorem --- Gamma Prior is Conjugate for Gamma Likelihood]
+Let $X_i \mid \beta \iid \operatorname{Gamma}(\alpha, \beta)$ with $\alpha$ known, and prior $\beta \sim \operatorname{Gamma}(a, b)$. Then
+\[
+  \beta \mid \mathbf{x} \;\sim\; \operatorname{Gamma}\!\left(a + n\alpha,\;\; b + \textstyle\sum x_i\right).
+\]
+\end{thmbox}
+
+\begin{exbox}[Derivation --- Rainfall model (2024 exam, Q6)]
+With $X_i \mid \beta \iid \operatorname{Gamma}(2, \beta)$ ($\alpha = 2$ fixed) and prior $\beta \sim \operatorname{Gamma}(a, b)$:
+\[
+  L(\beta) \propto \beta^{2n}e^{-\beta\sum x_i},
+  \qquad
+  f(\beta) \propto \beta^{a-1}e^{-b\beta}.
+\]
+\[
+  f(\beta \mid \mathbf{x}) \;\propto\; \beta^{(a+2n)-1}e^{-(b+\sum x_i)\beta},
+\]
+which is $\operatorname{Gamma}(a + 2n,\, b + \sum x_i)$. With data $\sum x_i = 570$, $n = 10$, and prior $\operatorname{Gamma}(1,10)$: posterior is $\operatorname{Gamma}(21, 580)$, posterior mean $= 21/580 \approx 0.036$.
+\end{exbox}
+
+\subsection*{Quick Reference --- Conjugate Pairs}
+
+\begin{center}
+\renewcommand{\arraystretch}{2.0}
+\begin{tabular}{>{\bfseries}p{3.0cm} p{3.2cm} p{3.2cm} p{3.2cm}}
+\toprule
+Model & Prior & Posterior & Updated parameters \\
+\midrule
+$\operatorname{Bin}(n,\pi)$ & $\operatorname{Beta}(a,b)$ & $\operatorname{Beta}(a',b')$ & $a'=a+x$, $b'=b+n-x$ \\
+$\operatorname{Po}(\lambda)$ & $\operatorname{Gamma}(\alpha,\beta)$ & $\operatorname{Gamma}(\alpha',\beta')$ & $\alpha'=\alpha+\sum x_i$, $\beta'=\beta+n$ \\
+$N(\mu,1/\tau)$, unk.\ $\mu$ & $N(m_0,1/t_0)$ & $N(m_1,1/t_1)$ & $t_1=t_0+n\tau$, $m_1$ as above \\
+$N(\mu,\sigma^2)$, unk.\ $\sigma^2$ & $\operatorname{IG}(a,b)$ & $\operatorname{IG}(a',b')$ & $a'=a+n/2$, $b'=b+\tfrac{1}{2}\sum(x_i-\mu)^2$ \\
+$\operatorname{Gamma}(\alpha,\beta)$, unk.\ $\beta$ & $\operatorname{Gamma}(a,b)$ & $\operatorname{Gamma}(a',b')$ & $a'=a+n\alpha$, $b'=b+\sum x_i$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Jeffreys Prior}
+
+\begin{thmbox}[Proposition --- Jeffreys Prior]
+The \textbf{Jeffreys prior} is defined as $f(\theta) \propto \sqrt{\calI(\theta)}$ (scalar) or $f(\boldsymbol\theta) \propto \sqrt{\det\calI(\boldsymbol\theta)}$ (vector). It is the unique prior invariant under smooth reparametrisation, providing a principled non-informative choice.
+\end{thmbox}
+
+\begin{exbox}[Deriving the Jeffreys prior for a Binomial model]
+With $X \mid \pi \sim \operatorname{Bin}(n,\pi)$: Fisher information is
+$\calI(\pi) = n/[\pi(1-\pi)]$. Hence
+\[
+  f(\pi) \propto \sqrt{\frac{n}{\pi(1-\pi)}} \propto \pi^{-1/2}(1-\pi)^{-1/2},
+\]
+which is $\operatorname{Beta}(1/2, 1/2)$.
+\end{exbox}
+
+\begin{exbox}[Jeffreys prior for a Gamma model (2024 exam, Q6)]
+With $X_i \mid \beta \iid \operatorname{Gamma}(2, \beta)$: $\log f(x \mid \beta) = 2\log\beta - \beta x + \text{const}$, so
+\[
+  \frac{\partial^2}{\partial\beta^2}\log f = -\frac{2}{\beta^2},
+  \qquad
+  \calI(\beta) = \frac{2}{\beta^2},
+  \qquad
+  f_J(\beta) \propto \frac{\sqrt{2}}{\beta} \propto \frac{1}{\beta},
+\]
+a $\operatorname{Gamma}(0,0)$ (improper) prior. The resulting posterior is $\operatorname{Gamma}(2n, \sum x_i)$, which is proper for $n \geq 1$.
+\end{exbox}
+
+\vspace{1cm}
+{\color{rulegray}\hrule}
+\vspace{0.3cm}
+\begin{small}
+\color{darkgray}
+\textbf{Formula sheet covers (do not re-derive in the exam):} Standard distributions (Bin, Po, Exp, Gamma, Beta, Normal, $\chi^2$, MVN), change of variables, normal sampling pivots ($\bar{X}$, $S^2$, $t$-distribution), observed/expected information, CRLB, large-sample MLE asymptotics, delta method, conjugate parameter update formulae (Beta--Bin, Gamma--Po, Normal--Normal, Normal--Gamma), Jeffreys prior formula, large-sample posterior approximation, exponential family pdf, Bayes factor formula and interpretation table.
+\end{small}
 
 \end{document}

@@ -1,0 +1,66 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Probability II \\
+    \large Cheat Sheet}
+\author{Luke Phillips}
+\date{March 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Probability II -
+    Probability Spaces}
+
+\begin{proposition}[Boole's inequality]
+    For events $A_1, A_2, \dotsc$,
+    \[
+    \P\left(\bigcup_{k = 1}^{\infty}A_k\right) \leq \sum_{k = 1}^{\infty}\P(A_k).
+    \]
+\end{proposition}
+
+\begin{proposition}[Markov's inequality]
+    $X \geq 0$ non-negative random variable then for every $a > 0$,
+    \[
+    \P(X \geq a) \leq \frac{\E(X)}{a}.
+    \]
+\end{proposition}
+
+\begin{proposition}[Chebyshev's inequality]
+    $X$ random variable then for every $a > 0$,
+    \[
+    \P(|X - \E(X)| \geq a) \leq \frac{\Var(X)}{a ^ 2}.
+    \]
+\end{proposition}
+
+\begin{definition}[Sigma-field]
+    $\mathcal{F}$ is a sigma field if
+    \begin{enumerate}[label = (\roman*)]
+        \item $\emptyset \in \mathcal{F}$.
+
+        \item If $A \in \mathcal{F}$,
+        then $A ^ c \in \mathcal{F}$.
+
+        \item If $A_1, A_2, \dotsc \in \mathcal{F}$,
+        then $\bigcup_{k = 1}^{\infty}A_k \in \mathcal{F}$.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    If $(A_n)_{n \geq 1}$ is increasing with $A \coloneqq \lim_{n}A_n \equiv \bigcup_{n \geq 1}A_n$,
+    then
+    \[
+    \P(A) = \P\left(\lim_{n \to \infty}A_n\right) = \lim_{n \to \infty}\P(A_n).
+    \]
+    If $(A_n)_{n \geq 1}$ is a decreasing sequence with $A \coloneqq \lim_{n}A_n \equiv \bigcap_{n \geq 1}A_n$,
+    then
+    \[
+    \P(A) = \P\left(\lim_{n \to \infty}A_n\right) = \lim_{n \to \infty}\P(A_n).
+    \]
+\end{lemma}
+
+
+\end{document}

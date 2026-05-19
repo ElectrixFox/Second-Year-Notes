@@ -31,7 +31,7 @@ The \textbf{unit tangent} vector is
 
 The \textbf{line integral} of a \textbf{vector field} is
 \[
-\int_{C}\vec{f}\cdot\hat{\vec{t}}\,d\ell = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\hat{\vec{t}}\left|\frac{d\vec{x}}{dt}\right|\,dt = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\frac{d\vec{x}}{dt}\,dt.
+\int_{C}\vec{f}\cdot\hat{\vec{t}}\,d\ell = \int_{t_0}^{t_1}\vec{f}(\vec{x}(t))\cdot\frac{d\vec{x}}{dt}\,dt.
 \]
 
 We define an orthogonal basis as
@@ -92,6 +92,11 @@ The \textbf{flux} of $\vec{f}$ is
 \int_{V}f\,dV = \int_{U}f(\vec{x}(u, v, w))\left|\pd[\vec{x}]{u}\cdot\left(\pd[\vec{x}]{v}\times\pd[\vec{x}]{w}\right)\right|\,du\,dv\,dw.
 \]
 
+\textbf{Volume}
+\[
+|V| = \int_{V}\,dV.
+\]
+
 \textbf{Orthogonal coordinates}
 \[
 \left|\pd[\vec{x}]{u}\cdot\left(\pd[\vec{x}]{v}\times\pd[\vec{x}]{w}\right)\right| = h_uh_vh_w.
@@ -100,6 +105,13 @@ The \textbf{flux} of $\vec{f}$ is
 \textbf{Differential operator}
 \[
 \bnabla f = \pd[f]{x}\vec{e}_1 + \pd[f]{y}\vec{e}_2 + \pd[f]{z}\vec{e}_3.
+\]
+
+\[
+\bnabla\cdot(f\vec{a}) = (\bnabla f)\cdot\vec{a}.
+\]
+\[
+\bnabla\times(f\vec{a}) = (\bnabla f)\times \vec{a}.
 \]
 
 \textbf{Curvilinear coordinates gradient}
@@ -141,5 +153,32 @@ The \textbf{flux} of $\vec{f}$ is
         h_uf_u & h_vf_v & h_wf_w
     \end{vmatrix}.
 \end{align*}
+
+The \textbf{Fundamental Theorem of Line Integrals}:
+If $f : \R ^ n \to \R$ is a $C ^ 1$ scalar field and $C$ is oriented curve with parametrisation $\vec{x}(t)$ for $t \in [t_0, t_1]$,
+then
+\[
+\int_{C}\bnabla f\cdot\hvec{t}\,d\ell = f(\vec{x}(t_1)) - f(\vec{x}(t_0)).
+\]
+
+The \textbf{Divergence Theorem}:
+If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ 1$ vector field and $S$ is a closed surface with outward normal $\hvec{n}$ bounding a region $V$,
+then
+\[
+\oint_{S}\vec{f}\cdot\hvec{n}\,dS = \int_{V}(\bnabla \cdot \vec{f})\,dV.
+\]
+
+\textbf{Stokes' Theorem}:
+If $\vec{f} : \R ^ 3 \to \R ^ 3$ is a $C ^ 1$ vector field and $C$ is an oriented closed curve bounding a surface $S$,
+then
+\[
+\oint_{C}\vec{f}\cdot\hvec{t}\,d\ell = \int_{S}(\bnabla \times \vec{f})\cdot\hvec{n}\,dS.
+\]
+$\hvec{n}$ is chosen such that $\hvec{t} \times \hvec{n}$ on $C$ is outward.
+
+\[
+\varepsilon_{ijk}\varepsilon_{klm} = \delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}.
+\]
+
 
 \end{document}

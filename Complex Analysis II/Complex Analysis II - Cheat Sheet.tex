@@ -1,0 +1,737 @@
+\documentclass[11pt, a4paper]{article}
+
+% ─── Packages ───────────────────────────────────────────────────────────────
+\usepackage[margin=2.2cm, top=2.5cm, bottom=2.8cm]{geometry}
+\usepackage{preamble}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{array}
+
+\tcbuselibrary{skins, breakable, theorems}
+
+% ─── Colours ────────────────────────────────────────────────────────────────
+\definecolor{navyblue}{RGB}{25, 55, 110}
+\definecolor{steelblue}{RGB}{52, 101, 164}
+\definecolor{skyblue}{RGB}{220, 234, 252}
+\definecolor{emerald}{RGB}{5, 110, 75}
+\definecolor{mintgreen}{RGB}{215, 245, 230}
+\definecolor{amber}{RGB}{140, 90, 10}
+\definecolor{cream}{RGB}{255, 250, 235}
+\definecolor{crimson}{RGB}{150, 30, 40}
+\definecolor{blush}{RGB}{252, 230, 232}
+\definecolor{teal}{RGB}{10, 105, 120}
+\definecolor{teallight}{RGB}{220, 245, 248}
+\definecolor{darkgray}{RGB}{50, 50, 55}
+\definecolor{lightgray}{RGB}{245, 245, 248}
+\definecolor{rulegray}{RGB}{180, 185, 195}
+\definecolor{plum}{RGB}{90, 30, 110}
+\definecolor{lavender}{RGB}{240, 230, 252}
+
+% ─── Page Style ─────────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegray}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\small\color{darkgray}\textit{Complex Analysis II --- MATH 2791 Revision Sheet}}
+\fancyhead[R]{\small\color{darkgray}\thepage}
+\fancyfoot[C]{\small\color{rulegray}\rule{4cm}{0.3pt}}
+
+% ─── Section Formatting ──────────────────────────────────────────────────────
+\titleformat{\section}
+  {\large\bfseries\color{navyblue}}
+  {\llap{\color{steelblue}\S\thesection\hspace{0.6em}}}
+  {0pt}
+  {}
+  [\vspace{-4pt}{\color{steelblue}\rule{\linewidth}{1.5pt}}]
+
+\titlespacing{\section}{0pt}{18pt}{8pt}
+
+% ─── tcolorbox Environments ──────────────────────────────────────────────────
+
+% Definition (blue)
+\newtcolorbox{defbox}[1][]{
+  enhanced, breakable,
+  colback=skyblue, colframe=steelblue,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Theorem / Lemma / Proposition (amber)
+\newtcolorbox{thmbox}[1][]{
+  enhanced, breakable,
+  colback=cream, colframe=amber,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Method (green)
+\newtcolorbox{methodbox}[1][]{
+  enhanced, breakable,
+  colback=mintgreen, colframe=emerald,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Warning (crimson)
+\newtcolorbox{warnbox}[1][Remark]{
+  enhanced, breakable,
+  colback=blush, colframe=crimson,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{white}, title={#1},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Example (teal)
+\newtcolorbox{exbox}[1][]{
+  enhanced, breakable,
+  colback=teallight, colframe=teal,
+  leftrule=3pt, toprule=0.5pt, bottomrule=0.5pt, rightrule=0.5pt,
+  arc=3pt, fonttitle=\bfseries\small\color{teal},
+  title={\small\color{white}\textbf{Example}\ifx&#1&\else\ --- #1\fi},
+  top=4pt, bottom=4pt, left=8pt, right=8pt,
+  before skip=8pt, after skip=8pt
+}
+
+% Formula highlight
+\newtcolorbox{formulabox}{
+  enhanced, colback=lightgray, colframe=rulegray,
+  arc=4pt, top=6pt, bottom=6pt, left=10pt, right=10pt,
+  before skip=8pt, after skip=8pt
+}
+
+% ─── Misc ────────────────────────────────────────────────────────────────────
+% Theorem numbering to match lecture notes
+\newtheorem{innerthm}{Theorem}
+\newtheorem{innerlem}[innerthm]{Lemma}
+\newtheorem{innerprop}[innerthm]{Proposition}
+\newtheorem{innerdefn}[innerthm]{Definition}
+\newtheorem{innercor}[innerthm]{Corollary}
+\newtheorem{innerrem}[innerthm]{Remark}
+
+\setlist[enumerate]{label=\textbf{\arabic*.}, itemsep=3pt, parsep=0pt, topsep=4pt}
+\setlist[itemize]{itemsep=2pt, parsep=0pt, topsep=4pt}
+
+% ─── Document ────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ══════════════════ TITLE ════════════════════════════════════════════════════
+\begin{center}
+  {\color{navyblue}\rule{\linewidth}{2pt}}\\[10pt]
+  {\LARGE\bfseries\color{navyblue} Complex Analysis II --- MATH 2791}\\[4pt]
+  {\large\color{darkgray} Revision Sheet}\\[4pt]
+  {\small\color{rulegray} Einav \& Harrap, 2025--2026}\\[6pt]
+  {\small\color{darkgray}
+    M\"obius Transforms $\cdot$ Branches of $\log$ $\cdot$ Uniform Convergence
+    $\cdot$ Residue Theorem $\cdot$ Rouch\'e's Theorem $\cdot$ Computing Residues}\\[10pt]
+  {\color{navyblue}\rule{\linewidth}{2pt}}
+\end{center}
+
+\tableofcontents
+\vspace{10pt}{\color{rulegray}\hrule}\vspace{10pt}
+
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Branches of \texorpdfstring{$\log$}{log}}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{Inverting the Exponential}
+
+\begin{thmbox}[Lemma 1.17 --- Inverting the Exponential Function]
+For every $w\in\mathbb{C}\setminus\{0\}$, the equation $e^z=w$ has a solution $z$. Furthermore, if we write $w=|w|e^{i\Arg(w)}$ with $\Arg(w)\in(-\pi,\pi]$, then all solutions to $e^z=w$ are given by
+\[
+  z = \log|w| + i\bigl(\Arg(w)+2\pi k\bigr), \qquad k\in\mathbb{Z}.
+\]
+Here $\log|w|$ is the usual natural logarithm of the real number $|w|$. Note that there are infinitely many solutions.
+\end{thmbox}
+
+\subsection*{Branches of Logarithm}
+
+\begin{defbox}[Definition 1.18 --- Complex Logarithm Functions]
+For any two real numbers $\alpha_1<\alpha_2$ with $\alpha_2-\alpha_1=2\pi$, let $\arg$ be the choice of argument function with values in $(\alpha_1,\alpha_2]$. Then the function
+\[
+  \log(z) := \log|z| + i\arg(z)
+\]
+is called a \textbf{branch of logarithm}. It has a jump discontinuity along the ray $R_{\alpha_1}=R_{\alpha_2}=\{re^{i\alpha_1}:r\geq 0\}$. This ray is called the \textbf{branch cut}.
+
+If we choose $\arg(z)=\Arg(z)\in(-\pi,\pi]$, we obtain the \textbf{principal branch} of $\log$, written $\Log$:
+\[
+  \Log(z) := \log|z| + i\Arg(z).
+\]
+The principal branch has a jump discontinuity along the non-positive real axis $R_{-\pi}=(-\infty,0]$.
+\end{defbox}
+
+\begin{warnbox}[Remark 1.19]
+\begin{itemize}
+  \item Any time one talks about a function called $\log$, one has to declare which branch is used. This is normally done by stating the interval $(\alpha_1,\alpha_2]$ in which $\arg(z)$ lives.
+  \item The branch of $\log$ corresponding to $\arg(z)\in(\alpha_1,\alpha_2]$ is continuous on $\mathbb{C}\setminus R_{\alpha_1}$.
+  \item The principal branch $\Log$ agrees with the natural logarithm on the positive real axis: for $x>0$, $\Log(x)=\log(x)$.
+\end{itemize}
+\end{warnbox}
+
+\begin{thmbox}[Lemma 1.20 --- Properties of Logarithms]
+The following properties hold for any given branch of logarithm:
+\begin{enumerate}
+  \item $e^{\log z}=z$ for any $z\in\mathbb{C}\setminus\{0\}$.
+  \item In general, $\log(zw)\neq\log z+\log w$.
+  \item In general, $\log(e^z)\neq z$.
+\end{enumerate}
+\end{thmbox}
+
+\begin{thmbox}[Lemma 1.21 --- Geometric Action of $\log$]
+\begin{itemize}
+  \item A branch of $\log(z)$ injectively takes a ray of angle $\theta$ (without the origin) to the horizontal line $y=\theta$, where $\theta$ is measured with respect to the branch cut.
+  \item A branch of $\log(z)$ takes a concentric circle of radius $r$---minus its intersection with the branch cut---to an open segment of length $2\pi$ on the vertical line $x=\log r$, with its lowest point given by the angle that defines the branch cut.
+\end{itemize}
+\end{thmbox}
+
+\begin{exbox}[Compute $\Log(-3+3i)$]
+We have $z=-3+3i$, which lies in the second quadrant.
+\[
+  |z| = \sqrt{9+9} = 3\sqrt{2}, \qquad
+  \Arg(z) = \pi - \arctan\!\left(\tfrac{3}{3}\right) = \pi - \frac{\pi}{4} = \frac{3\pi}{4}.
+\]
+\[
+  \Log(-3+3i) = \log(3\sqrt{2}) + i\cdot\frac{3\pi}{4} = \log 3 + \frac{\log 2}{2} + \frac{3\pi i}{4}.
+\]
+\end{exbox}
+
+\begin{exbox}[Choosing a branch with a different cut]
+Suppose we want $\log(z)$ to be continuous at $z=-1$ (which $\Log$ is not). We must choose a branch cut that does not pass through $-1$. For instance, take the branch with $\arg(z)\in(0,2\pi)$ (branch cut along the positive real axis $[0,\infty)$). Then $\log(-1)=\log 1 + i\pi = i\pi$, and the function is continuous in a neighbourhood of $-1$.
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\section{M\"obius Transformations}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{Overview and Definitions}
+
+A \textbf{M\"obius transformation} is a map $M:\hat{\mathbb{C}}\to\hat{\mathbb{C}}$ on the Riemann sphere $\hat{\mathbb{C}}=\mathbb{C}\cup\{\infty\}$ of the form $M(z)=\frac{az+b}{cz+d}$ with $a,b,c,d\in\mathbb{C}$ and $ad-bc\neq 0$. Key structural results from the notes:
+
+\begin{thmbox}[Proposition 4.7 --- M\"obius transformations as biholomorphisms]
+A M\"obius transformation $M$ is a biholomorphism of $\hat{\mathbb{C}}$ to itself. Moreover, any biholomorphism between $\hat{\mathbb{C}}$ and itself must be a M\"obius transformation.
+\end{thmbox}
+
+\subsection*{The Three Points Theorem and Cross-Ratio}
+
+\begin{thmbox}[Theorem 4.8 --- Three Points Theorem]
+Let $\{z_1,z_2,z_3\}$ and $\{w_1,w_2,w_3\}$ be two sets of three ordered distinct points in $\hat{\mathbb{C}}$. Then there exists a \textbf{unique} M\"obius transformation $M$ such that $M(z_i)=w_i$ for $i=1,2,3$.
+\end{thmbox}
+
+The construction of $M$ in Theorem 4.8 relies on the cross-ratio:
+
+\begin{defbox}[Definition 4.9 --- The Cross-Ratio]
+Given four distinct points $z_0,z_1,z_2,z_3\in\hat{\mathbb{C}}$, the \textbf{cross-ratio} of these points, denoted $(z_0,z_1;z_2,z_3)$, is defined by
+\[
+  (z_0,z_1;z_2,z_3) := \frac{(z_0-z_2)(z_1-z_3)}{(z_0-z_3)(z_1-z_2)}.
+\]
+The cross-ratio is extended to $\hat{\mathbb{C}}$ with the convention that if one of the points is $\infty$, we remove all terms involving that point. For example,
+\[
+  (\infty,z_1;z_2,z_3) := \frac{z_1-z_3}{z_1-z_2}.
+\]
+\end{defbox}
+
+\begin{thmbox}[Lemma 4.11 --- Cross-Ratio is Invariant Under M\"obius Transformations]
+    The cross-ratio is invariant under M\"obius transformations. In other words, if $M:\hat{\mathbb{C}}\to\hat{\mathbb{C}}$ is a M\"obius transformation, then
+    \[
+    (M(z_0),M(z_1);M(z_2),M(z_3)) = (z_0,z_1;z_2,z_3).
+    \]
+\end{thmbox}
+
+\begin{methodbox}[Method: Finding a M\"obius Transform via the Cross-Ratio (from \S4.3)]
+    For any $z\in\hat{\mathbb{C}}$, the M\"obius transformation $M$ sending $z_1\mapsto w_1,\,z_2\mapsto w_2,\,z_3\mapsto w_3$ must satisfy:
+    \[
+    (M(z), w_1; w_2, w_3) = (z, z_1; z_2, z_3).
+    \]
+    Expanding both cross-ratios and rearranging gives $M(z)$ explicitly. If one of the $w_i=\infty$, the left-hand side simplifies (drop terms involving $\infty$).
+    This can be simplified to
+    \[
+    \frac{M(z) - w_2}{M(z) - w_3}\frac{w_1 - w_3}{w_1 - w_2} = \frac{z - z_2}{z - z_3}\frac{z_1 - z_3}{z_1 - z_2}.
+    \]
+\end{methodbox}
+
+\begin{exbox}[Find the M\"obius transformation taking $\{1,-1,i\}\mapsto\{0,\infty,1\}$]
+We have $w_2=\infty$, so we drop all terms involving $w_2$ from the cross-ratio. The condition $(M(z),w_1;w_2,w_3)=(z,z_1;z_2,z_3)$ becomes:
+\[
+  \frac{M(z)-0}{1-M(z)} = \frac{(z-(-1))(1-i)}{(z-i)(1-(-1))} = \frac{(z+1)(1-i)}{2(z-i)}.
+\]
+Rearranging:
+\[
+  M(z) = \frac{iz+i}{z+1}.
+\]
+\textit{Verification:} $M(1)=\frac{2i}{2}=i\cdot 1$---let us check directly: $M(1)=\frac{2i}{2}=i$. 
+
+Revisiting: set $w_1=0$, $w_2=\infty$, $w_3=1$ and $z_1=1$, $z_2=-1$, $z_3=i$. Removing terms involving $w_2=\infty$:
+\[
+  \frac{M(z)-w_1}{M(z)-w_3}\cdot\frac{w_2-w_3}{w_2-w_1} \longrightarrow \frac{M(z)-0}{M(z)-1}
+\]
+and the right side:
+\[
+  \frac{z-z_1}{z-z_3}\cdot\frac{z_2-z_3}{z_2-z_1} = \frac{z-1}{z-i}\cdot\frac{-1-i}{-1-1} = \frac{(z-1)(1+i)}{2(z-i)}.
+\]
+So $\frac{M(z)}{M(z)-1}=\frac{(z-1)(1+i)}{2(z-i)}$. Cross-multiplying and solving gives $\boxed{M(z)=\dfrac{iz+i}{z+1}}$.
+\end{exbox}
+
+\subsection*{Images of Domains Under M\"obius Transformations}
+
+\begin{thmbox}[Proposition 4.16 --- Circles and Lines]
+M\"obius transformations map circles and lines in $\hat{\mathbb{C}}$ to circles and lines in $\hat{\mathbb{C}}$, where we consider any line to pass through infinity. Moreover, a circle or a line is mapped to a \emph{line} if and only if there is a point on it that is mapped to $\infty$.
+\end{thmbox}
+
+\begin{warnbox}[Remark 4.18]
+Any three distinct non-collinear points $z_1,z_2,z_3\in\mathbb{C}$ uniquely determine a circle in $\mathbb{C}$ passing through these points. Any two distinct points uniquely determine a line. This means that to find where a circle is mapped under a M\"obius transformation, one only needs to check where \textbf{three points} on the circle go.
+\end{warnbox}
+
+\begin{methodbox}[General strategy for finding images of domains (\S4.4)]
+Given a M\"obius transformation $M$ and a domain $D\subset\mathbb{C}$:
+\begin{enumerate}
+  \item Find the image $M(\partial D)$ of the \textbf{boundary} of $D$ (a circle or line maps to a circle or line; use three points to determine which).
+  \item Find the image $M(z_0)$ of any \textbf{interior point} $z_0\in D$.
+  \item Then $M(D)$ is the region whose boundary is $M(\partial D)$ and which contains $M(z_0)$. Moreover, $M:D\to M(D)$ is a biholomorphism.
+\end{enumerate}
+\end{methodbox}
+
+\begin{thmbox}[Lemma 4.19 --- The Cayley Map $M_c(z)=\frac{z-i}{z+i}$]
+\begin{enumerate}
+  \item The image of the upper half-plane $H$ under the Cayley map is the unit disc $D$.
+  \item The image of the unit disc $D$ under the Cayley map is the left half-plane $H_L$.
+  \item The image of the first quadrant $\{z\in\mathbb{C}:0<\Arg(z)<\pi/2\}$ under the Cayley map is the lower unit disc $D_-=\{z\in D:\Im(z)<0\}$.
+  \item The image of the upper unit disc $D_+=\{z\in D:\Im(z)>0\}$ under the Cayley map is the left unit disc $D_L=\{z\in D:\Re(z)<0\}$.
+\end{enumerate}
+\end{thmbox}
+
+\begin{exbox}[Image of $H$ under $M_c$, from the proof of Lemma 4.19(1)]
+The boundary of $H$ is $\mathbb{R}\cup\{\infty\}$, a line that does not pass through $z=-i$ (the point sent to $\infty$). Hence $M_c(\partial H)$ is a circle. Three image points:
+\[
+  M_c(-1)=i, \quad M_c(0)=-1, \quad M_c(1)=-i.
+\]
+These lie on the unit circle $\partial D$, so $M_c(\partial H)=\partial D$. Since $M_c(i)=0\in D$ and $i\in H$, we conclude $M_c(H)=D$.
+\end{exbox}
+
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Uniform Convergence}
+% ══════════════════════════════════════════════════════════════
+
+\begin{defbox}[Definition 5.1 --- Pointwise Convergence]
+Let $D\subseteq\mathbb{C}$ be a given set and let $\{f_n\}_{n\in\mathbb{N}}:D\to\mathbb{C}$ be a sequence of functions. We say that $\{f_n\}$ \textbf{converges pointwise} on $D$ to $f:D\to\mathbb{C}$ if for any $z\in D$ the limit function
+\[
+  f(z):=\lim_{n\to\infty}f_n(z)
+\]
+exists. In other words, for any $z\in D$ and any $\varepsilon>0$ there exists $N(\varepsilon,z)\in\mathbb{N}$ such that if $n>N(\varepsilon,z)$,
+\[
+  |f_n(z)-f(z)|<\varepsilon.
+\]
+Note that in general $N(\varepsilon,z)$ depends on both $\varepsilon$ \emph{and} $z$.
+\end{defbox}
+
+\begin{defbox}[Definition 5.2 --- Uniform Convergence]
+Let $D\subseteq\mathbb{C}$ be a given set and let $\{f_n\}_{n\in\mathbb{N}}:D\to\mathbb{C}$ be a sequence of functions. We say that $\{f_n\}_{n\in\mathbb{N}}$ \textbf{converges uniformly} to (the limit function) $f:D\to\mathbb{C}$ on $D$ if we have that
+\[
+  \sup_{z\in D}|f_n(z)-f(z)|\xrightarrow{n\to\infty}0.
+\]
+In other words, for any $\varepsilon>0$ there exists $N(\varepsilon)\in\mathbb{N}$ such that if $n>N(\varepsilon)$,
+\[
+  |f_n(z)-f(z)|<\varepsilon \qquad \forall\, z\in D.
+\]
+Note that here $N(\varepsilon)$ does \textbf{not} depend on the specific choice of $z$ --- the same $N$ works for all of them.
+\end{defbox}
+
+\begin{thmbox}[Theorem 5.3 --- Uniform Limits of Continuous Functions are Continuous]
+Let $\{f_n\}_{n\in\mathbb{N}}:D\to\mathbb{C}$ be a sequence of continuous functions that converges uniformly to $f$ on $D$. Then $f$ is continuous on $D$.
+\end{thmbox}
+
+\begin{thmbox}[Lemma 5.4 --- Criteria for Uniform Convergence and Lack Thereof (Sequences)]
+Let $\{f_n\}:D\to\mathbb{C}$ be a sequence of functions that converges pointwise to a limit function $f$ on $D$.
+\begin{enumerate}
+  \item \textbf{(Uniform convergence)} If there exists a non-negative sequence of real numbers $\{s_n\}_{n\in\mathbb{N}}$ that converges to zero and $n_0\in\mathbb{N}$ (independent of $z$) such that for all $n\geq n_0$,
+  \[
+    |f_n(z)-f(z)|\leq s_n \quad \forall\, z\in D,
+  \]
+  then the sequence $\{f_n\}$ converges uniformly to $f$ on $D$.
+  \item \textbf{(Non-uniform convergence)} If there exists a non-negative sequence $\{s_n\}_{n\in\mathbb{N}}$ converging to $c>0$, $n_0\in\mathbb{N}$ (independent of $z$), and a sequence $\{z_n\}_{n\in\mathbb{N}}\subset D$ such that for all $n\geq n_0$,
+  \[
+    |f_n(z_n)-f(z_n)|\geq s_n,
+  \]
+  then $\{f_n\}$ does \textbf{not} converge uniformly to $f$ on $D$.
+\end{enumerate}
+\begin{warnbox}[Simpler version of part (2) --- Remark 5.5]
+If there exists $c>0$ and a sequence $\{z_n\}_{n\in\mathbb{N}}\subset D$ such that for all $n\geq n_0$,
+\[
+  |f_n(z_n)-f(z_n)|\geq c,
+\]
+then $\{f_n\}$ does not converge uniformly to $f$ on $D$.
+\end{warnbox}
+\end{thmbox}
+
+\begin{thmbox}[Theorem 5.6 --- Weierstrass $M$-Test]
+Let $\{f_n\}:D\to\mathbb{C}$ be a given sequence of functions. Assume there exists a sequence of non-negative real numbers $\{M_n\}_{n\in\mathbb{N}}$ and $n_0\in\mathbb{N}$ (independent of $z$) such that for all $n\geq n_0$,
+\[
+  |f_n(z)|\leq M_n \quad\forall\,z\in D, \qquad \text{and} \qquad \sum_{n=n_0}^{\infty}M_n<\infty.
+\]
+Then $S_N(z)=\sum_{n=1}^{N}f_n(z)$ converges uniformly on $D$ to some limit function $S:D\to\mathbb{C}$, denoted $S(z)=\sum_{n=1}^{\infty}f_n(z)$. In particular, if all the functions $f_n(z)$ are continuous on $D$, then $S(z)$ is also continuous on $D$.
+\end{thmbox}
+
+\begin{thmbox}[Theorem 5.7 --- Criteria for Lack of Uniform Convergence of a Series]
+Let $\{f_n\}:D\to\mathbb{C}$ be a given sequence of functions. If $\{f_n\}$ does \textbf{not} converge uniformly to $f(z)=0$ on $D$, then the series $S_N(z)=\sum_{n=1}^{N}f_n(z)$ does not converge uniformly on $D$.
+\end{thmbox}
+
+\begin{exbox}[Show $f_n(z)=z^n$ converges uniformly on $|z|\leq r$ for $r<1$, but not on $|z|<1$]
+\textbf{Pointwise limit:} For $|z|<1$, $f(z)=\lim_{n\to\infty}z^n=0$.
+
+\textbf{Uniform convergence on $|z|\leq r$, $r<1$}: For all $z$ with $|z|\leq r$,
+\[
+  |f_n(z)-0| = |z^n| \leq r^n =: s_n.
+\]
+Since $r<1$ we have $s_n=r^n\to 0$, so by Lemma 5.4(1) the convergence is uniform on $|z|\leq r$.
+
+\textbf{Non-uniform on $|z|<1$}: Consider the sequence $z_n = \left(1-\frac{1}{n}\right)\in D$. Then $|z_n|<1$, but
+\[
+  |f_n(z_n)-0| = \left(1-\frac{1}{n}\right)^n \xrightarrow{n\to\infty} e^{-1} > 0.
+\]
+By Remark 5.5, the convergence is \textbf{not} uniform on $|z|<1$.
+\end{exbox}
+
+\begin{exbox}[M-Test: $\sum_{n=1}^{\infty}\frac{|2z|^n}{2^n n^2}$ converges uniformly on $D$]
+On $D$ we have $|2z|\leq 2$, so $\left|\frac{|2z|^n}{2^n n^2}\right|\leq\frac{2^n}{2^n n^2}=\frac{1}{n^2}=:M_n$. Since $\sum\frac{1}{n^2}<\infty$, by Theorem 5.6 the series converges uniformly to a continuous function on $D$.
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Cauchy's Residue Theorem}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{Meromorphic Functions and Residues}
+
+\begin{defbox}[Definition 11.1 --- Meromorphic]
+Let $D\subseteq\mathbb{C}$ be a domain and let $S\subset D$ be a discrete subset. A function $f$ is \textbf{meromorphic} on $D$ if $f$ is holomorphic on $D\setminus S$ and $f$ has a pole at all points in $S$.
+\end{defbox}
+
+\begin{defbox}[Definition 11.2 --- Residue]
+Suppose $f$ is meromorphic on a domain $D\subseteq\mathbb{C}$, with a pole at $a\in D$. Write
+\[
+  f(z) = \sum_{n=-\infty}^{\infty} c_n(z-a)^n
+\]
+for the Laurent series of $f$ around $z=a$. Then the \textbf{residue} of $f$ at $z=a$, denoted $\Res_{z=a}(f)$, is defined by
+\[
+  \Res_{z=a}(f) := c_{-1}.
+\]
+\end{defbox}
+
+% ══════════════════════════════════════════════════════════════
+\subsection*{Theorems to Find Residues}
+% ══════════════════════════════════════════════════════════════
+
+\begin{thmbox}[Proposition 11.3 --- Rules for Calculating Residues]
+Suppose $f$ is meromorphic on a domain $D\subseteq\mathbb{C}$, with a pole at $z=a$. Then:
+
+\medskip
+\textbf{Rule 1 (Cover-up rule for a simple pole).}
+If the pole is of order 1, then
+\[
+  \Res_{z=a}(f) = \lim_{z\to a}(z-a)f(z).
+\]
+
+\medskip
+\textbf{Rule 2 (Simple zero on denominator).}
+If we can write $f(z)=\dfrac{g(z)}{h(z)}$, where $g,h$ are holomorphic at $z=a$, with $g(a)\neq 0$, and $h$ has a zero of order 1 at $z=a$, then
+\[
+  \Res_{z=a}(f) = \frac{g(a)}{h'(a)}.
+\]
+
+\medskip
+\textbf{Rule 3 (Pole of higher order).}
+If $f(z)=\dfrac{g(z)}{(z-a)^k}$ for some $k>0$ and $g$ holomorphic at $z=a$ (possibly with $g(a)=0$), then
+\[
+  \Res_{z=a}(f) = \frac{g^{(k-1)}(a)}{(k-1)!}.
+\]
+\end{thmbox}
+
+\subsubsection*{Worked Examples}
+
+\begin{exbox}[Rule 1 --- Find $\Res_{z=3}\!\left(\frac{1}{z^2-9}\right)$ (from the notes)]
+The function $f(z)=\frac{1}{(z-3)(z+3)}$ has simple poles at $z=\pm 3$. By Rule 1:
+\[
+  \Res_{z=3}(f) = \lim_{z\to 3}(z-3)\cdot\frac{1}{(z-3)(z+3)} = \lim_{z\to 3}\frac{1}{z+3} = \frac{1}{6}.
+\]
+\end{exbox}
+
+\begin{exbox}[Rule 2 --- Find $\Res_{z=0}\!\left(\frac{z}{\sin z}\right)$ (from the notes)]
+Here $g(z)=z$ and $h(z)=\sin z$. We have $g(0)=0$---wait, $g(0)=0$ means Rule 2 requires $g(a)\neq 0$. However $z/\sin z$ has a removable singularity at $z=0$ (since $\lim_{z\to 0}z/\sin z=1$), so $\Res_{z=0}(z/\sin z)=0$.
+
+Instead, consider $f(z)=\frac{1}{\sin z}$ (example from the notes). With $g(z)=1$ and $h(z)=\sin z$:
+$g(0)=1\neq 0$, $\sin(0)=0$, $h'(z)=\cos z$, $h'(0)=1\neq 0$. By Rule 2:
+\[
+  \Res_{z=0}\!\left(\frac{1}{\sin z}\right) = \frac{1}{\cos 0} = 1.
+\]
+\end{exbox}
+
+\begin{exbox}[Rule 3 --- Find $\Res_{z=0}\!\left(\frac{1}{z^2(1+z)}\right)$]
+Here $f(z)=\frac{g(z)}{z^2}$ with $g(z)=\frac{1}{1+z}$, holomorphic at $z=0$, and $k=2$. By Rule 3:
+\[
+  \Res_{z=0}(f) = \frac{g'(0)}{1!} = \left.\frac{-1}{(1+z)^2}\right|_{z=0} = -1.
+\]
+\end{exbox}
+
+\begin{exbox}[Laurent Series Method --- Essential Singularity]
+For an essential singularity, none of the rules above apply. One must expand the Laurent series directly and read off $c_{-1}$.
+
+Find $\Res_{z=0}(e^{1/z})$. Expanding:
+\[
+  e^{1/z} = \sum_{n=0}^\infty\frac{1}{n!\,z^n} = 1 + \frac{1}{z} + \frac{1}{2!\,z^2} + \cdots
+\]
+The coefficient of $z^{-1}$ is $\frac{1}{1!}=1$, so $\Res_{z=0}(e^{1/z})=1$.
+\end{exbox}
+
+\subsubsection*{Quick Reference}
+
+\begin{center}
+\renewcommand{\arraystretch}{2.0}
+\begin{tabular}{>{\bfseries}p{3.6cm} p{6.8cm} p{3cm}}
+\toprule
+Singularity type & Formula & Condition \\
+\midrule
+Simple pole (Rule 1) & $\displaystyle\lim_{z\to a}(z-a)f(z)$ & Order 1 pole \\
+Simple pole (Rule 2) & $\dfrac{g(a)}{h'(a)}$ for $f=g/h$ & $g(a)\neq 0$, $h$ simple zero \\
+Order-$k$ pole (Rule 3) & $\dfrac{g^{(k-1)}(a)}{(k-1)!}$ for $f=g/(z-a)^k$ & $g$ holomorphic at $a$ \\
+Essential singularity & Laurent series; read off $c_{-1}$ & No shortcut \\
+Removable singularity & $\Res_{z=a}(f)=0$ & Contributes nothing \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Cauchy's Residue Theorem}
+
+\begin{warnbox}[Remark 11.4]
+One can show that a meromorphic function can only have \textbf{finitely many poles} inside a simple closed contour $\gamma$. The idea is that by the Jordan Curve Theorem the domain $D_\gamma$ is bounded and cannot contain infinitely many isolated points.
+\end{warnbox}
+
+\begin{thmbox}[Theorem 11.5 --- Cauchy's Residue Theorem (CRT)]
+Suppose $f$ is meromorphic on and inside a positively oriented simple closed contour $\gamma$, and that $f$ has no poles on $\gamma$. If $S_\gamma$ is the set of poles of $f$ that lie inside $\gamma$, then
+\[
+  \oint_\gamma f(z)\,dz = 2\pi i\sum_{a\in S_\gamma}\Res_{z=a}(f).
+\]
+\end{thmbox}
+
+\begin{methodbox}[Method: Using CRT to evaluate contour integrals]
+\begin{enumerate}
+  \item Identify all singularities (poles) of $f$ that lie \emph{inside} the contour $\gamma$.
+  \item Compute $\Res_{z=a}(f)$ at each such pole (see Section 6 for rules).
+  \item The integral equals $2\pi i$ times the sum of these residues.
+\end{enumerate}
+\end{methodbox}
+
+\begin{exbox}[Compute $\int_{|\gamma|=\varepsilon}\frac{z}{z^2+\sin(z)}dz$ (illustrative)]
+A more typical example from the notes: compute $\oint_{|z|=\varepsilon}\frac{1}{\sin(z)}dz$ for small $\varepsilon>0$.
+
+The only pole inside $|z|=\varepsilon$ is $z=0$. Since $\sin(0)=0$ and $\cos(0)=1\neq 0$, this is a simple pole (simple zero of the denominator), and by Rule 2 below: $\Res_{z=0}\!\left(\frac{1}{\sin z}\right)=\frac{1}{\cos 0}=1$. By CRT:
+\[
+  \oint_{|z|=\varepsilon}\frac{dz}{\sin z} = 2\pi i\cdot 1 = 2\pi i.
+\]
+\end{exbox}
+
+\begin{exbox}[Compute $\oint_\gamma \frac{1}{z^2+z^3}dz$ where $\gamma$ is a simple closed contour with $0\in D_\gamma$, $D_\gamma\subset\mathbb{C}\setminus\{-1\}$]
+We have $f(z)=\frac{1}{z^2+z^3}=\frac{1}{z^2(1+z)}$, so $f$ is meromorphic on $\mathbb{C}$ with poles at $z=0$ (order 2) and $z=-1$ (simple). Only $z=0$ is inside $\gamma$. By CRT, $\oint_\gamma f\,dz=2\pi i\,\Res_{z=0}(f)$. Writing $g(z)=\frac{1}{1+z}$ so $f(z)=\frac{g(z)}{z^2}$, by Rule 3:
+\[
+  \Res_{z=0}(f) = \frac{g'(0)}{1!} = \left.\frac{-1}{(1+z)^2}\right|_{z=0} = -1,
+\]
+so $\oint_\gamma f\,dz = 2\pi i(-1) = -2\pi i$.
+\end{exbox}
+
+% ══════════════════════════════════════════════════════════════
+\newpage
+\section{Rouch\'e's Theorem and The Argument Principle}
+% ══════════════════════════════════════════════════════════════
+
+\subsection*{The Argument Principle}
+
+\begin{thmbox}[Theorem 11.16 --- The Argument Principle]
+    Suppose $f$ is meromorphic on and inside a positively oriented simple closed contour $\gamma$,
+    and that $f$ has no zeros or poles on $\gamma$.
+    Write $Z_f$ for the number of zeros of $f$ inside $\gamma$
+    (counted with orders)
+    and $P_f$ for the number of poles of $f$ inside $\gamma$
+    (counted with orders).
+    Then
+    \[
+    \frac{1}{2\pi i}\int_\gamma\frac{f'(z)}{f(z)}\,dz = Z_f - P_f.
+    \]
+\end{thmbox}
+
+\begin{warnbox}[Remark 11.17]
+    When we say ``counted with orders'' we mean that a zero of order $k$ counts $k$ towards $Z_f$. Similarly a pole of order $k$ counts $k$ towards $P_f$.
+\end{warnbox}
+
+\begin{exbox}
+    Find $\frac{1}{2\pi i}\int_{\gamma}\frac{f'(z)}{f(z)}\,dz$ when $\gamma(\theta) = \frac{7}{2}e ^ {i\theta}$ for $\theta \in [0, 2\pi]$ and
+    \[
+    f(z) = \frac{(z - 3) ^ 3(z - 1) ^ 7z ^ 3}{(z - i) ^ 4(z + 4) ^ 5(z - 3i) ^ 7}
+    \]
+
+    There are zeros at $3, 1$ and $0$ and poles at $i, -4, 3i$.
+    Zeros at $z = 0, 1, 3$ with orders $3, 7, 3$.
+    Poles at $z = i, 3i, -4$ with orders $4, 7, 5$.
+    $\{0, 1, 3\} \in \gamma$ as all less than $\frac{7}{2}$.
+    So we have $Z_f = 3 + 7 + 3 = 13$.
+    $\{i, 3i\} \in \gamma$ but $-4 \notin \gamma$ since $|\gamma| < 4$.
+    Hence $P_f = 4 + 7 = 11$.
+    We can find
+    \[
+    \frac{1}{2\pi i}\int_{\gamma}\frac{f'(z)}{f(z)}\,dz = Z_f - P_f = 13 - 11 = 2.
+    \]
+\end{exbox}
+
+\subsection*{Rouch\'e's Theorem}
+
+\begin{thmbox}[Theorem 11.19 --- Rouch\'e's Theorem]
+Suppose $f,g$ are holomorphic on and inside a simple closed contour $\gamma$. If
+\[
+  |f(z)-g(z)| < |g(z)| \quad \text{for all } z\in\gamma,
+\]
+then $f$ and $g$ have the same number of zeros (counted with orders) inside $\gamma$, and have no zeros on $\gamma$.
+\end{thmbox}
+
+\begin{warnbox}[Key points]
+\begin{itemize}
+  \item The inequality must be \emph{strict} and must hold on the contour $\gamma$, not inside.
+  \item Both $f$ and $g$ must be \textbf{holomorphic} (not just meromorphic) on and inside $\gamma$.
+  \item The theorem is commonly applied by writing $f=g+h$ where $g$ is a ``dominant'' term whose zeros are easy to count. This rewriting is just a matter of which function plays the role of ``$g$'' in the statement: we may equivalently write the condition as $|f(z)-g(z)|<|g(z)|$.
+\end{itemize}
+\end{warnbox}
+
+\begin{methodbox}[Method: Applying Rouch\'e's Theorem]
+\begin{enumerate}
+  \item Choose a contour $\gamma$ (usually a circle $|z|=R$ for a suitable $R$).
+  \item Write the function $f(z)$ whose zeros you wish to count. Identify a ``dominant'' term $g(z)$ on $\gamma$; the remainder is $f(z)-g(z)$.
+  \item Verify $|f(z)-g(z)|<|g(z)|$ for all $z\in\gamma$ using the triangle inequality.
+  \item Count the zeros of $g$ inside $\gamma$; by the theorem, $f$ has the same count.
+\end{enumerate}
+\end{methodbox}
+
+\begin{exbox}[Zeros of $P(z)=z^4+6z+3$ in the annulus $A_{1,2}(0)=\{1<|z|<2\}$]
+This is the example from the notes (\S11.5). $P$ has four zeros in $\mathbb{C}$ by the Fundamental Theorem of Algebra.
+
+\textbf{Inside $|z|=2$:} Set $g_2(z)=z^4$. For $z\in\{|z|=2\}$:
+\[
+  |g_2(z)|=16 > 15 \geq 6|z|+3 \geq |6z+3| = |P(z)-g_2(z)|.
+\]
+By Rouch\'e's Theorem, $P$ and $g_2(z)=z^4$ have the same zeros inside $|z|=2$. Since $z^4$ has one zero of order 4 at the origin, all \textbf{four zeros} of $P$ satisfy $|z|<2$.
+
+\textbf{Inside $|z|=1$:} Set $g_1(z)=6z$. For $z\in\{|z|=1\}$:
+\[
+  |g_1(z)|=6 > 4 \geq |z|^4+3 \geq |z^4+3| = |P(z)-g_1(z)|.
+\]
+By Rouch\'e's Theorem, $P$ and $g_1(z)=6z$ have the same zeros inside $|z|=1$. Since $6z$ has one zero (of order 1) at the origin, $P$ has \textbf{one zero} inside $|z|<1$. Since zeros cannot lie on $|z|=1$ (checked by the theorem), $P$ has $4-1=\mathbf{3}$ \textbf{zeros} in the annulus $A_{1,2}(0)$.
+\end{exbox}
+
+\newpage
+
+\section{Useful Theorems}
+
+\begin{thmbox}[The ML Inequality]
+    For $f : U \to \C$ continuous and $\gamma : [a, b] \to U$ a contour.
+    Then
+    \[
+    \left|\int_{\gamma}f(z)\,dz\right| \leq M(\gamma, f)\cdot L(\gamma),
+    \]
+    where
+    \[
+    M(\gamma, f) \coloneqq \sup_{z \in \gamma}|f(z)|
+    \]
+    and any contour $\gamma : [a, b] \to U$ with a partition $\gamma_{[a_{i - 1}, a_i]} \to \C$ the length is
+    \[
+    L(\gamma) \coloneqq \sum_{i = 1}^{n}\int_{a}^{b}|\gamma_i'(t)|\,dt = \int_{\gamma}\,d|z|.
+    \]
+\end{thmbox}
+
+\begin{methodbox}[Finding $M$ and $L$]
+    \textbf{Finding $M$}
+    To find $M$ we can simply try and find an upper bound for $|f(z)|$,
+    so we just need to find a $c$
+    (constant independent of $z$)
+    such that
+    \[
+    |f(z)| \leq c.
+    \]
+
+    \textbf{Finding $L$}
+    To find $L$ we need to find the length of the contour,
+    i.e. if it is simple to integrate the contour around its bounds
+    ($\gamma : [a, b] \to \C$)
+    then we can do this
+    \[
+    \int_{a}^{b}\,d|z|.
+    \]
+    Alternatively if we say have a square we can sum the edges to find the contour's length.
+\end{methodbox}
+
+\begin{exbox}[]
+    Consider $\gamma : [0, \pi / 2] \to \C$ given by $\gamma(\theta) = 2e ^ {i\theta}$.
+    Find an upper bound for
+    \[
+    \left|\int_{\gamma}\frac{z + 4}{z ^ 3 - 1}\,dz\right|
+    \]
+
+    We can find $M > 0$ such that $\sup_{z \in \gamma}|f(z)| \leq M$ by simply finding a constant upper bound for $|f(z)|$ i.e.
+    \[
+    \left|\frac{z + 4}{z ^ 3 - 1}\right| \leq \frac{|z| + 4}{||z ^ 3| - 1|} = \frac{|z| + 4}{|z| ^ 3 - 1} = \frac{6}{7}
+    \]
+    since $|z| = 2$ for $z \in \gamma$.
+    We find $L(\gamma)$ by
+    \[
+    L(\gamma) = \int_{0}^{\frac{\pi}{2}}|2ie ^ {i\theta}|\,d\theta = \pi.
+    \]
+    So
+    \[
+    \left|\int_{\gamma}\frac{z + 4}{z ^ 3 - 1}\,dz\right| \leq \frac{6\pi}{7}.
+    \]
+\end{exbox}
+
+\begin{thmbox}[Cauchy-Riemann equations]
+    Let $f = u + iv$ complex differentiable at $z_0 = x_0 + iy_0$.
+    Then the partial derivatives of $u, v$ exist at $(x_0, y_0)$ and satisfy the Cauchy-Riemann equations:
+    \[
+    u_x(x_0, y_0) = v_y(x_0, y_0)\qquad u_y(x_0, y_0) = -v_x(x_0, y_0).
+    \]
+    We can write $f'(z_0)$ as
+    \[
+    f'(z_0) = u_x(z_0) + iv_x(z_0) = u_x(z_0) - iu_y(z_0).
+    \]
+\end{thmbox}
+
+\begin{thmbox}[Liouville's Theorem]
+    Every bounded entire function is constant.
+\end{thmbox}
+
+\begin{warnbox}
+    We can show that if a function isn't constant on the domain then we cannot analytically extend it to a larger domain. 
+\end{warnbox}
+
+\begin{thmbox}[Great Picard Theorem]
+    Suppose $f$ has an essential singularity at the point $a \in \C$.
+    Then exists a point $b \in \C$ such that any punctured ball $B_{r}^{*}(a)$,
+    with $r > 0$,
+    on which $f$ is holomorphic,
+    we have
+    \[
+    f(B_{r}^{*}(a)) \supset \C \setminus \{b\}.
+    \]
+    On a punctured ball around $z = a$,
+    the function $f$ takes all possible complex values,
+    with at most one exception,
+    infinitely often.
+\end{thmbox}
+
+\end{document}

@@ -1,0 +1,344 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{preamble}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{booktabs}
+
+% ── Colour palette ───────────────────────────────────────────────────────────
+\definecolor{headbg}{HTML}{1B3A5C}
+\definecolor{headfg}{HTML}{FFFFFF}
+\definecolor{sectionbg}{HTML}{2E6DA4}
+\definecolor{exbg}{HTML}{EBF4FB}
+\definecolor{exframe}{HTML}{2E6DA4}
+\definecolor{defbg}{HTML}{F5F5F5}
+\definecolor{defframe}{HTML}{999999}
+
+% ── Section titles ───────────────────────────────────────────────────────────
+
+
+% ── Boxes ────────────────────────────────────────────────────────────────────
+\newmdenv[backgroundcolor=defbg,linecolor=defframe,linewidth=0.8pt,
+  innerleftmargin=6pt,innerrightmargin=6pt,innertopmargin=4pt,
+  innerbottommargin=4pt,skipabove=3pt,skipbelow=3pt]{defbox}
+
+\newmdenv[backgroundcolor=exbg,linecolor=exframe,linewidth=0.8pt,
+  leftline=true,rightline=false,topline=false,bottomline=false,
+  innerleftmargin=6pt,innerrightmargin=4pt,innertopmargin=3pt,
+  innerbottommargin=3pt,skipabove=3pt,skipbelow=3pt]{exbox}
+
+% ── Convenience macros ───────────────────────────────────────────────────────
+\newcommand{\kw}[1]{\textbf{#1}}
+\newcommand{\p}[2]{\frac{\partial #1}{\partial #2}}      % \p{f}{x}
+\newcommand{\hvt}{\hat{\mathbf{t}}}
+\newcommand{\hvn}{\hat{\mathbf{n}}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vf}{\mathbf{f}}
+\newcommand{\vg}{\mathbf{g}}
+\newcommand{\eu}{\mathbf{e}_u}
+\newcommand{\ev}{\mathbf{e}_v}
+\newcommand{\ew}{\mathbf{e}_w}
+
+\setlist[itemize]{leftmargin=*,topsep=1pt,itemsep=0pt,parsep=1pt}
+\setlist[enumerate]{leftmargin=*,topsep=1pt,itemsep=0pt,parsep=1pt}
+
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{1pt}
+\setlength{\belowdisplayshortskip}{1pt}
+
+% ── Document ─────────────────────────────────────────────────────────────────
+\begin{document}
+
+\noindent\colorbox{headbg}{%
+  \parbox{\linewidth}{%
+    \vspace{6pt}
+    \centering\color{headfg}\Large\bfseries
+    MATH2811 Mathematical Methods II --- Part I Help Sheet\\[2pt]
+    \normalsize
+    Line Integrals $\cdot$ Surface \& Volume Integrals $\cdot$
+    Differential Operators $\cdot$ Integral Theorems $\cdot$ Index Notation
+    \vspace{6pt}
+  }%
+}
+
+\vspace{4pt}
+\begin{multicols}{2}
+
+% ════════════════════════════════════════════════════════
+\section{Line Integrals}
+
+\begin{defbox}
+The \kw{line integral of a scalar field} $f(\vx)$ along a curve $C$
+with parametrisation $\vx(t)$, $t\in[t_0,t_1]$:
+\[
+  \int_C f\,d\ell
+  = \int_{t_0}^{t_1} f(\vx(t))\left|\frac{d\vx}{dt}\right|dt.
+\]
+\textbf{Arclength:}\;
+$L=\displaystyle\int_C d\ell
+ = \int_{t_0}^{t_1}\!\left|\tfrac{d\vx}{dt}\right|dt$.
+\quad
+\textbf{Unit tangent:}\;
+$\hvt=\dfrac{d\vx/dt}{\left|d\vx/dt\right|}$.
+
+The \kw{line integral of a vector field} along an oriented curve:
+\[
+  \int_C \vf\cdot\hvt\,d\ell
+  = \int_{t_0}^{t_1}\vf(\vx(t))\cdot\frac{d\vx}{dt}\,dt.
+\]
+For a \emph{closed} curve this is the \kw{circulation}
+$\oint_C \vf\cdot\hvt\,d\ell$.
+Both integrals are independent of parametrisation;
+the vector integral changes sign if orientation is reversed.
+\end{defbox}
+
+% ════════════════════════════════════════════════════════
+\section{Curvilinear Coordinates}
+
+\begin{defbox}
+\kw{Scale factors} and \kw{unit basis vectors} for orthogonal $(u,v,w)$:
+\[
+  h_u=\left|\p{\vx}{u}\right|,
+  \quad
+  \eu=\frac{1}{h_u}\p{\vx}{u},
+  \quad\text{(similarly $v,w$).}
+\]
+
+\textbf{Cylindrical} $(r,\theta,z)$:
+$h_r=1$, $h_\theta=r$, $h_z=1$.
+\[
+  \vx = r\cos\theta\,\mathbf{e}_1
+      + r\sin\theta\,\mathbf{e}_2
+      + z\,\mathbf{e}_3.
+\]
+
+\textbf{Spherical} $(r,\theta,\phi)$:
+$h_r=1$, $h_\theta=r$, $h_\phi=r\sin\theta$.
+\[
+  \vx = r\sin\theta\cos\phi\,\mathbf{e}_1
+      + r\sin\theta\sin\phi\,\mathbf{e}_2
+      + r\cos\theta\,\mathbf{e}_3.
+\]
+\end{defbox}
+
+% ════════════════════════════════════════════════════════
+\section{Surface \& Volume Integrals}
+
+\begin{defbox}
+\kw{Unit normal} to surface $\vx(u,v)$:
+$\;\hvn = \dfrac{\p{\vx}{u}\times\p{\vx}{v}}
+               {\left|\p{\vx}{u}\times\p{\vx}{v}\right|}$.
+
+\kw{Scalar surface integral} and \kw{surface area}:
+\[
+  \int_S f\,dS
+  = \int_U f(\vx)\left|\p{\vx}{u}\times\p{\vx}{v}\right|du\,dv,
+  \quad |S|=\int_S dS.
+\]
+
+\kw{Flux} of $\vf$ through oriented surface $S$:
+\[
+  \int_S\vf\cdot\hvn\,dS
+  = \int_U\vf\cdot\!\left(\p{\vx}{u}\times\p{\vx}{v}\right)du\,dv.
+\]
+
+\kw{Volume integral}:
+\[
+  \int_V f\,dV
+  = \int_U f\left|\p{\vx}{u}\cdot\!\left(\p{\vx}{v}\times\p{\vx}{w}\right)\right|du\,dv\,dw.
+\]
+
+In \textbf{orthogonal coords}:
+$\bigl|\p{\vx}{u}\times\p{\vx}{v}\bigr|=h_uh_v$;\quad
+$\bigl|\p{\vx}{u}\cdot(\p{\vx}{v}\times\p{\vx}{w})\bigr|=h_uh_vh_w$.
+
+Jacobians: cylindrical $=r$;\quad spherical $=r^2\!\sin\theta$.
+\end{defbox}
+
+% ════════════════════════════════════════════════════════
+\section{Differential Operators}
+
+\begin{defbox}
+\textbf{Gradient} (Cartesian):
+\;$\bnabla f = \p{f}{x}\mathbf{e}_1+\p{f}{y}\mathbf{e}_2+\p{f}{z}\mathbf{e}_3$.
+
+\textbf{Gradient} (orthogonal curvilinear):
+\[
+  \bnabla f
+  = \frac{1}{h_u}\p{f}{u}\eu
+  + \frac{1}{h_v}\p{f}{v}\ev
+  + \frac{1}{h_w}\p{f}{w}\ew.
+\]
+
+\textbf{Divergence \& curl} (Cartesian):
+\[
+  \bnabla\cdot\vf
+  = \p{f_1}{x}+\p{f_2}{y}+\p{f_3}{z},
+\]
+\[
+  \bnabla\times\vf
+  = \begin{vmatrix}
+      \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3\\
+      \partial_x & \partial_y & \partial_z\\
+      f_1 & f_2 & f_3
+    \end{vmatrix}.
+\]
+
+\textbf{Divergence} (orthogonal curvilinear):
+\begin{align*}
+  \bnabla\cdot\vf &= \tfrac{1}{h_uh_vh_w}
+     \bigl[\partial_u(h_vh_wf_u)\\
+     &\quad+\partial_v(h_uh_wf_v)
+     +\partial_w(h_uh_vf_w)\bigr].
+\end{align*}
+\textbf{Curl} (orthogonal curvilinear):
+\[
+  \bnabla\times\vf = \tfrac{1}{h_uh_vh_w}
+  \begin{vmatrix}
+    h_u\eu & h_v\ev & h_w\ew\\
+    \partial_u & \partial_v & \partial_w\\
+    h_uf_u & h_vf_v & h_wf_w
+  \end{vmatrix}.
+\]
+
+\textbf{Key identities:}
+$\bnabla\cdot(\bnabla\times\vf)\equiv 0$;\quad
+$\bnabla\times(\bnabla f)\equiv\mathbf{0}$.
+
+\textbf{Laplacian:}
+$\bnabla^2g=\bnabla\cdot(\bnabla g)
+ =\partial^2g/\partial x^2
+  +\partial^2g/\partial y^2
+  +\partial^2g/\partial z^2$.
+\end{defbox}
+
+\subsection{Product Rules}
+\noindent($f,g$ scalar; $\vf,\vg$ vector; all $C^1$)
+\begin{enumerate}[label=(\roman*)]
+  \item $\bnabla(fg)\equiv g\bnabla f+f\bnabla g$
+  \item $\bnabla\cdot(g\vf)\equiv(\bnabla g)\cdot\vf+g\,\bnabla\cdot\vf$
+  \item $\bnabla\cdot(\vf\!\times\!\vg)\equiv\vg\cdot(\bnabla\!\times\!\vf)-\vf\cdot(\bnabla\!\times\!\vg)$
+  \item $\bnabla\times(g\vf)\equiv g(\bnabla\!\times\!\vf)+(\bnabla g)\times\vf$
+  \item $\bnabla\times(\vf\!\times\!\vg)\equiv(\vg\cdot\bnabla)\vf-(\vf\cdot\bnabla)\vg$\\
+        $\hphantom{\bnabla\times(\vf\times\vg)\equiv{}}+\vf(\bnabla\cdot\vg)-\vg(\bnabla\cdot\vf)$
+  \item $\bnabla(\vf\cdot\vg)\equiv(\vg\cdot\bnabla)\vf+(\vf\cdot\bnabla)\vg$\\
+        $\hphantom{\bnabla(\vf\cdot\vg)\equiv{}}+\vf\times(\bnabla\!\times\!\vg)+\vg\times(\bnabla\!\times\!\vf)$
+\end{enumerate}
+\textbf{Vector Laplacian:}
+$\bnabla\times(\bnabla\times\vf)=\bnabla(\bnabla\cdot\vf)-\bnabla^2\vf$.
+
+% ════════════════════════════════════════════════════════
+\section{Integral Theorems}
+
+\begin{defbox}
+\textbf{Fundamental Theorem of Line Integrals.}
+For $C^1$ scalar $f$ and curve $\vx(t)$, $t\in[t_0,t_1]$:
+\[
+  \int_C \bnabla f\cdot\hvt\,d\ell
+  = f(\vx(t_1))-f(\vx(t_0)).
+\]
+$\vf=\bnabla g$ is \kw{conservative}: path-independent line integrals;
+on simply-connected domains, $\bnabla\times\vf=\mathbf{0}$.
+
+\medskip
+\textbf{Divergence Theorem (Gauss).}
+$S$ closed surface, outward $\hvn$, bounding $V$:
+\[
+  \oint_S \vf\cdot\hvn\,dS = \int_V(\bnabla\cdot\vf)\,dV.
+\]
+
+\textbf{Stokes' Theorem.}
+$C$ closed oriented curve bounding surface $S$:
+\[
+  \oint_C \vf\cdot\hvt\,d\ell
+  = \int_S(\bnabla\times\vf)\cdot\hvn\,dS,
+\]
+where $\hvn$ is chosen so that $\hvt\times\hvn$ on $C$ is outward.
+\end{defbox}
+
+\begin{exbox}
+\par\textbf{\color{exframe}Note.\space}
+\textbf{Green's Theorem} (2D special case of Stokes'):
+\[
+  \oint_C \vf\cdot\hvt\,d\ell
+  = \iint_A\!\left(\p{f_2}{x}-\p{f_1}{y}\right)dx\,dy,
+\]
+$C$ anti-clockwise, bounding $A\subset\R^2$.
+\end{exbox}
+
+% ════════════════════════════════════════════════════════
+\section{Index Notation}
+
+\begin{defbox}
+Repeated index $\Rightarrow$ sum (\kw{Einstein convention}):
+$\mathbf{a}\cdot\mathbf{b}=a_jb_j$.
+
+\kw{Kronecker delta}: $\delta_{ij}=1$ if $i=j$, else $0$;
+$\;a_i\delta_{ij}=a_j$;\;
+$\delta_{ij}\delta_{jk}=\delta_{ik}$;\;
+$\delta_{ii}=n$.
+
+\kw{Levi-Civita}: $\varepsilon_{ijk}=+1$ (even perm.), $-1$ (odd), $0$ (repeat).
+$\;[\mathbf{a}\times\mathbf{b}]_i=\varepsilon_{ijk}a_jb_k$.
+
+\kw{$\varepsilon$--$\delta$ identity}:
+\[
+  \varepsilon_{ijk}\varepsilon_{klm}
+  = \delta_{il}\delta_{jm}-\delta_{im}\delta_{jl}.
+\]
+Proves BAC--CAB:
+$\mathbf{a}\times(\mathbf{b}\times\mathbf{c})
+ =(\mathbf{a}\cdot\mathbf{c})\mathbf{b}-(\mathbf{a}\cdot\mathbf{b})\mathbf{c}$.
+
+\textbf{Operators in index notation:}
+\[
+  [\bnabla f]_i=\p{f}{x_i},
+  \quad
+  \bnabla\cdot\vf=\p{f_j}{x_j},
+  \quad
+  [\bnabla\times\vf]_i=\varepsilon_{ijk}\p{f_k}{x_j}.
+\]
+\textbf{Antisymmetry trick:}
+$\varepsilon_{ijk}\,\partial^2\!f_k/\partial x_i\partial x_j=0$
+(antisym.\ $\times$ sym.\ $= 0$)
+$\Rightarrow$ proves $\bnabla\cdot(\bnabla\times\vf)=0$ and
+$\bnabla\times(\bnabla f)=\mathbf{0}$.
+\end{defbox}
+
+\subsection{Quick Reference}
+
+\begin{center}
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Object} & \textbf{Key formula / fact}\\
+\midrule
+Scalar line integral  & $\int_C f\,d\ell=\int f(\vx)|d\vx/dt|\,dt$\\
+Vector line integral  & $\int_C\vf\cdot\hvt\,d\ell=\int\vf\cdot(d\vx/dt)\,dt$\\
+Scale factors         & $h_u=|\p{\vx}{u}|$,\; $\eu=(1/h_u)\p{\vx}{u}$\\
+Area element          & $|\partial_u\vx\times\partial_v\vx|=h_uh_v$\\
+Volume element        & $|\partial_u\vx\cdot(\partial_v\vx\times\partial_w\vx)|=h_uh_vh_w$\\
+FTLI                  & $\int_C\bnabla f\cdot\hvt\,d\ell=f(\vx(t_1))-f(\vx(t_0))$\\
+Divergence Thm        & $\oint_S\vf\cdot\hvn\,dS=\int_V\bnabla\cdot\vf\,dV$\\
+Stokes' Thm           & $\oint_C\vf\cdot\hvt\,d\ell=\int_S(\bnabla\times\vf)\cdot\hvn\,dS$\\
+$\varepsilon$--$\delta$ & $\varepsilon_{ijk}\varepsilon_{klm}=\delta_{il}\delta_{jm}-\delta_{im}\delta_{jl}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{multicols}
+
+\vspace{2pt}
+\noindent\colorbox{headbg}{\parbox{\linewidth}{\centering\color{headfg}\small\vspace{2pt}
+Conservative $\Leftrightarrow$ path-independent $\Leftrightarrow$ $\bnabla\times\vf=\mathbf{0}$
+(simply-connected domain). \quad
+All three integral theorems generalise the Fundamental Theorem of Calculus.
+\vspace{2pt}}}
+
+\end{document}

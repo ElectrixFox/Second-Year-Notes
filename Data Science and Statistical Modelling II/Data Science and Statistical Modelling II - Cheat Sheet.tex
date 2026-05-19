@@ -1,0 +1,83 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{preamble}
+
+\title{Data Science and Statistical Modelling II \\
+    \large Cheat Sheet}
+\author{Luke Phillips}
+\date{March 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Computational Statistics}
+
+\textbf{Monte Carlo testing}:
+Given data $(x_1, \dotsc, x_n)$,
+an observed test statistic $t = h(x_1, \dotsc, x_n)$,
+a data generating distribution $F(x \mid \theta)$ and a hypothesis,
+$H_0 : \theta = \theta_0$,
+$H_1 : \theta > \theta_0$.
+We do the following steps to perform a Monte Carlo hypothesis test:
+For $j \in \{1, \dotsc, N\}$
+\begin{enumerate}[label = (\arabic*)]
+    \item Simulate $n$ observations $(z_1, \dotsc, z_n)$ where $Z_i \sim F(\cdot\mid\theta_0)$.
+
+    \item Calculate $t_j = h(z_1, \dotsc, z_n)$.
+\end{enumerate}
+Then estimate the $p$-value of the test
+\[
+\P(T \geq t \mid H_0\text{ true}) \approx \frac{1}{N}\sum_{j = 1}^{N}\mathbbm{1}\{t_j \geq t\}
+\]
+
+
+\textbf{Bootstrap}:
+Given a data set consisting of independent samples $\vec{x} = (x_1, \dotsc, x_n)$ and statistic $S(\cdot)$.
+To construct a bootstrap estimate of the standard error of the statistic $S(\cdot)$,
+draw $B$ new samples of size $n$ with replacement from $\vec{x} = (x_1, \dotsc, x_n)$,
+giving $\vec{x} ^ {*1}, \dotsc, \vec{x} ^ {*B}$ and compute
+\[
+\widehat{\Var}(S(\vec{x})) = \frac{1}{B - 1}\sum_{b = 1}^{B}(S(\vec{x} ^ {*b}) - \bar{S ^ {*}}) ^ 2
+\]
+where $\bar{S ^ {*}} = \frac{1}{B}\sum_{b = 1}^{B}S(\vec{x} ^ {*b})$.
+
+\textbf{The ECDF}
+The ecdf is defined as
+\[
+\hat{F}(x) \coloneqq \frac{1}{n}\sum_{i = 1}^{n}\mathbbm{1}\{x_i \leq x\}\qquad\forall x \in \R.
+\]
+For given sample data $(x_1, \dotsc, x_n)$.
+
+For a finite population size $N$,
+sample mean $\bar{X}$ based on sample size $n$ uniformly drawn without replacement
+\[
+\Var(\bar{X}) = \left(\frac{N - n}{N - 1}\right)\frac{\sigma ^ 2}{n}.
+\]
+
+\textbf{Population bootstrap}
+Assume $\vec{x} = (x_1, x_2, \dotsc, x_n)$ is a sample of data drawn from a finite population size $N$,
+$S(\cdot)$ the statistic we wish to use as an estimator.
+Further assume $N / n = k$ is an integer.
+
+To perform the \textbf{population bootstrap},
+construct a pseudo-population of size $N$ by repeating the samples $\vec{x}$ $k$ times:
+\[
+\tilde{\vec{x}} = (\underbrace{x_1, \dotsc, x_n}_{\vec{x}}, \underbrace{x_1, \dotsc, x_n}_{\vec{x}}, \dotsc, \underbrace{x_1, \dotsc, x_n}_{\vec{x}}).
+\]
+Then,
+replicate the finite population sampling scheme by drawing $B$ new samples of size $n$ without replacement from $\tilde{\vec{x}}$,
+giving $\vec{x} ^ {*1}, \dotsc, \vec{x} ^ {*B}$ then proceed as for the standard bootstrap:
+\[
+\widehat{\Var}(S(\vec{x})) = \frac{1}{B - 1}\sum_{b = 1}^{B}(S(\vec{x} ^ {*b}) - \bar{S} ^ {*}) ^ 2
+\]
+where $\bar{S} ^ {*} = \frac{1}{B}\sum_{b = 1}^{B}S(\vec{x} ^ {*b})$.
+If $n \nmid N$,
+that is $N = kn + m$ for $0 < m < n$,
+then before each bootstrap sample form pseudo-population $\tilde{\vec{x}}$ by taking $k$ copies of $\vec{x}$ and add an additional subsample of size $m$,
+without replacement,
+from $\vec{x}$.
+
+
+\end{document}
